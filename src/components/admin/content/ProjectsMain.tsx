@@ -49,7 +49,11 @@ export default function ProjectsMain(props: {
         useState("");
     const [newProjectTextAreaValue, setNewProjectTextAreaValue] = useState("");
 
-    const newProjectForm = useForm<ContentProjectFormType>();
+    const newProjectForm = useForm<ContentProjectFormType>({
+        defaultValues: {
+            name: "",
+        },
+    });
     const {
         register: registerAddProject,
         handleSubmit: handleSubmitAddProject,
@@ -105,6 +109,25 @@ export default function ProjectsMain(props: {
 
     // Functions
 
+    function HandleReset() {
+        resetAddProject({
+            name: "",
+            slug: "",
+            role: "",
+            where: "",
+            date: "",
+            client: "",
+            description: "",
+        });
+        for (let i = 0; i < fieldsImages.length; i++) {
+            removeImages(i);
+        }
+        for (let i = 0; i < fieldsStack.length; i++) {
+            removeStack(i);
+        }
+        setNewProjectTextAreaValue("");
+    }
+
     function dropHandler(ev: any) {
         if (ev.dataTransfer.items) {
             [...ev.dataTransfer.items].forEach((item, i) => {
@@ -153,6 +176,13 @@ export default function ProjectsMain(props: {
         }
     }
 
+    // useEffects
+    useEffect(() => {
+        if (!isOpenAddProject) {
+            setNewProjectTextAreaValue("");
+        }
+    }, [onOpenChangeAddProject]);
+
     useEffect(() => {
         if (newProjectTextArea.current !== null) {
             newProjectTextArea.current!.style.height = "inherit";
@@ -175,11 +205,74 @@ export default function ProjectsMain(props: {
         onCloseAddProject();
     }
 
+    function HandleOpenProject(index: number) {
+        resetAddProject({
+            name: props.projects[index].name,
+            slug: props.projects[index].slug,
+            role: props.projects[index].role,
+            where: props.projects[index].where,
+            date: props.projects[index].date ? props.projects[index].date : "",
+            client: props.projects[index].client
+                ? props.projects[index].client
+                : "",
+            description: props.projects[index].description,
+        });
+        for (let i = 0; i < props.projects[index].images.length; i++) {
+            appendImages({ url: props.projects[index].images[i] });
+        }
+        for (let i = 0; i < props.projects[index].stack.length; i++) {
+            appendStack({ name: props.projects[index].stack[i] });
+        }
+        setNewProjectTextAreaValue(props.projects[index].description);
+        onOpenAddProject();
+    }
+
     return (
         <div>
-            <Button onPress={onOpenAddProject} className="bg-green-500">
+            <Button
+                onPress={() => {
+                    onOpenAddProject();
+                    resetAddProject();
+                }}
+                className="bg-green-500">
                 Add Project
             </Button>
+            <div className="mt-8 w-fit">
+                {props.projects.map(
+                    (project: ContentProject, index: number) => {
+                        return (
+                            <div
+                                onClick={() => {
+                                    HandleOpenProject(index);
+                                }}
+                                className="mb-4"
+                                key={index}>
+                                <div className="transition-all cursor-pointer hover:bg-green-500 hover:text-white bg-neutral-100 shadow rounded-lg px-4 py-2 w-full flex gap-8">
+                                    <div className="font-bold text-xl my-auto">
+                                        {project.name}
+                                    </div>
+                                    <div className="font-bold my-auto">
+                                        {project.client}
+                                    </div>
+                                    <div className="font-bold my-auto">
+                                        Images: {project.images.length}
+                                    </div>
+                                    <Image
+                                        src={
+                                            process.env
+                                                .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                            project.images[0]
+                                        }
+                                        width={100}
+                                        height={100}
+                                        alt={project.images[0]}
+                                    />
+                                </div>
+                            </div>
+                        );
+                    }
+                )}
+            </div>
             <Modal
                 isDismissable={false}
                 scrollBehavior="outside"
@@ -190,7 +283,7 @@ export default function ProjectsMain(props: {
                     {(onClose) => (
                         <>
                             <ModalHeader className="flex flex-col gap-1">
-                                Add Project
+                                Project
                             </ModalHeader>
                             <form
                                 onSubmit={handleSubmitAddProject(
@@ -471,14 +564,14 @@ export default function ProjectsMain(props: {
                                         variant="light"
                                         onPress={() => {
                                             onClose();
-                                            resetAddProject();
+                                            HandleReset();
                                         }}>
                                         Close
                                     </Button>
                                     <Button
                                         type="submit"
                                         className="bg-green-500">
-                                        Add Project
+                                        Save
                                     </Button>
                                 </ModalFooter>
                             </form>

@@ -17,8 +17,21 @@ export async function AddProject(data: ContentProjectFormType) {
     }
 
     try {
-        await prisma.contentProject.create({
-            data: {
+        await prisma.contentProject.upsert({
+            where: {
+                slug: data.slug,
+            },
+            update: {
+                name: data.name,
+                role: data.role,
+                stack: stack,
+                description: data.description,
+                date: data.date,
+                where: data.where,
+                images: images,
+                client: data.client,
+            },
+            create: {
                 name: data.name,
                 slug: data.slug,
                 role: data.role,
