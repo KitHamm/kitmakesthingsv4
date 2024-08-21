@@ -1,8 +1,10 @@
 "use client";
-import { Link } from "@nextui-org/react";
+import { Link, useDisclosure } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
+import ContactModal from "./ContactModal";
 
 export default function NavbarComp() {
+    const { isOpen, onClose, onOpenChange } = useDisclosure();
     const pathname = usePathname();
     return (
         <nav className="absolute top-0 left-0 z-20 min-w-[100dvw] flex justify-between px-20 py-4 bg-neutral-100 shadow">
@@ -63,110 +65,18 @@ export default function NavbarComp() {
                         Projects
                     </a>
                 </div>
-                <div>
-                    <a
-                        className="text-lg hover:text-green-500 transition-colors font-bold"
-                        color="foreground"
-                        href="#">
-                        Contact
-                    </a>
+                <div
+                    onClick={() => onOpenChange()}
+                    className="cursor-pointer text-lg hover:text-green-500 transition-colors font-bold"
+                    color="foreground">
+                    Contact
                 </div>
             </div>
+            <ContactModal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                onClose={onClose}
+            />
         </nav>
-        // <Navbar
-        //     position="sticky"
-        //     classNames={{
-        //         wrapper: "xl:max-w-[75dvw]",
-        //         base: "bg-neutral-100",
-        //     }}
-        //     isBordered
-        //     onMenuOpenChange={setIsMenuOpen}>
-        //     <NavbarBrand>
-        //         <Link
-        //             color="foreground"
-        //             className="font-bold text-4xl hover:text-green-500 transition-colors"
-        //             href="/">
-        //             {"<Kit:Hamm/>"}
-        //         </Link>
-        //     </NavbarBrand>
-        //     <NavbarMenuToggle
-        //         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        //         className="sm:hidden"
-        //     />
-
-        //     <NavbarContent className="hidden sm:flex gap-10" justify="center">
-        //         <NavbarItem isActive>
-        //             <Link
-        //                 className={`${
-        //                     props.page === "about" ? "text-green-400" : ""
-        //                 } text-lg transition-colors font-bold`}
-        //                 color="foreground"
-        //                 href="/about">
-        //                 About
-        //             </Link>
-        //         </NavbarItem>
-        //         <NavbarItem>
-        //             <Link
-        //                 className={`${
-        //                     props.page === "projects" ? "text-green-400" : ""
-        //                 } text-lg transition-colors font-bold`}
-        //                 color="foreground"
-        //                 href="/projects">
-        //                 Projects
-        //             </Link>
-        //         </NavbarItem>
-        //         <NavbarItem>
-        //             <Link
-        //                 className="text-lg hover:text-green-500 transition-colors font-bold"
-        //                 color="foreground"
-        //                 href="#">
-        //                 Contact
-        //             </Link>
-        //         </NavbarItem>
-        //         <div className="flex gap-4">
-        //             <NavbarItem>
-        //                 <a href="#">
-        //                     <i
-        //                         aria-hidden
-        //                         className="transition-colors text-black hover:text-green-500 fa-brands fa-github fa-2xl"
-        //                     />
-        //                 </a>
-        //             </NavbarItem>
-        //             <NavbarItem>
-        //                 <a href="#">
-        //                     <i
-        //                         aria-hidden
-        //                         className="transition-colors text-black hover:text-green-500 fa-brands fa-instagram fa-2xl"
-        //                     />
-        //                 </a>
-        //             </NavbarItem>
-        //             <NavbarItem>
-        //                 <a href="#">
-        //                     <i
-        //                         aria-hidden
-        //                         className="transition-colors text-black hover:text-green-500 fa-brands fa-linkedin fa-2xl"
-        //                     />
-        //                 </a>
-        //             </NavbarItem>
-        //         </div>
-        //     </NavbarContent>
-        //     <NavbarMenu>
-        //         <NavbarMenuItem>
-        //             <Link color="foreground" href="#">
-        //                 About
-        //             </Link>
-        //         </NavbarMenuItem>
-        //         <NavbarMenuItem isActive>
-        //             <Link href="#" aria-current="page">
-        //                 Projects
-        //             </Link>
-        //         </NavbarMenuItem>
-        //         <NavbarMenuItem>
-        //             <Link color="foreground" href="#">
-        //                 Contact
-        //             </Link>
-        //         </NavbarMenuItem>
-        //     </NavbarMenu>
-        // </Navbar>
     );
 }

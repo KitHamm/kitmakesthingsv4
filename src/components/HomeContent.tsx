@@ -31,7 +31,9 @@ export default function HomeContent(props: {
                         {props.landingContent.Copy}
                     </div>
                     <div className="flex justify-evenly mt-6">
-                        <Button className="font-bold bg-white border-2 border-black rounded-none hover:bg-green-500 hover:border-white hover:text-white">
+                        <Button
+                            onPress={() => (window.location.href = "/projects")}
+                            className="font-bold bg-white border-2 border-black rounded-none hover:bg-green-500 hover:border-white hover:text-white">
                             Projects
                         </Button>
                         <Button className="font-bold bg-white border-2 border-black rounded-none hover:bg-green-500 hover:border-white hover:text-white">
