@@ -1,15 +1,26 @@
 "use client";
 
-import { Field, useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import Image from "next/image";
-import { About, Tech, Landing } from "@prisma/client";
+import { About, Tech, Images } from "@prisma/client";
 import { useEffect, useRef, useState } from "react";
-import { CircularProgress, Chip, Button } from "@nextui-org/react";
+import {
+    CircularProgress,
+    Chip,
+    Button,
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    useDisclosure,
+} from "@nextui-org/react";
 import { ExtendedLanding } from "@/app/(admin)/dashboard/content/page";
 import {
     UpdateAbout,
     UpdateLanding,
 } from "@/components/actions/ContentActions";
+import axios from "axios";
 
 export type LandingFormType = {
     title: string;
@@ -36,8 +47,17 @@ export type AboutFormType = {
 export default function ContentMain(props: {
     landingContent: ExtendedLanding;
     aboutContent: About;
+    images: Images[];
 }) {
     // States
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [uploading, setUploading] = useState(false);
+    const [imageToUpload, setImageToUpload] = useState<File | null>(null);
+    const [uploadTarget, setUploadTarget] = useState("");
+    const [uploadForm, setUploadForm] = useState(
+        props.images.length > 0 ? false : true
+    );
+
     const [currentLandingImage, setCurrentLandingImage] = useState("");
     const [currentAbout1Image, setCurrentAbout1Image] = useState("");
     const [currentAbout2Image, setCurrentAbout2Image] = useState("");
@@ -48,6 +68,9 @@ export default function ContentMain(props: {
     const [landingTextAreaValue, setLandingTextAreaValue] = useState("");
     const [aboutTextAreaValue, setAboutTextAreaValue] = useState("");
     const [newTech, setNewTech] = useState("");
+
+    // Modal Disclosure
+    const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
     // Forms
     const landingForm = useForm<LandingFormType>();
@@ -178,6 +201,77 @@ export default function ContentMain(props: {
         });
     }
 
+    function dropHandler(ev: any) {
+        if (ev.dataTransfer.items) {
+            [...ev.dataTransfer.items].forEach((item, i) => {
+                if (
+                    item.kind === "file" &&
+                    item.type.split("/")[0] === "image"
+                ) {
+                    const file = item.getAsFile();
+                    setImageToUpload(file);
+                }
+            });
+        }
+    }
+
+    async function uploadImage(file: File) {
+        setUploading(true);
+        setUploadProgress(0);
+        if (file.type.split("/")[0] !== "image") {
+            setUploading(false);
+            return;
+        } else {
+            const formData = new FormData();
+            formData.append("file", file);
+            axios
+                .post("/api/upload", formData, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                    onUploadProgress: (ProgressEvent) => {
+                        if (ProgressEvent.bytes) {
+                            let percent = Math.round(
+                                (ProgressEvent.loaded / ProgressEvent.total!) *
+                                    100
+                            );
+                            setUploadProgress(percent);
+                        }
+                    },
+                })
+                .then((res) => {
+                    if (res.data.message) {
+                        setUploading(false);
+                        setImageToUpload(null);
+                        onClose();
+                        setUploadTarget("");
+                        setUploadForm(false);
+                        switch (uploadTarget) {
+                            case "landing":
+                                landingSetValue("imageUrl", res.data.message);
+                                setCurrentLandingImage(res.data.message);
+                                return;
+                            case "about1":
+                                aboutSetValue("image1Url", res.data.message);
+                                setCurrentAbout1Image(res.data.message);
+                                return;
+                            case "about2":
+                                aboutSetValue("image2Url", res.data.message);
+                                setCurrentAbout2Image(res.data.message);
+                                return;
+                            case "about3":
+                                aboutSetValue("image3Url", res.data.message);
+                                setCurrentAbout3Image(res.data.message);
+                                return;
+                            case "about4":
+                                aboutSetValue("image4Url", res.data.message);
+                                setCurrentAbout4Image(res.data.message);
+                                return;
+                        }
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
+    }
+
     return (
         <div className="flex fade-in">
             <div className="basis-1/2 bg-neutral-100 mx-4 p-4 rounded-lg">
@@ -202,7 +296,12 @@ export default function ContentMain(props: {
                                         alt="Landing Image"
                                         className="w-full h-auto"
                                     />
-                                    <div className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                    <div
+                                        onClick={() => {
+                                            setUploadTarget("landing");
+                                            onOpen();
+                                        }}
+                                        className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
                                         <div className="my-auto font-bold text-white text-4xl">
                                             Change
                                         </div>
@@ -338,7 +437,12 @@ export default function ContentMain(props: {
                                         alt="About 1 Image"
                                         className="w-full h-auto"
                                     />
-                                    <div className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                    <div
+                                        onClick={() => {
+                                            setUploadTarget("about1");
+                                            onOpen();
+                                        }}
+                                        className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
                                         <div className="my-auto font-bold text-white text-4xl">
                                             Change
                                         </div>
@@ -373,7 +477,12 @@ export default function ContentMain(props: {
                                         alt="About 1 Image"
                                         className="w-full h-auto"
                                     />
-                                    <div className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                    <div
+                                        onClick={() => {
+                                            setUploadTarget("about2");
+                                            onOpen();
+                                        }}
+                                        className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
                                         <div className="my-auto font-bold text-white text-4xl">
                                             Change
                                         </div>
@@ -408,7 +517,12 @@ export default function ContentMain(props: {
                                         alt="About 1 Image"
                                         className="w-full h-auto"
                                     />
-                                    <div className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                    <div
+                                        onClick={() => {
+                                            setUploadTarget("about3");
+                                            onOpen();
+                                        }}
+                                        className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
                                         <div className="my-auto font-bold text-white text-4xl">
                                             Change
                                         </div>
@@ -443,7 +557,12 @@ export default function ContentMain(props: {
                                         alt="About 1 Image"
                                         className="w-full h-auto"
                                     />
-                                    <div className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                    <div
+                                        onClick={() => {
+                                            setUploadTarget("about4");
+                                            onOpen();
+                                        }}
+                                        className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
                                         <div className="my-auto font-bold text-white text-4xl">
                                             Change
                                         </div>
@@ -647,6 +766,232 @@ export default function ContentMain(props: {
                     </div>
                 </form>
             </div>
+            <Modal
+                backdrop="blur"
+                size={uploadForm ? "xl" : "5xl"}
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex text-4xl text-center flex-col gap-1">
+                                {uploadForm ? "Upload Image" : "Select Image"}
+                            </ModalHeader>
+                            <ModalBody>
+                                {uploadForm ? (
+                                    <div>
+                                        {uploading ? (
+                                            <div className="flex justify-center">
+                                                <CircularProgress
+                                                    aria-label="Uploading"
+                                                    value={uploadProgress}
+                                                    classNames={{
+                                                        svg: "w-36 h-36 ",
+                                                        indicator:
+                                                            "stroke-teal-400",
+                                                        track: "stroke-neutral-400/50",
+                                                        value: "text-3xl font-semibold text-white",
+                                                    }}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center justify-center w-full">
+                                                <label
+                                                    id="drop_zone"
+                                                    onDrop={(e) => {
+                                                        e.preventDefault();
+                                                        dropHandler(e);
+                                                    }}
+                                                    onDragOver={(e) => {
+                                                        e.preventDefault();
+                                                    }}
+                                                    htmlFor="dropzone-file"
+                                                    className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                        {imageToUpload ===
+                                                        null ? (
+                                                            <>
+                                                                <svg
+                                                                    className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                                                    aria-hidden="true"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="none"
+                                                                    viewBox="0 0 20 16">
+                                                                    <path
+                                                                        stroke="currentColor"
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        strokeWidth="2"
+                                                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                                    />
+                                                                </svg>
+                                                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                                    <span className="font-semibold">
+                                                                        Click to
+                                                                        upload
+                                                                    </span>{" "}
+                                                                    or drag and
+                                                                    drop
+                                                                </p>
+                                                            </>
+                                                        ) : (
+                                                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                                <span className="font-semibold">
+                                                                    {
+                                                                        imageToUpload?.name
+                                                                    }
+                                                                </span>
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                    <input
+                                                        onChange={(e) => {
+                                                            if (
+                                                                e.target.files
+                                                            ) {
+                                                                setImageToUpload(
+                                                                    e.target
+                                                                        .files[0]
+                                                                );
+                                                            }
+                                                        }}
+                                                        id="dropzone-file"
+                                                        name="dropzone-file"
+                                                        type="file"
+                                                        className="hidden"
+                                                    />
+                                                </label>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div className="grid xl:grid-cols-4 grid-cols-2 gap-4 ">
+                                        {props.images.map(
+                                            (image: Images, index: number) => {
+                                                return (
+                                                    <div
+                                                        className="relative bg-neutral-200 p-4 shadow"
+                                                        key={image.url}>
+                                                        <Image
+                                                            src={
+                                                                process.env
+                                                                    .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                                                image.url
+                                                            }
+                                                            alt={image.url}
+                                                            width={400}
+                                                            height={400}
+                                                            className="w-full h-auto"
+                                                        />
+                                                        <div
+                                                            onClick={(e) => {
+                                                                switch (
+                                                                    uploadTarget
+                                                                ) {
+                                                                    case "landing":
+                                                                        landingSetValue(
+                                                                            "imageUrl",
+                                                                            image.url
+                                                                        );
+                                                                        setCurrentLandingImage(
+                                                                            image.url
+                                                                        );
+                                                                        onClose();
+                                                                        return;
+                                                                    case "about1":
+                                                                        aboutSetValue(
+                                                                            "image1Url",
+                                                                            image.url
+                                                                        );
+                                                                        setCurrentAbout1Image(
+                                                                            image.url
+                                                                        );
+                                                                        onClose();
+                                                                        return;
+                                                                    case "about2":
+                                                                        aboutSetValue(
+                                                                            "image2Url",
+                                                                            image.url
+                                                                        );
+                                                                        setCurrentAbout2Image(
+                                                                            image.url
+                                                                        );
+                                                                        onClose();
+                                                                        return;
+                                                                    case "about3":
+                                                                        aboutSetValue(
+                                                                            "image3Url",
+                                                                            image.url
+                                                                        );
+                                                                        setCurrentAbout3Image(
+                                                                            image.url
+                                                                        );
+                                                                        onClose();
+                                                                        return;
+                                                                    case "about4":
+                                                                        aboutSetValue(
+                                                                            "image4Url",
+                                                                            image.url
+                                                                        );
+                                                                        setCurrentAbout4Image(
+                                                                            image.url
+                                                                        );
+                                                                        onClose();
+                                                                        return;
+                                                                }
+                                                            }}
+                                                            className="absolute cursor-pointer flex justify-center opacity-0 hover:opacity-100 top-0 left-0 w-full h-full bg-neutral-400 bg-opacity-75 transition-all duration-300">
+                                                            <div className="my-auto font-bold text-white text-4xl">
+                                                                Select
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            }
+                                        )}
+                                    </div>
+                                )}
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button
+                                    color="danger"
+                                    variant="light"
+                                    onPress={() => {
+                                        setImageToUpload(null);
+                                        setUploading(false);
+                                        setUploadTarget("");
+                                        setUploadForm(
+                                            props.images.length > 0
+                                                ? false
+                                                : true
+                                        );
+                                        onClose();
+                                    }}>
+                                    Close
+                                </Button>
+                                <Button
+                                    className="bg-teal-400 "
+                                    isDisabled={
+                                        imageToUpload === null && uploadForm
+                                            ? true
+                                            : false
+                                    }
+                                    onPress={() => {
+                                        if (uploadForm) {
+                                            if (imageToUpload !== null) {
+                                                uploadImage(imageToUpload);
+                                            }
+                                        } else {
+                                            setUploadForm(true);
+                                        }
+                                    }}>
+                                    {uploadForm ? "Upload" : "Switch to Upload"}
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
         </div>
     );
 }

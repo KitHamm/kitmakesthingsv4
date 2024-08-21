@@ -17,12 +17,14 @@ export default async function Content() {
         },
     });
     const aboutContent = await prisma.about.findFirst();
+    const images = await prisma.images.findMany();
 
     return (
         <div className="p-10">
             <ContentMain
                 landingContent={landingContent as ExtendedLanding}
                 aboutContent={aboutContent as About}
+                images={images}
             />
         </div>
     );
