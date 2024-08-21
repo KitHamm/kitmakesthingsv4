@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
-
+import ProjectContent from "@/components/ProjectContent";
+import { ContentProject } from "@prisma/client";
 export default async function ProjectPage({
     params,
 }: {
@@ -10,5 +11,11 @@ export default async function ProjectPage({
             slug: params.projectId[0],
         },
     });
-    return <div className="mt-40">{project?.name}</div>;
+    return (
+        <main className="z-10">
+            <section className="absolute top-0 left-0 min-w-[100dvw]">
+                <ProjectContent project={project as ContentProject} />
+            </section>
+        </main>
+    );
 }
