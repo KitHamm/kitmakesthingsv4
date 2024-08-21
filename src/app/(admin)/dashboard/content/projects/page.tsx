@@ -4,9 +4,13 @@ import { ContentProject } from "@prisma/client";
 
 export default async function ContentProjects() {
     const projects = await prisma.contentProject.findMany();
+    const images = await prisma.images.findMany();
     return (
         <div className="p-10">
-            <ProjectsMain projects={projects as ContentProject[]} />
+            <ProjectsMain
+                projects={projects as ContentProject[]}
+                images={images}
+            />
         </div>
     );
 }

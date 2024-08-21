@@ -56,9 +56,10 @@ model ContentProject {
   role        String
   stack       String[]
   description String
-  date        DateTime
+  date        String?
   where       String
   images      String[]
+  client      String?
 }
 
 model Landing {
