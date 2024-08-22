@@ -92,7 +92,7 @@ export default function MediaMain(props: { images: Images[] }) {
                     onClose();
                     setSelectedImage("");
                 } else if (res.status === 201) {
-                    // console.log(res.message);
+                    console.log(res.message);
                 }
             })
             .catch((err) => console.log(err));
@@ -108,7 +108,7 @@ export default function MediaMain(props: { images: Images[] }) {
                     props.images.map((image: Images, index: number) => {
                         return (
                             <div
-                                className="relative bg-neutral-200 p-4 shadow"
+                                className="relative bg-neutral-200 p-4 shadow flex"
                                 key={image.url}>
                                 <Image
                                     src={
@@ -118,7 +118,7 @@ export default function MediaMain(props: { images: Images[] }) {
                                     alt={image.url}
                                     width={400}
                                     height={400}
-                                    className="w-full h-auto"
+                                    className="w-full h-auto my-auto"
                                 />
                                 <div
                                     onClick={(e) => {

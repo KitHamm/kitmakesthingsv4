@@ -65,26 +65,26 @@ export default function ContactModal(props: {
         props.onOpenChange();
     }
 
-    useEffect(() => {
-        if (modal.current) {
-            var scrollHeight = modal.current.scrollHeight;
-            modal.current.style.height = scrollHeight + "px";
-            setPreviousScrollHeight(scrollHeight);
-        }
-    }, [props.onOpenChange]);
+    // useEffect(() => {
+    //     if (modal.current) {
+    //         var scrollHeight = modal.current.scrollHeight;
+    //         modal.current.style.height = scrollHeight + "px";
+    //         setPreviousScrollHeight(scrollHeight);
+    //     }
+    // }, [props.onOpenChange]);
 
-    useEffect(() => {
-        if (modal.current) {
-            modal.current.style.height = "auto";
-            var scrollHeight = modal.current.scrollHeight;
-            modal.current!.style.height = previousScrollHeight + "px";
-            setTimeout(() => {
-                modal.current!.style.height = scrollHeight + "px";
-                setPreviousScrollHeight(scrollHeight);
-                console.log("Set Height", scrollHeight);
-            }, 50);
-        }
-    }, [sendingState]);
+    // useEffect(() => {
+    //     if (modal.current) {
+    //         modal.current.style.height = "auto";
+    //         var scrollHeight = modal.current.scrollHeight;
+    //         modal.current!.style.height = previousScrollHeight + "px";
+    //         setTimeout(() => {
+    //             modal.current!.style.height = scrollHeight + "px";
+    //             setPreviousScrollHeight(scrollHeight);
+    //             console.log("Set Height", scrollHeight);
+    //         }, 50);
+    //     }
+    // }, [sendingState]);
 
     useEffect(() => {
         if (!props.isOpen) {
@@ -98,12 +98,13 @@ export default function ContactModal(props: {
             id="modal"
             backdrop="blur"
             size="4xl"
+            scrollBehavior="inside"
             classNames={{ base: "transition-all", closeButton: "hidden" }}
             isOpen={props.isOpen}
             onOpenChange={props.onOpenChange}>
             <ModalContent>
                 {(onClose) => (
-                    <div className="transition-all" ref={modal}>
+                    <>
                         <ModalHeader className="flex text-center text-4xl flex-col gap-1">
                             {sendingState === MessageState.NONE
                                 ? "Contact"
@@ -113,13 +114,13 @@ export default function ContactModal(props: {
                                 ? "Sending..."
                                 : "Oops!"}
                         </ModalHeader>
-                        {sendingState === MessageState.NONE && (
-                            <form
-                                className="fade-in"
-                                onSubmit={handleSubmit(OnSubmit)}>
-                                <ModalBody>
-                                    <div className="flex gap-10">
-                                        <div className="w-1/2">
+                        <ModalBody>
+                            {sendingState === MessageState.NONE && (
+                                <form
+                                    className="fade-in"
+                                    onSubmit={handleSubmit(OnSubmit)}>
+                                    <div className="flex flex-col xl:flex-row xl:gap-10">
+                                        <div className="xl:w-1/2">
                                             <label
                                                 className="font-bold"
                                                 htmlFor="firstName">
@@ -146,7 +147,7 @@ export default function ContactModal(props: {
                                                 }
                                             />
                                         </div>
-                                        <div className="w-1/2">
+                                        <div className="xl:w-1/2">
                                             <label
                                                 className="font-bold"
                                                 htmlFor="lastName">
@@ -180,7 +181,6 @@ export default function ContactModal(props: {
                                         Message:
                                     </label>
                                     <textarea
-                                        rows={8}
                                         {...register("message", {
                                             required: {
                                                 value: true,
@@ -192,11 +192,11 @@ export default function ContactModal(props: {
                                                 ? errors.message.message
                                                 : "Type your message..."
                                         }
-                                        className={
+                                        className={`${
                                             errors.message
                                                 ? "placeholder:text-red-400"
                                                 : ""
-                                        }
+                                        } xl:h-44`}
                                     />
                                     <p className="text-sm">
                                         By using this service you agree to the
@@ -206,54 +206,55 @@ export default function ContactModal(props: {
                                         </a>
                                         .
                                     </p>
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button
-                                        type="button"
-                                        color="danger"
-                                        variant="light"
-                                        onPress={() => {
-                                            handleClose();
-                                        }}>
-                                        Close
-                                    </Button>
-                                    <Button
-                                        type="submit"
-                                        className="bg-green-500 text-white">
-                                        Send
-                                    </Button>
-                                </ModalFooter>
-                            </form>
-                        )}
-                        {sendingState === MessageState.SENDING && (
-                            <div className="fade-in flex justify-center my-20">
-                                <CircularProgress
-                                    aria-label="Loading Landing Image"
-                                    classNames={{
-                                        svg: "w-36 h-36 ",
-                                        indicator: "stroke-green-500",
-                                        track: "stroke-neutral-400/50",
-                                        value: "text-3xl font-semibold text-white",
-                                    }}
-                                />
-                            </div>
-                        )}
-                        {sendingState === MessageState.SUCCESS && (
-                            <div className="fade-in text-center justify-center my-20">
-                                <div className="font-bold text-2xl">
-                                    Thank you for your message.
+
+                                    <div className="flex justify-end my-2 gap-2">
+                                        <Button
+                                            type="button"
+                                            color="danger"
+                                            variant="light"
+                                            onPress={() => {
+                                                handleClose();
+                                            }}>
+                                            Close
+                                        </Button>
+                                        <Button
+                                            type="submit"
+                                            className="bg-green-500 text-white">
+                                            Send
+                                        </Button>
+                                    </div>
+                                </form>
+                            )}
+                            {sendingState === MessageState.SENDING && (
+                                <div className="fade-in flex justify-center my-20">
+                                    <CircularProgress
+                                        aria-label="Loading Landing Image"
+                                        classNames={{
+                                            svg: "w-36 h-36 ",
+                                            indicator: "stroke-green-500",
+                                            track: "stroke-neutral-400/50",
+                                            value: "text-3xl font-semibold text-white",
+                                        }}
+                                    />
                                 </div>
-                            </div>
-                        )}
-                        {sendingState === MessageState.ERROR && (
-                            <div className="fade-in text-center justify-center my-20">
-                                <div className="font-bold text-2xl">
-                                    Something appears to have gone wrong. Please
-                                    try again later.
+                            )}
+                            {sendingState === MessageState.SUCCESS && (
+                                <div className="fade-in text-center justify-center my-20">
+                                    <div className="font-bold text-2xl">
+                                        Thank you for your message.
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                    </div>
+                            )}
+                            {sendingState === MessageState.ERROR && (
+                                <div className="fade-in text-center justify-center my-20">
+                                    <div className="font-bold text-2xl">
+                                        Something appears to have gone wrong.
+                                        Please try again later.
+                                    </div>
+                                </div>
+                            )}
+                        </ModalBody>
+                    </>
                 )}
             </ModalContent>
         </Modal>

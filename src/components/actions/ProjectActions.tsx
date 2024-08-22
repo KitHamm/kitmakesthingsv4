@@ -51,3 +51,18 @@ export async function AddProject(data: ContentProjectFormType) {
         revalidatePath("/dashboard/content/projects");
     }
 }
+
+export async function DeleteProject(slug: string) {
+    try {
+        await prisma.contentProject.delete({
+            where: {
+                slug: slug,
+            },
+        });
+        return Promise.resolve({ status: 200, message: "success" });
+    } catch (err: any) {
+        return Promise.resolve({ status: 200, message: err });
+    } finally {
+        revalidatePath("/dashboard/content/projects");
+    }
+}

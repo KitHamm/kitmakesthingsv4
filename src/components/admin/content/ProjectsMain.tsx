@@ -13,7 +13,7 @@ import {
 } from "@nextui-org/react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { ContentProject, Images } from "@prisma/client";
-import { AddProject } from "@/components/actions/ProjectActions";
+import { AddProject, DeleteProject } from "@/components/actions/ProjectActions";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
@@ -43,10 +43,7 @@ export default function ProjectsMain(props: {
     const [imageToUpload, setImageToUpload] = useState<File | null>(null);
     const [uploadForm, setUploadForm] = useState(false);
     const [newStackItem, setNewStackItem] = useState("");
-    const editProjectTextArea = useRef<HTMLTextAreaElement | null>(null);
     const newProjectTextArea = useRef<HTMLTextAreaElement | null>(null);
-    const [editProjectTextAreaValue, setEditProjectTextAreaValue] =
-        useState("");
     const [newProjectTextAreaValue, setNewProjectTextAreaValue] = useState("");
 
     const newProjectForm = useForm<ContentProjectFormType>({
@@ -227,6 +224,12 @@ export default function ProjectsMain(props: {
         onOpenAddProject();
     }
 
+    function handleDelete(slug: string) {
+        DeleteProject(slug)
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
+    }
+
     return (
         <div>
             <Button
@@ -267,6 +270,15 @@ export default function ProjectsMain(props: {
                                         height={100}
                                         alt={project.images[0]}
                                     />
+                                    <Button
+                                        onPress={() => {
+                                            handleDelete(project.slug);
+                                        }}
+                                        className="my-auto"
+                                        color="danger"
+                                        variant="light">
+                                        Delete
+                                    </Button>
                                 </div>
                             </div>
                         );
@@ -580,6 +592,7 @@ export default function ProjectsMain(props: {
                 </ModalContent>
             </Modal>
             <Modal
+                scrollBehavior="outside"
                 backdrop="blur"
                 size={uploadForm ? "xl" : "5xl"}
                 isOpen={isOpenImageSelect}

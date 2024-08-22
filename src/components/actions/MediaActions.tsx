@@ -2,10 +2,11 @@
 
 import fs from "fs";
 import prisma from "@/lib/prisma";
-import { Landing, About } from "@prisma/client";
+import { Landing, About, ContentProject } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function DeleteFile(fileName: string) {
+    console.log(fileName);
     const landingContent: Landing[] = await prisma.landing.findMany({
         where: { imageUrl: fileName },
     });
@@ -21,6 +22,13 @@ export async function DeleteFile(fileName: string) {
     const aboutContent4: About[] = await prisma.about.findMany({
         where: { image4Url: fileName },
     });
+    const projects: ContentProject[] = await prisma.contentProject.findMany({
+        where: {
+            images: {
+                has: fileName,
+            },
+        },
+    });
     if (landingContent.length > 0) {
         return Promise.resolve({ status: 201, message: "Landing Content" });
     }
@@ -35,6 +43,9 @@ export async function DeleteFile(fileName: string) {
     }
     if (aboutContent4.length > 0) {
         return Promise.resolve({ status: 201, message: "About Content 4" });
+    }
+    if (projects.length > 0) {
+        return Promise.resolve({ status: 201, message: projects[0].name });
     }
 
     try {

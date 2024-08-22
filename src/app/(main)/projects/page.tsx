@@ -2,27 +2,38 @@ import prisma from "@/lib/prisma";
 import { ContentProject } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import ProjectsContent from "@/components/ProjectsContent";
+import { getServerSession, Session } from "next-auth";
+import { authOptions } from "@/authOptions";
 
 export default async function Projects() {
-    const projects = await prisma.contentProject.findMany();
+    const session = await getServerSession(authOptions);
+    const projects = await prisma.contentProject.findMany({
+        orderBy: {
+            date: "desc",
+        },
+    });
     return (
         <main>
-            <section className="absolute top-0 left-0 min-w-[100dvw]">
-                <header className="min-h-[25dvh] flex justify-center">
-                    <h1 className="text-center font-bold text-8xl mt-auto">
+            <section className="xl:absolute top-0 left-0 min-w-[100dvw]">
+                <header className="min-h-[20dvh] xl:min-h-[25dvh] flex justify-center mb-8">
+                    <h1 className="text-center font-bold text-6xl xl:text-8xl mt-auto">
                         Projects.
                     </h1>
                 </header>
-                <article className="fade-in min-h-[50dvh] flex flex-col xl:w-[75dvw] w-[90dvw] mx-auto">
-                    <div className="my-auto">
-                        <div className="grid grid-cols-3">
+                <article className="fade-in min-h-[75dvh] xl:min-h-[50dvh] flex flex-col xl:w-[75dvw] w-[90dvw] mx-auto">
+                    <div className="xl:my-auto">
+                        <div className="grid grid-cols-1 xl:grid-cols-3">
                             {projects.map(
                                 (project: ContentProject, index: number) => {
                                     return (
                                         <Link
                                             href={"/projects/" + project.slug}
                                             key={project.slug}
-                                            className="relative">
+                                            className="relative p-4 shadow xl:shadow-none bg-neutral-100 xl:bg-white rounded-lg mb-4">
+                                            <div className="xl:hidden w-full font-bold text-center mb-2">
+                                                {project.name}
+                                            </div>
                                             <Image
                                                 src={
                                                     process.env
@@ -32,10 +43,11 @@ export default async function Projects() {
                                                 height={500}
                                                 width={500}
                                                 alt={project.name}
-                                                className="max-h-96 w-auto mx-auto"
+                                                className="h-auto w-auto mx-auto"
                                             />
-                                            <div className="rounded-xl cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-green-400 bg-opacity-75 border-2 border-black backdrop-blur-sm flex justify-center">
-                                                <div className="text-center w-3/4 my-auto font-bold text-4xl text-white">
+
+                                            <div className="rounded-xl cursor-pointer opacity-0 xl:hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400/60 hover:shadow-lg backdrop-blur-sm hidden xl:flex justify-center">
+                                                <div className="text-center w-3/4 my-auto font-bold text-4xl text-white drop-shadow">
                                                     {project.name}
                                                 </div>
                                             </div>
@@ -47,6 +59,7 @@ export default async function Projects() {
                     </div>
                 </article>
             </section>
+            <ProjectsContent session={session as Session} />
         </main>
     );
 }
