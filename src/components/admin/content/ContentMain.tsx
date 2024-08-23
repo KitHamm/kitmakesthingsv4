@@ -273,8 +273,8 @@ export default function ContentMain(props: {
     }
 
     return (
-        <div className="flex fade-in">
-            <div className="basis-1/2 bg-neutral-100 mx-4 p-4 rounded-lg">
+        <div className="flex flex-col xl:flex-row fade-in">
+            <div className="xl:basis-1/2 bg-neutral-100 mx-4 p-4 rounded-lg">
                 <div className="font-bold text-4xl border-b-2 pb-2">
                     Landing
                 </div>
@@ -979,7 +979,7 @@ export default function ContentMain(props: {
                                                     classNames={{
                                                         svg: "w-36 h-36 ",
                                                         indicator:
-                                                            "stroke-teal-400",
+                                                            "stroke-green-500",
                                                         track: "stroke-neutral-400/50",
                                                         value: "text-3xl font-semibold text-white",
                                                     }}

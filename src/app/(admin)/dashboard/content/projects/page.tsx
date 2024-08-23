@@ -6,7 +6,7 @@ export default async function ContentProjects() {
     const projects = await prisma.contentProject.findMany();
     const images = await prisma.images.findMany();
     return (
-        <div className="p-10">
+        <div className="xl:py-10 xl:px-10 py-4">
             <ProjectsMain
                 projects={projects as ContentProject[]}
                 images={images}

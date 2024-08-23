@@ -100,7 +100,7 @@ export default function MediaMain(props: { images: Images[] }) {
 
     return (
         <div>
-            <Button onPress={onOpenUpload} className="bg-green-500">
+            <Button onClick={onOpenUpload} className="bg-green-500">
                 Upload Image
             </Button>
             <div className="grid xl:grid-cols-4 grid-cols-2 gap-4 mt-8">
@@ -170,7 +170,7 @@ export default function MediaMain(props: { images: Images[] }) {
                                     Delete
                                 </Button>
                                 <Button
-                                    className="bg-teal-400"
+                                    className="bg-green-500"
                                     onPress={() => {
                                         onClose();
                                         setSelectedImage("");
@@ -203,7 +203,7 @@ export default function MediaMain(props: { images: Images[] }) {
                                                 classNames={{
                                                     svg: "w-36 h-36 ",
                                                     indicator:
-                                                        "stroke-teal-400",
+                                                        "stroke-green-500",
                                                     track: "stroke-neutral-400/50",
                                                     value: "text-3xl font-semibold text-white",
                                                 }}
@@ -289,7 +289,7 @@ export default function MediaMain(props: { images: Images[] }) {
                                     Close
                                 </Button>
                                 <Button
-                                    className="bg-teal-400 "
+                                    className="bg-green-500"
                                     isDisabled={
                                         imageToUpload === null ? true : false
                                     }

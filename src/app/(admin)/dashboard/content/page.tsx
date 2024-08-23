@@ -20,7 +20,7 @@ export default async function Content() {
     const images = await prisma.images.findMany();
 
     return (
-        <div className="p-10">
+        <div className="xl:py-10 xl:px-10 py-4">
             <ContentMain
                 landingContent={landingContent as ExtendedLanding}
                 aboutContent={aboutContent as About}

@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 export default async function Media() {
     const images = await prisma.images.findMany();
     return (
-        <div className="p-10">
+        <div className="xl:py-10 xl:px-10 py-4 px-4">
             <MediaMain images={images} />
         </div>
     );

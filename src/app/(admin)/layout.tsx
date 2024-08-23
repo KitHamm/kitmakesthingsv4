@@ -24,8 +24,8 @@ export default function RootLayout({
             <body
                 className={`${roboto.className} max-w-[100dvw] flex overflow-x-hidden`}>
                 <SidePanel />
-                <div className="w-1/6" />
-                <div className="w-5/6">{children}</div>
+                <div className="hidden xl:block w-1/6" />
+                <div className="w-full xl:w-5/6">{children}</div>
             </body>
         </html>
     );

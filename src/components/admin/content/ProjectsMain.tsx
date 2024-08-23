@@ -231,16 +231,16 @@ export default function ProjectsMain(props: {
     }
 
     return (
-        <div>
+        <div className="mx-4">
             <Button
-                onPress={() => {
+                onClick={() => {
                     onOpenAddProject();
                     resetAddProject();
                 }}
                 className="bg-green-500">
                 Add Project
             </Button>
-            <div className="mt-8 w-fit">
+            <div className="mt-8 xl:w-fit">
                 {props.projects.map(
                     (project: ContentProject, index: number) => {
                         return (
@@ -250,7 +250,7 @@ export default function ProjectsMain(props: {
                                 }}
                                 className="mb-4"
                                 key={index}>
-                                <div className="transition-all cursor-pointer hover:bg-green-500 hover:text-white bg-neutral-100 shadow rounded-lg px-4 py-2 w-full flex gap-8">
+                                <div className="transition-all cursor-pointer hover:bg-green-500 hover:text-white bg-neutral-100 shadow rounded-lg px-4 py-2 w-full flex flex-col xl:flex-row xl:gap-8">
                                     <div className="font-bold text-xl my-auto">
                                         {project.name}
                                     </div>
@@ -260,25 +260,28 @@ export default function ProjectsMain(props: {
                                     <div className="font-bold my-auto">
                                         Images: {project.images.length}
                                     </div>
-                                    <Image
-                                        src={
-                                            process.env
-                                                .NEXT_PUBLIC_BASE_IMAGE_URL +
-                                            project.images[0]
-                                        }
-                                        width={100}
-                                        height={100}
-                                        alt={project.images[0]}
-                                    />
-                                    <Button
-                                        onPress={() => {
-                                            handleDelete(project.slug);
-                                        }}
-                                        className="my-auto"
-                                        color="danger"
-                                        variant="light">
-                                        Delete
-                                    </Button>
+                                    <div className="flex flex-col xl:flex-row gap-4">
+                                        <Image
+                                            src={
+                                                process.env
+                                                    .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                                project.images[0]
+                                            }
+                                            width={100}
+                                            height={100}
+                                            alt={project.images[0]}
+                                            className="mx-auto"
+                                        />
+                                        <Button
+                                            onPress={() => {
+                                                handleDelete(project.slug);
+                                            }}
+                                            className="my-auto"
+                                            color="danger"
+                                            variant="light">
+                                            Delete
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         );
@@ -302,8 +305,8 @@ export default function ProjectsMain(props: {
                                     OnSubmitAddProject
                                 )}>
                                 <ModalBody>
-                                    <div className="flex gap-10">
-                                        <div className="w-1/2">
+                                    <div className="flex flex-col xl:flex-row xl:gap-10">
+                                        <div className="xl:w-1/2">
                                             <label
                                                 className="font-bold"
                                                 htmlFor="name">
@@ -331,7 +334,7 @@ export default function ProjectsMain(props: {
                                                 }
                                             />
                                         </div>
-                                        <div className="w-1/2">
+                                        <div className="xl:w-1/2">
                                             <label
                                                 className="font-bold"
                                                 htmlFor="name">
@@ -360,8 +363,8 @@ export default function ProjectsMain(props: {
                                             />
                                         </div>
                                     </div>
-                                    <div className="flex gap-10">
-                                        <div className="w-1/2">
+                                    <div className="flex flex-col xl:flex-wrap xl:gap-10">
+                                        <div className="xl:w-1/2">
                                             <label
                                                 className="font-bold"
                                                 htmlFor="name">
@@ -389,7 +392,7 @@ export default function ProjectsMain(props: {
                                                 }
                                             />
                                         </div>
-                                        <div className="w-1/2">
+                                        <div className="xl:w-1/2">
                                             <label
                                                 className="font-bold"
                                                 htmlFor="name">
@@ -421,8 +424,8 @@ export default function ProjectsMain(props: {
                                             />
                                         </div>
                                     </div>
-                                    <div className="flex gap-10">
-                                        <div className="w-1/2">
+                                    <div className="flex flex-col xl:flex-row xl:gap-10">
+                                        <div className="xl:w-1/2">
                                             <label
                                                 className="font-bold"
                                                 htmlFor="name">
@@ -450,7 +453,7 @@ export default function ProjectsMain(props: {
                                                 }
                                             />
                                         </div>
-                                        <div className="w-1/2">
+                                        <div className="xl:w-1/2">
                                             <label
                                                 className="font-bold"
                                                 htmlFor="name">
@@ -517,7 +520,7 @@ export default function ProjectsMain(props: {
                                             );
                                         })}
                                     </div>
-                                    <div className="w-1/4 flex gap-4">
+                                    <div className="xl:w-1/4 flex gap-4">
                                         <input
                                             value={newStackItem}
                                             onChange={(e) =>
@@ -540,7 +543,7 @@ export default function ProjectsMain(props: {
                                     <label className="font-bold" htmlFor="name">
                                         Images
                                     </label>
-                                    <div className="grid grid-cols-4">
+                                    <div className="grid grid-cols-2 xl:grid-cols-4">
                                         {fieldsImages.map((field, index) => {
                                             return (
                                                 <div
@@ -614,7 +617,7 @@ export default function ProjectsMain(props: {
                                                     classNames={{
                                                         svg: "w-36 h-36 ",
                                                         indicator:
-                                                            "stroke-teal-400",
+                                                            "stroke-green-500",
                                                         track: "stroke-neutral-400/50",
                                                         value: "text-3xl font-semibold text-white",
                                                     }}
@@ -746,7 +749,7 @@ export default function ProjectsMain(props: {
                                     Close
                                 </Button>
                                 <Button
-                                    className="bg-teal-400 "
+                                    className="bg-green-500"
                                     isDisabled={
                                         imageToUpload === null && uploadForm
                                             ? true

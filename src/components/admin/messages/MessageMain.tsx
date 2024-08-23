@@ -4,11 +4,20 @@ import {
     DeleteMessage,
     UpdateMessageRead,
 } from "@/components/actions/MessageActions";
-import { Button } from "@nextui-org/react";
+import {
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Button,
+    useDisclosure,
+} from "@nextui-org/react";
 import { Messages } from "@prisma/client";
 import { useState } from "react";
 
 export default function MessagesMain(props: { messages: Messages[] }) {
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [selectedMessage, setSelectedMessage] = useState(-1);
 
     function UpdateMessage(messageId: string, read: boolean) {
@@ -19,23 +28,40 @@ export default function MessagesMain(props: { messages: Messages[] }) {
 
     return (
         <div className="flex fade-in gap-10">
-            <div className="w-1/4 flex flex-col gap-4">
+            <div className="xl:w-1/4 w-full flex flex-col gap-4">
                 {props.messages.map((message: Messages, index: number) => {
                     return (
-                        <div
-                            onClick={() => {
-                                setSelectedMessage(index);
-                                if (!message.read) {
-                                    UpdateMessage(message.id, true);
-                                }
-                            }}
-                            key={"message-" + index}>
-                            <MessageRepeat message={message} />
-                        </div>
+                        <>
+                            {/* Desktop */}
+                            <div
+                                className="hidden  xl:block"
+                                onClick={() => {
+                                    setSelectedMessage(index);
+                                    if (!message.read) {
+                                        UpdateMessage(message.id, true);
+                                    }
+                                }}
+                                key={"message-" + index}>
+                                <MessageRepeat message={message} />
+                            </div>
+                            {/* Mobile */}
+                            <div
+                                className="xl:hidden"
+                                onClick={() => {
+                                    setSelectedMessage(index);
+                                    if (!message.read) {
+                                        UpdateMessage(message.id, true);
+                                    }
+                                    onOpenChange();
+                                }}
+                                key={"message-" + index}>
+                                <MessageRepeat message={message} />
+                            </div>
+                        </>
                     );
                 })}
             </div>
-            <div className="w-[60%] fixed h-screen top-0 right-0 p-10">
+            <div className="hidden xl:block w-[60%] fixed h-screen top-0 right-0 p-10">
                 <div className="bg-neutral-100 h-full w-full rounded-lg shadow-lg p-10">
                     {selectedMessage === -1 ? (
                         <div className="fade-in font-bold text-xl">
@@ -93,6 +119,59 @@ export default function MessagesMain(props: { messages: Messages[] }) {
                     )}
                 </div>
             </div>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">
+                                <div className="text-xl">
+                                    {props.messages[selectedMessage].name}
+                                </div>
+                                <div className="font-normal text-base">
+                                    {props.messages[selectedMessage].email}
+                                </div>
+                            </ModalHeader>
+                            <ModalBody>
+                                <p>{props.messages[selectedMessage].message}</p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button
+                                    color="danger"
+                                    variant="light"
+                                    onPress={() => {
+                                        onClose();
+                                        DeleteMessage(
+                                            props.messages[selectedMessage].id
+                                        );
+                                        setSelectedMessage(-1);
+                                    }}>
+                                    Delete
+                                </Button>
+                                <Button
+                                    color="danger"
+                                    onPress={() => {
+                                        onClose();
+                                        setSelectedMessage(-1);
+                                    }}>
+                                    Close
+                                </Button>
+                                <Button
+                                    className="bg-green-500"
+                                    onPress={() => {
+                                        onClose();
+                                        UpdateMessage(
+                                            props.messages[selectedMessage].id,
+                                            false
+                                        );
+                                        setSelectedMessage(-1);
+                                    }}>
+                                    Mark Unread
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
         </div>
     );
 }
@@ -102,7 +181,7 @@ function MessageRepeat(props: { message: Messages }) {
         <div
             className={`${
                 props.message.read ? "bg-neutral-100" : "bg-green-500"
-            } flex flex-col hover:bg-green-300 transition-colors cursor-pointer shadow p-2 rounded-lg`}>
+            } flex flex-col xl:hover:bg-green-300 transition-colors cursor-pointer shadow p-2 rounded-lg`}>
             <div className="font-bold text-xl">{props.message.name}</div>
             <div className="font-bold mb-2">{props.message.email}</div>
             <div className="overflow-hidden truncate text-nowrap">

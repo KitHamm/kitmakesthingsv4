@@ -6,7 +6,7 @@ export default async function Messages() {
         orderBy: { createdAt: "desc" },
     });
     return (
-        <div className="p-10">
+        <div className="xl:py-10 xl:px-10 py-4 px-4">
             <MessagesMain messages={messages} />
         </div>
     );
