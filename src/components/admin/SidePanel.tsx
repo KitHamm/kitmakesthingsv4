@@ -44,7 +44,7 @@ export default function SidePanel() {
                     isOpen
                         ? "translate-x-0"
                         : "-translate-x-full xl:translate-x-0"
-                } transition-all fixed top-0 left-0 w-auto xl:w-1/6 min-h-screen bg-neutral-100 border-e-2 z-40`}>
+                } transition-all fixed top-0 left-0 w-auto xl:w-1/6 h-screen bg-neutral-100 border-e-2 z-40`}>
                 <div className="font-bold text-5xl text-center py-6 border-b-2 mx-4">
                     <Link
                         className="xl:hover:text-green-500 transition-colors"
@@ -115,7 +115,7 @@ export default function SidePanel() {
                     />
                 </div>
             </div>
-            <div className="fixed top-[90dvh] left-[5dvw] z-40 bg-neutral-300 p-3 rounded-full border-2 shadow">
+            <div className="fixed bottom-3 left-3 z-40 bg-neutral-300 p-3 rounded-full border-2 shadow">
                 <div
                     onClick={() => setIsOpen(!isOpen)}
                     className="my-auto xl:hidden">

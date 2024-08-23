@@ -106,7 +106,6 @@ model Messages {
 model Invoice {
   reference   String        @unique
   date        DateTime
-  billedTo    String
   total       Float
   taxYear     String
   paid        Boolean       @default(false)

@@ -274,6 +274,9 @@ export default function ContentMain(props: {
 
     return (
         <div className="flex flex-col xl:flex-row fade-in">
+            <div className="font-bold text-6xl mb-6 pb-4 text-center border-b-2">
+                Content.
+            </div>
             <div className="xl:basis-1/2 bg-neutral-100 mx-4 p-4 rounded-lg">
                 <div className="font-bold text-4xl border-b-2 pb-2">
                     Landing

@@ -232,6 +232,9 @@ export default function ProjectsMain(props: {
 
     return (
         <div className="mx-4">
+            <div className="font-bold text-6xl mb-6 pb-4 text-center border-b-2">
+                Projects.
+            </div>
             <Button
                 onClick={() => {
                     onOpenAddProject();
@@ -257,7 +260,7 @@ export default function ProjectsMain(props: {
                                     <div className="font-bold my-auto">
                                         {project.client}
                                     </div>
-                                    <div className="font-bold my-auto">
+                                    <div className="font-bold grow my-auto">
                                         Images: {project.images.length}
                                     </div>
                                     <div className="flex flex-col xl:flex-row gap-4">
@@ -267,8 +270,8 @@ export default function ProjectsMain(props: {
                                                     .NEXT_PUBLIC_BASE_IMAGE_URL +
                                                 project.images[0]
                                             }
-                                            width={100}
-                                            height={100}
+                                            width={200}
+                                            height={200}
                                             alt={project.images[0]}
                                             className="mx-auto"
                                         />
