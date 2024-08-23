@@ -12,14 +12,11 @@ export default function AboutContent(props: {
     session: Session;
 }) {
     useEffect(() => {
-        ServiceRequest();
-    }, []);
-
-    async function ServiceRequest() {
         if (!props.session) {
-            await Request(window.location.pathname);
+            Request(window.location.pathname);
         }
-    }
+    }, [props.session]);
+
     return (
         <article className="fade-in min-h-screen flex flex-col xl:w-[75dvw] w-[90dvw] mx-auto">
             <div className="xl:grid xl:grid-cols-2 xl:gap-20 min-h-screen">

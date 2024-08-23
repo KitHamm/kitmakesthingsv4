@@ -92,7 +92,7 @@ export default function ContactModal(props: {
             reset();
             setSendingState(MessageState.NONE);
         }
-    }, [props.isOpen]);
+    }, [props.isOpen, reset]);
 
     return (
         <Modal

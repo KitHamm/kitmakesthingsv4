@@ -137,7 +137,7 @@ export default function InvoicesMain(props: {
             setValue("total", total);
             setNewInvoiceTotal(total);
         }
-    }, [fields, newItemQuantity, newItemUnitPrice, newItemSubTotal]);
+    }, [fields, newItemQuantity, newItemUnitPrice, newItemSubTotal, setValue]);
 
     function resetForm() {
         for (let i = 0; i < fields.length; i++) {

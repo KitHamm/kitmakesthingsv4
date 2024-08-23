@@ -53,8 +53,9 @@ export default function Privacy() {
                     <ul className="px-5">
                         <li>
                             <strong className="text-green-500">Company</strong>{" "}
-                            (referred to as either "the Company", "We", "Us" or
-                            "Our" in this Agreement) refers to kitmakesthings.
+                            (referred to as either &quot;the Company&quot;,
+                            &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in
+                            this Agreement) refers to kitmakesthings.
                         </li>
                         <li>
                             <strong className="text-green-500">Cookies</strong>{" "}
@@ -155,10 +156,10 @@ export default function Privacy() {
                                 </strong>{" "}
                                 To contact You by email, telephone calls, SMS,
                                 or other equivalent forms of electronic
-                                communication, such as a mobile application's
-                                push notifications regarding updates or
-                                informative communications related to the
-                                functionalities, products or contracted
+                                communication, such as a mobile
+                                application&apos;s push notifications regarding
+                                updates or informative communications related to
+                                the functionalities, products or contracted
                                 services, including the security updates, when
                                 necessary or reasonable for their
                                 implementation.
@@ -264,7 +265,7 @@ export default function Privacy() {
                     <p>
                         Our Service may contain links to other websites that are
                         not operated by Us. If You click on a third party link,
-                        You will be directed to that third party's site. We
+                        You will be directed to that third party&apos;s site. We
                         strongly advise You to review the Privacy Policy of
                         every site You visit.
                     </p>

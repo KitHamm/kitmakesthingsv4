@@ -17,16 +17,13 @@ export default function ProjectContent(props: {
 }) {
     const { onOpenChange, isOpen, onClose } = useDisclosure();
     useEffect(() => {
-        ServiceRequest();
-    }, []);
+        if (!props.session) {
+            Request(window.location.pathname);
+        }
+    }, [props.session]);
 
     const OPTIONS: EmblaOptionsType = { loop: true };
 
-    async function ServiceRequest() {
-        if (!props.session) {
-            await Request(window.location.pathname);
-        }
-    }
     return (
         <article className="fade-in min-h-screen xl:w-[75dvw] w-[90dvw] grid xl:grid-cols-2 xl:gap-20 mx-auto">
             <header className="flex">

@@ -178,7 +178,7 @@ export default function ProjectsMain(props: {
         if (!isOpenAddProject) {
             setNewProjectTextAreaValue("");
         }
-    }, [onOpenChangeAddProject]);
+    }, [onOpenChangeAddProject, isOpenAddProject]);
 
     useEffect(() => {
         if (newProjectTextArea.current !== null) {

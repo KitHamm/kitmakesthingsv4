@@ -17,14 +17,10 @@ export default function HomeContent(props: {
     const { onOpenChange, isOpen, onClose } = useDisclosure();
 
     useEffect(() => {
-        ServiceRequest();
-    }, []);
-
-    async function ServiceRequest() {
         if (!props.session) {
-            await Request(window.location.pathname);
+            Request(window.location.pathname);
         }
-    }
+    }, [props.session]);
 
     return (
         <article className="fade-in mb-8 xl:mb-0 min-h-screen xl:w-[75dvw] w-[90dvw] flex flex-col xl:grid xl:grid-cols-2 xl:gap-20 mx-auto">
