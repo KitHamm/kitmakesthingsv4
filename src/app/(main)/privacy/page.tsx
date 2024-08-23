@@ -1,0 +1,11 @@
+import Privacy from "@/components/Privacy";
+
+export default function PrivacyPage() {
+    return (
+        <main>
+            <section className="top-0 left-0 min-w-[100dvw] py-40">
+                <Privacy />
+            </section>
+        </main>
+    );
+}

@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { Button, CircularProgress } from "@nextui-org/react";
 import { SendMessage } from "./actions/MessageActions";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 enum MessageState {
     NONE,
@@ -201,9 +202,15 @@ export default function ContactModal(props: {
                                     <p className="text-sm">
                                         By using this service you agree to the
                                         terms set out in our{" "}
-                                        <a className="text-green-500" href="#">
+                                        <span
+                                            onClick={() => {
+                                                onClose();
+                                                window.location.href =
+                                                    "/privacy";
+                                            }}
+                                            className="text-green-500 cursor-pointer">
                                             Privacy Policy
-                                        </a>
+                                        </span>
                                         .
                                     </p>
 

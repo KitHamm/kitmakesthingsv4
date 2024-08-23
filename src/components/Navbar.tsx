@@ -36,7 +36,10 @@ export default function NavbarComp() {
 
                 <div className="xl:flex hidden flex gap-4 justify-center mt-auto">
                     <div>
-                        <Link href="#">
+                        <Link
+                            target="_blank"
+                            rel="noreferrer"
+                            href="https://github.com/KitHamm/">
                             <i
                                 aria-hidden
                                 className="transition-colors text-black hover:text-green-500 fa-brands fa-github fa-2xl"
@@ -44,7 +47,10 @@ export default function NavbarComp() {
                         </Link>
                     </div>
                     <div>
-                        <Link href="#">
+                        <Link
+                            target="_blank"
+                            rel="noreferrer"
+                            href="https://www.instagram.com/kit_makes_things/">
                             <i
                                 aria-hidden
                                 className="transition-colors text-black hover:text-green-500 fa-brands fa-instagram fa-2xl"
@@ -52,7 +58,10 @@ export default function NavbarComp() {
                         </Link>
                     </div>
                     <div>
-                        <Link href="#">
+                        <Link
+                            target="_blank"
+                            rel="noreferrer"
+                            href="https://www.linkedin.com/in/kit-hamm/">
                             <i
                                 aria-hidden
                                 className="transition-colors text-black hover:text-green-500 fa-brands fa-linkedin fa-2xl"

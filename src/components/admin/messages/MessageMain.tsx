@@ -28,14 +28,14 @@ export default function MessagesMain(props: { messages: Messages[] }) {
 
     return (
         <>
-            <div className="font-bold text-6xl mb-6 pb-4 text-center border-b-2">
+            <div className="font-bold text-6xl mb-6 pb-4 text-center xl:text-start xl:w-1/4 border-b-2">
                 Messages.
             </div>
             <div className="flex fade-in gap-10">
                 <div className="xl:w-1/4 w-full flex flex-col gap-4">
                     {props.messages.map((message: Messages, index: number) => {
                         return (
-                            <>
+                            <div key={message.id}>
                                 {/* Desktop */}
                                 <div
                                     className="hidden  xl:block"
@@ -44,8 +44,7 @@ export default function MessagesMain(props: { messages: Messages[] }) {
                                         if (!message.read) {
                                             UpdateMessage(message.id, true);
                                         }
-                                    }}
-                                    key={"message-" + index}>
+                                    }}>
                                     <MessageRepeat message={message} />
                                 </div>
                                 {/* Mobile */}
@@ -57,11 +56,10 @@ export default function MessagesMain(props: { messages: Messages[] }) {
                                             UpdateMessage(message.id, true);
                                         }
                                         onOpenChange();
-                                    }}
-                                    key={"message-" + index}>
+                                    }}>
                                     <MessageRepeat message={message} />
                                 </div>
-                            </>
+                            </div>
                         );
                     })}
                 </div>

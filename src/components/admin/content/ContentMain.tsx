@@ -273,919 +273,952 @@ export default function ContentMain(props: {
     }
 
     return (
-        <div className="flex flex-col xl:flex-row fade-in">
-            <div className="font-bold text-6xl mb-6 pb-4 text-center border-b-2">
+        <>
+            <div className="font-bold text-6xl mx-4 mb-6 pb-4 text-center xl:text-start border-b-2">
                 Content.
             </div>
-            <div className="xl:basis-1/2 bg-neutral-100 mx-4 p-4 rounded-lg">
-                <div className="font-bold text-4xl border-b-2 pb-2">
-                    Landing
-                </div>
-                <form
-                    className="mt-10"
-                    onSubmit={landingHandleSubmit(OnSubmitLanding)}>
-                    <div className="flex">
-                        {props.landingContent ? (
-                            <div className="relative mx-auto mb-8 w-1/2">
-                                {currentLandingImage !== "" ? (
-                                    <>
-                                        <Image
-                                            src={
-                                                process.env
-                                                    .NEXT_PUBLIC_BASE_IMAGE_URL +
-                                                currentLandingImage
-                                            }
-                                            height={500}
-                                            width={500}
-                                            alt="Landing Image"
-                                            className="w-full h-auto"
-                                        />
+            <div className="flex flex-col xl:flex-row fade-in">
+                <div className="xl:basis-1/2 bg-neutral-100 mx-4 p-4 rounded-lg">
+                    <div className="font-bold text-4xl border-b-2 pb-2">
+                        Landing
+                    </div>
+                    <form
+                        className="mt-10"
+                        onSubmit={landingHandleSubmit(OnSubmitLanding)}>
+                        <div className="flex">
+                            {props.landingContent ? (
+                                <div className="relative mx-auto mb-8 w-1/2">
+                                    {currentLandingImage !== "" ? (
+                                        <>
+                                            <Image
+                                                src={
+                                                    process.env
+                                                        .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                                    currentLandingImage
+                                                }
+                                                height={500}
+                                                width={500}
+                                                alt="Landing Image"
+                                                className="w-full h-auto"
+                                            />
+                                            <div
+                                                onClick={() => {
+                                                    setUploadTarget("landing");
+                                                    onOpen();
+                                                }}
+                                                className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                                <div className="my-auto font-bold text-white text-4xl">
+                                                    Change
+                                                </div>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div className="flex justify-center">
+                                            <CircularProgress
+                                                aria-label="Loading Landing Image"
+                                                classNames={{
+                                                    svg: "w-36 h-36 ",
+                                                    indicator:
+                                                        "stroke-green-500",
+                                                    track: "stroke-neutral-400/50",
+                                                    value: "text-3xl font-semibold text-white",
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            ) : currentLandingImage === "" ? (
+                                <div className="relative mx-auto mb-8 w-1/2">
+                                    <div className="flex justify-center">
                                         <div
                                             onClick={() => {
                                                 setUploadTarget("landing");
                                                 onOpen();
                                             }}
-                                            className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
-                                            <div className="my-auto font-bold text-white text-4xl">
-                                                Change
-                                            </div>
+                                            className="cursor-pointer font-bold text-4xl">
+                                            Add Image
                                         </div>
-                                    </>
-                                ) : (
-                                    <div className="flex justify-center">
-                                        <CircularProgress
-                                            aria-label="Loading Landing Image"
-                                            classNames={{
-                                                svg: "w-36 h-36 ",
-                                                indicator: "stroke-green-500",
-                                                track: "stroke-neutral-400/50",
-                                                value: "text-3xl font-semibold text-white",
-                                            }}
-                                        />
                                     </div>
-                                )}
-                            </div>
-                        ) : currentLandingImage === "" ? (
-                            <div className="relative mx-auto mb-8 w-1/2">
-                                <div className="flex justify-center">
+                                </div>
+                            ) : (
+                                <div className="relative mx-auto mb-8 w-1/2">
+                                    <Image
+                                        src={
+                                            process.env
+                                                .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                            currentLandingImage
+                                        }
+                                        height={500}
+                                        width={500}
+                                        alt="Landing Image"
+                                        className="w-full h-auto"
+                                    />
                                     <div
                                         onClick={() => {
                                             setUploadTarget("landing");
                                             onOpen();
                                         }}
-                                        className="cursor-pointer font-bold text-4xl">
-                                        Add Image
+                                        className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                        <div className="my-auto font-bold text-white text-4xl">
+                                            Change
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ) : (
-                            <div className="relative mx-auto mb-8 w-1/2">
-                                <Image
-                                    src={
-                                        process.env.NEXT_PUBLIC_BASE_IMAGE_URL +
-                                        currentLandingImage
-                                    }
-                                    height={500}
-                                    width={500}
-                                    alt="Landing Image"
-                                    className="w-full h-auto"
-                                />
-                                <div
-                                    onClick={() => {
-                                        setUploadTarget("landing");
-                                        onOpen();
-                                    }}
-                                    className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
-                                    <div className="my-auto font-bold text-white text-4xl">
-                                        Change
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <label className="font-bold" htmlFor="title">
-                        Title
-                    </label>
-                    <input
-                        type="text"
-                        {...landingRegister("title", {
-                            required: {
-                                value: true,
-                                message: "Title is required.",
-                            },
-                        })}
-                        placeholder={
-                            landingErrors.title
-                                ? landingErrors.title.message
-                                : "Title"
-                        }
-                        className={
-                            landingErrors.title
-                                ? "placeholder:text-red-400"
-                                : ""
-                        }
-                    />
-                    <label className="font-bold" htmlFor="title">
-                        Tech{" "}
-                        <span className="text-sm font-light">
-                            (Click to remove)
-                        </span>
-                    </label>
-                    <div className="flex flex-wrap gap-2 my-4">
-                        {techFields.map((field, index) => {
-                            return (
-                                <Chip
-                                    onClick={() => {
-                                        techRemove(index);
-                                    }}
-                                    classNames={{
-                                        base: "bg-green-500 cursor-pointer",
-                                    }}
-                                    key={field.id}>
-                                    {field.name}
-                                </Chip>
-                            );
-                        })}
-                    </div>
-
-                    <label className="font-bold" htmlFor="newTech">
-                        Add New
-                    </label>
-                    <div>
+                            )}
+                        </div>
+                        <label className="font-bold" htmlFor="title">
+                            Title
+                        </label>
                         <input
-                            value={newTech}
-                            onChange={(e) => setNewTech(e.target.value)}
-                            name="newTech"
                             type="text"
-                            className="!w-1/2"
+                            {...landingRegister("title", {
+                                required: {
+                                    value: true,
+                                    message: "Title is required.",
+                                },
+                            })}
+                            placeholder={
+                                landingErrors.title
+                                    ? landingErrors.title.message
+                                    : "Title"
+                            }
+                            className={
+                                landingErrors.title
+                                    ? "placeholder:text-red-400"
+                                    : ""
+                            }
                         />
-                        <Button
-                            isDisabled={newTech === ""}
-                            onClick={() => {
-                                techAppend({
-                                    name: newTech,
-                                    landingId: "landing",
-                                    order: techFields.length,
-                                });
-                                setNewTech("");
+                        <label className="font-bold" htmlFor="title">
+                            Tech{" "}
+                            <span className="text-sm font-light">
+                                (Click to remove)
+                            </span>
+                        </label>
+                        <div className="flex flex-wrap gap-2 my-4">
+                            {techFields.map((field, index) => {
+                                return (
+                                    <Chip
+                                        onClick={() => {
+                                            techRemove(index);
+                                        }}
+                                        classNames={{
+                                            base: "bg-green-500 cursor-pointer",
+                                        }}
+                                        key={field.id}>
+                                        {field.name}
+                                    </Chip>
+                                );
+                            })}
+                        </div>
+
+                        <label className="font-bold" htmlFor="newTech">
+                            Add New
+                        </label>
+                        <div>
+                            <input
+                                value={newTech}
+                                onChange={(e) => setNewTech(e.target.value)}
+                                name="newTech"
+                                type="text"
+                                className="!w-1/2"
+                            />
+                            <Button
+                                isDisabled={newTech === ""}
+                                onClick={() => {
+                                    techAppend({
+                                        name: newTech,
+                                        landingId: "landing",
+                                        order: techFields.length,
+                                    });
+                                    setNewTech("");
+                                }}
+                                className="bg-green-500 ms-4">
+                                Add
+                            </Button>
+                        </div>
+                        <label className="font-bold" htmlFor="copy">
+                            Copy
+                        </label>
+                        <textarea
+                            ref={(e) => {
+                                landingRef(e);
+                                landingFormTextArea.current = e;
                             }}
-                            className="bg-green-500 ms-4">
-                            Add
-                        </Button>
+                            placeholder={
+                                landingErrors.copy
+                                    ? landingErrors.copy.message
+                                    : "Copy"
+                            }
+                            className={
+                                landingErrors.copy
+                                    ? "placeholder:text-red-400"
+                                    : ""
+                            }
+                            {...landingRest}
+                        />
+                        <div className="flex justify-end">
+                            <Button type="submit" className="bg-green-500">
+                                Save
+                            </Button>
+                        </div>
+                    </form>
+                </div>
+                <div className="basis-1/2 bg-neutral-100 mx-4 p-4 rounded-lg">
+                    <div className="font-bold text-4xl border-b-2 pb-2">
+                        About
                     </div>
-                    <label className="font-bold" htmlFor="copy">
-                        Copy
-                    </label>
-                    <textarea
-                        ref={(e) => {
-                            landingRef(e);
-                            landingFormTextArea.current = e;
-                        }}
-                        placeholder={
-                            landingErrors.copy
-                                ? landingErrors.copy.message
-                                : "Copy"
-                        }
-                        className={
-                            landingErrors.copy ? "placeholder:text-red-400" : ""
-                        }
-                        {...landingRest}
-                    />
-                    <div className="flex justify-end">
-                        <Button type="submit" className="bg-green-500">
-                            Save
-                        </Button>
-                    </div>
-                </form>
-            </div>
-            <div className="basis-1/2 bg-neutral-100 mx-4 p-4 rounded-lg">
-                <div className="font-bold text-4xl border-b-2 pb-2">About</div>
-                <form
-                    className="mt-10"
-                    onSubmit={aboutHandleSubmit(OnSubmitAbout)}>
-                    <div className="grid grid-cols-2 gap-0 w-2/3 mx-auto">
-                        {props.aboutContent ? (
-                            <div className="relative mx-auto">
-                                {currentAbout1Image !== "" ? (
-                                    <>
-                                        <Image
-                                            src={
-                                                process.env
-                                                    .NEXT_PUBLIC_BASE_IMAGE_URL +
-                                                currentAbout1Image
-                                            }
-                                            height={500}
-                                            width={500}
-                                            alt="About 1 Image"
-                                            className="w-full h-auto"
-                                        />
+                    <form
+                        className="mt-10"
+                        onSubmit={aboutHandleSubmit(OnSubmitAbout)}>
+                        <div className="grid grid-cols-2 gap-0 w-2/3 mx-auto">
+                            {props.aboutContent ? (
+                                <div className="relative mx-auto">
+                                    {currentAbout1Image !== "" ? (
+                                        <>
+                                            <Image
+                                                src={
+                                                    process.env
+                                                        .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                                    currentAbout1Image
+                                                }
+                                                height={500}
+                                                width={500}
+                                                alt="About 1 Image"
+                                                className="w-full h-auto"
+                                            />
+                                            <div
+                                                onClick={() => {
+                                                    setUploadTarget("about1");
+                                                    onOpen();
+                                                }}
+                                                className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                                <div className="my-auto font-bold text-white text-4xl">
+                                                    Change
+                                                </div>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div className="flex justify-center h-full">
+                                            <CircularProgress
+                                                aria-label="Loading Landing Image"
+                                                classNames={{
+                                                    base: "my-auto",
+                                                    svg: "w-36 h-36 ",
+                                                    indicator:
+                                                        "stroke-green-500",
+                                                    track: "stroke-neutral-400/50",
+                                                    value: "text-3xl font-semibold text-white",
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            ) : currentAbout1Image === "" ? (
+                                <div className="relative m-auto">
+                                    <div className="flex justify-center">
                                         <div
                                             onClick={() => {
                                                 setUploadTarget("about1");
                                                 onOpen();
                                             }}
-                                            className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
-                                            <div className="my-auto font-bold text-white text-4xl">
-                                                Change
-                                            </div>
+                                            className="cursor-pointer font-bold text-4xl">
+                                            Add Image
                                         </div>
-                                    </>
-                                ) : (
-                                    <div className="flex justify-center h-full">
-                                        <CircularProgress
-                                            aria-label="Loading Landing Image"
-                                            classNames={{
-                                                base: "my-auto",
-                                                svg: "w-36 h-36 ",
-                                                indicator: "stroke-green-500",
-                                                track: "stroke-neutral-400/50",
-                                                value: "text-3xl font-semibold text-white",
-                                            }}
-                                        />
                                     </div>
-                                )}
-                            </div>
-                        ) : currentAbout1Image === "" ? (
-                            <div className="relative m-auto">
-                                <div className="flex justify-center">
+                                </div>
+                            ) : (
+                                <div className="relative mx-auto">
+                                    <Image
+                                        src={
+                                            process.env
+                                                .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                            currentAbout1Image
+                                        }
+                                        height={500}
+                                        width={500}
+                                        alt="Landing Image"
+                                        className="w-full h-auto"
+                                    />
                                     <div
                                         onClick={() => {
                                             setUploadTarget("about1");
                                             onOpen();
                                         }}
-                                        className="cursor-pointer font-bold text-4xl">
-                                        Add Image
+                                        className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                        <div className="my-auto font-bold text-white text-4xl">
+                                            Change
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ) : (
-                            <div className="relative mx-auto">
-                                <Image
-                                    src={
-                                        process.env.NEXT_PUBLIC_BASE_IMAGE_URL +
-                                        currentAbout1Image
-                                    }
-                                    height={500}
-                                    width={500}
-                                    alt="Landing Image"
-                                    className="w-full h-auto"
-                                />
-                                <div
-                                    onClick={() => {
-                                        setUploadTarget("about1");
-                                        onOpen();
-                                    }}
-                                    className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
-                                    <div className="my-auto font-bold text-white text-4xl">
-                                        Change
-                                    </div>
+                            )}
+                            {props.aboutContent ? (
+                                <div className="relative mx-auto">
+                                    {currentAbout2Image !== "" ? (
+                                        <>
+                                            <Image
+                                                src={
+                                                    process.env
+                                                        .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                                    currentAbout2Image
+                                                }
+                                                height={500}
+                                                width={500}
+                                                alt="About 1 Image"
+                                                className="w-full h-auto"
+                                            />
+                                            <div
+                                                onClick={() => {
+                                                    setUploadTarget("about2");
+                                                    onOpen();
+                                                }}
+                                                className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                                <div className="my-auto font-bold text-white text-4xl">
+                                                    Change
+                                                </div>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div className="flex justify-center h-full">
+                                            <CircularProgress
+                                                aria-label="Loading Landing Image"
+                                                classNames={{
+                                                    base: "my-auto",
+                                                    svg: "w-36 h-36 ",
+                                                    indicator:
+                                                        "stroke-green-500",
+                                                    track: "stroke-neutral-400/50",
+                                                    value: "text-3xl font-semibold text-white",
+                                                }}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                        )}
-                        {props.aboutContent ? (
-                            <div className="relative mx-auto">
-                                {currentAbout2Image !== "" ? (
-                                    <>
-                                        <Image
-                                            src={
-                                                process.env
-                                                    .NEXT_PUBLIC_BASE_IMAGE_URL +
-                                                currentAbout2Image
-                                            }
-                                            height={500}
-                                            width={500}
-                                            alt="About 1 Image"
-                                            className="w-full h-auto"
-                                        />
+                            ) : currentAbout2Image === "" ? (
+                                <div className="relative m-auto">
+                                    <div className="flex justify-center">
                                         <div
                                             onClick={() => {
                                                 setUploadTarget("about2");
                                                 onOpen();
                                             }}
-                                            className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
-                                            <div className="my-auto font-bold text-white text-4xl">
-                                                Change
-                                            </div>
+                                            className="cursor-pointer font-bold text-4xl">
+                                            Add Image
                                         </div>
-                                    </>
-                                ) : (
-                                    <div className="flex justify-center h-full">
-                                        <CircularProgress
-                                            aria-label="Loading Landing Image"
-                                            classNames={{
-                                                base: "my-auto",
-                                                svg: "w-36 h-36 ",
-                                                indicator: "stroke-green-500",
-                                                track: "stroke-neutral-400/50",
-                                                value: "text-3xl font-semibold text-white",
-                                            }}
-                                        />
                                     </div>
-                                )}
-                            </div>
-                        ) : currentAbout2Image === "" ? (
-                            <div className="relative m-auto">
-                                <div className="flex justify-center">
+                                </div>
+                            ) : (
+                                <div className="relative mx-auto">
+                                    <Image
+                                        src={
+                                            process.env
+                                                .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                            currentAbout2Image
+                                        }
+                                        height={500}
+                                        width={500}
+                                        alt="Landing Image"
+                                        className="w-full h-auto"
+                                    />
                                     <div
                                         onClick={() => {
                                             setUploadTarget("about2");
                                             onOpen();
                                         }}
-                                        className="cursor-pointer font-bold text-4xl">
-                                        Add Image
+                                        className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                        <div className="my-auto font-bold text-white text-4xl">
+                                            Change
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ) : (
-                            <div className="relative mx-auto">
-                                <Image
-                                    src={
-                                        process.env.NEXT_PUBLIC_BASE_IMAGE_URL +
-                                        currentAbout2Image
-                                    }
-                                    height={500}
-                                    width={500}
-                                    alt="Landing Image"
-                                    className="w-full h-auto"
-                                />
-                                <div
-                                    onClick={() => {
-                                        setUploadTarget("about2");
-                                        onOpen();
-                                    }}
-                                    className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
-                                    <div className="my-auto font-bold text-white text-4xl">
-                                        Change
-                                    </div>
+                            )}
+                            {props.aboutContent ? (
+                                <div className="relative mx-auto">
+                                    {currentAbout3Image !== "" ? (
+                                        <>
+                                            <Image
+                                                src={
+                                                    process.env
+                                                        .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                                    currentAbout3Image
+                                                }
+                                                height={500}
+                                                width={500}
+                                                alt="About 1 Image"
+                                                className="w-full h-auto"
+                                            />
+                                            <div
+                                                onClick={() => {
+                                                    setUploadTarget("about3");
+                                                    onOpen();
+                                                }}
+                                                className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                                <div className="my-auto font-bold text-white text-4xl">
+                                                    Change
+                                                </div>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div className="flex justify-center h-full">
+                                            <CircularProgress
+                                                aria-label="Loading Landing Image"
+                                                classNames={{
+                                                    base: "my-auto",
+                                                    svg: "w-36 h-36 ",
+                                                    indicator:
+                                                        "stroke-green-500",
+                                                    track: "stroke-neutral-400/50",
+                                                    value: "text-3xl font-semibold text-white",
+                                                }}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                        )}
-                        {props.aboutContent ? (
-                            <div className="relative mx-auto">
-                                {currentAbout3Image !== "" ? (
-                                    <>
-                                        <Image
-                                            src={
-                                                process.env
-                                                    .NEXT_PUBLIC_BASE_IMAGE_URL +
-                                                currentAbout3Image
-                                            }
-                                            height={500}
-                                            width={500}
-                                            alt="About 1 Image"
-                                            className="w-full h-auto"
-                                        />
+                            ) : currentAbout3Image === "" ? (
+                                <div className="relative m-auto">
+                                    <div className="flex justify-center">
                                         <div
                                             onClick={() => {
                                                 setUploadTarget("about3");
                                                 onOpen();
                                             }}
-                                            className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
-                                            <div className="my-auto font-bold text-white text-4xl">
-                                                Change
-                                            </div>
+                                            className="cursor-pointer font-bold text-4xl">
+                                            Add Image
                                         </div>
-                                    </>
-                                ) : (
-                                    <div className="flex justify-center h-full">
-                                        <CircularProgress
-                                            aria-label="Loading Landing Image"
-                                            classNames={{
-                                                base: "my-auto",
-                                                svg: "w-36 h-36 ",
-                                                indicator: "stroke-green-500",
-                                                track: "stroke-neutral-400/50",
-                                                value: "text-3xl font-semibold text-white",
-                                            }}
-                                        />
                                     </div>
-                                )}
-                            </div>
-                        ) : currentAbout3Image === "" ? (
-                            <div className="relative m-auto">
-                                <div className="flex justify-center">
+                                </div>
+                            ) : (
+                                <div className="relative mx-auto">
+                                    <Image
+                                        src={
+                                            process.env
+                                                .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                            currentAbout3Image
+                                        }
+                                        height={500}
+                                        width={500}
+                                        alt="Landing Image"
+                                        className="w-full h-auto"
+                                    />
                                     <div
                                         onClick={() => {
                                             setUploadTarget("about3");
                                             onOpen();
                                         }}
-                                        className="cursor-pointer font-bold text-4xl">
-                                        Add Image
+                                        className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                        <div className="my-auto font-bold text-white text-4xl">
+                                            Change
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ) : (
-                            <div className="relative mx-auto">
-                                <Image
-                                    src={
-                                        process.env.NEXT_PUBLIC_BASE_IMAGE_URL +
-                                        currentAbout3Image
-                                    }
-                                    height={500}
-                                    width={500}
-                                    alt="Landing Image"
-                                    className="w-full h-auto"
-                                />
-                                <div
-                                    onClick={() => {
-                                        setUploadTarget("about3");
-                                        onOpen();
-                                    }}
-                                    className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
-                                    <div className="my-auto font-bold text-white text-4xl">
-                                        Change
-                                    </div>
+                            )}
+                            {props.aboutContent ? (
+                                <div className="relative mx-auto">
+                                    {currentAbout4Image !== "" ? (
+                                        <>
+                                            <Image
+                                                src={
+                                                    process.env
+                                                        .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                                    currentAbout4Image
+                                                }
+                                                height={500}
+                                                width={500}
+                                                alt="About 1 Image"
+                                                className="w-full h-auto"
+                                            />
+                                            <div
+                                                onClick={() => {
+                                                    setUploadTarget("about4");
+                                                    onOpen();
+                                                }}
+                                                className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                                <div className="my-auto font-bold text-white text-4xl">
+                                                    Change
+                                                </div>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div className="flex justify-center h-full">
+                                            <CircularProgress
+                                                aria-label="Loading Landing Image"
+                                                classNames={{
+                                                    base: "my-auto",
+                                                    svg: "w-36 h-36 ",
+                                                    indicator:
+                                                        "stroke-green-500",
+                                                    track: "stroke-neutral-400/50",
+                                                    value: "text-3xl font-semibold text-white",
+                                                }}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                        )}
-                        {props.aboutContent ? (
-                            <div className="relative mx-auto">
-                                {currentAbout4Image !== "" ? (
-                                    <>
-                                        <Image
-                                            src={
-                                                process.env
-                                                    .NEXT_PUBLIC_BASE_IMAGE_URL +
-                                                currentAbout4Image
-                                            }
-                                            height={500}
-                                            width={500}
-                                            alt="About 1 Image"
-                                            className="w-full h-auto"
-                                        />
+                            ) : currentAbout4Image === "" ? (
+                                <div className="relative m-auto">
+                                    <div className="flex justify-center">
                                         <div
                                             onClick={() => {
                                                 setUploadTarget("about4");
                                                 onOpen();
                                             }}
-                                            className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
-                                            <div className="my-auto font-bold text-white text-4xl">
-                                                Change
-                                            </div>
+                                            className="cursor-pointer font-bold text-4xl">
+                                            Add Image
                                         </div>
-                                    </>
-                                ) : (
-                                    <div className="flex justify-center h-full">
-                                        <CircularProgress
-                                            aria-label="Loading Landing Image"
-                                            classNames={{
-                                                base: "my-auto",
-                                                svg: "w-36 h-36 ",
-                                                indicator: "stroke-green-500",
-                                                track: "stroke-neutral-400/50",
-                                                value: "text-3xl font-semibold text-white",
-                                            }}
-                                        />
                                     </div>
-                                )}
-                            </div>
-                        ) : currentAbout4Image === "" ? (
-                            <div className="relative m-auto">
-                                <div className="flex justify-center">
+                                </div>
+                            ) : (
+                                <div className="relative mx-auto">
+                                    <Image
+                                        src={
+                                            process.env
+                                                .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                            currentAbout4Image
+                                        }
+                                        height={500}
+                                        width={500}
+                                        alt="Landing Image"
+                                        className="w-full h-auto"
+                                    />
                                     <div
                                         onClick={() => {
                                             setUploadTarget("about4");
                                             onOpen();
                                         }}
-                                        className="cursor-pointer font-bold text-4xl">
-                                        Add Image
+                                        className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
+                                        <div className="my-auto font-bold text-white text-4xl">
+                                            Change
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ) : (
-                            <div className="relative mx-auto">
-                                <Image
-                                    src={
-                                        process.env.NEXT_PUBLIC_BASE_IMAGE_URL +
-                                        currentAbout4Image
+                            )}
+                        </div>
+                        <label className="font-bold" htmlFor="title1">
+                            Image Titles
+                        </label>
+                        <div className="grid grid-cols-2">
+                            <div>
+                                <input
+                                    type="text"
+                                    {...aboutRegister("title1", {
+                                        required: {
+                                            value: true,
+                                            message: "Title is required.",
+                                        },
+                                    })}
+                                    placeholder={
+                                        aboutErrors.title1
+                                            ? aboutErrors.title1.message
+                                            : "Title"
                                     }
-                                    height={500}
-                                    width={500}
-                                    alt="Landing Image"
-                                    className="w-full h-auto"
+                                    className={
+                                        aboutErrors.title1
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
                                 />
-                                <div
-                                    onClick={() => {
-                                        setUploadTarget("about4");
-                                        onOpen();
-                                    }}
-                                    className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center">
-                                    <div className="my-auto font-bold text-white text-4xl">
-                                        Change
-                                    </div>
-                                </div>
                             </div>
-                        )}
-                    </div>
-                    <label className="font-bold" htmlFor="title1">
-                        Image Titles
-                    </label>
-                    <div className="grid grid-cols-2">
-                        <div>
-                            <input
-                                type="text"
-                                {...aboutRegister("title1", {
-                                    required: {
-                                        value: true,
-                                        message: "Title is required.",
-                                    },
-                                })}
-                                placeholder={
-                                    aboutErrors.title1
-                                        ? aboutErrors.title1.message
-                                        : "Title"
-                                }
-                                className={
-                                    aboutErrors.title1
-                                        ? "placeholder:text-red-400"
-                                        : ""
-                                }
-                            />
+                            <div>
+                                <input
+                                    type="text"
+                                    {...aboutRegister("title2", {
+                                        required: {
+                                            value: true,
+                                            message: "Title is required.",
+                                        },
+                                    })}
+                                    placeholder={
+                                        aboutErrors.title2
+                                            ? aboutErrors.title2.message
+                                            : "Title"
+                                    }
+                                    className={
+                                        aboutErrors.title2
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <input
+                                    type="text"
+                                    {...aboutRegister("title3", {
+                                        required: {
+                                            value: true,
+                                            message: "Title is required.",
+                                        },
+                                    })}
+                                    placeholder={
+                                        aboutErrors.title3
+                                            ? aboutErrors.title3.message
+                                            : "Title"
+                                    }
+                                    className={
+                                        aboutErrors.title3
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <input
+                                    type="text"
+                                    {...aboutRegister("title4", {
+                                        required: {
+                                            value: true,
+                                            message: "Title is required.",
+                                        },
+                                    })}
+                                    placeholder={
+                                        aboutErrors.title4
+                                            ? aboutErrors.title4.message
+                                            : "Title"
+                                    }
+                                    className={
+                                        aboutErrors.title4
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <input
-                                type="text"
-                                {...aboutRegister("title2", {
-                                    required: {
-                                        value: true,
-                                        message: "Title is required.",
-                                    },
-                                })}
-                                placeholder={
-                                    aboutErrors.title2
-                                        ? aboutErrors.title2.message
-                                        : "Title"
-                                }
-                                className={
-                                    aboutErrors.title2
-                                        ? "placeholder:text-red-400"
-                                        : ""
-                                }
-                            />
+                        <label className="font-bold" htmlFor="title">
+                            Title
+                        </label>
+                        <input
+                            type="text"
+                            {...aboutRegister("title", {
+                                required: {
+                                    value: true,
+                                    message: "Title is required.",
+                                },
+                            })}
+                            placeholder={
+                                aboutErrors.title
+                                    ? aboutErrors.title.message
+                                    : "Title"
+                            }
+                            className={
+                                aboutErrors.title
+                                    ? "placeholder:text-red-400"
+                                    : ""
+                            }
+                        />
+                        <div className="flex justify-between gap-8">
+                            <div className="w-1/2">
+                                <label className="font-bold" htmlFor="title">
+                                    Text 1
+                                </label>
+                                <input
+                                    type="text"
+                                    {...aboutRegister("text1", {
+                                        required: {
+                                            value: true,
+                                            message: "Text is required.",
+                                        },
+                                    })}
+                                    placeholder={
+                                        aboutErrors.text1
+                                            ? aboutErrors.text1.message
+                                            : "Text 1"
+                                    }
+                                    className={
+                                        aboutErrors.text1
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                />
+                            </div>
+                            <div className="w-1/2">
+                                <label className="font-bold" htmlFor="title">
+                                    Text 2
+                                </label>
+                                <input
+                                    type="text"
+                                    {...aboutRegister("text2", {
+                                        required: {
+                                            value: true,
+                                            message: "Text is required.",
+                                        },
+                                    })}
+                                    placeholder={
+                                        aboutErrors.text2
+                                            ? aboutErrors.text2.message
+                                            : "Text 2"
+                                    }
+                                    className={
+                                        aboutErrors.text2
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <input
-                                type="text"
-                                {...aboutRegister("title3", {
-                                    required: {
-                                        value: true,
-                                        message: "Title is required.",
-                                    },
-                                })}
-                                placeholder={
-                                    aboutErrors.title3
-                                        ? aboutErrors.title3.message
-                                        : "Title"
-                                }
-                                className={
-                                    aboutErrors.title3
-                                        ? "placeholder:text-red-400"
-                                        : ""
-                                }
-                            />
+                        <label className="font-bold" htmlFor="copy">
+                            Copy
+                        </label>
+                        <textarea
+                            ref={(e) => {
+                                aboutRef(e);
+                                aboutFormTextArea.current = e;
+                            }}
+                            placeholder={
+                                aboutErrors.copy
+                                    ? aboutErrors.copy.message
+                                    : "Copy"
+                            }
+                            className={
+                                aboutErrors.copy
+                                    ? "placeholder:text-red-400"
+                                    : ""
+                            }
+                            {...aboutRest}
+                        />
+                        <div className="flex justify-end">
+                            <Button type="submit" className="bg-green-500">
+                                Save
+                            </Button>
                         </div>
-                        <div>
-                            <input
-                                type="text"
-                                {...aboutRegister("title4", {
-                                    required: {
-                                        value: true,
-                                        message: "Title is required.",
-                                    },
-                                })}
-                                placeholder={
-                                    aboutErrors.title4
-                                        ? aboutErrors.title4.message
-                                        : "Title"
-                                }
-                                className={
-                                    aboutErrors.title4
-                                        ? "placeholder:text-red-400"
-                                        : ""
-                                }
-                            />
-                        </div>
-                    </div>
-                    <label className="font-bold" htmlFor="title">
-                        Title
-                    </label>
-                    <input
-                        type="text"
-                        {...aboutRegister("title", {
-                            required: {
-                                value: true,
-                                message: "Title is required.",
-                            },
-                        })}
-                        placeholder={
-                            aboutErrors.title
-                                ? aboutErrors.title.message
-                                : "Title"
-                        }
-                        className={
-                            aboutErrors.title ? "placeholder:text-red-400" : ""
-                        }
-                    />
-                    <div className="flex justify-between gap-8">
-                        <div className="w-1/2">
-                            <label className="font-bold" htmlFor="title">
-                                Text 1
-                            </label>
-                            <input
-                                type="text"
-                                {...aboutRegister("text1", {
-                                    required: {
-                                        value: true,
-                                        message: "Text is required.",
-                                    },
-                                })}
-                                placeholder={
-                                    aboutErrors.text1
-                                        ? aboutErrors.text1.message
-                                        : "Text 1"
-                                }
-                                className={
-                                    aboutErrors.text1
-                                        ? "placeholder:text-red-400"
-                                        : ""
-                                }
-                            />
-                        </div>
-                        <div className="w-1/2">
-                            <label className="font-bold" htmlFor="title">
-                                Text 2
-                            </label>
-                            <input
-                                type="text"
-                                {...aboutRegister("text2", {
-                                    required: {
-                                        value: true,
-                                        message: "Text is required.",
-                                    },
-                                })}
-                                placeholder={
-                                    aboutErrors.text2
-                                        ? aboutErrors.text2.message
-                                        : "Text 2"
-                                }
-                                className={
-                                    aboutErrors.text2
-                                        ? "placeholder:text-red-400"
-                                        : ""
-                                }
-                            />
-                        </div>
-                    </div>
-                    <label className="font-bold" htmlFor="copy">
-                        Copy
-                    </label>
-                    <textarea
-                        ref={(e) => {
-                            aboutRef(e);
-                            aboutFormTextArea.current = e;
-                        }}
-                        placeholder={
-                            aboutErrors.copy ? aboutErrors.copy.message : "Copy"
-                        }
-                        className={
-                            aboutErrors.copy ? "placeholder:text-red-400" : ""
-                        }
-                        {...aboutRest}
-                    />
-                    <div className="flex justify-end">
-                        <Button type="submit" className="bg-green-500">
-                            Save
-                        </Button>
-                    </div>
-                </form>
-            </div>
-            <Modal
-                scrollBehavior="outside"
-                backdrop="blur"
-                size={uploadForm ? "xl" : "5xl"}
-                isOpen={isOpen}
-                onOpenChange={onOpenChange}>
-                <ModalContent>
-                    {(onClose) => (
-                        <>
-                            <ModalHeader className="flex text-4xl text-center flex-col gap-1">
-                                {uploadForm ? "Upload Image" : "Select Image"}
-                            </ModalHeader>
-                            <ModalBody>
-                                {uploadForm ? (
-                                    <div>
-                                        {uploading ? (
-                                            <div className="flex justify-center">
-                                                <CircularProgress
-                                                    aria-label="Uploading"
-                                                    value={uploadProgress}
-                                                    classNames={{
-                                                        svg: "w-36 h-36 ",
-                                                        indicator:
-                                                            "stroke-green-500",
-                                                        track: "stroke-neutral-400/50",
-                                                        value: "text-3xl font-semibold text-white",
-                                                    }}
-                                                />
-                                            </div>
-                                        ) : (
-                                            <div className="flex items-center justify-center w-full">
-                                                <label
-                                                    id="drop_zone"
-                                                    onDrop={(e) => {
-                                                        e.preventDefault();
-                                                        dropHandler(e);
-                                                    }}
-                                                    onDragOver={(e) => {
-                                                        e.preventDefault();
-                                                    }}
-                                                    htmlFor="dropzone-file"
-                                                    className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                                                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                                        {imageToUpload ===
-                                                        null ? (
-                                                            <>
-                                                                <svg
-                                                                    className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                                                                    aria-hidden="true"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    fill="none"
-                                                                    viewBox="0 0 20 16">
-                                                                    <path
-                                                                        stroke="currentColor"
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        strokeWidth="2"
-                                                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                                                                    />
-                                                                </svg>
+                    </form>
+                </div>
+                <Modal
+                    scrollBehavior="outside"
+                    backdrop="blur"
+                    size={uploadForm ? "xl" : "5xl"}
+                    isOpen={isOpen}
+                    onOpenChange={onOpenChange}>
+                    <ModalContent>
+                        {(onClose) => (
+                            <>
+                                <ModalHeader className="flex text-4xl text-center flex-col gap-1">
+                                    {uploadForm
+                                        ? "Upload Image"
+                                        : "Select Image"}
+                                </ModalHeader>
+                                <ModalBody>
+                                    {uploadForm ? (
+                                        <div>
+                                            {uploading ? (
+                                                <div className="flex justify-center">
+                                                    <CircularProgress
+                                                        aria-label="Uploading"
+                                                        value={uploadProgress}
+                                                        classNames={{
+                                                            svg: "w-36 h-36 ",
+                                                            indicator:
+                                                                "stroke-green-500",
+                                                            track: "stroke-neutral-400/50",
+                                                            value: "text-3xl font-semibold text-white",
+                                                        }}
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <div className="flex items-center justify-center w-full">
+                                                    <label
+                                                        id="drop_zone"
+                                                        onDrop={(e) => {
+                                                            e.preventDefault();
+                                                            dropHandler(e);
+                                                        }}
+                                                        onDragOver={(e) => {
+                                                            e.preventDefault();
+                                                        }}
+                                                        htmlFor="dropzone-file"
+                                                        className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                            {imageToUpload ===
+                                                            null ? (
+                                                                <>
+                                                                    <svg
+                                                                        className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                                                        aria-hidden="true"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="none"
+                                                                        viewBox="0 0 20 16">
+                                                                        <path
+                                                                            stroke="currentColor"
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                            strokeWidth="2"
+                                                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                                        />
+                                                                    </svg>
+                                                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                                        <span className="font-semibold">
+                                                                            Click
+                                                                            to
+                                                                            upload
+                                                                        </span>{" "}
+                                                                        or drag
+                                                                        and drop
+                                                                    </p>
+                                                                </>
+                                                            ) : (
                                                                 <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                                                                     <span className="font-semibold">
-                                                                        Click to
-                                                                        upload
-                                                                    </span>{" "}
-                                                                    or drag and
-                                                                    drop
+                                                                        {
+                                                                            imageToUpload?.name
+                                                                        }
+                                                                    </span>
                                                                 </p>
-                                                            </>
-                                                        ) : (
-                                                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                                                <span className="font-semibold">
-                                                                    {
-                                                                        imageToUpload?.name
-                                                                    }
-                                                                </span>
-                                                            </p>
-                                                        )}
-                                                    </div>
-                                                    <input
-                                                        onChange={(e) => {
-                                                            if (
-                                                                e.target.files
-                                                            ) {
-                                                                setImageToUpload(
+                                                            )}
+                                                        </div>
+                                                        <input
+                                                            onChange={(e) => {
+                                                                if (
                                                                     e.target
-                                                                        .files[0]
-                                                                );
-                                                            }
-                                                        }}
-                                                        id="dropzone-file"
-                                                        name="dropzone-file"
-                                                        type="file"
-                                                        className="hidden"
-                                                    />
-                                                </label>
-                                            </div>
-                                        )}
-                                    </div>
-                                ) : (
-                                    <div className="grid xl:grid-cols-4 grid-cols-2 gap-4 ">
-                                        {props.images.map(
-                                            (image: Images, index: number) => {
-                                                return (
-                                                    <div
-                                                        className="relative bg-neutral-200 p-4 shadow"
-                                                        key={image.url}>
-                                                        <Image
-                                                            src={
-                                                                process.env
-                                                                    .NEXT_PUBLIC_BASE_IMAGE_URL +
-                                                                image.url
-                                                            }
-                                                            alt={image.url}
-                                                            width={400}
-                                                            height={400}
-                                                            className="w-full h-auto"
-                                                        />
-                                                        <div
-                                                            onClick={(e) => {
-                                                                switch (
-                                                                    uploadTarget
+                                                                        .files
                                                                 ) {
-                                                                    case "landing":
-                                                                        landingSetValue(
-                                                                            "imageUrl",
-                                                                            image.url
-                                                                        );
-                                                                        setCurrentLandingImage(
-                                                                            image.url
-                                                                        );
-                                                                        onClose();
-                                                                        return;
-                                                                    case "about1":
-                                                                        aboutSetValue(
-                                                                            "image1Url",
-                                                                            image.url
-                                                                        );
-                                                                        setCurrentAbout1Image(
-                                                                            image.url
-                                                                        );
-                                                                        onClose();
-                                                                        return;
-                                                                    case "about2":
-                                                                        aboutSetValue(
-                                                                            "image2Url",
-                                                                            image.url
-                                                                        );
-                                                                        setCurrentAbout2Image(
-                                                                            image.url
-                                                                        );
-                                                                        onClose();
-                                                                        return;
-                                                                    case "about3":
-                                                                        aboutSetValue(
-                                                                            "image3Url",
-                                                                            image.url
-                                                                        );
-                                                                        setCurrentAbout3Image(
-                                                                            image.url
-                                                                        );
-                                                                        onClose();
-                                                                        return;
-                                                                    case "about4":
-                                                                        aboutSetValue(
-                                                                            "image4Url",
-                                                                            image.url
-                                                                        );
-                                                                        setCurrentAbout4Image(
-                                                                            image.url
-                                                                        );
-                                                                        onClose();
-                                                                        return;
+                                                                    setImageToUpload(
+                                                                        e.target
+                                                                            .files[0]
+                                                                    );
                                                                 }
                                                             }}
-                                                            className="absolute cursor-pointer flex justify-center opacity-0 hover:opacity-100 top-0 left-0 w-full h-full bg-neutral-400 bg-opacity-75 transition-all duration-300">
-                                                            <div className="my-auto font-bold text-white text-4xl">
-                                                                Select
+                                                            id="dropzone-file"
+                                                            name="dropzone-file"
+                                                            type="file"
+                                                            className="hidden"
+                                                        />
+                                                    </label>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <div className="grid xl:grid-cols-4 grid-cols-2 gap-4 ">
+                                            {props.images.map(
+                                                (
+                                                    image: Images,
+                                                    index: number
+                                                ) => {
+                                                    return (
+                                                        <div
+                                                            className="relative bg-neutral-200 p-4 shadow"
+                                                            key={image.url}>
+                                                            <Image
+                                                                src={
+                                                                    process.env
+                                                                        .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                                                    image.url
+                                                                }
+                                                                alt={image.url}
+                                                                width={400}
+                                                                height={400}
+                                                                className="w-full h-auto"
+                                                            />
+                                                            <div
+                                                                onClick={(
+                                                                    e
+                                                                ) => {
+                                                                    switch (
+                                                                        uploadTarget
+                                                                    ) {
+                                                                        case "landing":
+                                                                            landingSetValue(
+                                                                                "imageUrl",
+                                                                                image.url
+                                                                            );
+                                                                            setCurrentLandingImage(
+                                                                                image.url
+                                                                            );
+                                                                            onClose();
+                                                                            return;
+                                                                        case "about1":
+                                                                            aboutSetValue(
+                                                                                "image1Url",
+                                                                                image.url
+                                                                            );
+                                                                            setCurrentAbout1Image(
+                                                                                image.url
+                                                                            );
+                                                                            onClose();
+                                                                            return;
+                                                                        case "about2":
+                                                                            aboutSetValue(
+                                                                                "image2Url",
+                                                                                image.url
+                                                                            );
+                                                                            setCurrentAbout2Image(
+                                                                                image.url
+                                                                            );
+                                                                            onClose();
+                                                                            return;
+                                                                        case "about3":
+                                                                            aboutSetValue(
+                                                                                "image3Url",
+                                                                                image.url
+                                                                            );
+                                                                            setCurrentAbout3Image(
+                                                                                image.url
+                                                                            );
+                                                                            onClose();
+                                                                            return;
+                                                                        case "about4":
+                                                                            aboutSetValue(
+                                                                                "image4Url",
+                                                                                image.url
+                                                                            );
+                                                                            setCurrentAbout4Image(
+                                                                                image.url
+                                                                            );
+                                                                            onClose();
+                                                                            return;
+                                                                    }
+                                                                }}
+                                                                className="absolute cursor-pointer flex justify-center opacity-0 hover:opacity-100 top-0 left-0 w-full h-full bg-neutral-400 bg-opacity-75 transition-all duration-300">
+                                                                <div className="my-auto font-bold text-white text-4xl">
+                                                                    Select
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                );
-                                            }
-                                        )}
-                                    </div>
-                                )}
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button
-                                    color="danger"
-                                    variant="light"
-                                    onPress={() => {
-                                        setImageToUpload(null);
-                                        setUploading(false);
-                                        setUploadTarget("");
-                                        setUploadForm(
-                                            props.images.length > 0
-                                                ? false
-                                                : true
-                                        );
-                                        onClose();
-                                    }}>
-                                    Close
-                                </Button>
-                                <Button
-                                    className="bg-green-500"
-                                    isDisabled={
-                                        imageToUpload === null && uploadForm
-                                            ? true
-                                            : false
-                                    }
-                                    onPress={() => {
-                                        if (uploadForm) {
-                                            if (imageToUpload !== null) {
-                                                uploadImage(imageToUpload);
-                                            }
-                                        } else {
-                                            setUploadForm(true);
+                                                    );
+                                                }
+                                            )}
+                                        </div>
+                                    )}
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button
+                                        color="danger"
+                                        variant="light"
+                                        onPress={() => {
+                                            setImageToUpload(null);
+                                            setUploading(false);
+                                            setUploadTarget("");
+                                            setUploadForm(
+                                                props.images.length > 0
+                                                    ? false
+                                                    : true
+                                            );
+                                            onClose();
+                                        }}>
+                                        Close
+                                    </Button>
+                                    <Button
+                                        className="bg-green-500"
+                                        isDisabled={
+                                            imageToUpload === null && uploadForm
+                                                ? true
+                                                : false
                                         }
-                                    }}>
-                                    {uploadForm ? "Upload" : "Switch to Upload"}
-                                </Button>
-                            </ModalFooter>
-                        </>
-                    )}
-                </ModalContent>
-            </Modal>
-        </div>
+                                        onPress={() => {
+                                            if (uploadForm) {
+                                                if (imageToUpload !== null) {
+                                                    uploadImage(imageToUpload);
+                                                }
+                                            } else {
+                                                setUploadForm(true);
+                                            }
+                                        }}>
+                                        {uploadForm
+                                            ? "Upload"
+                                            : "Switch to Upload"}
+                                    </Button>
+                                </ModalFooter>
+                            </>
+                        )}
+                    </ModalContent>
+                </Modal>
+            </div>
+        </>
     );
 }

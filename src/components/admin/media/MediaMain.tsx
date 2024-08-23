@@ -100,7 +100,7 @@ export default function MediaMain(props: { images: Images[] }) {
 
     return (
         <div>
-            <div className="font-bold text-6xl mb-6 pb-4 text-center border-b-2">
+            <div className="font-bold text-6xl mb-6 pb-4 text-center xl:text-start border-b-2">
                 Media.
             </div>
             <Button onClick={onOpenUpload} className="bg-green-500">
