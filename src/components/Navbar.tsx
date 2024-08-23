@@ -13,6 +13,14 @@ export default function NavbarComp() {
         setIsNavOpen(false);
     }, [pathname]);
 
+    useEffect(() => {
+        if (isNavOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    }, [isNavOpen]);
+
     return (
         <>
             <nav className="absolute top-0 left-0 z-20 w-full flex justify-between px-4 py-3 xl:px-20 xl:py-4 bg-neutral-100 shadow">

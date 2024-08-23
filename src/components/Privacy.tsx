@@ -10,12 +10,12 @@ export default function Privacy() {
     return (
         <article className="fade-in min-h-screen flex flex-col xl:w-[75dvw] w-[90dvw] mx-auto">
             <div className="">
-                <div className="xl:flex justify-center px-20">
-                    <h2 className="text-6xl font-bold text-center mt-10 xl:mb-5 xl:mt-0">
+                <div className="xl:flex justify-center xl:px-20">
+                    <h2 className="xl:text-6xl text-5xl font-bold text-center mt-10 mb-5 xl:mt-0">
                         Your Privacy is Important.
                     </h2>
                 </div>
-                <div className="px-20 mb-10">
+                <div className="xl:px-20 mb-10">
                     <div className="strong text-3xl text-green-500">
                         Privacy Policy
                     </div>
@@ -50,7 +50,7 @@ export default function Privacy() {
                         Definitions
                     </div>
                     <p>For the purposes of this Privacy Policy:</p>
-                    <ul className="px-10">
+                    <ul className="px-5">
                         <li>
                             <strong className="text-green-500">Company</strong>{" "}
                             (referred to as either "the Company", "We", "Us" or
@@ -125,7 +125,7 @@ export default function Privacy() {
                             that can be used to contact or identify You.
                             Personally identifiable information includes:
                         </p>
-                        <ul className="px-10">
+                        <ul className="px-5">
                             <li>Email Address</li>
                             <li>First name and last name</li>
                         </ul>
@@ -138,7 +138,7 @@ export default function Privacy() {
                             The Company may use Personal Data for the following
                             purposes:
                         </p>
-                        <ul className="px-10">
+                        <ul className="px-5">
                             <li>
                                 <strong className="text-green-500">
                                     For the performance of a contract:
@@ -228,7 +228,7 @@ export default function Privacy() {
                             The Company may disclose Your Personal Data in the
                             good faith belief that such action is necessary to:
                         </p>
-                        <ul className="px-10">
+                        <ul className="px-5">
                             <li>Comply with a legal obligation</li>
                             <li>
                                 Protect and defend the rights or property of the
@@ -293,7 +293,7 @@ export default function Privacy() {
                         If you have any questions about this Privacy Policy, You
                         can contact us:
                     </p>
-                    <ul className="px-10">
+                    <ul className="px-5">
                         <li>
                             Through our{" "}
                             <span

@@ -16,7 +16,7 @@ export default async function Projects() {
     return (
         <main>
             <section className="xl:absolute top-0 left-0 min-w-[100dvw]">
-                <header className="min-h-[20dvh] xl:min-h-[25dvh] flex justify-center mb-8">
+                <header className="min-h-auto mt-24 xl:mt-0 xl:min-h-[25dvh] flex justify-center mb-8">
                     <h1 className="text-center font-bold text-6xl xl:text-8xl mt-auto">
                         Projects.
                     </h1>
