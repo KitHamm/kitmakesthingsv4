@@ -4,7 +4,7 @@ import { Role } from "@prisma/client";
 import { hash } from "bcrypt";
 
 async function main() {
-    const hashedPassword = await hash("Missy.2022", 12);
+    const hashedPassword = await hash("n7nNWFTkoejrs:Q3Phf", 12);
     await prisma.user.upsert({
         where: {
             email: "kitmakesthings@gmail.com",
