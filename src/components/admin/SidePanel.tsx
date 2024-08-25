@@ -115,7 +115,7 @@ export default function SidePanel(props: { messages: Messages[] }) {
                         active={pathName === "/dashboard/invoices"}
                         newMessages={newMessages}
                     />
-                    <NavLink
+                    {/* <NavLink
                         link="/dashboard/accounts"
                         text="Accounts"
                         active={pathName === "/dashboard/accounts"}
@@ -126,7 +126,7 @@ export default function SidePanel(props: { messages: Messages[] }) {
                         text="Projects"
                         active={pathName === "/dashboard/projects"}
                         newMessages={newMessages}
-                    />
+                    /> */}
                     <NavLink
                         link="/dashboard/media"
                         text="Media"

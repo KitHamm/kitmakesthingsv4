@@ -1,10 +1,10 @@
 import prisma from "@/lib/prisma";
-import DashboardMain from "@/components/admin/DashboardMain";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/authOptions";
+import IncomeStatBox from "@/components/admin/stats/incomeStatBox";
+import Projection from "@/components/admin/stats/projected";
+import InvoicesSent from "@/components/admin/stats/invoiceSent";
+import ViewTracker from "@/components/admin/stats/viewTracker";
 
 export default async function Dashboard() {
-    const session = getServerSession(authOptions);
     const invoices = await prisma.invoice.findMany({
         orderBy: {
             reference: "desc",
@@ -17,10 +17,15 @@ export default async function Dashboard() {
     });
     return (
         <div className="xl:py-10 xl:px-10 py-4 px-4">
-            <DashboardMain
-                invoices={invoices}
-                serviceRequest={serviceRequests}
-            />
+            <div className="font-bold text-6xl mb-6 pb-4 text-center xl:text-start border-b-2">
+                Statistics.
+            </div>
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+                <IncomeStatBox invoices={invoices} />
+                <Projection invoices={invoices} />
+                <InvoicesSent invoices={invoices} />
+                <ViewTracker serviceRequests={serviceRequests} />
+            </div>
         </div>
     );
 }

@@ -1,8 +1,6 @@
-import { authOptions } from "@/authOptions";
 import InvoicesMain from "@/components/admin/invoices/InvoicesMain";
 import prisma from "@/lib/prisma";
 import { Client, Invoice, InvoiceItem } from "@prisma/client";
-import { getServerSession } from "next-auth";
 
 export interface ExtendedInvoice extends Invoice {
     invoiceItem: InvoiceItem[];
@@ -10,8 +8,6 @@ export interface ExtendedInvoice extends Invoice {
 }
 
 export default async function Invoices() {
-    const session = getServerSession(authOptions);
-
     const invoices = await prisma.invoice.findMany({
         include: {
             invoiceItem: {},

@@ -3,6 +3,8 @@ import { Roboto } from "next/font/google";
 import "../globals.css";
 import SidePanel from "@/components/admin/SidePanel";
 import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/authOptions";
 
 const roboto = Roboto({
     weight: ["100", "300", "400", "500", "700", "900"],
@@ -20,6 +22,7 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const session = getServerSession(authOptions);
     const messages = await prisma.messages.findMany();
     return (
         <html lang="en">

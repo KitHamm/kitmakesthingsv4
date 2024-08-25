@@ -274,7 +274,7 @@ export default function ContentMain(props: {
 
     return (
         <>
-            <div className="font-bold text-6xl mx-4 mb-6 pb-4 text-center xl:text-start border-b-2">
+            <div className="font-bold text-6xl mx-4 xl:mx-0 mb-6 pb-4 text-center xl:text-start border-b-2">
                 Content.
             </div>
             <div className="flex flex-col xl:flex-row fade-in">
@@ -980,245 +980,234 @@ export default function ContentMain(props: {
                         </div>
                     </form>
                 </div>
-                <Modal
-                    scrollBehavior="outside"
-                    backdrop="blur"
-                    size={uploadForm ? "xl" : "5xl"}
-                    isOpen={isOpen}
-                    onOpenChange={onOpenChange}>
-                    <ModalContent>
-                        {(onClose) => (
-                            <>
-                                <ModalHeader className="flex text-4xl text-center flex-col gap-1">
-                                    {uploadForm
-                                        ? "Upload Image"
-                                        : "Select Image"}
-                                </ModalHeader>
-                                <ModalBody>
-                                    {uploadForm ? (
-                                        <div>
-                                            {uploading ? (
-                                                <div className="flex justify-center">
-                                                    <CircularProgress
-                                                        aria-label="Uploading"
-                                                        value={uploadProgress}
-                                                        classNames={{
-                                                            svg: "w-36 h-36 ",
-                                                            indicator:
-                                                                "stroke-green-500",
-                                                            track: "stroke-neutral-400/50",
-                                                            value: "text-3xl font-semibold text-white",
-                                                        }}
-                                                    />
-                                                </div>
-                                            ) : (
-                                                <div className="flex items-center justify-center w-full">
-                                                    <label
-                                                        id="drop_zone"
-                                                        onDrop={(e) => {
-                                                            e.preventDefault();
-                                                            dropHandler(e);
-                                                        }}
-                                                        onDragOver={(e) => {
-                                                            e.preventDefault();
-                                                        }}
-                                                        htmlFor="dropzone-file"
-                                                        className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                                            {imageToUpload ===
-                                                            null ? (
-                                                                <>
-                                                                    <svg
-                                                                        className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                                                                        aria-hidden="true"
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        fill="none"
-                                                                        viewBox="0 0 20 16">
-                                                                        <path
-                                                                            stroke="currentColor"
-                                                                            strokeLinecap="round"
-                                                                            strokeLinejoin="round"
-                                                                            strokeWidth="2"
-                                                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                                                                        />
-                                                                    </svg>
-                                                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                                                        <span className="font-semibold">
-                                                                            Click
-                                                                            to
-                                                                            upload
-                                                                        </span>{" "}
-                                                                        or drag
-                                                                        and drop
-                                                                    </p>
-                                                                </>
-                                                            ) : (
+            </div>
+            <Modal
+                scrollBehavior="outside"
+                backdrop="blur"
+                size={uploadForm ? "xl" : "5xl"}
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex text-4xl text-center flex-col gap-1">
+                                {uploadForm ? "Upload Image" : "Select Image"}
+                            </ModalHeader>
+                            <ModalBody>
+                                {uploadForm ? (
+                                    <div>
+                                        {uploading ? (
+                                            <div className="flex justify-center">
+                                                <CircularProgress
+                                                    aria-label="Uploading"
+                                                    value={uploadProgress}
+                                                    classNames={{
+                                                        svg: "w-36 h-36 ",
+                                                        indicator:
+                                                            "stroke-green-500",
+                                                        track: "stroke-neutral-400/50",
+                                                        value: "text-3xl font-semibold text-white",
+                                                    }}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center justify-center w-full">
+                                                <label
+                                                    id="drop_zone"
+                                                    onDrop={(e) => {
+                                                        e.preventDefault();
+                                                        dropHandler(e);
+                                                    }}
+                                                    onDragOver={(e) => {
+                                                        e.preventDefault();
+                                                    }}
+                                                    htmlFor="dropzone-file"
+                                                    className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                        {imageToUpload ===
+                                                        null ? (
+                                                            <>
+                                                                <svg
+                                                                    className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                                                    aria-hidden="true"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="none"
+                                                                    viewBox="0 0 20 16">
+                                                                    <path
+                                                                        stroke="currentColor"
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        strokeWidth="2"
+                                                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                                    />
+                                                                </svg>
                                                                 <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                                                                     <span className="font-semibold">
-                                                                        {
-                                                                            imageToUpload?.name
-                                                                        }
-                                                                    </span>
+                                                                        Click to
+                                                                        upload
+                                                                    </span>{" "}
+                                                                    or drag and
+                                                                    drop
                                                                 </p>
-                                                            )}
-                                                        </div>
-                                                        <input
-                                                            onChange={(e) => {
-                                                                if (
+                                                            </>
+                                                        ) : (
+                                                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                                <span className="font-semibold">
+                                                                    {
+                                                                        imageToUpload?.name
+                                                                    }
+                                                                </span>
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                    <input
+                                                        onChange={(e) => {
+                                                            if (
+                                                                e.target.files
+                                                            ) {
+                                                                setImageToUpload(
                                                                     e.target
-                                                                        .files
+                                                                        .files[0]
+                                                                );
+                                                            }
+                                                        }}
+                                                        id="dropzone-file"
+                                                        name="dropzone-file"
+                                                        type="file"
+                                                        className="hidden"
+                                                    />
+                                                </label>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div className="grid xl:grid-cols-4 grid-cols-2 gap-4 ">
+                                        {props.images.map(
+                                            (image: Images, index: number) => {
+                                                return (
+                                                    <div
+                                                        className="relative bg-neutral-200 p-4 shadow"
+                                                        key={image.url}>
+                                                        <Image
+                                                            src={
+                                                                process.env
+                                                                    .NEXT_PUBLIC_BASE_IMAGE_URL +
+                                                                image.url
+                                                            }
+                                                            alt={image.url}
+                                                            width={400}
+                                                            height={400}
+                                                            className="w-full h-auto"
+                                                        />
+                                                        <div
+                                                            onClick={(e) => {
+                                                                switch (
+                                                                    uploadTarget
                                                                 ) {
-                                                                    setImageToUpload(
-                                                                        e.target
-                                                                            .files[0]
-                                                                    );
+                                                                    case "landing":
+                                                                        landingSetValue(
+                                                                            "imageUrl",
+                                                                            image.url
+                                                                        );
+                                                                        setCurrentLandingImage(
+                                                                            image.url
+                                                                        );
+                                                                        onClose();
+                                                                        return;
+                                                                    case "about1":
+                                                                        aboutSetValue(
+                                                                            "image1Url",
+                                                                            image.url
+                                                                        );
+                                                                        setCurrentAbout1Image(
+                                                                            image.url
+                                                                        );
+                                                                        onClose();
+                                                                        return;
+                                                                    case "about2":
+                                                                        aboutSetValue(
+                                                                            "image2Url",
+                                                                            image.url
+                                                                        );
+                                                                        setCurrentAbout2Image(
+                                                                            image.url
+                                                                        );
+                                                                        onClose();
+                                                                        return;
+                                                                    case "about3":
+                                                                        aboutSetValue(
+                                                                            "image3Url",
+                                                                            image.url
+                                                                        );
+                                                                        setCurrentAbout3Image(
+                                                                            image.url
+                                                                        );
+                                                                        onClose();
+                                                                        return;
+                                                                    case "about4":
+                                                                        aboutSetValue(
+                                                                            "image4Url",
+                                                                            image.url
+                                                                        );
+                                                                        setCurrentAbout4Image(
+                                                                            image.url
+                                                                        );
+                                                                        onClose();
+                                                                        return;
                                                                 }
                                                             }}
-                                                            id="dropzone-file"
-                                                            name="dropzone-file"
-                                                            type="file"
-                                                            className="hidden"
-                                                        />
-                                                    </label>
-                                                </div>
-                                            )}
-                                        </div>
-                                    ) : (
-                                        <div className="grid xl:grid-cols-4 grid-cols-2 gap-4 ">
-                                            {props.images.map(
-                                                (
-                                                    image: Images,
-                                                    index: number
-                                                ) => {
-                                                    return (
-                                                        <div
-                                                            className="relative bg-neutral-200 p-4 shadow"
-                                                            key={image.url}>
-                                                            <Image
-                                                                src={
-                                                                    process.env
-                                                                        .NEXT_PUBLIC_BASE_IMAGE_URL +
-                                                                    image.url
-                                                                }
-                                                                alt={image.url}
-                                                                width={400}
-                                                                height={400}
-                                                                className="w-full h-auto"
-                                                            />
-                                                            <div
-                                                                onClick={(
-                                                                    e
-                                                                ) => {
-                                                                    switch (
-                                                                        uploadTarget
-                                                                    ) {
-                                                                        case "landing":
-                                                                            landingSetValue(
-                                                                                "imageUrl",
-                                                                                image.url
-                                                                            );
-                                                                            setCurrentLandingImage(
-                                                                                image.url
-                                                                            );
-                                                                            onClose();
-                                                                            return;
-                                                                        case "about1":
-                                                                            aboutSetValue(
-                                                                                "image1Url",
-                                                                                image.url
-                                                                            );
-                                                                            setCurrentAbout1Image(
-                                                                                image.url
-                                                                            );
-                                                                            onClose();
-                                                                            return;
-                                                                        case "about2":
-                                                                            aboutSetValue(
-                                                                                "image2Url",
-                                                                                image.url
-                                                                            );
-                                                                            setCurrentAbout2Image(
-                                                                                image.url
-                                                                            );
-                                                                            onClose();
-                                                                            return;
-                                                                        case "about3":
-                                                                            aboutSetValue(
-                                                                                "image3Url",
-                                                                                image.url
-                                                                            );
-                                                                            setCurrentAbout3Image(
-                                                                                image.url
-                                                                            );
-                                                                            onClose();
-                                                                            return;
-                                                                        case "about4":
-                                                                            aboutSetValue(
-                                                                                "image4Url",
-                                                                                image.url
-                                                                            );
-                                                                            setCurrentAbout4Image(
-                                                                                image.url
-                                                                            );
-                                                                            onClose();
-                                                                            return;
-                                                                    }
-                                                                }}
-                                                                className="absolute cursor-pointer flex justify-center opacity-0 hover:opacity-100 top-0 left-0 w-full h-full bg-neutral-400 bg-opacity-75 transition-all duration-300">
-                                                                <div className="my-auto font-bold text-white text-4xl">
-                                                                    Select
-                                                                </div>
+                                                            className="absolute cursor-pointer flex justify-center opacity-0 hover:opacity-100 top-0 left-0 w-full h-full bg-neutral-400 bg-opacity-75 transition-all duration-300">
+                                                            <div className="my-auto font-bold text-white text-4xl">
+                                                                Select
                                                             </div>
                                                         </div>
-                                                    );
-                                                }
-                                            )}
-                                        </div>
-                                    )}
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button
-                                        color="danger"
-                                        variant="light"
-                                        onPress={() => {
-                                            setImageToUpload(null);
-                                            setUploading(false);
-                                            setUploadTarget("");
-                                            setUploadForm(
-                                                props.images.length > 0
-                                                    ? false
-                                                    : true
-                                            );
-                                            onClose();
-                                        }}>
-                                        Close
-                                    </Button>
-                                    <Button
-                                        className="bg-green-500"
-                                        isDisabled={
-                                            imageToUpload === null && uploadForm
-                                                ? true
-                                                : false
-                                        }
-                                        onPress={() => {
-                                            if (uploadForm) {
-                                                if (imageToUpload !== null) {
-                                                    uploadImage(imageToUpload);
-                                                }
-                                            } else {
-                                                setUploadForm(true);
+                                                    </div>
+                                                );
                                             }
-                                        }}>
-                                        {uploadForm
-                                            ? "Upload"
-                                            : "Switch to Upload"}
-                                    </Button>
-                                </ModalFooter>
-                            </>
-                        )}
-                    </ModalContent>
-                </Modal>
-            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button
+                                    color="danger"
+                                    variant="light"
+                                    onPress={() => {
+                                        setImageToUpload(null);
+                                        setUploading(false);
+                                        setUploadTarget("");
+                                        setUploadForm(
+                                            props.images.length > 0
+                                                ? false
+                                                : true
+                                        );
+                                        onClose();
+                                    }}>
+                                    Close
+                                </Button>
+                                <Button
+                                    className="bg-green-500"
+                                    isDisabled={
+                                        imageToUpload === null && uploadForm
+                                            ? true
+                                            : false
+                                    }
+                                    onPress={() => {
+                                        if (uploadForm) {
+                                            if (imageToUpload !== null) {
+                                                uploadImage(imageToUpload);
+                                            }
+                                        } else {
+                                            setUploadForm(true);
+                                        }
+                                    }}>
+                                    {uploadForm ? "Upload" : "Switch to Upload"}
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
         </>
     );
 }
