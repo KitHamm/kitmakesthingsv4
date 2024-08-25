@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "../globals.css";
 import SidePanel from "@/components/admin/SidePanel";
+import prisma from "@/lib/prisma";
 
 const roboto = Roboto({
     weight: ["100", "300", "400", "500", "700", "900"],
@@ -14,16 +15,17 @@ export const metadata: Metadata = {
         "Kit Hamm is a Web Developer, Digital Artist and Music creator from Devon in the South West.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const messages = await prisma.messages.findMany();
     return (
         <html lang="en">
             <body
                 className={`${roboto.className} max-w-[100dvw] flex overflow-x-hidden`}>
-                <SidePanel />
+                <SidePanel messages={messages} />
                 <div className="hidden xl:block w-1/6" />
                 <div className="w-full xl:w-5/6">{children}</div>
             </body>

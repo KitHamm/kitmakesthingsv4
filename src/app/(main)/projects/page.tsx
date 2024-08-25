@@ -3,11 +3,8 @@ import { ContentProject } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import ProjectsContent from "@/components/ProjectsContent";
-import { getServerSession, Session } from "next-auth";
-import { authOptions } from "@/authOptions";
 
 export default async function Projects() {
-    const session = await getServerSession(authOptions);
     const projects = await prisma.contentProject.findMany({
         orderBy: {
             date: "desc",
@@ -59,7 +56,7 @@ export default async function Projects() {
                     </div>
                 </article>
             </section>
-            <ProjectsContent session={session as Session} />
+            <ProjectsContent />
         </main>
     );
 }

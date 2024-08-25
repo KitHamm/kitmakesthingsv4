@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useCallback } from "react";
 import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";

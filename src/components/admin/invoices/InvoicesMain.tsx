@@ -465,7 +465,7 @@ export default function InvoicesMain(props: {
                                                     const date = new Date(
                                                         e.year,
                                                         e.month - 1,
-                                                        e.day + 1
+                                                        e.day
                                                     );
                                                     date.setUTCHours(
                                                         0,
@@ -496,22 +496,29 @@ export default function InvoicesMain(props: {
                                                     },
                                                 })}
                                                 placeholder={
-                                                    errors.reference
+                                                    props.invoices.length > 0
                                                         ? errors.reference
-                                                              .message +
-                                                          " " +
-                                                          (parseInt(
-                                                              props.invoices[0]
-                                                                  .reference
-                                                          ) +
-                                                              1) +
-                                                          ""
-                                                        : parseInt(
-                                                              props.invoices[0]
-                                                                  .reference
-                                                          ) +
-                                                          1 +
-                                                          ""
+                                                            ? errors.reference
+                                                                  .message +
+                                                              " " +
+                                                              (parseInt(
+                                                                  props
+                                                                      .invoices[0]
+                                                                      .reference
+                                                              ) +
+                                                                  1) +
+                                                              ""
+                                                            : parseInt(
+                                                                  props
+                                                                      .invoices[0]
+                                                                      .reference
+                                                              ) +
+                                                              1 +
+                                                              ""
+                                                        : errors.reference
+                                                        ? errors.reference
+                                                              .message
+                                                        : "Reference"
                                                 }
                                                 className={
                                                     errors.reference

@@ -63,10 +63,10 @@ export async function DeleteFile(fileName: string) {
     } catch {
         return Promise.resolve({ status: 201, message: "unable to delete" });
     } finally {
-        revalidatePath("/account");
+        revalidatePath("/dashboard");
     }
 }
 
 export async function RevalidateMedia() {
-    revalidatePath("/account");
+    revalidatePath("/dashboard");
 }

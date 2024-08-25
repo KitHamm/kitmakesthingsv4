@@ -1,13 +1,16 @@
 "use client";
 
+import { Badge } from "@nextui-org/react";
+import { Messages } from "@prisma/client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-export default function SidePanel() {
+export default function SidePanel(props: { messages: Messages[] }) {
     const [dropIsOpen, setDropIsOpen] = useState(false);
     const dropContainer = useRef<HTMLDivElement | null>(null);
     const [isOpen, setIsOpen] = useState(false);
+    const [newMessages, setNewMessages] = useState(0);
 
     useEffect(() => {
         if (dropContainer.current) {
@@ -20,6 +23,16 @@ export default function SidePanel() {
             }
         }
     }, [dropIsOpen]);
+
+    useEffect(() => {
+        var count = 0;
+        for (let i = 0; i < props.messages.length; i++) {
+            if (!props.messages[i].read) {
+                count = count + 1;
+            }
+        }
+        setNewMessages(count);
+    }, [props.messages]);
 
     const pathName = usePathname();
 
@@ -60,6 +73,7 @@ export default function SidePanel() {
                         link="/dashboard"
                         text="Statistics"
                         active={pathName === "/dashboard"}
+                        newMessages={newMessages}
                     />
                     <div
                         onClick={() => setDropIsOpen(!dropIsOpen)}
@@ -92,33 +106,37 @@ export default function SidePanel() {
                         link="/dashboard/messages"
                         text="Messages"
                         active={pathName === "/dashboard/messages"}
+                        newMessages={newMessages}
                     />
+
                     <NavLink
                         link="/dashboard/invoices"
                         text="Invoices"
                         active={pathName === "/dashboard/invoices"}
+                        newMessages={newMessages}
                     />
                     <NavLink
                         link="/dashboard/accounts"
                         text="Accounts"
                         active={pathName === "/dashboard/accounts"}
+                        newMessages={newMessages}
                     />
                     <NavLink
                         link="/dashboard/projects"
                         text="Projects"
                         active={pathName === "/dashboard/projects"}
+                        newMessages={newMessages}
                     />
                     <NavLink
                         link="/dashboard/media"
                         text="Media"
                         active={pathName === "/dashboard/media"}
+                        newMessages={newMessages}
                     />
                 </div>
             </div>
-            <div className="fixed bottom-3 left-3 z-40 bg-neutral-300 p-3 rounded-full border-2 shadow">
-                <div
-                    onClick={() => setIsOpen(!isOpen)}
-                    className="my-auto xl:hidden">
+            <div className="xl:hidden fixed bottom-3 left-3 z-40 bg-neutral-300 p-3 rounded-full border-2 shadow">
+                <div onClick={() => setIsOpen(!isOpen)} className="my-auto">
                     <i
                         className={`${
                             isOpen ? "-rotate-90" : "rotate-0"
@@ -130,14 +148,33 @@ export default function SidePanel() {
     );
 }
 
-function NavLink(props: { link: string; text: string; active: boolean }) {
+function NavLink(props: {
+    link: string;
+    text: string;
+    active: boolean;
+    newMessages: number;
+}) {
     return (
         <Link
             className={`${
                 props.active ? "bg-green-500 border-s-4 border-neutral-600" : ""
             } py-2 ps-8 font-bold text-lg me-16 rounded-tr-full rounded-br-full transition-all hover:bg-neutral-400 hover:text-white`}
             href={props.link}>
-            {props.text}
+            <Badge
+                classNames={{ badge: "-right-1 top-" }}
+                showOutline={false}
+                isInvisible={
+                    props.text !== "Messages"
+                        ? true
+                        : props.newMessages === 0
+                        ? true
+                        : false
+                }
+                placement="top-right"
+                content={props.newMessages}
+                color="danger">
+                {props.text}
+            </Badge>
         </Link>
     );
 }

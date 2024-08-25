@@ -33,7 +33,7 @@ export async function UpdateMessageRead(messageId: string, read: boolean) {
     } catch (err: any) {
         return Promise.resolve({ status: 201, message: err });
     } finally {
-        revalidatePath("/dashboard/messages");
+        revalidatePath("/dashboard");
     }
 }
 
@@ -48,6 +48,6 @@ export async function DeleteMessage(messageId: string) {
     } catch (err: any) {
         return Promise.resolve({ status: 201, message: err });
     } finally {
-        revalidatePath("/dashboard/messages");
+        revalidatePath("/dashboard");
     }
 }
