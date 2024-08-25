@@ -1,5 +1,6 @@
 "use client";
 
+import { RemoveOldPages } from "@/components/actions/ServiceActions";
 import {
     countViews,
     pagesWithViews,
@@ -18,6 +19,10 @@ export default function ViewTracker(props: {
         setViews(countViews(props.serviceRequests));
         setPages(pagesWithViews(props.serviceRequests));
     }, [props.serviceRequests]);
+
+    useEffect(() => {
+        RemoveOldPages();
+    }, []);
     return (
         <div className="bg-neutral-100 rounded-lg shadow p-4">
             <div className="flex flex-col">
