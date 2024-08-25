@@ -1,21 +1,29 @@
+"use client";
+
 import {
     countViews,
     pagesWithViews,
     Views,
 } from "@/components/functions/Views";
 import { ServiceRequest } from "@prisma/client";
+import { useEffect, useState } from "react";
 
 export default function ViewTracker(props: {
     serviceRequests: ServiceRequest[];
 }) {
-    const views: Views[] = countViews(props.serviceRequests);
-    const pages: string[] = pagesWithViews(props.serviceRequests);
+    const [views, setViews] = useState<Views[]>();
+    const [pages, setPages] = useState<string[]>();
+
+    useEffect(() => {
+        setViews(countViews(props.serviceRequests));
+        setPages(pagesWithViews(props.serviceRequests));
+    }, [props.serviceRequests]);
     return (
         <div className="bg-neutral-100 rounded-lg shadow p-4">
             <div className="flex flex-col">
                 <div className="font-bold flex">
                     <div className="grow">Views</div>
-                    {views.map((view) => {
+                    {views?.map((view) => {
                         return (
                             <div className="w-1/12 text-center" key={view.date}>
                                 {view.date.split("/")[0]}
@@ -23,11 +31,11 @@ export default function ViewTracker(props: {
                         );
                     })}
                 </div>
-                {pages.map((page) => {
+                {pages?.map((page) => {
                     return (
                         <div className="flex" key={page}>
                             <div className="grow">{page}</div>
-                            {views.map((view) => {
+                            {views?.map((view) => {
                                 return (
                                     <div
                                         key={view.date + "-map"}

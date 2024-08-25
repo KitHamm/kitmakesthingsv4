@@ -7,18 +7,18 @@ import {
 } from "@/components/functions/Statistics";
 import { CircularProgress } from "@nextui-org/react";
 import { Invoice } from "@prisma/client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function IncomeStatBox(props: { invoices: Invoice[] }) {
+    const [paidToDateRender, setPaidToDateRender] = useState(0);
+    const [outstandingRender, setOutstandingRender] = useState(0);
+    const [invoicedToDateRender, setInvoicedToDateRender] = useState(0);
+
     useEffect(() => {
-        console.log(props.invoices);
-        console.log(
-            paidToDate(props.invoices).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-            })
-        );
-    }, []);
+        setPaidToDateRender(paidToDate(props.invoices));
+        setOutstandingRender(outStanding(props.invoices));
+        setInvoicedToDateRender(invoicedToDate(props.invoices));
+    }, [props.invoices]);
 
     return (
         <div className="bg-neutral-100 rounded-lg shadow p-4">
@@ -26,7 +26,7 @@ export default function IncomeStatBox(props: { invoices: Invoice[] }) {
                 <div>
                     <div className="font-bold text-4xl">
                         £
-                        {paidToDate(props.invoices).toLocaleString(undefined, {
+                        {paidToDateRender.toLocaleString(undefined, {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                         })}
@@ -34,19 +34,16 @@ export default function IncomeStatBox(props: { invoices: Invoice[] }) {
                     <div className="">Income YTD</div>
                     <div
                         className={
-                            outStanding(props.invoices) > 0
+                            outstandingRender > 0
                                 ? "text-red-400"
                                 : "text-green-500"
                         }>
-                        {outStanding(props.invoices) > 0
+                        {outstandingRender > 0
                             ? "£" +
-                              outStanding(props.invoices).toLocaleString(
-                                  undefined,
-                                  {
-                                      minimumFractionDigits: 2,
-                                      maximumFractionDigits: 2,
-                                  }
-                              ) +
+                              outstandingRender.toLocaleString(undefined, {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                              }) +
                               " Outstanding"
                             : "All Paid"}
                     </div>
@@ -54,10 +51,7 @@ export default function IncomeStatBox(props: { invoices: Invoice[] }) {
                 <div className="flex justify-end w-full">
                     <CircularProgress
                         aria-label="paid"
-                        value={
-                            (100 * paidToDate(props.invoices)) /
-                            invoicedToDate(props.invoices)
-                        }
+                        value={(100 * paidToDateRender) / invoicedToDateRender}
                         classNames={{
                             svg: "w-20 h-20 drop-shadow-md",
                             indicator: "text-green-500",
