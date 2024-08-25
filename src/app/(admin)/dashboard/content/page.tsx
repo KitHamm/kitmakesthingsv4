@@ -1,12 +1,16 @@
 import prisma from "@/lib/prisma";
 import ContentMain from "@/components/admin/content/ContentMain";
 import { About, Landing, Tech } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/authOptions";
 
 export interface ExtendedLanding extends Landing {
     tech: Tech[];
 }
 
 export default async function Content() {
+    const session = getServerSession(authOptions);
+
     const landingContent = await prisma.landing.findFirst({
         include: {
             tech: {

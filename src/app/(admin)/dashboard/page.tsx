@@ -1,7 +1,10 @@
 import prisma from "@/lib/prisma";
 import DashboardMain from "@/components/admin/DashboardMain";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/authOptions";
 
 export default async function Dashboard() {
+    const session = getServerSession(authOptions);
     const invoices = await prisma.invoice.findMany({
         orderBy: {
             reference: "desc",
