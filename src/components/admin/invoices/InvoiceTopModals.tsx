@@ -144,7 +144,6 @@ export default function InvoiceTopModals(props: {
     }
 
     function submitInvoice(data: InvoiceForm) {
-        console.log(data);
         CreateInvoice(data)
             .then((res) => {
                 if (res.status === 200) {

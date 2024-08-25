@@ -6,7 +6,6 @@ import { Landing, About, ContentProject } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function DeleteFile(fileName: string) {
-    console.log(fileName);
     const landingContent: Landing[] = await prisma.landing.findMany({
         where: { imageUrl: fileName },
     });
