@@ -21,6 +21,7 @@ import {
     currentTaxYear,
     totalTaxYears,
 } from "@/components/functions/Statistics";
+import Markdown from "react-markdown";
 
 export type InvoiceForm = {
     reference: string;
@@ -165,18 +166,18 @@ export default function InvoicesMain(props: {
                             <ModalBody>
                                 <div>
                                     <div className="font-bold">Billed To:</div>
-                                    <div>
+                                    <div className="font-bold">
                                         {
                                             props.invoices[selectedInvoice]
                                                 .client.name
                                         }
                                     </div>
-                                    <div>
+                                    <Markdown>
                                         {
                                             props.invoices[selectedInvoice]
                                                 .client.address
                                         }
-                                    </div>
+                                    </Markdown>
                                 </div>
                                 <div className="flex flex-col xl:flex-row gap-4 xl:gap-8">
                                     <div>
@@ -218,11 +219,11 @@ export default function InvoicesMain(props: {
                                                             <div className="font-bold">
                                                                 Description:
                                                             </div>
-                                                            <div className="text-sm xl:text-base font-bold">
+                                                            <Markdown className="text-sm xl:text-base">
                                                                 {
                                                                     item.description
                                                                 }
-                                                            </div>
+                                                            </Markdown>
                                                         </div>
                                                         <div className="flex justify-between">
                                                             <div className="flex-col">
