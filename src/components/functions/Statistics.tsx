@@ -3,7 +3,9 @@ import { Invoice } from "@prisma/client";
 export function invoicedToDate(invoices: Invoice[]) {
     var total = 0.0;
     for (let i = 0; i < invoices.length; i++) {
-        total = total + invoices[i].total;
+        if (invoices[i].taxYear === currentTaxYear()) {
+            total = total + invoices[i].total;
+        }
     }
     return total;
 }
@@ -11,8 +13,10 @@ export function invoicedToDate(invoices: Invoice[]) {
 export function paidToDate(invoices: Invoice[]) {
     var total = 0.0;
     for (let i = 0; i < invoices.length; i++) {
-        if (invoices[i].paid) {
-            total = total + invoices[i].total;
+        if (invoices[i].taxYear === currentTaxYear()) {
+            if (invoices[i].paid) {
+                total = total + invoices[i].total;
+            }
         }
     }
     total = parseFloat(total + "");
@@ -66,6 +70,7 @@ export function totalTaxYears(invoices: Invoice[]) {
     }
     return taxYears;
 }
+
 export function outStanding(invoices: Invoice[]) {
     var total = 0;
     total = invoicedToDate(invoices) - paidToDate(invoices);
