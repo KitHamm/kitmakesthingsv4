@@ -41,6 +41,7 @@ export async function CreateInvoice(data: InvoiceForm) {
         return Promise.resolve({ status: 201, message: err });
     } finally {
         revalidatePath("/dashboard/invoices");
+        revalidatePath("dashboard");
     }
 }
 
@@ -59,6 +60,7 @@ export async function UpdateInvoice(reference: string, paid: boolean) {
         return Promise.resolve({ status: 201, message: err });
     } finally {
         revalidatePath("/dashboard/invoices");
+        revalidatePath("dashboard");
     }
 }
 
@@ -80,10 +82,12 @@ export async function DeleteInvoice(reference: string) {
             return Promise.resolve({ status: 201, message: err });
         } finally {
             revalidatePath("dashboard/invoices");
+            revalidatePath("dashboard");
         }
     } catch (err: any) {
         return Promise.resolve({ status: 201, message: err });
     } finally {
         revalidatePath("dashboard/invoices");
+        revalidatePath("dashboard");
     }
 }
