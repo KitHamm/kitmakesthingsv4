@@ -7,8 +7,19 @@ import {
 } from "@/components/functions/Statistics";
 import { CircularProgress } from "@nextui-org/react";
 import { Invoice } from "@prisma/client";
+import { useEffect } from "react";
 
 export default function IncomeStatBox(props: { invoices: Invoice[] }) {
+    useEffect(() => {
+        console.log(props.invoices);
+        console.log(
+            paidToDate(props.invoices).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            })
+        );
+    }, []);
+
     return (
         <div className="bg-neutral-100 rounded-lg shadow p-4">
             <div className="flex justify-between">
