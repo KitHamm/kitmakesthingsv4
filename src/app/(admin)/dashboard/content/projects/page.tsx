@@ -3,7 +3,11 @@ import prisma from "@/lib/prisma";
 import { ContentProject } from "@prisma/client";
 
 export default async function ContentProjects() {
-    const projects = await prisma.contentProject.findMany();
+    const projects = await prisma.contentProject.findMany({
+        orderBy: {
+            date: "desc",
+        },
+    });
     const images = await prisma.images.findMany();
     return (
         <div className="xl:py-10 xl:px-10 py-4">
