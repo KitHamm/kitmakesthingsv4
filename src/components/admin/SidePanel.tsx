@@ -76,11 +76,15 @@ export default function SidePanel(props: { messages: Messages[] }) {
                         newMessages={newMessages}
                     />
                     <div
-                        onClick={() => setDropIsOpen(!dropIsOpen)}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setDropIsOpen(!dropIsOpen);
+                        }}
                         className={`cursor-pointer py-2 ps-8 font-bold text-lg me-16 rounded-tr-full rounded-br-full transition-all hover:bg-neutral-400 hover:text-white`}>
                         Content
                     </div>
                     <div
+                        style={{ height: "0px" }}
                         className="transition-all overflow-hidden"
                         ref={dropContainer}>
                         <div
@@ -120,13 +124,13 @@ export default function SidePanel(props: { messages: Messages[] }) {
                         text="Accounts"
                         active={pathName === "/dashboard/accounts"}
                         newMessages={newMessages}
-                    />
+                    /> */}
                     <NavLink
                         link="/dashboard/projects"
                         text="Projects"
-                        active={pathName === "/dashboard/projects"}
+                        active={pathName.includes("/dashboard/projects")}
                         newMessages={newMessages}
-                    /> */}
+                    />
                     <NavLink
                         link="/dashboard/media"
                         text="Media"
