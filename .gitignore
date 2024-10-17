@@ -39,6 +39,10 @@ next-env.d.ts
 __tests__
 __mock__
 .swc
+jest.config.ts
+jest.setup.ts
+client.ts
+singleton.ts
 
 # Other Docs
 /Design
