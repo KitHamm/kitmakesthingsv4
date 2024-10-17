@@ -34,7 +34,7 @@ export default function ProjectCard(props: { project: ContentProject }) {
                         height={800}
                         width={800}
                         alt={props.project.name}
-                        className="h-full w-auto"
+                        className="h-full w-auto ml-auto xl:ml-0 mr-auto"
                     />
                 </div>
             </div>
