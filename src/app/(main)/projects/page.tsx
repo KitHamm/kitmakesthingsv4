@@ -17,13 +17,14 @@ export default async function Projects() {
                         Projects.
                     </h1>
                 </header>
-                <article className="fade-in flex flex-col xl:w-[75dvw] w-[90dvw] mx-auto mt-20">
+                <article className="fade-in-slow flex flex-col xl:w-[75dvw] w-[90dvw] mx-auto mt-20">
                     <div className="xl:my-auto">
                         <div className="flex flex-col gap-20">
                             {projects.map(
                                 (project: ContentProject, index: number) => {
                                     return (
                                         <ProjectCard
+                                            index={index}
                                             key={project.slug}
                                             project={project}
                                         />

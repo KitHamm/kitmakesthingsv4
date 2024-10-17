@@ -9,7 +9,9 @@ export default function HomeButtons(props: { home: boolean }) {
     return (
         <div className="flex flex-col xl:flex-row justify-between my-6 gap-10">
             <Link
-                className="transition-all xl:w-1/2 py-4 text-2xl text-center font-medium bg-white border-2 border-black rounded-full hover:bg-green-400 hover:border-white hover:text-white"
+                className={`${
+                    props.home ? "" : "slide-in-right"
+                } transition-all xl:w-1/2 py-4 text-2xl text-center font-medium bg-white border-2 border-black rounded-full hover:bg-green-400 hover:border-white hover:text-white`}
                 href={"/projects"}>
                 Projects
             </Link>
@@ -22,7 +24,7 @@ export default function HomeButtons(props: { home: boolean }) {
             ) : (
                 <Button
                     onPress={() => onOpenChange()}
-                    className="xl:w-1/2 py-8 text-2xl font-medium bg-white border-2 border-black rounded-full hover:bg-green-400 hover:border-white hover:text-white">
+                    className="slide-in-left xl:w-1/2 py-8 text-2xl font-medium bg-white border-2 border-black rounded-full hover:bg-green-400 hover:border-white hover:text-white">
                     Contact me
                 </Button>
             )}

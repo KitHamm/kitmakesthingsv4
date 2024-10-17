@@ -25,6 +25,19 @@ p {
     }
 }
 
+.fade-in-slow {
+    opacity: 100%;
+    animation: fadeInSlow 1s ease-in-out;
+}
+@keyframes fadeInSlow {
+    0% {
+        opacity: 0%;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
 .in-shadow {
     box-shadow: inset 0px 20px 20px -10px #ccc, inset 0px -20px 20px -10px #ccc;
 }
@@ -38,4 +51,49 @@ p {
     position: absolute;
     top: 0;
     width: 100%;
+}
+
+.slide-in-right {
+    opacity: 100%;
+    transform: translateX(0%);
+
+    animation: slideInRight 1.5s ease;
+}
+@keyframes slideInRight {
+    0% {
+        opacity: 0%;
+        transform: translateX(-25%);
+    }
+    10% {
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(0%);
+    }
+    100% {
+        opacity: 100%;
+        transform: translateX(0%);
+    }
+}
+
+.slide-in-left {
+    opacity: 100%;
+    transform: translateX(0%);
+    animation: slideInLeft 1.5s ease-out;
+}
+@keyframes slideInLeft {
+    0% {
+        opacity: 0%;
+        transform: translateX(25%);
+    }
+    10% {
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(0%);
+    }
+    100% {
+        opacity: 100%;
+        transform: translateX(0%);
+    }
 }
