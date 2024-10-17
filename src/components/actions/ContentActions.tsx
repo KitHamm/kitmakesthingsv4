@@ -78,6 +78,7 @@ export async function UpdateLanding(data: LandingFormType) {
             return Promise.resolve({ status: 201, message: err });
         } finally {
             revalidatePath("/dashboard/content");
+            revalidatePath("/");
         }
     } catch (err: any) {
         return Promise.resolve({ status: 201, message: err });
