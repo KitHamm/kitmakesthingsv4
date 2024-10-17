@@ -125,5 +125,6 @@ export async function UpdateAbout(data: AboutFormType) {
         return Promise.resolve({ status: 201, message: err });
     } finally {
         revalidatePath("/dashboard/content");
+        revalidatePath("/");
     }
 }

@@ -70,5 +70,6 @@ export async function DeleteProject(slug: string) {
         return Promise.resolve({ status: 200, message: err });
     } finally {
         revalidatePath("/dashboard/content/projects");
+        revalidatePath("/");
     }
 }
