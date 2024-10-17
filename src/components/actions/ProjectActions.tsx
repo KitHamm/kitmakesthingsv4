@@ -55,6 +55,7 @@ export async function AddProject(data: ContentProjectFormType) {
         return Promise.resolve({ status: 201, message: err });
     } finally {
         revalidatePath("/dashboard/content/projects");
+        revalidatePath("/projects");
     }
 }
 
@@ -70,6 +71,6 @@ export async function DeleteProject(slug: string) {
         return Promise.resolve({ status: 200, message: err });
     } finally {
         revalidatePath("/dashboard/content/projects");
-        revalidatePath("/");
+        revalidatePath("/projects");
     }
 }
