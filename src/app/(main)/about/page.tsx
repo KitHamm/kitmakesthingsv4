@@ -6,10 +6,10 @@ import HomeButtons from "@/components/HomeButtons";
 export default async function AboutPage() {
     const aboutContent = await prisma.about.findFirst();
     return (
-        <main>
-            <section className="xl:absolute top-0 left-0 min-w-[100dvw]">
-                <article className="fade-in min-h-screen flex flex-col xl:w-[75dvw] w-[90dvw] mx-auto">
-                    <div className="xl:grid xl:grid-cols-2 xl:gap-20 min-h-screen">
+        <main className="h-full grow flex justify-center">
+            <section className="my-auto">
+                <article className="fade-in flex flex-col xl:w-[75dvw] w-[90dvw] m-auto">
+                    <div className="xl:grid xl:grid-cols-2 xl:gap-20">
                         <div className="my-auto">
                             <div className="mt-20 xl:mt-0 grid grid-cols-2 gap-0">
                                 {aboutContent && (
@@ -24,6 +24,7 @@ export default async function AboutPage() {
                                                 height={500}
                                                 width={500}
                                                 alt="Kit Hamm"
+                                                className="w-full h-auto"
                                             />
                                             <div className="absolute opacity-0 hover:opacity-100 transition-all top-0 left-0 bg-green-400 backdrop-blur bg-opacity-50 w-full h-full hidden xl:flex justify-center">
                                                 <div className="pointer-events-none my-auto font-bold text-white text-4xl">
@@ -41,6 +42,7 @@ export default async function AboutPage() {
                                                 height={500}
                                                 width={500}
                                                 alt="Kit Hamm"
+                                                className="w-full h-auto"
                                             />
                                             <div className="absolute opacity-0 hover:opacity-100 transition-all top-0 left-0 bg-green-400 backdrop-blur bg-opacity-50 w-full h-full hidden xl:flex justify-center">
                                                 <div className="pointer-events-none my-auto font-bold text-white text-4xl">
@@ -58,6 +60,7 @@ export default async function AboutPage() {
                                                 height={500}
                                                 width={500}
                                                 alt="Kit Hamm"
+                                                className="w-full h-auto"
                                             />
                                             <div className="absolute opacity-0 hover:opacity-100 transition-all top-0 left-0 bg-green-400 backdrop-blur bg-opacity-50 w-full h-full hidden xl:flex justify-center">
                                                 <div className="pointer-events-none my-auto font-bold text-white text-4xl">
@@ -75,6 +78,7 @@ export default async function AboutPage() {
                                                 height={500}
                                                 width={500}
                                                 alt="Kit Hamm"
+                                                className="w-full h-auto"
                                             />
                                             <div className="absolute opacity-0 hover:opacity-100 transition-all top-0 left-0 bg-green-400 backdrop-blur bg-opacity-50 w-full h-full hidden xl:flex justify-center">
                                                 <div className="pointer-events-none my-auto font-bold text-white text-4xl">
@@ -98,12 +102,12 @@ export default async function AboutPage() {
                                     {aboutContent ? aboutContent.text2 : ""}
                                 </div>
                             </div>
-                            <Markdown className="mt-10 mx-auto">
+                            <Markdown className="mt-10 mx-auto text-lg">
                                 {aboutContent
                                     ? (aboutContent.Copy as string)
                                     : ""}
                             </Markdown>
-                            <HomeButtons />
+                            <HomeButtons home={false} />
                         </div>
                     </div>
                 </article>

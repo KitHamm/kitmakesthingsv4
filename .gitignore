@@ -35,5 +35,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+#testing
+__tests__
+__mock__
+.swc
+
 # Other Docs
 /Design

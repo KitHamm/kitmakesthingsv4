@@ -66,27 +66,6 @@ export default function ContactModal(props: {
         props.onOpenChange();
     }
 
-    // useEffect(() => {
-    //     if (modal.current) {
-    //         var scrollHeight = modal.current.scrollHeight;
-    //         modal.current.style.height = scrollHeight + "px";
-    //         setPreviousScrollHeight(scrollHeight);
-    //     }
-    // }, [props.onOpenChange]);
-
-    // useEffect(() => {
-    //     if (modal.current) {
-    //         modal.current.style.height = "auto";
-    //         var scrollHeight = modal.current.scrollHeight;
-    //         modal.current!.style.height = previousScrollHeight + "px";
-    //         setTimeout(() => {
-    //             modal.current!.style.height = scrollHeight + "px";
-    //             setPreviousScrollHeight(scrollHeight);
-    //             console.log("Set Height", scrollHeight);
-    //         }, 50);
-    //     }
-    // }, [sendingState]);
-
     useEffect(() => {
         if (!props.isOpen) {
             reset();

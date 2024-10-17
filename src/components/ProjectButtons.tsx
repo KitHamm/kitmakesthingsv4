@@ -4,6 +4,7 @@ import { Button, useDisclosure } from "@nextui-org/react";
 import ContactModal from "./ContactModal";
 import { useEffect } from "react";
 import { Request } from "./actions/ServiceActions";
+import Link from "next/link";
 
 export default function ProjectButtons(props: { slug: string }) {
     const { onOpenChange, isOpen, onClose } = useDisclosure();
@@ -12,22 +13,22 @@ export default function ProjectButtons(props: { slug: string }) {
     }, [props.slug]);
 
     return (
-        <div className="flex justify-evenly my-6">
-            <Button
-                onPress={() => (window.location.href = "/projects")}
-                className="font-bold bg-white border-2 border-black rounded-none hover:bg-green-500 hover:border-white hover:text-white">
+        <>
+            {/* <Link
+                className="xl:w-1/2 py-4 text-center rounded-full transition-all font-bold text-2xl bg-white border-2 border-black hover:bg-green-500 hover:border-white hover:text-white"
+                href={"/projects"}>
                 Back
-            </Button>
-            <Button
-                onPress={() => onOpenChange()}
-                className="font-bold bg-white border-2 border-black rounded-none hover:bg-green-500 hover:border-white hover:text-white">
+            </Link> */}
+            <button
+                onClick={() => onOpenChange()}
+                className="xl:w-full py-4 transition-all rounded-full font-bold text-2xl bg-white border-2 border-black hover:bg-green-500 hover:border-white hover:text-white">
                 Contact
-            </Button>
+            </button>
             <ContactModal
                 onClose={onClose}
                 onOpenChange={onOpenChange}
                 isOpen={isOpen}
             />
-        </div>
+        </>
     );
 }

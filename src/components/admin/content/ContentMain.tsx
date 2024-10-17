@@ -21,12 +21,22 @@ import {
     UpdateLanding,
 } from "@/components/actions/ContentActions";
 import axios from "axios";
+import { register } from "module";
 
 export type LandingFormType = {
     title: string;
     tech: Tech[];
     copy: string;
     imageUrl: string;
+    firstHighlightHeader: string;
+    secondHighlightHeader: string;
+    thirdHighlightHeader: string;
+    firstHighlightIcon: string;
+    secondHighlightIcon: string;
+    thirdHighlightIcon: string;
+    firstHighlightText: string;
+    secondHighlightText: string;
+    thirdHighlightText: string;
 };
 
 export type AboutFormType = {
@@ -64,8 +74,17 @@ export default function ContentMain(props: {
     const [currentAbout3Image, setCurrentAbout3Image] = useState("");
     const [currentAbout4Image, setCurrentAbout4Image] = useState("");
     const landingFormTextArea = useRef<HTMLTextAreaElement | null>(null);
+    const firstHighlightTextArea = useRef<HTMLTextAreaElement | null>(null);
+    const secondHighlightTextArea = useRef<HTMLTextAreaElement | null>(null);
+    const thirdHighlightTextArea = useRef<HTMLTextAreaElement | null>(null);
     const aboutFormTextArea = useRef<HTMLTextAreaElement | null>(null);
     const [landingTextAreaValue, setLandingTextAreaValue] = useState("");
+    const [firstHighlightTextAreaValue, setFirstHighlightTextAreaValue] =
+        useState("");
+    const [secondHighlightTextAreaValue, setSecondHighlightTextAreaValue] =
+        useState("");
+    const [thirdHighlightTextAreaValue, setThirdHighlightTextAreaValue] =
+        useState("");
     const [aboutTextAreaValue, setAboutTextAreaValue] = useState("");
     const [newTech, setNewTech] = useState("");
 
@@ -111,6 +130,39 @@ export default function ContentMain(props: {
         },
     });
 
+    const { ref: firstHighlightTextRef, ...firstHighlightTextRest } =
+        landingRegister("firstHighlightText", {
+            required: {
+                value: true,
+                message: "Copy is required.",
+            },
+            onChange: (e) => {
+                setFirstHighlightTextAreaValue(e);
+            },
+        });
+
+    const { ref: secondHighlightTextRef, ...secondHighlightTextRest } =
+        landingRegister("secondHighlightText", {
+            required: {
+                value: true,
+                message: "Copy is required.",
+            },
+            onChange: (e) => {
+                setSecondHighlightTextAreaValue(e);
+            },
+        });
+
+    const { ref: thirdHighlightTextRef, ...thirdHighlightTextRest } =
+        landingRegister("thirdHighlightText", {
+            required: {
+                value: true,
+                message: "Copy is required.",
+            },
+            onChange: (e) => {
+                setThirdHighlightTextAreaValue(e);
+            },
+        });
+
     const { ref: aboutRef, ...aboutRest } = aboutRegister("copy", {
         required: {
             value: true,
@@ -135,6 +187,39 @@ export default function ContentMain(props: {
     }, [landingTextAreaValue]);
 
     useEffect(() => {
+        if (firstHighlightTextArea.current !== null) {
+            firstHighlightTextArea.current!.style.height = "inherit";
+
+            firstHighlightTextArea.current!.style.height = `${Math.max(
+                firstHighlightTextArea.current!.scrollHeight,
+                32
+            )}px`;
+        }
+    }, [firstHighlightTextAreaValue]);
+
+    useEffect(() => {
+        if (secondHighlightTextArea.current !== null) {
+            secondHighlightTextArea.current!.style.height = "inherit";
+
+            secondHighlightTextArea.current!.style.height = `${Math.max(
+                secondHighlightTextArea.current!.scrollHeight,
+                32
+            )}px`;
+        }
+    }, [secondHighlightTextAreaValue]);
+
+    useEffect(() => {
+        if (thirdHighlightTextArea.current !== null) {
+            thirdHighlightTextArea.current!.style.height = "inherit";
+
+            thirdHighlightTextArea.current!.style.height = `${Math.max(
+                thirdHighlightTextArea.current!.scrollHeight,
+                32
+            )}px`;
+        }
+    }, [thirdHighlightTextAreaValue]);
+
+    useEffect(() => {
         if (aboutFormTextArea.current !== null) {
             aboutFormTextArea.current!.style.height = "inherit";
 
@@ -152,9 +237,28 @@ export default function ContentMain(props: {
                 tech: props.landingContent.tech,
                 copy: props.landingContent.Copy,
                 imageUrl: props.landingContent.imageUrl,
+                firstHighlightIcon: props.landingContent.firstHighlightIcon,
+                firstHighlightHeader: props.landingContent.firstHighlightHeader,
+                firstHighlightText: props.landingContent.firstHighlightText,
+                secondHighlightIcon: props.landingContent.secondHighlightIcon,
+                secondHighlightHeader:
+                    props.landingContent.secondHighlightHeader,
+                secondHighlightText: props.landingContent.secondHighlightText,
+                thirdHighlightIcon: props.landingContent.thirdHighlightIcon,
+                thirdHighlightHeader: props.landingContent.thirdHighlightHeader,
+                thirdHighlightText: props.landingContent.thirdHighlightText,
             });
             setCurrentLandingImage(props.landingContent.imageUrl);
             setLandingTextAreaValue(props.landingContent.Copy);
+            setFirstHighlightTextAreaValue(
+                props.landingContent.firstHighlightText
+            );
+            setSecondHighlightTextAreaValue(
+                props.landingContent.secondHighlightText
+            );
+            setThirdHighlightTextAreaValue(
+                props.landingContent.thirdHighlightText
+            );
         }
         if (props.aboutContent) {
             aboutReset({
@@ -456,6 +560,253 @@ export default function ContentMain(props: {
                             }
                             {...landingRest}
                         />
+                        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+                            <div>
+                                <p className="font-bold text-center">
+                                    First Highlight
+                                </p>
+                                <label
+                                    className="font-bold"
+                                    htmlFor="firstHighlightIcon">
+                                    Icon
+                                </label>
+                                <input
+                                    type="text"
+                                    {...landingRegister("firstHighlightIcon", {
+                                        required: {
+                                            value: true,
+                                            message: "Icon is required.",
+                                        },
+                                    })}
+                                    placeholder={
+                                        landingErrors.firstHighlightIcon
+                                            ? landingErrors.firstHighlightIcon
+                                                  .message
+                                            : "Icon"
+                                    }
+                                    className={
+                                        landingErrors.firstHighlightIcon
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                />
+                                <label
+                                    className="font-bold"
+                                    htmlFor="firstHighlightHeader">
+                                    Header
+                                </label>
+                                <input
+                                    type="text"
+                                    {...landingRegister(
+                                        "firstHighlightHeader",
+                                        {
+                                            required: {
+                                                value: true,
+                                                message: "Header is required.",
+                                            },
+                                        }
+                                    )}
+                                    placeholder={
+                                        landingErrors.firstHighlightHeader
+                                            ? landingErrors.firstHighlightHeader
+                                                  .message
+                                            : "Header"
+                                    }
+                                    className={
+                                        landingErrors.firstHighlightHeader
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                />
+                                <label
+                                    className="font-bold"
+                                    htmlFor="firstHighlightText">
+                                    Copy
+                                </label>
+                                <textarea
+                                    ref={(e) => {
+                                        firstHighlightTextRef(e);
+                                        firstHighlightTextArea.current = e;
+                                    }}
+                                    placeholder={
+                                        landingErrors.firstHighlightText
+                                            ? landingErrors.firstHighlightText
+                                                  .message
+                                            : "Copy"
+                                    }
+                                    className={
+                                        landingErrors.firstHighlightText
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                    {...firstHighlightTextRest}
+                                />
+                            </div>
+
+                            <div>
+                                <p className="font-bold text-center">
+                                    Second Highlight
+                                </p>
+                                <label
+                                    className="font-bold"
+                                    htmlFor="secondHighlightIcon">
+                                    Icon
+                                </label>
+                                <input
+                                    type="text"
+                                    {...landingRegister("secondHighlightIcon", {
+                                        required: {
+                                            value: true,
+                                            message: "Icon is required.",
+                                        },
+                                    })}
+                                    placeholder={
+                                        landingErrors.secondHighlightIcon
+                                            ? landingErrors.secondHighlightIcon
+                                                  .message
+                                            : "Icon"
+                                    }
+                                    className={
+                                        landingErrors.secondHighlightIcon
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                />
+                                <label
+                                    className="font-bold"
+                                    htmlFor="secondHighlightHeader">
+                                    Header
+                                </label>
+                                <input
+                                    type="text"
+                                    {...landingRegister(
+                                        "secondHighlightHeader",
+                                        {
+                                            required: {
+                                                value: true,
+                                                message: "Header is required.",
+                                            },
+                                        }
+                                    )}
+                                    placeholder={
+                                        landingErrors.secondHighlightHeader
+                                            ? landingErrors
+                                                  .secondHighlightHeader.message
+                                            : "Header"
+                                    }
+                                    className={
+                                        landingErrors.secondHighlightHeader
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                />
+                                <label
+                                    className="font-bold"
+                                    htmlFor="secondHighlightText">
+                                    Copy
+                                </label>
+                                <textarea
+                                    ref={(e) => {
+                                        secondHighlightTextRef(e);
+                                        secondHighlightTextArea.current = e;
+                                    }}
+                                    placeholder={
+                                        landingErrors.secondHighlightText
+                                            ? landingErrors.secondHighlightText
+                                                  .message
+                                            : "Copy"
+                                    }
+                                    className={
+                                        landingErrors.secondHighlightText
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                    {...secondHighlightTextRest}
+                                />
+                            </div>
+
+                            <div>
+                                <p className="font-bold text-center">
+                                    Third Highlight
+                                </p>
+                                <label
+                                    className="font-bold"
+                                    htmlFor="thirdHighlightIcon">
+                                    Icon
+                                </label>
+                                <input
+                                    type="text"
+                                    {...landingRegister("thirdHighlightIcon", {
+                                        required: {
+                                            value: true,
+                                            message: "Icon is required.",
+                                        },
+                                    })}
+                                    placeholder={
+                                        landingErrors.thirdHighlightIcon
+                                            ? landingErrors.thirdHighlightIcon
+                                                  .message
+                                            : "Icon"
+                                    }
+                                    className={
+                                        landingErrors.thirdHighlightIcon
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                />
+                                <label
+                                    className="font-bold"
+                                    htmlFor="thirdHighlightHeader">
+                                    Header
+                                </label>
+                                <input
+                                    type="text"
+                                    {...landingRegister(
+                                        "thirdHighlightHeader",
+                                        {
+                                            required: {
+                                                value: true,
+                                                message: "Header is required.",
+                                            },
+                                        }
+                                    )}
+                                    placeholder={
+                                        landingErrors.thirdHighlightHeader
+                                            ? landingErrors.thirdHighlightHeader
+                                                  .message
+                                            : "Header"
+                                    }
+                                    className={
+                                        landingErrors.thirdHighlightHeader
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                />
+                                <label
+                                    className="font-bold"
+                                    htmlFor="thirdHighlightText">
+                                    Copy
+                                </label>
+                                <textarea
+                                    ref={(e) => {
+                                        thirdHighlightTextRef(e);
+                                        thirdHighlightTextArea.current = e;
+                                    }}
+                                    placeholder={
+                                        landingErrors.thirdHighlightText
+                                            ? landingErrors.thirdHighlightText
+                                                  .message
+                                            : "Copy"
+                                    }
+                                    className={
+                                        landingErrors.thirdHighlightText
+                                            ? "placeholder:text-red-400"
+                                            : ""
+                                    }
+                                    {...thirdHighlightTextRest}
+                                />
+                            </div>
+                        </div>
                         <div className="flex justify-end">
                             <Button type="submit" className="bg-green-500">
                                 Save

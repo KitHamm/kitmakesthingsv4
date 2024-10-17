@@ -30,6 +30,9 @@ export async function AddProject(data: ContentProjectFormType) {
                 where: data.where,
                 images: images,
                 client: data.client,
+                short: data.short,
+                outLink: data.outLink,
+                outLinkText: data.outLinkText,
             },
             create: {
                 name: data.name,
@@ -41,6 +44,9 @@ export async function AddProject(data: ContentProjectFormType) {
                 where: data.where,
                 images: images,
                 client: data.client,
+                short: data.short,
+                outLink: data.outLink,
+                outLinkText: data.outLinkText,
             },
         });
         return Promise.resolve({ status: 200, message: "success" });

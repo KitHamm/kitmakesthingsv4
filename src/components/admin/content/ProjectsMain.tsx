@@ -32,6 +32,9 @@ export type ContentProjectFormType = {
         url: string;
     }[];
     client: string;
+    short: string;
+    outLink: string;
+    outLinkText: string;
 };
 
 export default function ProjectsMain(props: {
@@ -44,7 +47,10 @@ export default function ProjectsMain(props: {
     const [uploadForm, setUploadForm] = useState(false);
     const [newStackItem, setNewStackItem] = useState("");
     const newProjectTextArea = useRef<HTMLTextAreaElement | null>(null);
+    const projectShortTextArea = useRef<HTMLTextAreaElement | null>(null);
     const [newProjectTextAreaValue, setNewProjectTextAreaValue] = useState("");
+    const [projectShortTextAreaValue, setProjectShortTextAreaValue] =
+        useState("");
 
     const newProjectForm = useForm<ContentProjectFormType>({
         defaultValues: {
@@ -104,6 +110,19 @@ export default function ProjectsMain(props: {
         }
     );
 
+    const { ref: projectShortRef, ...projectShortRest } = registerAddProject(
+        "short",
+        {
+            required: {
+                value: true,
+                message: "Short is required.",
+            },
+            onChange: (e) => {
+                setNewProjectTextAreaValue(e);
+            },
+        }
+    );
+
     // Functions
 
     function HandleReset() {
@@ -115,6 +134,9 @@ export default function ProjectsMain(props: {
             date: "",
             client: "",
             description: "",
+            short: "",
+            outLink: "",
+            outLinkText: "",
         });
         for (let i = 0; i < fieldsImages.length; i++) {
             removeImages(i);
@@ -123,6 +145,7 @@ export default function ProjectsMain(props: {
             removeStack(i);
         }
         setNewProjectTextAreaValue("");
+        setProjectShortTextAreaValue("");
     }
 
     function dropHandler(ev: any) {
@@ -191,6 +214,17 @@ export default function ProjectsMain(props: {
         }
     }, [newProjectTextAreaValue]);
 
+    useEffect(() => {
+        if (projectShortTextArea.current !== null) {
+            projectShortTextArea.current!.style.height = "inherit";
+
+            projectShortTextArea.current!.style.height = `${Math.max(
+                projectShortTextArea.current!.scrollHeight,
+                32
+            )}px`;
+        }
+    }, [projectShortTextAreaValue]);
+
     // Functions
 
     function OnSubmitAddProject(data: ContentProjectFormType) {
@@ -213,6 +247,15 @@ export default function ProjectsMain(props: {
                 ? props.projects[index].client
                 : "",
             description: props.projects[index].description,
+            short: props.projects[index].short
+                ? props.projects[index].short
+                : "",
+            outLink: props.projects[index].outLink
+                ? props.projects[index].outLink
+                : "",
+            outLinkText: props.projects[index].outLinkText
+                ? props.projects[index].outLinkText
+                : "",
         });
         for (let i = 0; i < props.projects[index].images.length; i++) {
             appendImages({ url: props.projects[index].images[i] });
@@ -366,7 +409,7 @@ export default function ProjectsMain(props: {
                                             />
                                         </div>
                                     </div>
-                                    <div className="flex flex-col xl:flex-wrap xl:gap-10">
+                                    <div className="flex flex-col xl:flex-row xl:gap-10">
                                         <div className="xl:w-1/2">
                                             <label
                                                 className="font-bold"
@@ -488,6 +531,57 @@ export default function ProjectsMain(props: {
                                             />
                                         </div>
                                     </div>
+
+                                    <div className="flex flex-col xl:flex-row xl:gap-10">
+                                        <div className="xl:w-1/2">
+                                            <label
+                                                className="font-bold"
+                                                htmlFor="outLink">
+                                                Out Link
+                                            </label>
+                                            <input
+                                                type="text"
+                                                {...registerAddProject(
+                                                    "outLink"
+                                                )}
+                                                placeholder={"Out Link"}
+                                            />
+                                        </div>
+                                        <div className="xl:w-1/2">
+                                            <label
+                                                className="font-bold"
+                                                htmlFor="name">
+                                                Out Link Text
+                                            </label>
+                                            <input
+                                                type="text"
+                                                {...registerAddProject(
+                                                    "outLinkText"
+                                                )}
+                                                placeholder={"Out Link Text"}
+                                            />
+                                        </div>
+                                    </div>
+                                    <label className="font-bold" htmlFor="name">
+                                        Short
+                                    </label>
+                                    <textarea
+                                        ref={(e) => {
+                                            projectShortRef(e);
+                                            projectShortTextArea.current = e;
+                                        }}
+                                        placeholder={
+                                            errorsAddProject.short
+                                                ? errorsAddProject.short.message
+                                                : "Short"
+                                        }
+                                        className={
+                                            errorsAddProject.short
+                                                ? "placeholder:text-red-400"
+                                                : ""
+                                        }
+                                        {...projectShortRest}
+                                    />
                                     <label className="font-bold" htmlFor="name">
                                         Description
                                     </label>

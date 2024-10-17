@@ -5,6 +5,7 @@ import { EmblaOptionsType } from "embla-carousel";
 import { Chip } from "@nextui-org/react";
 import ProjectButtons from "@/components/ProjectButtons";
 import ErrorButtons from "@/components/404Buttons";
+import Link from "next/link";
 export default async function ProjectPage({
     params,
 }: {
@@ -19,7 +20,7 @@ export default async function ProjectPage({
     if (project) {
         return (
             <main className="z-10">
-                <section className="xl:absolute top-0 left-0 min-w-[100dvw]">
+                <section className="">
                     <article className="fade-in min-h-screen xl:w-[75dvw] w-[90dvw] grid xl:grid-cols-2 xl:gap-20 mx-auto">
                         <header className="flex">
                             <div className="my-auto">
@@ -30,7 +31,6 @@ export default async function ProjectPage({
                                     <div className="font-bold text-xl mt-2">
                                         {project.role}
                                     </div>
-                                    <div>{project.date}</div>
                                     <div className="mt-6 flex flex-wrap text-center gap-2">
                                         {project.stack.map(
                                             (stack: String, index: number) => {
@@ -47,10 +47,27 @@ export default async function ProjectPage({
                                         )}
                                     </div>
                                 </div>
-                                <Markdown className="mt-6 font-bold">
+                                <Markdown className="mt-6 font-bold text-lg">
                                     {project.description as string}
                                 </Markdown>
-                                <ProjectButtons slug={project.slug} />
+                                <div className="flex flex-col xl:flex-row justify-evenly my-6 xl:gap-20 gap-10">
+                                    {project.outLink && project.outLinkText ? (
+                                        <Link
+                                            target="_blank"
+                                            className="w-full py-4 text-center rounded-full transition-all font-bold text-2xl bg-white border-2 border-black hover:bg-green-500 hover:border-white hover:text-white"
+                                            href={project.outLink}>
+                                            {project.outLinkText}
+                                        </Link>
+                                    ) : (
+                                        ""
+                                    )}
+                                    <ProjectButtons slug={project.slug} />
+                                    <Link
+                                        className="xl:w-full py-4 text-center rounded-full transition-all font-bold text-2xl bg-white border-2 border-black hover:bg-green-500 hover:border-white hover:text-white"
+                                        href={"/projects"}>
+                                        Back
+                                    </Link>
+                                </div>
                             </div>
                         </header>
                         <figure className="flex order-first mt-24 xl:mt-0 mb-10 xl:order-last">

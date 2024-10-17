@@ -5,175 +5,187 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 enum Role {
-  ADMIN
-  USER
+    ADMIN
+    USER
 }
 
 enum ProjectState {
-  PROPOSED
-  STARTED
-  FINISHED
+    PROPOSED
+    STARTED
+    FINISHED
 }
 
 enum TaskState {
-  NONE
-  WORKING
-  REVIEW
-  FINISHED
+    NONE
+    WORKING
+    REVIEW
+    FINISHED
 }
 
 enum TaskPriority {
-  LOW
-  MEDIUM
-  HIGH
+    LOW
+    MEDIUM
+    HIGH
 }
 
 model User {
-  id          String    @unique @default(cuid())
-  firstName   String
-  lastName    String
-  email       String @unique
-  avatar      String?
-  password    String
-  role        Role      @default(USER)
-  resetToken  String?
-  resetExpire DateTime?
-  createdAt   DateTime  @default(now())
+    id          String    @unique @default(cuid())
+    firstName   String
+    lastName    String
+    email       String    @unique
+    avatar      String?
+    password    String
+    role        Role      @default(USER)
+    resetToken  String?
+    resetExpire DateTime?
+    createdAt   DateTime  @default(now())
 }
 
 model ContentProject {
-  slug        String   @unique
-  name        String
-  role        String
-  stack       String[]
-  description String
-  date        String?
-  where       String
-  images      String[]
-  client      String?
+    slug        String   @unique
+    name        String
+    role        String
+    stack       String[]
+    description String
+    date        String?
+    where       String
+    images      String[]
+    client      String?
+    short       String @default("/")
+    outLink     String?
+    outLinkText String?
 }
 
 model Landing {
-  page     String @unique
-  title    String
-  tech     Tech[]
-  Copy     String
-  imageUrl String
+    page                  String @unique
+    title                 String
+    tech                  Tech[]
+    Copy                  String
+    imageUrl              String
+    firstHighlightHeader  String @default("Frontend")
+    secondHighlightHeader String @default("Backend")
+    thirdHighlightHeader  String @default("Interactive")
+    firstHighlightIcon    String @default("fa-solid fa-desktop")
+    secondHighlightIcon   String @default("fa-solid fa-server")
+    thirdHighlightIcon    String @default("fa-solid fa-hand-holding-heart")
+    firstHighlightText    String @default("I like to create functional and user friendly applications using a combination of Next.Js, React, Tailwind, Sass, NextUI, and Embla.")
+    secondHighlightText   String @default("Experience in using Postgres with Prisma ORM to create custom CMS. Hosting on Ubuntu using Node.JS through DigitalOcean.")
+    thirdHighlightText    String @default("From large scale projections with physical human interaction to live update leaderboards and score tracking. I like soliving problems for unique use cases.")
 }
 
 model Tech {
-  name      String  @unique
-  landing   Landing @relation(fields: [landingId], references: [page])
-  landingId String
-  order     Int?
+    name      String  @unique
+    landing   Landing @relation(fields: [landingId], references: [page])
+    landingId String
+    order     Int?
 }
 
 model About {
-  page      String @unique
-  title     String
-  Copy      String
-  text1     String
-  text2     String
-  image1Url String
-  image2Url String
-  image3Url String
-  image4Url String
-  title1    String
-  title2    String
-  title3    String
-  title4    String
+    page      String @unique
+    title     String
+    Copy      String
+    text1     String
+    text2     String
+    image1Url String
+    image2Url String
+    image3Url String
+    image4Url String
+    title1    String
+    title2    String
+    title3    String
+    title4    String
 }
 
 model Messages {
-  id        String   @unique @default(cuid())
-  name      String
-  email     String
-  message   String
-  read      Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @unique @default(cuid())
+    name      String
+    email     String
+    message   String
+    read      Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Invoice {
-  reference   String        @unique
-  date        DateTime
-  total       Float
-  taxYear     String
-  paid        Boolean       @default(false)
-  client      Client        @relation(fields: [clientId], references: [id])
-  clientId    String
-  invoiceItem InvoiceItem[]
+    reference   String        @unique
+    date        DateTime
+    total       Float
+    taxYear     String
+    paid        Boolean       @default(false)
+    client      Client        @relation(fields: [clientId], references: [id])
+    clientId    String
+    invoiceItem InvoiceItem[]
 }
 
 model InvoiceItem {
-  id               String  @unique @default(cuid())
-  description      String
-  quantity         Float
-  unitPrice        Float
-  subTotal         Float
-  invoice          Invoice @relation(fields: [invocieReference], references: [reference])
-  invocieReference String
+    id               String  @unique @default(cuid())
+    description      String
+    quantity         Float
+    unitPrice        Float
+    subTotal         Float
+    invoice          Invoice @relation(fields: [invocieReference], references: [reference])
+    invocieReference String
 }
 
 model Client {
-  id       String           @unique @default(cuid())
-  name     String
-  address  String
-  invoices Invoice[]
-  project  WorkingProject[]
+    id       String           @unique @default(cuid())
+    name     String
+    address  String
+    invoices Invoice[]
+    project  WorkingProject[]
 }
 
 model Expense {
-  id          String @unique @default(cuid())
-  title       String
-  description String
-  amount      Float
-  taxYear     String
-  retailer    String
+    id          String @unique @default(cuid())
+    title       String
+    description String
+    amount      Float
+    taxYear     String
+    retailer    String
 }
 
 model Overhead {
-  id     String @unique @default(cuid())
-  name   String
-  amount Float
-  Date   Int
+    id     String @unique @default(cuid())
+    name   String
+    amount Float
+    Date   Int
 }
 
 model WorkingProject {
-  id       String        @unique @default(cuid())
-  name     String
-  client   Client        @relation(fields: [clientId], references: [id])
-  clientId String
-  state    ProjectState  @default(PROPOSED)
-  dateDue  DateTime
-  tasks    ProjectTask[]
+    id       String        @unique @default(cuid())
+    name     String
+    client   Client        @relation(fields: [clientId], references: [id])
+    clientId String
+    state    ProjectState  @default(PROPOSED)
+    dateDue  DateTime
+    tasks    ProjectTask[]
 }
 
 model ProjectTask {
-  id          String         @unique @default(cuid())
-  description String?
-  status      TaskState      @default(NONE)
-  priority    TaskPriority   @default(LOW)
-  project     WorkingProject @relation(fields: [projectId], references: [id])
-  projectId   String
+    id          String         @unique @default(cuid())
+    description String?
+    status      TaskState      @default(NONE)
+    priority    TaskPriority   @default(LOW)
+    project     WorkingProject @relation(fields: [projectId], references: [id])
+    projectId   String
 }
 
 model ServiceRequest {
-  id        String   @unique @default(cuid())
-  page      String
-  createdAt DateTime @default(now())
+    id        String   @unique @default(cuid())
+    page      String
+    createdAt DateTime @default(now())
 }
 
 model Images {
-  url       String   @unique
-  createdAt DateTime @default(now())
+    url       String   @unique
+    createdAt DateTime @default(now())
 }

@@ -23,7 +23,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${roboto.className} max-w-[100dvw] overflow-x-hidden`}>
+                className={`${roboto.className} flex flex-col min-h-screen max-w-[100dvw] overflow-x-hidden`}>
                 <NavbarComp />
                 {children}
                 <Footer />
