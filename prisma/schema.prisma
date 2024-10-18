@@ -63,6 +63,7 @@ model ContentProject {
     short       String @default("/")
     outLink     String?
     outLinkText String?
+    order       Int @default(0)
 }
 
 model Landing {

@@ -35,6 +35,7 @@ export type ContentProjectFormType = {
     short: string;
     outLink: string;
     outLinkText: string;
+    order: number;
 };
 
 export default function ProjectsMain(props: {
@@ -137,6 +138,7 @@ export default function ProjectsMain(props: {
             short: "",
             outLink: "",
             outLinkText: "",
+            order: 0,
         });
         for (let i = 0; i < fieldsImages.length; i++) {
             removeImages(i);
@@ -228,12 +230,14 @@ export default function ProjectsMain(props: {
     // Functions
 
     function OnSubmitAddProject(data: ContentProjectFormType) {
+        console.log(typeof data.order);
         AddProject(data)
             .then((res) => {
                 console.log(res);
+                onCloseAddProject();
+                HandleReset();
             })
             .catch((err) => console.log(err));
-        onCloseAddProject();
     }
 
     function HandleOpenProject(index: number) {
@@ -256,6 +260,7 @@ export default function ProjectsMain(props: {
             outLinkText: props.projects[index].outLinkText
                 ? props.projects[index].outLinkText
                 : "",
+            order: props.projects[index].order,
         });
         for (let i = 0; i < props.projects[index].images.length; i++) {
             appendImages({ url: props.projects[index].images[i] });
@@ -380,33 +385,70 @@ export default function ProjectsMain(props: {
                                                 }
                                             />
                                         </div>
-                                        <div className="xl:w-1/2">
-                                            <label
-                                                className="font-bold"
-                                                htmlFor="name">
-                                                Slug
-                                            </label>
-                                            <input
-                                                type="text"
-                                                {...registerAddProject("slug", {
-                                                    required: {
-                                                        value: true,
-                                                        message:
-                                                            "Slug is required",
-                                                    },
-                                                })}
-                                                placeholder={
-                                                    errorsAddProject.slug
-                                                        ? errorsAddProject.slug
-                                                              .message
-                                                        : "Slug"
-                                                }
-                                                className={
-                                                    errorsAddProject.slug
-                                                        ? "placeholder:text-red-400"
-                                                        : ""
-                                                }
-                                            />
+                                        <div className="xl:w-1/2 flex gap-6">
+                                            <div className="xl:w-1/2">
+                                                <label
+                                                    className="font-bold"
+                                                    htmlFor="name">
+                                                    Slug
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    {...registerAddProject(
+                                                        "slug",
+                                                        {
+                                                            required: {
+                                                                value: true,
+                                                                message:
+                                                                    "Slug is required",
+                                                            },
+                                                        }
+                                                    )}
+                                                    placeholder={
+                                                        errorsAddProject.slug
+                                                            ? errorsAddProject
+                                                                  .slug.message
+                                                            : "Slug"
+                                                    }
+                                                    className={
+                                                        errorsAddProject.slug
+                                                            ? "placeholder:text-red-400"
+                                                            : ""
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="xl:w-1/2">
+                                                <label
+                                                    className="font-bold"
+                                                    htmlFor="name">
+                                                    Order
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    {...registerAddProject(
+                                                        "order",
+                                                        {
+                                                            required: {
+                                                                value: true,
+                                                                message:
+                                                                    "Order is required",
+                                                            },
+                                                            valueAsNumber: true,
+                                                        }
+                                                    )}
+                                                    placeholder={
+                                                        errorsAddProject.order
+                                                            ? errorsAddProject
+                                                                  .order.message
+                                                            : "0"
+                                                    }
+                                                    className={
+                                                        errorsAddProject.order
+                                                            ? "placeholder:text-red-400"
+                                                            : ""
+                                                    }
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col xl:flex-row xl:gap-10">

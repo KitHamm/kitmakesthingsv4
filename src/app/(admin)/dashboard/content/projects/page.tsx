@@ -5,7 +5,7 @@ import { ContentProject } from "@prisma/client";
 export default async function ContentProjects() {
     const projects = await prisma.contentProject.findMany({
         orderBy: {
-            date: "desc",
+            order: "asc",
         },
     });
     const images = await prisma.images.findMany();

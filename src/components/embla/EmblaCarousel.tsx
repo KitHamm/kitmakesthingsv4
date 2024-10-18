@@ -1,7 +1,16 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
+import {
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Button,
+    useDisclosure,
+} from "@nextui-org/react";
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
 import {
     PrevButton,
@@ -12,6 +21,7 @@ import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { Images } from "@prisma/client";
 import Image from "next/image";
+import LightBoxEmblaCarousel from "../lightBoxEmbla/LightboxEmblaCarousel";
 
 type PropType = {
     slides: String[];
@@ -19,6 +29,8 @@ type PropType = {
 };
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [imageToDisplay, setImageToDisplay] = useState<String>("");
     const { slides, options } = props;
     const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
 
@@ -50,9 +62,22 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         <section className="embla">
             <div className="embla__viewport" ref={emblaRef}>
                 <div className="embla__container">
-                    {slides.map((slide, index) => (
+                    {slides.map((slide: String, index: number) => (
                         <div className="embla__slide" key={index}>
-                            {/* <div className="embla__slide__number"> */}
+                            <Image
+                                onClick={() => {
+                                    setImageToDisplay(slide);
+                                    onOpenChange();
+                                }}
+                                src={
+                                    process.env.NEXT_PUBLIC_BASE_IMAGE_URL! +
+                                    slide
+                                }
+                                height={1200}
+                                width={1200}
+                                className="hidden xl:block cursor-pointer my-auto w-auto h-auto"
+                                alt={slide as string}
+                            />
                             <Image
                                 src={
                                     process.env.NEXT_PUBLIC_BASE_IMAGE_URL! +
@@ -60,10 +85,9 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                                 }
                                 height={1200}
                                 width={1200}
-                                className="my-auto w-auto h-auto"
+                                className="xl:hidden cursor-pointer my-auto w-auto h-auto"
                                 alt={slide as string}
                             />
-                            {/* </div> */}
                         </div>
                     ))}
                 </div>
@@ -95,6 +119,22 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                     ))}
                 </div>
             </div>
+            <Modal
+                backdrop="blur"
+                size="5xl"
+                classNames={{ base: "xl:max-w-[75dvw]" }}
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalBody className="p-10">
+                                <LightBoxEmblaCarousel slides={slides} />
+                            </ModalBody>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
         </section>
     );
 };

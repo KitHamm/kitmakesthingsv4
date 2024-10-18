@@ -33,6 +33,7 @@ export async function AddProject(data: ContentProjectFormType) {
                 short: data.short,
                 outLink: data.outLink,
                 outLinkText: data.outLinkText,
+                order: data.order,
             },
             create: {
                 name: data.name,
@@ -47,6 +48,7 @@ export async function AddProject(data: ContentProjectFormType) {
                 short: data.short,
                 outLink: data.outLink,
                 outLinkText: data.outLinkText,
+                order: data.order,
             },
         });
         return Promise.resolve({ status: 200, message: "success" });

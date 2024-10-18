@@ -6,7 +6,7 @@ import ProjectCard from "@/components/ProjectCard";
 export default async function Projects() {
     const projects = await prisma.contentProject.findMany({
         orderBy: {
-            date: "desc",
+            order: "asc",
         },
     });
     return (
