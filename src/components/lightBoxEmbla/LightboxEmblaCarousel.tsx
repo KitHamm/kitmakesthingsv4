@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { EmblaOptionsType } from "embla-carousel";
 import {
     PrevButton,
@@ -7,6 +7,7 @@ import {
 } from "./LightboxEmblaCarouselArrowButtons";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
+import { CircularProgress } from "@nextui-org/react";
 
 type PropType = {
     slides: String[];
@@ -18,6 +19,7 @@ const OPTIONS: EmblaOptionsType = { loop: true };
 const LightBoxEmblaCarousel: React.FC<PropType> = (props) => {
     const { slides } = props;
     const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS);
+    const [loaded, setLoaded] = useState(false);
 
     const {
         prevBtnDisabled,
@@ -40,6 +42,10 @@ const LightBoxEmblaCarousel: React.FC<PropType> = (props) => {
                                 {index + 1}
                             </div> */}
                             <Image
+                                onLoad={(e) => {
+                                    setLoaded(true);
+                                    console.log("loaded");
+                                }}
                                 src={
                                     process.env.NEXT_PUBLIC_BASE_IMAGE_URL! +
                                     slide
@@ -49,6 +55,18 @@ const LightBoxEmblaCarousel: React.FC<PropType> = (props) => {
                                 className="cursor-pointer m-auto w-auto h-auto"
                                 alt={slide as string}
                             />
+
+                            {!loaded && (
+                                <div className="absolute top-0 bottom-0 left-0 right-0 z-30 m-auto w-[20dvw] h-[20dvh]">
+                                    <CircularProgress
+                                        classNames={{
+                                            base: "m-auto",
+                                            svg: "w-36 h-36",
+                                            indicator: "stroke-green-500",
+                                        }}
+                                    />
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
