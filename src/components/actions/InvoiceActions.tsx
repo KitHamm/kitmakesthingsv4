@@ -24,7 +24,6 @@ export async function CreateInvoice(data: InvoiceForm) {
                     quantity: data.items[i].quantity,
                     unitPrice: data.items[i].unitPrice,
                     subTotal: data.items[i].subTotal,
-                    invocieReference: invoice.reference,
                     invoiceReference: invoice.reference,
                 },
             });
@@ -61,7 +60,7 @@ export async function DeleteInvoice(reference: string) {
     try {
         await prisma.invoiceItem.deleteMany({
             where: {
-                invocieReference: reference,
+                invoiceReference: reference,
             },
         });
         try {

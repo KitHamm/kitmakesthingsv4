@@ -133,8 +133,7 @@ model InvoiceItem {
     quantity         Float
     unitPrice        Float
     subTotal         Float
-    invoice          Invoice @relation(fields: [invocieReference], references: [reference])
-    invocieReference String
+    invoice          Invoice @relation(fields: [invoiceReference], references: [reference])
     invoiceReference String
 }
 

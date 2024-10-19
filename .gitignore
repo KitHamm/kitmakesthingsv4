@@ -46,3 +46,6 @@ singleton.ts
 
 # Other Docs
 /Design
+
+# Prisma
+prisma/seed.ts
