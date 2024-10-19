@@ -32,7 +32,7 @@ export default async function AboutPage() {
                             </div>
                             <Markdown className="fade-in-slow mt-10 mx-auto text-lg">
                                 {aboutContent
-                                    ? (aboutContent.Copy as string)
+                                    ? (aboutContent.copy as string)
                                     : ""}
                             </Markdown>
                             <HomeButtons home={false} />

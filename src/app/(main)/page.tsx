@@ -1,4 +1,3 @@
-import { Tech } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import Image from "next/image";
 import HomeButtons from "@/components/HomeButtons";
@@ -26,7 +25,7 @@ export default async function Home() {
                                 </h1>
                             </div>
                             <div className="mt-4 xl:mt-4 text-lg">
-                                {landingContent ? landingContent.Copy : ""}
+                                {landingContent ? landingContent.copy : ""}
                             </div>
                             <HomeButtons home={true} />
                         </div>
