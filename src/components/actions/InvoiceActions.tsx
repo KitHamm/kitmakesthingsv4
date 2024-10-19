@@ -24,11 +24,8 @@ export async function CreateInvoice(data: InvoiceForm) {
                     quantity: data.items[i].quantity,
                     unitPrice: data.items[i].unitPrice,
                     subTotal: data.items[i].subTotal,
-                    invoice: {
-                        connect: {
-                            reference: invoice.reference,
-                        },
-                    },
+                    invocieReference: invoice.reference,
+                    invoiceReference: invoice.reference,
                 },
             });
         }

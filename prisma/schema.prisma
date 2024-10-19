@@ -70,7 +70,7 @@ model Landing {
     page                  String @unique
     title                 String
     tech                  Tech[]
-    copy                  String @default("")
+    copy                  String
     imageUrl              String
     firstHighlightHeader  String 
     secondHighlightHeader String 
@@ -93,7 +93,7 @@ model Tech {
 model About {
     page      String @unique
     title     String
-    copy      String @default("")
+    copy      String
     text1     String
     text2     String
     image1Url String
@@ -135,7 +135,7 @@ model InvoiceItem {
     subTotal         Float
     invoice          Invoice @relation(fields: [invocieReference], references: [reference])
     invocieReference String
-    invoiceReference String @default("")
+    invoiceReference String
 }
 
 model Client {
