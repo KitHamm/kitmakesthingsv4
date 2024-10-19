@@ -29,11 +29,22 @@ export default function ProjectCard(props: {
                             {props.project.name}
                         </div>
                         <div className="text-lg">{props.project.short}</div>
-                        <Link
-                            className="text-center transition-all xl:w-fit py-4 px-12 text-2xl font-medium border-2 border-black rounded-full hover:bg-green-400 hover:border-white hover:text-white"
-                            href={"/projects/" + props.project.slug}>
-                            View Project
-                        </Link>
+                        <div className="flex flex-col xl:flex-row gap-4">
+                            <Link
+                                className="text-center transition-all xl:w-fit py-4 px-12 text-2xl font-medium border-2 border-black rounded-full hover:bg-green-400 hover:border-white hover:text-white"
+                                href={"/projects/" + props.project.slug}>
+                                View Project
+                            </Link>
+                            {props.project.outLink &&
+                                props.project.outLinkText && (
+                                    <Link
+                                        target="_blank"
+                                        className="text-center transition-all xl:w-fit py-4 px-12 text-2xl font-medium border-2 border-black rounded-full hover:bg-green-400 hover:border-white hover:text-white"
+                                        href={props.project.outLink}>
+                                        {props.project.outLinkText}
+                                    </Link>
+                                )}
+                        </div>
                     </div>
                 </div>
                 <div
