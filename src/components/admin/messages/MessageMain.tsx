@@ -1,8 +1,8 @@
 "use client";
 
 import {
-    DeleteMessage,
-    UpdateMessageRead,
+    deleteMessage,
+    updateMessageRead,
 } from "@/components/actions/MessageActions";
 import {
     Modal,
@@ -21,9 +21,7 @@ export default function MessagesMain(props: { messages: Messages[] }) {
     const [selectedMessage, setSelectedMessage] = useState(-1);
 
     function UpdateMessage(messageId: string, read: boolean) {
-        UpdateMessageRead(messageId, read)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+        updateMessageRead(messageId, read).catch((err) => console.log(err));
     }
 
     return (
@@ -94,11 +92,16 @@ export default function MessagesMain(props: { messages: Messages[] }) {
                                 <div className="flex justify-end gap-4">
                                     <Button
                                         onPress={() => {
-                                            setSelectedMessage(-1);
-                                            DeleteMessage(
+                                            deleteMessage(
                                                 props.messages[selectedMessage]
                                                     .id
-                                            );
+                                            )
+                                                .then(() => {
+                                                    setSelectedMessage(-1);
+                                                })
+                                                .catch((err) =>
+                                                    console.log(err)
+                                                );
                                         }}
                                         color="danger"
                                         variant="light">
@@ -151,12 +154,17 @@ export default function MessagesMain(props: { messages: Messages[] }) {
                                         color="danger"
                                         variant="light"
                                         onPress={() => {
-                                            onClose();
-                                            DeleteMessage(
+                                            deleteMessage(
                                                 props.messages[selectedMessage]
                                                     .id
-                                            );
-                                            setSelectedMessage(-1);
+                                            )
+                                                .then(() => {
+                                                    onClose();
+                                                    setSelectedMessage(-1);
+                                                })
+                                                .catch((err) =>
+                                                    console.log(err)
+                                                );
                                         }}>
                                         Delete
                                     </Button>

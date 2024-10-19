@@ -1,6 +1,6 @@
 "use client";
 
-import { DeleteProject } from "@/components/actions/WorkingProjectActions";
+import { deleteProject } from "@/components/actions/WorkingProjectActions";
 import {
     Modal,
     ModalContent,
@@ -15,13 +15,11 @@ export default function ProjectDeleteButton(props: { id: string }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     function onDelete() {
-        DeleteProject(props.id).then((res) => {
-            if (res.status === 200) {
+        deleteProject(props.id)
+            .then(() => {
                 window.location.href = "/dashboard/projects";
-            } else {
-                console.log(res.message);
-            }
-        });
+            })
+            .catch((err) => console.log(err));
     }
 
     return (

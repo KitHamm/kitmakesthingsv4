@@ -11,10 +11,10 @@ import {
     Button,
     useDisclosure,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
-    DeleteInvoice,
-    UpdateInvoice,
+    deleteInvoice,
+    updateInvoice,
 } from "@/components/actions/InvoiceActions";
 import InvoiceTopModals from "./InvoiceTopModals";
 import {
@@ -57,12 +57,10 @@ export default function InvoicesMain(props: {
     } = useDisclosure();
 
     function updatePaid(invoiceIndex: number) {
-        UpdateInvoice(
+        updateInvoice(
             props.invoices[invoiceIndex].reference,
             !props.invoices[invoiceIndex].paid
-        )
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+        ).catch((err) => console.log(err));
     }
 
     function formatDate(date: Date) {
@@ -278,11 +276,16 @@ export default function InvoicesMain(props: {
                                         variant="light"
                                         onPress={() => {
                                             onClose();
-                                            DeleteInvoice(
+                                            deleteInvoice(
                                                 props.invoices[selectedInvoice]
                                                     .reference
-                                            );
-                                            setSelectedInvoice(-1);
+                                            )
+                                                .then(() => {
+                                                    setSelectedInvoice(-1);
+                                                })
+                                                .catch((err) => {
+                                                    console.log(err);
+                                                });
                                         }}>
                                         Delete
                                     </Button>

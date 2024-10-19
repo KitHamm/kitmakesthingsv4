@@ -1,17 +1,10 @@
 "use client";
 
-import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-} from "@nextui-org/modal";
+import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/modal";
 import { useForm } from "react-hook-form";
 import { Button, CircularProgress } from "@nextui-org/react";
-import { SendMessage } from "./actions/MessageActions";
+import { sendMessage } from "./actions/MessageActions";
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 
 enum MessageState {
     NONE,
@@ -42,8 +35,8 @@ export default function ContactModal(props: {
 
     function OnSubmit(data: ContactModalType) {
         setSendingState(MessageState.SENDING);
-        SendMessage(data).then((res) => {
-            if (res.status === 200) {
+        sendMessage(data)
+            .then(() => {
                 setTimeout(() => {
                     setSendingState(MessageState.SUCCESS);
                     setTimeout(() => {
@@ -51,13 +44,13 @@ export default function ContactModal(props: {
                         reset();
                     }, 2000);
                 }, 2000);
-            } else {
-                console.log(res.message);
+            })
+            .catch((err) => {
+                console.log(err);
                 setTimeout(() => {
                     setSendingState(MessageState.ERROR);
                 }, 2000);
-            }
-        });
+            });
     }
 
     function handleClose() {

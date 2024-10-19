@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { ContentProjectFormType } from "../admin/content/ProjectsMain";
 import { revalidatePath } from "next/cache";
 
-export async function AddProject(data: ContentProjectFormType) {
+export async function addProject(data: ContentProjectFormType) {
     var stack: string[] = [];
     var images: string[] = [];
 
@@ -51,26 +51,25 @@ export async function AddProject(data: ContentProjectFormType) {
                 order: data.order,
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        console.log(err);
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/content/projects");
         revalidatePath("/projects");
     }
 }
 
-export async function DeleteProject(slug: string) {
+export async function deleteProject(slug: string) {
     try {
         await prisma.contentProject.delete({
             where: {
                 slug: slug,
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 200, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/content/projects");
         revalidatePath("/projects");

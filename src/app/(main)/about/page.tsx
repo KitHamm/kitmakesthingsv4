@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
 import Markdown from "react-markdown";
-import Image from "next/image";
 import HomeButtons from "@/components/HomeButtons";
 import AboutBoxes from "@/components/AboutBoxes";
 
@@ -20,18 +19,18 @@ export default async function AboutPage() {
                         </div>
                         <div className="my-auto">
                             <h1 className="fade-in-slow my-4 xl:my-0 text-center font-bold text-6xl xl:text-8xl">
-                                {aboutContent ? aboutContent.title : ""}
+                                {aboutContent?.title}
                             </h1>
                             <div className="flex flex-col xl:flex-row justify-center xl:gap-10">
                                 <div className="slide-in-right font-bold text-center text-green-500 text-xl">
-                                    {aboutContent ? aboutContent.text1 : ""}
+                                    {aboutContent?.text1}
                                 </div>
                                 <div className="slide-in-left font-bold text-center text-green-500 text-xl">
-                                    {aboutContent ? aboutContent.text2 : ""}
+                                    {aboutContent?.text2}
                                 </div>
                             </div>
                             <Markdown className="fade-in-slow mt-10 mx-auto text-lg">
-                                {aboutContent ? aboutContent.copy : ""}
+                                {aboutContent?.copy}
                             </Markdown>
                             <HomeButtons home={false} />
                         </div>

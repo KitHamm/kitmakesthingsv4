@@ -1,6 +1,9 @@
 "use client";
 
-import { DeleteFile, RevalidateMedia } from "@/components/actions/MediaActions";
+import {
+    deleteFile as deleteMediaFile,
+    revalidateMedia,
+} from "@/components/actions/MediaActions";
 import {
     Modal,
     ModalContent,
@@ -78,7 +81,7 @@ export default function MediaMain(props: { images: Images[] }) {
                         setUploading(false);
                         setImageToUpload(null);
                         onCloseUpload();
-                        RevalidateMedia();
+                        revalidateMedia();
                     }
                 })
                 .catch((err) => console.log(err));
@@ -86,14 +89,10 @@ export default function MediaMain(props: { images: Images[] }) {
     }
 
     function deleteFile(file: string) {
-        DeleteFile(file)
-            .then((res) => {
-                if (res.status === 200) {
-                    onClose();
-                    setSelectedImage("");
-                } else if (res.status === 201) {
-                    console.log(res.message);
-                }
+        deleteMediaFile(file)
+            .then(() => {
+                onClose();
+                setSelectedImage("");
             })
             .catch((err) => console.log(err));
     }

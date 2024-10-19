@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 import { Landing, About, ContentProject } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-export async function DeleteFile(fileName: string) {
+export async function deleteFile(fileName: string) {
     const landingContent: Landing[] = await prisma.landing.findMany({
         where: { imageUrl: fileName },
     });
@@ -29,22 +29,22 @@ export async function DeleteFile(fileName: string) {
         },
     });
     if (landingContent.length > 0) {
-        return Promise.resolve({ status: 201, message: "Landing Content" });
+        return Promise.reject({ Location: "Landing Content" });
     }
     if (aboutContent1.length > 0) {
-        return Promise.resolve({ status: 201, message: "About Content 1" });
+        return Promise.reject({ Location: "About Content 1" });
     }
     if (aboutContent2.length > 0) {
-        return Promise.resolve({ status: 201, message: "About Content 2" });
+        return Promise.reject({ Location: "About Content 2" });
     }
     if (aboutContent3.length > 0) {
-        return Promise.resolve({ status: 201, message: "About Content 3" });
+        return Promise.reject({ Location: "About Content 3" });
     }
     if (aboutContent4.length > 0) {
-        return Promise.resolve({ status: 201, message: "About Content 4" });
+        return Promise.reject({ Location: "About Content 4" });
     }
     if (projects.length > 0) {
-        return Promise.resolve({ status: 201, message: projects[0].name });
+        return Promise.reject({ Location: projects[0].name });
     }
 
     try {
@@ -58,14 +58,14 @@ export async function DeleteFile(fileName: string) {
                 process.env.NEXT_PUBLIC_DELETE_IMAGE_DIR +
                 fileName
         );
-        return Promise.resolve({ status: 200, message: "deleted" });
+        return Promise.resolve();
     } catch {
-        return Promise.resolve({ status: 201, message: "unable to delete" });
+        return Promise.reject("unable to delete");
     } finally {
         revalidatePath("/dashboard");
     }
 }
 
-export async function RevalidateMedia() {
+export async function revalidateMedia() {
     revalidatePath("/dashboard");
 }

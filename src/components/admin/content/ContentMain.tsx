@@ -17,8 +17,8 @@ import {
 } from "@nextui-org/react";
 import { ExtendedLanding } from "@/app/(admin)/dashboard/content/page";
 import {
-    UpdateAbout,
-    UpdateLanding,
+    updateAbout,
+    updateLanding,
 } from "@/components/actions/ContentActions";
 import axios from "axios";
 
@@ -285,13 +285,13 @@ export default function ContentMain(props: {
     // Functions
 
     function OnSubmitLanding(data: LandingFormType) {
-        UpdateLanding(data).catch((err) => {
+        updateLanding(data).catch((err) => {
             console.log(err);
         });
     }
 
     function OnSubmitAbout(data: AboutFormType) {
-        UpdateAbout(data).catch((err) => {
+        updateAbout(data).catch((err) => {
             console.log(err);
         });
     }

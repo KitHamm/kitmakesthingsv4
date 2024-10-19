@@ -1,7 +1,7 @@
 "use client";
 
-import { CreateClient, DeleteClient } from "@/components/actions/ClientActions";
-import { CreateInvoice } from "@/components/actions/InvoiceActions";
+import { createClient, deleteClient } from "@/components/actions/ClientActions";
+import { createInvoice } from "@/components/actions/InvoiceActions";
 import {
     Button,
     DatePicker,
@@ -144,27 +144,19 @@ export default function InvoiceTopModals(props: {
     }
 
     function submitInvoice(data: InvoiceForm) {
-        CreateInvoice(data)
-            .then((res) => {
-                if (res.status === 200) {
-                    onCloseNewInvoice();
-                    resetForm();
-                } else {
-                    console.log(res.message);
-                }
+        createInvoice(data)
+            .then(() => {
+                onCloseNewInvoice();
+                resetForm();
             })
             .catch((err) => console.log(err));
     }
 
     function submitClient(data: ClientForm) {
-        CreateClient(data)
-            .then((res) => {
-                if (res.status === 200) {
-                    onCloseNewClient();
-                    resetClient();
-                } else {
-                    console.log(res.message);
-                }
+        createClient(data)
+            .then(() => {
+                onCloseNewClient();
+                resetClient();
             })
             .catch((err) => console.log(err));
     }
@@ -640,8 +632,15 @@ export default function InvoiceTopModals(props: {
                                                 </div>
                                                 <Button
                                                     onClick={() => {
-                                                        onCloseManageClients();
-                                                        DeleteClient(client.id);
+                                                        deleteClient(client.id)
+                                                            .then(() => {
+                                                                onCloseManageClients();
+                                                            })
+                                                            .catch((err) => {
+                                                                console.log(
+                                                                    err
+                                                                );
+                                                            });
                                                     }}
                                                     color="danger"
                                                     variant="light">

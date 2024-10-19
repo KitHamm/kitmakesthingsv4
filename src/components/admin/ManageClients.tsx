@@ -10,7 +10,7 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import { Client } from "@prisma/client";
-import { CreateClient, DeleteClient } from "../actions/ClientActions";
+import { createClient, deleteClient } from "../actions/ClientActions";
 import { useForm } from "react-hook-form";
 
 export type ClientForm = {
@@ -47,14 +47,10 @@ export default function ManageClientsButton(props: { clients: Client[] }) {
     const { errors: errorsClient } = formStateClient;
 
     function submitClient(data: ClientForm) {
-        CreateClient(data)
-            .then((res) => {
-                if (res.status === 200) {
-                    onCloseNewClient();
-                    resetClient();
-                } else {
-                    console.log(res.message);
-                }
+        createClient(data)
+            .then(() => {
+                onCloseNewClient();
+                resetClient();
             })
             .catch((err) => console.log(err));
     }
@@ -91,7 +87,7 @@ export default function ManageClientsButton(props: { clients: Client[] }) {
                                                 <Button
                                                     onClick={() => {
                                                         onCloseManageClients();
-                                                        DeleteClient(client.id);
+                                                        deleteClient(client.id);
                                                     }}
                                                     color="danger"
                                                     variant="light">

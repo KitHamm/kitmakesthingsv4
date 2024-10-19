@@ -1,6 +1,6 @@
 "use client";
 
-import { AddNewTask } from "@/components/actions/WorkingProjectActions";
+import { addNewTask } from "@/components/actions/WorkingProjectActions";
 import {
     Modal,
     ModalContent,
@@ -43,18 +43,18 @@ export default function NewTask(props: { projectId: string }) {
         if (!data.priority) {
             setFormError("Please select a priority.");
         } else {
-            AddNewTask(data).then((res) => {
-                if (res.status === 200) {
+            addNewTask(data)
+                .then(() => {
                     reset();
                     onOpenChange();
                     setFormError("");
-                } else {
+                })
+                .catch((err) => {
+                    console.log(err);
                     setFormError("Something went wrong.");
-                }
-            });
+                });
         }
     }
-
     return (
         <>
             <Button onPress={onOpen} className="bg-green-500 text-white">

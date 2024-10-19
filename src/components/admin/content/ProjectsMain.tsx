@@ -13,7 +13,7 @@ import {
 } from "@nextui-org/react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { ContentProject, Images } from "@prisma/client";
-import { AddProject, DeleteProject } from "@/components/actions/ProjectActions";
+import { addProject, deleteProject } from "@/components/actions/ProjectActions";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
@@ -231,9 +231,8 @@ export default function ProjectsMain(props: {
 
     function OnSubmitAddProject(data: ContentProjectFormType) {
         console.log(typeof data.order);
-        AddProject(data)
-            .then((res) => {
-                console.log(res);
+        addProject(data)
+            .then(() => {
                 onCloseAddProject();
                 HandleReset();
             })
@@ -273,9 +272,7 @@ export default function ProjectsMain(props: {
     }
 
     function handleDelete(slug: string) {
-        DeleteProject(slug)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+        deleteProject(slug).catch((err) => console.log(err));
     }
 
     return (

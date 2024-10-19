@@ -1,6 +1,6 @@
 "use client";
 
-import { AddNewProject } from "@/components/actions/WorkingProjectActions";
+import { addNewProject } from "@/components/actions/WorkingProjectActions";
 import {
     Modal,
     ModalContent,
@@ -43,17 +43,13 @@ export default function NewProject(props: { clients: Client[] }) {
         if (data.clientId === undefined || data.dateDue === undefined) {
             setFormError("Please fill out all fields.");
         } else {
-            AddNewProject(data)
-                .then((res) => {
-                    if (res.status === 200) {
-                        setFormError("");
-                        reset();
-                        onOpenChange();
-                    } else {
-                        console.log(res.message);
-                    }
+            addNewProject(data)
+                .then(() => {
+                    setFormError("");
+                    reset();
+                    onOpenChange();
                 })
-                .catch((e) => console.log(e));
+                .catch((err) => console.log(err));
         }
     }
     return (

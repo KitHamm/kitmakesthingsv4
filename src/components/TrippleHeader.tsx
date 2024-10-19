@@ -1,19 +1,10 @@
 "use client";
 
+import { Landing } from "@prisma/client";
 import { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 
-export default function TrippleHeader(props: {
-    firstHeader: string;
-    firstIcon: string;
-    firstText: string;
-    secondHeader: string;
-    secondIcon: string;
-    secondText: string;
-    thirdHeader: string;
-    thirdIcon: string;
-    thirdText: string;
-}) {
+export default function TrippleHeader(props: { landingContent: Landing }) {
     const { ref: leftRef, inView: leftInView } = useInView({
         /* Optional options */
         threshold: 1,
@@ -78,42 +69,42 @@ export default function TrippleHeader(props: {
                     <div className="xl:text-8xl text-6xl text-center text-green-500">
                         <i
                             style={{ lineHeight: 1 }}
-                            className={`${props.firstIcon} fa-2xl`}
+                            className={`${props.landingContent.firstHighlightIcon} fa-2xl`}
                         />
                     </div>
                     <div className="text-6xl font-bold">
-                        {props.firstHeader}
+                        {props.landingContent.firstHighlightHeader}
                     </div>
                     <p ref={leftRef} className="xl:text-xl text-lg">
-                        {props.firstText}
+                        {props.landingContent.firstHighlightText}
                     </p>
                 </div>
                 <div ref={middleItem} className="opacity-0 flex flex-col gap-8">
                     <div className="xl:text-8xl text-6xl text-green-500">
                         <i
                             style={{ lineHeight: 1 }}
-                            className={`${props.secondIcon} fa-2xl`}
+                            className={`${props.landingContent.secondHighlightIcon} fa-2xl`}
                         />
                     </div>
                     <div className="text-6xl font-bold">
-                        {props.secondHeader}
+                        {props.landingContent.secondHighlightHeader}
                     </div>
                     <p ref={middleRef} className="xl:text-xl text-lg">
-                        {props.secondText}
+                        {props.landingContent.secondHighlightText}
                     </p>
                 </div>
                 <div ref={rightItem} className="opacity-0 flex flex-col gap-8">
                     <div className="xl:text-8xl text-6xl text-green-500">
                         <i
                             style={{ lineHeight: 1 }}
-                            className={`${props.thirdIcon} fa-2xl`}
+                            className={`${props.landingContent.thirdHighlightIcon} fa-2xl`}
                         />
                     </div>
                     <div className="text-6xl font-bold">
-                        {props.thirdHeader}
+                        {props.landingContent.thirdHighlightHeader}
                     </div>
                     <p ref={rightRef} className="xl:text-xl text-lg">
-                        {props.thirdText}
+                        {props.landingContent.thirdHighlightText}
                     </p>
                 </div>
             </div>

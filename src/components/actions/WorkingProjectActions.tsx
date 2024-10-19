@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { ProjectForm } from "../admin/projects/newProject";
 import { TaskForm } from "../admin/projects/newTaskButton";
 
-export async function UpdateProjectState(id: string, state: ProjectState) {
+export async function updateProjectState(id: string, state: ProjectState) {
     try {
         await prisma.workingProject.update({
             where: {
@@ -16,15 +16,15 @@ export async function UpdateProjectState(id: string, state: ProjectState) {
                 state: state,
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/projects");
     }
 }
 
-export async function AddNewProject(data: ProjectForm) {
+export async function addNewProject(data: ProjectForm) {
     try {
         await prisma.workingProject.create({
             data: {
@@ -37,15 +37,15 @@ export async function AddNewProject(data: ProjectForm) {
                 },
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/projects");
     }
 }
 
-export async function UpdateDueDate(id: string, dueDate: Date) {
+export async function updateDueDate(id: string, dueDate: Date) {
     try {
         await prisma.workingProject.update({
             where: {
@@ -55,38 +55,37 @@ export async function UpdateDueDate(id: string, dueDate: Date) {
                 dateDue: dueDate,
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/projects");
     }
 }
 
-export async function DeleteProject(id: string) {
+export async function deleteProject(id: string) {
     try {
         await prisma.projectTask.deleteMany({
             where: {
                 projectId: id,
             },
         });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+
+        await prisma.workingProject.delete({
+            where: {
+                id: id,
+            },
+        });
+
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
-        try {
-            await prisma.workingProject.delete({
-                where: {
-                    id: id,
-                },
-            });
-            return Promise.resolve({ status: 200, message: "success" });
-        } catch (err: any) {
-            return Promise.resolve({ status: 201, message: err });
-        }
+        revalidatePath("/dashboard/projects");
     }
 }
 
-export async function UpdateTaskState(id: string, state: TaskState) {
+export async function updateTaskState(id: string, state: TaskState) {
     try {
         await prisma.projectTask.update({
             where: {
@@ -96,15 +95,15 @@ export async function UpdateTaskState(id: string, state: TaskState) {
                 status: state,
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/projects");
     }
 }
 
-export async function AddNewTask(data: TaskForm) {
+export async function addNewTask(data: TaskForm) {
     try {
         await prisma.projectTask.create({
             data: {
@@ -117,30 +116,30 @@ export async function AddNewTask(data: TaskForm) {
                 },
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/projects");
     }
 }
 
-export async function DeleteTask(id: string) {
+export async function deleteTask(id: string) {
     try {
         await prisma.projectTask.delete({
             where: {
                 id: id,
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/projects");
     }
 }
 
-export async function UpdateTaskPriority(id: string, priority: TaskPriority) {
+export async function updateTaskPriority(id: string, priority: TaskPriority) {
     try {
         await prisma.projectTask.update({
             where: {
@@ -150,9 +149,9 @@ export async function UpdateTaskPriority(id: string, priority: TaskPriority) {
                 priority: priority,
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/projects");
     }

@@ -1,6 +1,6 @@
 "use client";
 
-import { UpdateProjectState } from "@/components/actions/WorkingProjectActions";
+import { updateProjectState } from "@/components/actions/WorkingProjectActions";
 import { Select, SelectItem, SharedSelection } from "@nextui-org/react";
 import { ProjectState } from "@prisma/client";
 import { useState } from "react";
@@ -21,15 +21,21 @@ export default function ProjectStateChange(props: {
         switch (e.anchorKey) {
             case "PROPOSED":
                 setValue(new Set([ProjectState.PROPOSED]));
-                UpdateProjectState(props.id, ProjectState.PROPOSED);
+                updateProjectState(props.id, ProjectState.PROPOSED).catch(
+                    (err) => console.log(err)
+                );
                 return;
             case "STARTED":
                 setValue(new Set([ProjectState.STARTED]));
-                UpdateProjectState(props.id, ProjectState.STARTED);
+                updateProjectState(props.id, ProjectState.STARTED).catch(
+                    (err) => console.log(err)
+                );
                 return;
             case "FINISHED":
                 setValue(new Set([ProjectState.FINISHED]));
-                UpdateProjectState(props.id, ProjectState.FINISHED);
+                updateProjectState(props.id, ProjectState.FINISHED).catch(
+                    (err) => console.log(err)
+                );
                 return;
             default:
                 return;

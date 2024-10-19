@@ -1,6 +1,6 @@
 "use client";
 
-import { UpdateTaskPriority } from "@/components/actions/WorkingProjectActions";
+import { updateTaskPriority } from "@/components/actions/WorkingProjectActions";
 import { Select, SelectItem } from "@nextui-org/react";
 import { TaskPriority } from "@prisma/client";
 import { useState } from "react";
@@ -34,13 +34,19 @@ export default function TaskCardPriority(props: {
     function handleChange(value: string) {
         switch (value) {
             case "LOW":
-                UpdateTaskPriority(props.id, TaskPriority.LOW);
+                updateTaskPriority(props.id, TaskPriority.LOW).catch((err) =>
+                    console.log(err)
+                );
                 return;
             case "MEDIUM":
-                UpdateTaskPriority(props.id, TaskPriority.MEDIUM);
+                updateTaskPriority(props.id, TaskPriority.MEDIUM).catch((err) =>
+                    console.log(err)
+                );
                 return;
             case "HIGH":
-                UpdateTaskPriority(props.id, TaskPriority.HIGH);
+                updateTaskPriority(props.id, TaskPriority.HIGH).catch((err) =>
+                    console.log(err)
+                );
                 return;
             default:
                 return;

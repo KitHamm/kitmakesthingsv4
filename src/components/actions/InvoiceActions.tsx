@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { InvoiceForm } from "../admin/invoices/InvoicesMain";
 
-export async function CreateInvoice(data: InvoiceForm) {
+export async function createInvoice(data: InvoiceForm) {
     // Create Invoice
     try {
         const invoice = await prisma.invoice.create({
@@ -28,16 +28,16 @@ export async function CreateInvoice(data: InvoiceForm) {
                 },
             });
         }
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/invoices");
         revalidatePath("dashboard");
     }
 }
 
-export async function UpdateInvoice(reference: string, paid: boolean) {
+export async function updateInvoice(reference: string, paid: boolean) {
     try {
         await prisma.invoice.update({
             where: {
@@ -47,37 +47,30 @@ export async function UpdateInvoice(reference: string, paid: boolean) {
                 paid: paid,
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/invoices");
         revalidatePath("dashboard");
     }
 }
 
-export async function DeleteInvoice(reference: string) {
+export async function deleteInvoice(reference: string) {
     try {
         await prisma.invoiceItem.deleteMany({
             where: {
                 invoiceReference: reference,
             },
         });
-        try {
-            await prisma.invoice.delete({
-                where: {
-                    reference: reference,
-                },
-            });
-            return Promise.resolve({ status: 200, message: "success" });
-        } catch (err: any) {
-            return Promise.resolve({ status: 201, message: err });
-        } finally {
-            revalidatePath("dashboard/invoices");
-            revalidatePath("dashboard");
-        }
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        await prisma.invoice.delete({
+            where: {
+                reference: reference,
+            },
+        });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("dashboard/invoices");
         revalidatePath("dashboard");

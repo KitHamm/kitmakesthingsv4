@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { ContactModalType } from "../ContactModal";
 import { revalidatePath } from "next/cache";
 
-export async function SendMessage(data: ContactModalType) {
+export async function sendMessage(data: ContactModalType) {
     try {
         await prisma.messages.create({
             data: {
@@ -13,13 +13,15 @@ export async function SendMessage(data: ContactModalType) {
                 message: data.message,
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
+    } finally {
+        revalidatePath("/dashboard/messages");
     }
 }
 
-export async function UpdateMessageRead(messageId: string, read: boolean) {
+export async function updateMessageRead(messageId: string, read: boolean) {
     try {
         await prisma.messages.update({
             where: {
@@ -29,24 +31,24 @@ export async function UpdateMessageRead(messageId: string, read: boolean) {
                 read: read,
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/messages");
     }
 }
 
-export async function DeleteMessage(messageId: string) {
+export async function deleteMessage(messageId: string) {
     try {
         await prisma.messages.delete({
             where: {
                 id: messageId,
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        return Promise.resolve();
+    } catch (error: any) {
+        return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/messages");
     }

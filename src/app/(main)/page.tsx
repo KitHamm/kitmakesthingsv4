@@ -5,6 +5,7 @@ import ParallaxSection from "@/components/ParallaxSection";
 import SectionButtons from "@/components/SectionButtons";
 import TechStackSection from "@/components/TechStackSection";
 import TrippleHeader from "@/components/TrippleHeader";
+import Markdown from "react-markdown";
 
 export default async function Home() {
     const landingContent = await prisma.landing.findFirst();
@@ -21,11 +22,22 @@ export default async function Home() {
                         <div className="xl:my-auto">
                             <div className="xl:my-auto">
                                 <h1 className="xl:text-8xl text-6xl font-bold">
-                                    {landingContent ? landingContent.title : ""}
+                                    {landingContent?.title}
                                 </h1>
                             </div>
                             <div className="mt-4 xl:mt-4 text-lg">
-                                {landingContent ? landingContent.copy : ""}
+                                <Markdown>{landingContent?.copy}</Markdown>
+                            </div>
+                            <div className="mt-4 xl:mt-4 italic font-bold text-lg">
+                                You can view the{" "}
+                                <span className="text-green-500 ">
+                                    <a
+                                        target="_blank"
+                                        href="https://github.com/KitHamm/kitmakesthingsv4">
+                                        source code
+                                    </a>
+                                </span>{" "}
+                                for this site via the button below.
                             </div>
                             <HomeButtons home={true} />
                         </div>
@@ -47,17 +59,7 @@ export default async function Home() {
                 </div>
             </section>
             <TechStackSection landingTech={landingTech} />
-            <TrippleHeader
-                firstHeader={landingContent!.firstHighlightHeader}
-                firstIcon={landingContent!.firstHighlightIcon}
-                firstText={landingContent!.firstHighlightText}
-                secondHeader={landingContent!.secondHighlightHeader}
-                secondIcon={landingContent!.secondHighlightIcon}
-                secondText={landingContent!.secondHighlightText}
-                thirdHeader={landingContent!.thirdHighlightHeader}
-                thirdIcon={landingContent!.thirdHighlightIcon}
-                thirdText={landingContent!.thirdHighlightText}
-            />
+            <TrippleHeader landingContent={landingContent!} />
             <ParallaxSection
                 shift={false}
                 imageUrl="/climate-wall-parallax-2.png">

@@ -1,8 +1,8 @@
 "use client";
-import { Button, DatePicker, DateValue } from "@nextui-org/react";
+import { Button, DatePicker } from "@nextui-org/react";
 import { parseAbsoluteToLocal } from "@internationalized/date";
-import { useEffect, useState } from "react";
-import { UpdateDueDate } from "@/components/actions/WorkingProjectActions";
+import { useState } from "react";
+import { updateDueDate as updateDueDataAction } from "@/components/actions/WorkingProjectActions";
 export default function DueDateChange(props: { dueDate: Date; id: string }) {
     const [dateValue, setDateValue] = useState(
         parseAbsoluteToLocal(props.dueDate.toISOString())
@@ -15,9 +15,7 @@ export default function DueDateChange(props: { dueDate: Date; id: string }) {
             dateValue.day
         );
         date.setUTCHours(0, 0, 0, 0);
-        UpdateDueDate(props.id, date)
-            .then((res) => console.log(res))
-            .catch((e) => console.log(e));
+        updateDueDataAction(props.id, date).catch((err) => console.log(err));
     }
     return (
         <div className="h-full flex gap-2">

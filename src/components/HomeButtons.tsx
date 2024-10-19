@@ -16,11 +16,14 @@ export default function HomeButtons(props: { home: boolean }) {
                 Projects
             </Link>
             {props.home ? (
-                <Link
-                    className="transition-all xl:w-1/2 py-4 text-2xl text-center font-medium bg-white border-2 border-black rounded-full hover:bg-green-400 hover:border-white hover:text-white"
-                    href={"/about"}>
-                    About Me
-                </Link>
+                <>
+                    <Link
+                        target="_blank"
+                        className="transition-all xl:w-1/2 py-4 text-2xl text-center font-medium bg-white border-2 border-black rounded-full hover:bg-green-400 hover:border-white hover:text-white"
+                        href={"https://github.com/KitHamm/kitmakesthingsv4"}>
+                        Source Code
+                    </Link>
+                </>
             ) : (
                 <Button
                     onPress={() => onOpenChange()}

@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { AboutFormType, LandingFormType } from "../admin/content/ContentMain";
 import { revalidatePath } from "next/cache";
 
-export async function UpdateLanding(data: LandingFormType) {
+export async function updateLanding(data: LandingFormType) {
     try {
         // Update the landing page content
         await prisma.landing.update({
@@ -43,7 +43,7 @@ export async function UpdateLanding(data: LandingFormType) {
     }
 }
 
-export async function UpdateAbout(data: AboutFormType) {
+export async function updateAbout(data: AboutFormType) {
     try {
         await prisma.about.update({
             where: {
