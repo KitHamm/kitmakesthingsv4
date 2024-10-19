@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { ClientForm } from "../admin/invoices/InvoicesMain";
 import { revalidatePath } from "next/cache";
 
-export async function createClient(data: ClientForm) {
+export async function CreateClient(data: ClientForm) {
     try {
         const client = await prisma.client.create({
             data: {
@@ -21,7 +21,7 @@ export async function createClient(data: ClientForm) {
     }
 }
 
-export async function deleteClient(clientId: string) {
+export async function DeleteClient(clientId: string) {
     try {
         await prisma.client.delete({ where: { id: clientId } });
         return { status: 200, message: "success" };
