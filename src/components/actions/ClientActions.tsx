@@ -4,32 +4,29 @@ import prisma from "@/lib/prisma";
 import { ClientForm } from "../admin/invoices/InvoicesMain";
 import { revalidatePath } from "next/cache";
 
-export async function CreateClient(data: ClientForm) {
+export async function createClient(data: ClientForm) {
     try {
-        await prisma.client.create({
+        const client = await prisma.client.create({
             data: {
                 name: data.name,
                 address: data.address,
             },
         });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+
+        return { status: 200, message: "success", client };
+    } catch (error: any) {
+        return { status: 400, message: error.message };
     } finally {
         revalidatePath("/dashboard/invoices");
     }
 }
 
-export async function DeleteClient(id: string) {
+export async function deleteClient(clientId: string) {
     try {
-        await prisma.client.delete({
-            where: {
-                id: id,
-            },
-        });
-        return Promise.resolve({ status: 200, message: "success" });
-    } catch (err: any) {
-        return Promise.resolve({ status: 201, message: err });
+        await prisma.client.delete({ where: { id: clientId } });
+        return { status: 200, message: "success" };
+    } catch (error: any) {
+        return { status: 400, message: error.message };
     } finally {
         revalidatePath("/dashboard/invoices");
     }

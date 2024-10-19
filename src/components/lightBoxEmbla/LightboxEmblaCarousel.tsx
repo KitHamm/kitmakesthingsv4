@@ -75,19 +75,6 @@ const LightBoxEmblaCarousel: React.FC<PropType> = (props) => {
                 onClick={onNextButtonClick}
                 disabled={nextBtnDisabled}
             />
-
-            {/* <div className="lb-embla__controls">
-                <div className="lb-embla__buttons">
-                    <PrevButton
-                        onClick={onPrevButtonClick}
-                        disabled={prevBtnDisabled}
-                    />
-                    <NextButton
-                        onClick={onNextButtonClick}
-                        disabled={nextBtnDisabled}
-                    />
-                </div>
-            </div> */}
         </section>
     );
 };

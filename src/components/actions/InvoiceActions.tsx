@@ -14,11 +14,7 @@ export async function CreateInvoice(data: InvoiceForm) {
                 date: data.date,
                 taxYear: data.taxYear,
                 paid: false,
-                client: {
-                    connect: {
-                        id: data.clientId,
-                    },
-                },
+                clientId: data.clientId,
             },
         });
         for (let i = 0; i < data.items.length; i++) {

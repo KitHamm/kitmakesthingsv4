@@ -60,7 +60,7 @@ model ContentProject {
     where       String
     images      String[]
     client      String?
-    short       String @default("/")
+    short       String
     outLink     String?
     outLinkText String?
     order       Int @default(0)
@@ -70,17 +70,17 @@ model Landing {
     page                  String @unique
     title                 String
     tech                  Tech[]
-    Copy                  String
+    copy                  String @default("")
     imageUrl              String
-    firstHighlightHeader  String @default("Frontend")
-    secondHighlightHeader String @default("Backend")
-    thirdHighlightHeader  String @default("Interactive")
-    firstHighlightIcon    String @default("fa-solid fa-desktop")
-    secondHighlightIcon   String @default("fa-solid fa-server")
-    thirdHighlightIcon    String @default("fa-solid fa-hand-holding-heart")
-    firstHighlightText    String @default("I like to create functional and user friendly applications using a combination of Next.Js, React, Tailwind, Sass, NextUI, and Embla.")
-    secondHighlightText   String @default("Experience in using Postgres with Prisma ORM to create custom CMS. Hosting on Ubuntu using Node.JS through DigitalOcean.")
-    thirdHighlightText    String @default("From large scale projections with physical human interaction to live update leaderboards and score tracking. I like soliving problems for unique use cases.")
+    firstHighlightHeader  String 
+    secondHighlightHeader String 
+    thirdHighlightHeader  String 
+    firstHighlightIcon    String 
+    secondHighlightIcon   String 
+    thirdHighlightIcon    String 
+    firstHighlightText    String 
+    secondHighlightText   String 
+    thirdHighlightText    String 
 }
 
 model Tech {
@@ -93,7 +93,7 @@ model Tech {
 model About {
     page      String @unique
     title     String
-    Copy      String
+    copy      String @default("")
     text1     String
     text2     String
     image1Url String
@@ -135,6 +135,7 @@ model InvoiceItem {
     subTotal         Float
     invoice          Invoice @relation(fields: [invocieReference], references: [reference])
     invocieReference String
+    invoiceReference String @default("")
 }
 
 model Client {

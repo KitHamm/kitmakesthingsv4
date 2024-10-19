@@ -21,7 +21,6 @@ import {
     UpdateLanding,
 } from "@/components/actions/ContentActions";
 import axios from "axios";
-import { register } from "module";
 
 export type LandingFormType = {
     title: string;
@@ -235,7 +234,7 @@ export default function ContentMain(props: {
             landingReset({
                 title: props.landingContent.title,
                 tech: props.landingContent.tech,
-                copy: props.landingContent.Copy,
+                copy: props.landingContent.copy,
                 imageUrl: props.landingContent.imageUrl,
                 firstHighlightIcon: props.landingContent.firstHighlightIcon,
                 firstHighlightHeader: props.landingContent.firstHighlightHeader,
@@ -249,7 +248,7 @@ export default function ContentMain(props: {
                 thirdHighlightText: props.landingContent.thirdHighlightText,
             });
             setCurrentLandingImage(props.landingContent.imageUrl);
-            setLandingTextAreaValue(props.landingContent.Copy);
+            setLandingTextAreaValue(props.landingContent.copy);
             setFirstHighlightTextAreaValue(
                 props.landingContent.firstHighlightText
             );
@@ -263,7 +262,7 @@ export default function ContentMain(props: {
         if (props.aboutContent) {
             aboutReset({
                 title: props.aboutContent.title,
-                copy: props.aboutContent.Copy,
+                copy: props.aboutContent.copy,
                 image1Url: props.aboutContent.image1Url,
                 image2Url: props.aboutContent.image2Url,
                 image3Url: props.aboutContent.image3Url,
@@ -279,29 +278,21 @@ export default function ContentMain(props: {
             setCurrentAbout2Image(props.aboutContent.image2Url);
             setCurrentAbout3Image(props.aboutContent.image3Url);
             setCurrentAbout4Image(props.aboutContent.image4Url);
-            setAboutTextAreaValue(props.aboutContent.Copy);
+            setAboutTextAreaValue(props.aboutContent.copy);
         }
     }, [aboutReset, landingReset, props.landingContent, props.aboutContent]);
 
     // Functions
 
     function OnSubmitLanding(data: LandingFormType) {
-        UpdateLanding(data).then((res) => {
-            if (res.status === 200) {
-                console.log(res.message);
-            } else {
-                console.log(res.message);
-            }
+        UpdateLanding(data).catch((err) => {
+            console.log(err);
         });
     }
 
     function OnSubmitAbout(data: AboutFormType) {
-        UpdateAbout(data).then((res) => {
-            if (res.status === 200) {
-                console.log(res.message);
-            } else {
-                console.log(res.message);
-            }
+        UpdateAbout(data).catch((err) => {
+            console.log(err);
         });
     }
 
@@ -532,7 +523,7 @@ export default function ContentMain(props: {
                                     techAppend({
                                         name: newTech,
                                         landingId: "landing",
-                                        order: techFields.length,
+                                        order: 0,
                                     });
                                     setNewTech("");
                                 }}
