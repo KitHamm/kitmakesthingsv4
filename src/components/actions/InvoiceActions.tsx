@@ -30,7 +30,7 @@ export async function createInvoice(data: InvoiceForm) {
         }
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/invoices");
         revalidatePath("dashboard");
@@ -49,7 +49,7 @@ export async function updateInvoice(reference: string, paid: boolean) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/invoices");
         revalidatePath("dashboard");
@@ -70,7 +70,7 @@ export async function deleteInvoice(reference: string) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("dashboard/invoices");
         revalidatePath("dashboard");

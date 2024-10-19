@@ -35,8 +35,8 @@ export async function updateLanding(data: LandingFormType) {
         });
 
         return Promise.resolve();
-    } catch (error) {
-        return Promise.reject(error);
+    } catch (error: any) {
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/content");
         revalidatePath("/");
@@ -52,8 +52,8 @@ export async function updateAbout(data: AboutFormType) {
             data: data,
         });
         return Promise.resolve();
-    } catch (error) {
-        return Promise.reject(error);
+    } catch (error: any) {
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/content");
         revalidatePath("/about");

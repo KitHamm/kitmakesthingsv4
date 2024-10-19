@@ -60,7 +60,7 @@ export async function deleteFile(fileName: string) {
         );
         return Promise.resolve();
     } catch {
-        return Promise.reject("unable to delete");
+        return Promise.reject(new Error("unable to delete"));
     } finally {
         revalidatePath("/dashboard");
     }

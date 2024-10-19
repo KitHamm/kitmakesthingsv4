@@ -26,7 +26,7 @@ export async function deleteClient(clientId: string) {
         await prisma.client.delete({ where: { id: clientId } });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/invoices");
     }

@@ -15,7 +15,7 @@ export async function sendMessage(data: ContactModalType) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/messages");
     }
@@ -33,7 +33,7 @@ export async function updateMessageRead(messageId: string, read: boolean) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/messages");
     }
@@ -48,7 +48,7 @@ export async function deleteMessage(messageId: string) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/messages");
     }

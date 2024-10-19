@@ -53,7 +53,7 @@ export async function addProject(data: ContentProjectFormType) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/content/projects");
         revalidatePath("/projects");
@@ -69,7 +69,7 @@ export async function deleteProject(slug: string) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/content/projects");
         revalidatePath("/projects");

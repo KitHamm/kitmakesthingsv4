@@ -18,7 +18,7 @@ export async function updateProjectState(id: string, state: ProjectState) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/projects");
     }
@@ -39,7 +39,7 @@ export async function addNewProject(data: ProjectForm) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/projects");
     }
@@ -57,7 +57,7 @@ export async function updateDueDate(id: string, dueDate: Date) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/projects");
     }
@@ -79,7 +79,7 @@ export async function deleteProject(id: string) {
 
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/projects");
     }
@@ -97,7 +97,7 @@ export async function updateTaskState(id: string, state: TaskState) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/projects");
     }
@@ -118,7 +118,7 @@ export async function addNewTask(data: TaskForm) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/projects");
     }
@@ -133,7 +133,7 @@ export async function deleteTask(id: string) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/projects");
     }
@@ -151,7 +151,7 @@ export async function updateTaskPriority(id: string, priority: TaskPriority) {
         });
         return Promise.resolve();
     } catch (error: any) {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
     } finally {
         revalidatePath("/dashboard/projects");
     }
