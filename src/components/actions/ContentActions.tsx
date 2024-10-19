@@ -56,6 +56,6 @@ export async function UpdateAbout(data: AboutFormType) {
         return Promise.reject(error);
     } finally {
         revalidatePath("/dashboard/content");
-        revalidatePath("/");
+        revalidatePath("/about");
     }
 }
