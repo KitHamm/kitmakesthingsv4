@@ -2,6 +2,7 @@
 
 import { Badge } from "@nextui-org/react";
 import { Messages } from "@prisma/client";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -137,6 +138,11 @@ export default function SidePanel(props: { messages: Messages[] }) {
                         active={pathName === "/dashboard/media"}
                         newMessages={newMessages}
                     />
+                    <button
+                        onClick={() => signOut()}
+                        className="py-2 ps-8 text-left font-bold text-lg me-16 rounded-tr-full rounded-br-full transition-all hover:bg-red-400 hover:text-white">
+                        Log Out
+                    </button>
                 </div>
             </div>
             <div className="xl:hidden fixed bottom-3 left-3 z-40 bg-neutral-300 p-3 rounded-full border-2 shadow">
