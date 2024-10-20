@@ -1,6 +1,6 @@
 "use client";
 
-import { ExtendedInvoice } from "@/app/(admin)/dashboard/invoices/page";
+import { InvoiceWithClientAndItems } from "@/lib/types";
 import { Client, InvoiceItem } from "@prisma/client";
 import {
     Modal,
@@ -23,28 +23,8 @@ import {
 } from "@/components/functions/Statistics";
 import Markdown from "react-markdown";
 
-export type InvoiceForm = {
-    reference: string;
-    date: Date;
-    taxYear: string;
-    paid: boolean;
-    total: number;
-    clientId: string;
-    items: {
-        description: string;
-        quantity: number;
-        unitPrice: number;
-        subTotal: number;
-    }[];
-};
-
-export type ClientForm = {
-    name: string;
-    address: string;
-};
-
 export default function InvoicesMain(props: {
-    invoices: ExtendedInvoice[];
+    invoices: InvoiceWithClientAndItems[];
     clients: Client[];
 }) {
     const [selectedInvoice, setSelectedInvoice] = useState(-1);
@@ -100,7 +80,7 @@ export default function InvoicesMain(props: {
             </div>
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
                 {props.invoices.map(
-                    (invoice: ExtendedInvoice, index: number) => {
+                    (invoice: InvoiceWithClientAndItems, index: number) => {
                         if (invoice.taxYear === selectedTaxYear) {
                             return (
                                 <div

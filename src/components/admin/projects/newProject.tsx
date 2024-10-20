@@ -17,12 +17,7 @@ import {
 import { Client } from "@prisma/client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
-export type ProjectForm = {
-    name: string;
-    dateDue: Date;
-    clientId: string;
-};
+import { ProjectForm } from "@/lib/types";
 
 export default function NewProject(props: { clients: Client[] }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();

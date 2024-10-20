@@ -1,10 +1,7 @@
 import prisma from "@/lib/prisma";
 import ContentMain from "@/components/admin/content/ContentMain";
-import { About, Landing, Tech } from "@prisma/client";
-
-export interface ExtendedLanding extends Landing {
-    tech: Tech[];
-}
+import { About } from "@prisma/client";
+import { LandingWithTech } from "@/lib/types";
 
 export default async function Content() {
     const landingContent = await prisma.landing.findFirst({
@@ -22,7 +19,7 @@ export default async function Content() {
     return (
         <div className="xl:py-10 xl:px-10 py-4">
             <ContentMain
-                landingContent={landingContent as ExtendedLanding}
+                landingContent={landingContent as LandingWithTech}
                 aboutContent={aboutContent as About}
                 images={images}
             />

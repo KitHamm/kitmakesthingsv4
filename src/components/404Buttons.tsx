@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
 export default function ErrorButtons() {
@@ -11,13 +10,6 @@ export default function ErrorButtons() {
                 href={"/"}>
                 Home
             </Link>
-            {/* <Button
-                className="font-bold bg-white border-2 border-black rounded-none hover:bg-green-500 hover:border-white hover:text-white"
-                onClick={() => {
-                    window.location.href = "/";
-                }}>
-                Home
-            </Button> */}
         </div>
     );
 }

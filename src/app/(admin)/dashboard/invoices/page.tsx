@@ -1,11 +1,5 @@
 import InvoicesMain from "@/components/admin/invoices/InvoicesMain";
 import prisma from "@/lib/prisma";
-import { Client, Invoice, InvoiceItem } from "@prisma/client";
-
-export interface ExtendedInvoice extends Invoice {
-    invoiceItem: InvoiceItem[];
-    client: Client;
-}
 
 export default async function Invoices() {
     const invoices = await prisma.invoice.findMany({

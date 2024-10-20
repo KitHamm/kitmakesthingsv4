@@ -1,10 +1,10 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { ContactModalType } from "../ContactModal";
+import { ContactForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
-export async function sendMessage(data: ContactModalType) {
+export async function sendMessage(data: ContactForm) {
     try {
         await prisma.messages.create({
             data: {

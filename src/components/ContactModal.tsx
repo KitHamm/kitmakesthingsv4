@@ -5,19 +5,7 @@ import { useForm } from "react-hook-form";
 import { Button, CircularProgress } from "@nextui-org/react";
 import { sendMessage } from "./actions/MessageActions";
 import { useEffect, useRef, useState } from "react";
-
-enum MessageState {
-    NONE,
-    SENDING,
-    SUCCESS,
-    ERROR,
-}
-
-export type ContactModalType = {
-    name: string;
-    email: string;
-    message: string;
-};
+import { MessageState, ContactForm } from "@/lib/types";
 
 export default function ContactModal(props: {
     onOpenChange: any;
@@ -27,13 +15,13 @@ export default function ContactModal(props: {
     const [sendingState, setSendingState] = useState<MessageState>(
         MessageState.NONE
     );
-    const contactForm = useForm<ContactModalType>();
+    const contactForm = useForm<ContactForm>();
     const modal = useRef<HTMLDivElement | null>(null);
     const [previousScrollHeight, setPreviousScrollHeight] = useState(0);
     const { handleSubmit, register, formState, reset } = contactForm;
     const { errors } = formState;
 
-    function OnSubmit(data: ContactModalType) {
+    function OnSubmit(data: ContactForm) {
         setSendingState(MessageState.SENDING);
         sendMessage(data)
             .then(() => {

@@ -1,10 +1,9 @@
 "use client";
 
-import { Button, useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@nextui-org/react";
 import ContactModal from "./ContactModal";
 import { useEffect } from "react";
 import { Request } from "./actions/ServiceActions";
-import Link from "next/link";
 
 export default function ProjectButtons(props: { slug: string }) {
     const { onOpenChange, isOpen, onClose } = useDisclosure();

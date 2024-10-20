@@ -10,9 +10,6 @@ export default function Footer() {
                 <div className="font-bold">Made with Next.Js</div>
             </div>
             <div className="justify-center xl:w-1/4 xl:justify-end gap-4 flex">
-                {/* <Link href={"#"}>Home</Link>
-                <Link href={"#"}>About</Link>
-                <Link href={"#"}>Projects</Link> */}
                 <Link href={"/privacy"}>Privacy</Link>
             </div>
         </footer>

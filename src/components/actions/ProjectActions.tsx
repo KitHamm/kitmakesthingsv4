@@ -1,10 +1,10 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { ContentProjectFormType } from "../admin/content/ProjectsMain";
+import { ContentProjectForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
-export async function addProject(data: ContentProjectFormType) {
+export async function addProject(data: ContentProjectForm) {
     var stack: string[] = [];
     var images: string[] = [];
 

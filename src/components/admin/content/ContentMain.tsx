@@ -2,7 +2,8 @@
 
 import { useFieldArray, useForm } from "react-hook-form";
 import Image from "next/image";
-import { About, Tech, Images } from "@prisma/client";
+import { About, Images } from "@prisma/client";
+import { AboutContentForm, LandingContentForm } from "@/lib/types";
 import { useEffect, useRef, useState } from "react";
 import {
     CircularProgress,
@@ -15,46 +16,15 @@ import {
     ModalFooter,
     useDisclosure,
 } from "@nextui-org/react";
-import { ExtendedLanding } from "@/app/(admin)/dashboard/content/page";
+import { LandingWithTech } from "@/lib/types";
 import {
     updateAbout,
     updateLanding,
 } from "@/components/actions/ContentActions";
 import axios from "axios";
 
-export type LandingFormType = {
-    title: string;
-    tech: Tech[];
-    copy: string;
-    imageUrl: string;
-    firstHighlightHeader: string;
-    secondHighlightHeader: string;
-    thirdHighlightHeader: string;
-    firstHighlightIcon: string;
-    secondHighlightIcon: string;
-    thirdHighlightIcon: string;
-    firstHighlightText: string;
-    secondHighlightText: string;
-    thirdHighlightText: string;
-};
-
-export type AboutFormType = {
-    title: string;
-    copy: string;
-    image1Url: string;
-    image2Url: string;
-    image3Url: string;
-    image4Url: string;
-    text1: string;
-    text2: string;
-    title1: string;
-    title2: string;
-    title3: string;
-    title4: string;
-};
-
 export default function ContentMain(props: {
-    landingContent: ExtendedLanding;
+    landingContent: LandingWithTech;
     aboutContent: About;
     images: Images[];
 }) {
@@ -91,7 +61,7 @@ export default function ContentMain(props: {
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
     // Forms
-    const landingForm = useForm<LandingFormType>();
+    const landingForm = useForm<LandingContentForm>();
     const {
         register: landingRegister,
         handleSubmit: landingHandleSubmit,
@@ -109,7 +79,7 @@ export default function ContentMain(props: {
         control: landingControl,
         name: "tech",
     });
-    const aboutForm = useForm<AboutFormType>();
+    const aboutForm = useForm<AboutContentForm>();
     const {
         register: aboutRegister,
         handleSubmit: aboutHandleSubmit,
@@ -284,13 +254,13 @@ export default function ContentMain(props: {
 
     // Functions
 
-    function OnSubmitLanding(data: LandingFormType) {
+    function OnSubmitLanding(data: LandingContentForm) {
         updateLanding(data).catch((err) => {
             console.log(err);
         });
     }
 
-    function OnSubmitAbout(data: AboutFormType) {
+    function OnSubmitAbout(data: AboutContentForm) {
         updateAbout(data).catch((err) => {
             console.log(err);
         });

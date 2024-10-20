@@ -2,17 +2,8 @@ import ManageClientsButton from "@/components/admin/ManageClients";
 import NewProject from "@/components/admin/projects/newProject";
 import { dateRender } from "@/components/functions/dateRender";
 import prisma from "@/lib/prisma";
-import {
-    WorkingProject,
-    ProjectTask,
-    Client,
-    ProjectState,
-} from "@prisma/client";
-
-export interface ExtendedWorkingProject extends WorkingProject {
-    tasks: ProjectTask[];
-    client: Client;
-}
+import { WorkingProjectWithTasksAndClient } from "@/lib/types";
+import { ProjectState } from "@prisma/client";
 
 export default async function Projects() {
     const projects = await prisma.workingProject.findMany({
@@ -40,7 +31,7 @@ export default async function Projects() {
             </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-                {projects.map((project: ExtendedWorkingProject) => {
+                {projects.map((project: WorkingProjectWithTasksAndClient) => {
                     return (
                         <a
                             key={project.id}

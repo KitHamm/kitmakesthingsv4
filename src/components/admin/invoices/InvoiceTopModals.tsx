@@ -2,6 +2,7 @@
 
 import { createClient, deleteClient } from "@/components/actions/ClientActions";
 import { createInvoice } from "@/components/actions/InvoiceActions";
+import { ClientForm, InvoiceForm } from "@/lib/types";
 import {
     Button,
     DatePicker,
@@ -19,26 +20,6 @@ import { Client, Invoice } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import Markdown from "react-markdown";
-
-export type InvoiceForm = {
-    reference: string;
-    date: Date;
-    taxYear: string;
-    paid: boolean;
-    total: number;
-    clientId: string;
-    items: {
-        description: string;
-        quantity: number;
-        unitPrice: number;
-        subTotal: number;
-    }[];
-};
-
-export type ClientForm = {
-    name: string;
-    address: string;
-};
 
 export default function InvoiceTopModals(props: {
     clients: Client[];

@@ -11,32 +11,13 @@ import {
     CircularProgress,
     Chip,
 } from "@nextui-org/react";
+import { ContentProjectForm } from "@/lib/types";
 import { useFieldArray, useForm } from "react-hook-form";
 import { ContentProject, Images } from "@prisma/client";
 import { addProject, deleteProject } from "@/components/actions/ProjectActions";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
-
-export type ContentProjectFormType = {
-    name: string;
-    slug: string;
-    role: string;
-    stack: {
-        name: string;
-    }[];
-    description: string;
-    date: string;
-    where: string;
-    images: {
-        url: string;
-    }[];
-    client: string;
-    short: string;
-    outLink: string;
-    outLinkText: string;
-    order: number;
-};
 
 export default function ProjectsMain(props: {
     projects: ContentProject[];
@@ -53,7 +34,7 @@ export default function ProjectsMain(props: {
     const [projectShortTextAreaValue, setProjectShortTextAreaValue] =
         useState("");
 
-    const newProjectForm = useForm<ContentProjectFormType>({
+    const newProjectForm = useForm<ContentProjectForm>({
         defaultValues: {
             name: "",
         },
@@ -229,7 +210,7 @@ export default function ProjectsMain(props: {
 
     // Functions
 
-    function OnSubmitAddProject(data: ContentProjectFormType) {
+    function OnSubmitAddProject(data: ContentProjectForm) {
         console.log(typeof data.order);
         addProject(data)
             .then(() => {

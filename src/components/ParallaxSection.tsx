@@ -2,13 +2,8 @@
 
 import Image from "next/image";
 // React Components
-import { useEffect, useState, useRef, ReactNode } from "react";
-
-type LayoutProps = {
-    children?: ReactNode;
-    imageUrl: string;
-    shift: boolean;
-};
+import { useEffect, useState, useRef } from "react";
+import { LayoutProps } from "@/lib/types";
 
 export default function ParallaxSection({ children, ...props }: LayoutProps) {
     // Parallax element ref

@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { ClientForm } from "../admin/invoices/InvoicesMain";
+import { ClientForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
 export async function createClient(data: ClientForm) {

@@ -11,26 +11,17 @@ import {
     useDisclosure,
     Select,
     SelectItem,
-    SharedSelection,
 } from "@nextui-org/react";
 import { TaskPriority } from "@prisma/client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-type priorityType = {
-    label: string;
-    key: TaskPriority;
-};
-const priority: priorityType[] = [
+import { PriorityType, TaskForm } from "@/lib/types";
+
+const priority: PriorityType[] = [
     { label: "Low", key: TaskPriority.LOW },
     { label: "Medium", key: TaskPriority.MEDIUM },
     { label: "High", key: TaskPriority.HIGH },
 ];
-
-export type TaskForm = {
-    description: string;
-    priority: TaskPriority;
-    projectId: string;
-};
 
 export default function NewTask(props: { projectId: string }) {
     const [formError, setFormError] = useState("");
@@ -117,7 +108,7 @@ export default function NewTask(props: { projectId: string }) {
                                         }}
                                         label="Priority"
                                         className="w-full mb-4">
-                                        {priority.map((p: priorityType) => (
+                                        {priority.map((p: PriorityType) => (
                                             <SelectItem key={p.key}>
                                                 {p.label}
                                             </SelectItem>

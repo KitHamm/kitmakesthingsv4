@@ -4,19 +4,15 @@ import { Button } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
-type LoginType = {
-    email: string;
-    password: string;
-};
+import { LoginForm } from "@/lib/types";
 
 export default function Login() {
-    const loginForm = useForm<LoginType>();
+    const loginForm = useForm<LoginForm>();
     const { register, handleSubmit, reset, formState } = loginForm;
     const { errors } = formState;
     const [loginError, setLoginError] = useState("");
 
-    function login(data: LoginType) {
+    function login(data: LoginForm) {
         signIn("credentials", {
             email: data.email.toLowerCase(),
             password: data.password,

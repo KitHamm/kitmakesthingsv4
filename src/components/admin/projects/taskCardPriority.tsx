@@ -2,13 +2,9 @@
 
 import { updateTaskPriority } from "@/components/actions/WorkingProjectActions";
 import { Select, SelectItem } from "@nextui-org/react";
+import { PriorityType } from "@/lib/types";
 import { TaskPriority } from "@prisma/client";
 import { useState } from "react";
-
-type PriorityType = {
-    label: string;
-    key: TaskPriority;
-};
 
 const priorities: PriorityType[] = [
     {

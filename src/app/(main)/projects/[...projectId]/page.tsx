@@ -12,7 +12,6 @@ export default async function ProjectPage({
             slug: params.projectId[0],
         },
     });
-    const OPTIONS: EmblaOptionsType = { loop: true };
     if (project) {
         return (
             <main className="z-10">

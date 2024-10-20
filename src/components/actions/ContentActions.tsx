@@ -1,10 +1,10 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { AboutFormType, LandingFormType } from "../admin/content/ContentMain";
+import { LandingContentForm, AboutContentForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
-export async function updateLanding(data: LandingFormType) {
+export async function updateLanding(data: LandingContentForm) {
     try {
         // Update the landing page content
         await prisma.landing.update({
@@ -43,7 +43,7 @@ export async function updateLanding(data: LandingFormType) {
     }
 }
 
-export async function updateAbout(data: AboutFormType) {
+export async function updateAbout(data: AboutContentForm) {
     try {
         await prisma.about.update({
             where: {

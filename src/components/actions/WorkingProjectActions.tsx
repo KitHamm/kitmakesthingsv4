@@ -3,8 +3,7 @@
 import prisma from "@/lib/prisma";
 import { ProjectState, TaskPriority, TaskState } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { ProjectForm } from "../admin/projects/newProject";
-import { TaskForm } from "../admin/projects/newTaskButton";
+import { ProjectForm, TaskForm } from "@/lib/types";
 
 export async function updateProjectState(id: string, state: ProjectState) {
     try {

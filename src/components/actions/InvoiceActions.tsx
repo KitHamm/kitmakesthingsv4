@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { InvoiceForm } from "../admin/invoices/InvoicesMain";
+import { InvoiceForm } from "@/lib/types";
 
 export async function createInvoice(data: InvoiceForm) {
     // Create Invoice

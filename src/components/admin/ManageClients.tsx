@@ -12,11 +12,7 @@ import {
 import { Client } from "@prisma/client";
 import { createClient, deleteClient } from "../actions/ClientActions";
 import { useForm } from "react-hook-form";
-
-export type ClientForm = {
-    name: string;
-    address: string;
-};
+import { ClientForm } from "@/lib/types";
 
 export default function ManageClientsButton(props: { clients: Client[] }) {
     const {

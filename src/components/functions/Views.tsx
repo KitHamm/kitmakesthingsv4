@@ -1,9 +1,5 @@
 import { ServiceRequest } from "@prisma/client";
-
-export type Views = {
-    date: string;
-    pages: { page: string; count: number }[];
-};
+import { Views } from "@/lib/types";
 
 export function countViews(requests: ServiceRequest[]) {
     var sevenDays: Views[] = [];
