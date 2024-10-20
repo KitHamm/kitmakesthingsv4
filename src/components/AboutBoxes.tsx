@@ -9,21 +9,19 @@ export default function AboutBoxes(props: { aboutContent: About }) {
 
     useEffect(() => {
         setTimeout(() => {
-            for (let i = 0; i < boxRefs.current.length; i++) {
+            boxRefs.current.forEach((ref, i) => {
                 fadeBox(i);
-            }
+            });
         }, 10);
     }, []);
 
     function fadeBox(i: number) {
         setTimeout(() => {
-            if (boxRefs.current[i]) {
-                if (boxRefs.current[i].classList.contains("opacity-0")) {
-                    boxRefs.current[i].classList.replace(
-                        "opacity-0",
-                        "fade-in"
-                    );
-                }
+            if (
+                boxRefs.current[i] &&
+                boxRefs.current[i].classList.contains("opacity-0")
+            ) {
+                boxRefs.current[i].classList.replace("opacity-0", "fade-in");
             }
         }, 75 * i);
     }

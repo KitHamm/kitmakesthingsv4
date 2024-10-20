@@ -2,44 +2,39 @@ import { ServiceRequest } from "@prisma/client";
 import { Views } from "@/lib/types";
 
 export function countViews(requests: ServiceRequest[]) {
-    var sevenDays: Views[] = [];
-    for (let i = 6; i > -1; i--) {
-        var date = new Date();
-        date.setUTCHours(0, 0, 0, 0);
+    const views: Views[] = [];
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
 
-        var formDate = formatDate(
-            new Date(date.getFullYear(), date.getMonth(), date.getDate() - i)
+    for (let i = 6; i >= 0; i--) {
+        const date = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate() - i
         );
-        sevenDays.push({
-            date: formDate,
-            pages: [{ page: "", count: 0 }],
+        const formattedDate = formatDate(date);
+        views.push({
+            date: formattedDate,
+            pages: [],
         });
     }
-    sevenDays.forEach((date, index) => {
-        var page: { page: string; count: number }[] = [];
-        var pageName: string[] = [];
-        requests.forEach((request: ServiceRequest) => {
-            if (formatDate(request.createdAt) === date.date) {
-                if (!pageName.includes(request.page)) {
-                    pageName.push(request.page);
-                }
+
+    views.forEach((view) => {
+        const pageCounts: Record<string, number> = {};
+
+        requests.forEach((request) => {
+            if (formatDate(request.createdAt) === view.date) {
+                pageCounts[request.page] = (pageCounts[request.page] || 0) + 1;
             }
         });
-        pageName.forEach((pageName) => {
-            var count = 0;
-            requests.forEach((request: ServiceRequest) => {
-                if (
-                    pageName === request.page &&
-                    formatDate(request.createdAt) === date.date
-                ) {
-                    count = count + 1;
-                }
-            });
-            page.push({ page: pageName, count: count });
-        });
-        sevenDays[index] = { date: date.date, pages: page };
+
+        view.pages = Object.entries(pageCounts).map(([page, count]) => ({
+            page,
+            count,
+        }));
     });
-    return sevenDays;
+
+    return views;
 }
 
 function formatDate(date: Date) {

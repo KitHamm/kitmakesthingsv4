@@ -15,36 +15,28 @@ export default function SingleProject(props: { project: ContentProject }) {
     const fadeRefs = useRef<HTMLDivElement[]>([]);
     const techRefs = useRef<HTMLDivElement[]>([]);
     useEffect(() => {
-        for (let i = 0; i < fadeRefs.current.length; i++) {
-            fade(i);
-        }
-        for (let i = 0; i < techRefs.current.length; i++) {
-            fadeTech(i);
-        }
+        fadeRefs.current.forEach((ref, i) => fade(i));
+        techRefs.current.forEach((ref, i) => fadeTech(i));
     }, []);
 
     function fade(i: number) {
         setTimeout(() => {
-            if (fadeRefs.current[i]) {
-                if (fadeRefs.current[i].classList.contains("opacity-0")) {
-                    fadeRefs.current[i].classList.replace(
-                        "opacity-0",
-                        "fade-in"
-                    );
-                }
+            if (
+                fadeRefs.current[i] &&
+                fadeRefs.current[i].classList.contains("opacity-0")
+            ) {
+                fadeRefs.current[i].classList.replace("opacity-0", "fade-in");
             }
         }, 100 * i);
     }
 
     function fadeTech(i: number) {
         setTimeout(() => {
-            if (techRefs.current[i]) {
-                if (techRefs.current[i].classList.contains("opacity-0")) {
-                    techRefs.current[i].classList.replace(
-                        "opacity-0",
-                        "fade-in"
-                    );
-                }
+            if (
+                techRefs.current[i] &&
+                techRefs.current[i].classList.contains("opacity-0")
+            ) {
+                techRefs.current[i].classList.replace("opacity-0", "fade-in");
             }
         }, 100 * i);
     }
