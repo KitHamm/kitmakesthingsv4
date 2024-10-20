@@ -19,7 +19,6 @@ import {
 } from "./EmblaCarouselArrowButtons";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import { Images } from "@prisma/client";
 import Image from "next/image";
 import LightBoxEmblaCarousel from "../lightBoxEmbla/LightboxEmblaCarousel";
 
@@ -30,7 +29,6 @@ type PropType = {
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const [imageToDisplay, setImageToDisplay] = useState<String>("");
     const { slides, options } = props;
     const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
 
@@ -66,7 +64,6 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                         <div className="embla__slide" key={index}>
                             <Image
                                 onClick={() => {
-                                    setImageToDisplay(slide);
                                     onOpenChange();
                                 }}
                                 src={
@@ -75,7 +72,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                                 }
                                 height={1200}
                                 width={1200}
-                                className="hidden xl:block cursor-pointer my-auto w-auto h-auto"
+                                className="hidden xl:block cursor-pointer m-auto w-auto h-auto max-h-[66dvh]"
                                 alt={slide as string}
                             />
                             <Image
@@ -85,7 +82,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                                 }
                                 height={1200}
                                 width={1200}
-                                className="xl:hidden cursor-pointer my-auto w-auto h-auto"
+                                className="xl:hidden cursor-pointer m-auto w-auto h-auto max-h-[66dvh]"
                                 alt={slide as string}
                             />
                         </div>

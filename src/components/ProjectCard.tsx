@@ -50,7 +50,7 @@ export default function ProjectCard(props: {
                 <div
                     className={`${
                         fade ? "slide-in-left" : "opacity-0"
-                    } order-first xl:order-last`}>
+                    } order-first xl:order-last max-h-[40dvh] `}>
                     <Image
                         src={
                             process.env.NEXT_PUBLIC_BASE_IMAGE_URL +
@@ -59,7 +59,7 @@ export default function ProjectCard(props: {
                         height={800}
                         width={800}
                         alt={props.project.name}
-                        className="h-full w-auto ml-auto xl:ml-0 mr-auto"
+                        className="h-full w-auto m-auto"
                     />
                 </div>
             </div>

@@ -42,7 +42,7 @@ export default function SingleProject(props: { project: ContentProject }) {
     }
 
     return (
-        <article className="min-h-screen xl:w-[75dvw] w-[90dvw] grid xl:grid-cols-2 xl:gap-20 mx-auto">
+        <article className="grow xl:w-[75dvw] w-[90dvw] grid xl:grid-cols-2 xl:gap-20 mx-auto py-10">
             <header className="flex">
                 <div className="my-auto">
                     <div className="my-auto">
@@ -112,7 +112,7 @@ export default function SingleProject(props: { project: ContentProject }) {
                     </div>
                 </div>
             </header>
-            <figure className="slide-in-left flex order-first mt-24 xl:mt-0 mb-10 xl:order-last">
+            <figure className="slide-in-left flex order-first mb-10 xl:mb-0 xl:order-last">
                 <EmblaCarousel
                     slides={props.project.images}
                     options={OPTIONS}

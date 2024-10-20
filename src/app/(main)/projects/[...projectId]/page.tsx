@@ -14,8 +14,8 @@ export default async function ProjectPage({
     });
     if (project) {
         return (
-            <main className="z-10">
-                <section className="">
+            <main className="z-10 grow flex flex-col">
+                <section className="flex flex-col my-auto">
                     <SingleProject project={project} />
                 </section>
             </main>

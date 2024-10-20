@@ -38,9 +38,6 @@ const LightBoxEmblaCarousel: React.FC<PropType> = (props) => {
                 <div className="lb-embla__container">
                     {slides.map((slide: String, index: number) => (
                         <div className="lb-embla__slide" key={index}>
-                            {/* <div className="lb-embla__slide__number">
-                                {index + 1}
-                            </div> */}
                             <Image
                                 onLoad={(e) => {
                                     setLoaded(true);
@@ -52,10 +49,9 @@ const LightBoxEmblaCarousel: React.FC<PropType> = (props) => {
                                 }
                                 height={2000}
                                 width={2000}
-                                className="cursor-pointer m-auto w-auto h-auto"
+                                className="cursor-pointer m-auto w-auto h-auto max-h-[80dvh]"
                                 alt={slide as string}
                             />
-
                             {!loaded && (
                                 <div className="absolute top-0 bottom-0 left-0 right-0 z-30 m-auto w-[20dvw] h-[20dvh]">
                                     <CircularProgress
