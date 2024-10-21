@@ -4,7 +4,7 @@ import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/modal";
 import { useForm } from "react-hook-form";
 import { Button, CircularProgress } from "@nextui-org/react";
 import { sendMessage } from "./actions/MessageActions";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { MessageState, ContactForm } from "@/lib/types";
 
 export default function ContactModal(props: {
@@ -16,8 +16,6 @@ export default function ContactModal(props: {
         MessageState.NONE
     );
     const contactForm = useForm<ContactForm>();
-    const modal = useRef<HTMLDivElement | null>(null);
-    const [previousScrollHeight, setPreviousScrollHeight] = useState(0);
     const { handleSubmit, register, formState, reset } = contactForm;
     const { errors } = formState;
 

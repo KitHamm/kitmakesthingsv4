@@ -68,6 +68,7 @@ export type LandingContentForm = {
     title: string;
     tech: Tech[];
     copy: string;
+    shortAbout: string;
     imageUrl: string;
     firstHighlightHeader: string;
     secondHighlightHeader: string;

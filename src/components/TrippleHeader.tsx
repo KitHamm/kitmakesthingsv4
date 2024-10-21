@@ -41,7 +41,7 @@ export default function TrippleHeader({
         <section id="tripple-threat" className="flex fade-in justify-center">
             <div className="text-center w-[75dvw] grid grid-cols-1 xl:grid-cols-3 gap-20 py-20">
                 <div ref={firstItem} className="opacity-0 flex flex-col gap-8">
-                    <div className="xl:text-8xl text-6xl text-center text-green-500">
+                    <div className="xl:text-6xl text-6xl text-center text-green-500">
                         <i
                             style={{ lineHeight: 1 }}
                             className={`${landingContent.firstHighlightIcon} fa-2xl`}
@@ -55,7 +55,7 @@ export default function TrippleHeader({
                     </p>
                 </div>
                 <div ref={secondItem} className="opacity-0 flex flex-col gap-8">
-                    <div className="xl:text-8xl text-6xl text-green-500">
+                    <div className="xl:text-6xl text-6xl text-green-500">
                         <i
                             style={{ lineHeight: 1 }}
                             className={`${landingContent.secondHighlightIcon} fa-2xl`}
@@ -69,7 +69,7 @@ export default function TrippleHeader({
                     </p>
                 </div>
                 <div ref={thirdItem} className="opacity-0 flex flex-col gap-8">
-                    <div className="xl:text-8xl text-6xl text-green-500">
+                    <div className="xl:text-6xl text-6xl text-green-500">
                         <i
                             style={{ lineHeight: 1 }}
                             className={`${landingContent.thirdHighlightIcon} fa-2xl`}

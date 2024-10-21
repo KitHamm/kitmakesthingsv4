@@ -10,7 +10,7 @@ export default function SectionButtons() {
     return (
         <div
             className={`bg-white bg-opacity-10 duration-700 transition-all w-full mx-auto h-full flex justify-center`}>
-            <div className="w-[75dvw] my-auto gap-20 grid xl:grid-cols-3 grid-cols-1">
+            <div className="xl:w-[50dvw] w-[90dvw] my-auto gap-20 grid xl:grid-cols-2 grid-cols-1">
                 <Link
                     className={`transition-all text-center py-4 text-2xl font-medium border-5 text-white border-white rounded-full backdrop-blur hover:bg-green-500 hover:text-white`}
                     href={"/projects"}>
@@ -22,11 +22,6 @@ export default function SectionButtons() {
                     href={"https://github.com/KitHamm/"}>
                     GitHub
                 </Link>
-                <button
-                    onClick={() => onOpenChange()}
-                    className="transition-all py-4 text-2xl font-medium border-5 text-white border-white rounded-full hover:bg-green-500 backdrop-blur hover:text-white">
-                    Contact
-                </button>
             </div>
             <ContactModal
                 onClose={onClose}

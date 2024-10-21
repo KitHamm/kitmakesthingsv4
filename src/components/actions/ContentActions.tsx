@@ -15,6 +15,7 @@ export async function updateLanding(data: LandingContentForm) {
                 title: data.title,
                 copy: data.copy,
                 imageUrl: data.imageUrl,
+                shortAbout: data.shortAbout,
                 firstHighlightIcon: data.firstHighlightIcon,
                 firstHighlightHeader: data.firstHighlightHeader,
                 firstHighlightText: data.firstHighlightText,

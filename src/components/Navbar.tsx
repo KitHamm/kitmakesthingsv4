@@ -7,10 +7,17 @@ import { useEffect, useState } from "react";
 export default function NavbarComp() {
     const { isOpen, onClose, onOpenChange } = useDisclosure();
     const [isNavOpen, setIsNavOpen] = useState(false);
+    const [contactFrom, setContactForm] = useState<HTMLDivElement | null>(null);
     const pathname = usePathname();
 
     useEffect(() => {
         setIsNavOpen(false);
+        if (pathname === "/") {
+            const el: HTMLDivElement | null = document.getElementById(
+                "contact"
+            ) as HTMLDivElement;
+            setContactForm(el);
+        }
     }, [pathname]);
 
     useEffect(() => {
@@ -105,8 +112,15 @@ export default function NavbarComp() {
                                 Projects
                             </a>
                         </div>
+
                         <div
-                            onClick={() => onOpenChange()}
+                            onClick={() => {
+                                pathname === "/"
+                                    ? contactFrom?.scrollIntoView({
+                                          behavior: "smooth",
+                                      })
+                                    : onOpenChange();
+                            }}
                             className="cursor-pointer text-2xl hover:text-green-500 transition-colors font-bold"
                             color="foreground">
                             Contact
@@ -163,7 +177,11 @@ export default function NavbarComp() {
                     <div className={`py-2 ps-8`}>
                         <div
                             onClick={() => {
-                                onOpenChange();
+                                pathname === "/"
+                                    ? contactFrom?.scrollIntoView({
+                                          behavior: "smooth",
+                                      })
+                                    : onOpenChange();
                                 setIsNavOpen(false);
                             }}
                             className={` text-2xl transition-colors font-bold hover:text-green-500`}

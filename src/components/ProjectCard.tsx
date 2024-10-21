@@ -31,7 +31,7 @@ export default function ProjectCard(props: {
                         <div className="text-lg">{props.project.short}</div>
                         <div className="flex flex-col xl:flex-row gap-4">
                             <Link
-                                className="text-center transition-all xl:w-fit py-4 px-12 text-2xl font-medium border-2 border-black rounded-full hover:bg-green-400 hover:border-white hover:text-white"
+                                className="text-center transition-all xl:w-fit py-2 px-12 text-2xl font-medium border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
                                 href={"/projects/" + props.project.slug}>
                                 View Project
                             </Link>
@@ -39,7 +39,7 @@ export default function ProjectCard(props: {
                                 props.project.outLinkText && (
                                     <Link
                                         target="_blank"
-                                        className="text-center transition-all xl:w-fit py-4 px-12 text-2xl font-medium border-2 border-black rounded-full hover:bg-green-400 hover:border-white hover:text-white"
+                                        className="text-center transition-all xl:w-fit py-2 px-12 text-2xl font-medium border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
                                         href={props.project.outLink}>
                                         {props.project.outLinkText}
                                     </Link>

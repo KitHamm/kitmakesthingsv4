@@ -77,7 +77,7 @@ export default function TechStackSection({
                                     ref={(el: HTMLDivElement) => {
                                         chipRefs.current[index] = el;
                                     }}
-                                    className="opacity-0 bg-green-500 shadow-lg rounded-2xl p-2 px-4 font-medium text-xl xl:text-2xl text-white">
+                                    className="opacity-0 bg-green-500 shadow-lg rounded-2xl py-2 px-4 font-medium text-lg xl:text-xl text-white">
                                     {tech.name}
                                 </div>
                             ))}

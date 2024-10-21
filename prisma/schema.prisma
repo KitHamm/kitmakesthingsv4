@@ -71,6 +71,7 @@ model Landing {
     title                 String
     tech                  Tech[]
     copy                  String
+    shortAbout            String @default("")
     imageUrl              String
     firstHighlightHeader  String 
     secondHighlightHeader String 

@@ -96,7 +96,7 @@ export default function SingleProject(props: { project: ContentProject }) {
                         {props.project.outLink && props.project.outLinkText ? (
                             <Link
                                 target="_blank"
-                                className="w-full py-4 text-center rounded-full transition-all font-bold text-2xl bg-white border-2 border-black hover:bg-green-500 hover:border-white hover:text-white"
+                                className="w-full py-2 text-center transition-all font-bold text-2xl bg-white border-2 border-black hover:bg-green-500 hover:border-white hover:text-white"
                                 href={props.project.outLink}>
                                 {props.project.outLinkText}
                             </Link>
@@ -105,7 +105,7 @@ export default function SingleProject(props: { project: ContentProject }) {
                         )}
                         <ProjectButtons slug={props.project.slug} />
                         <Link
-                            className="xl:w-full py-4 text-center rounded-full transition-all font-bold text-2xl bg-white border-2 border-black hover:bg-green-500 hover:border-white hover:text-white"
+                            className="xl:w-full py-2 text-center transition-all font-bold text-2xl bg-white border-2 border-black hover:bg-green-500 hover:border-white hover:text-white"
                             href={"/projects"}>
                             Back
                         </Link>

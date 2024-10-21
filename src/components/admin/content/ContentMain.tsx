@@ -43,11 +43,13 @@ export default function ContentMain(props: {
     const [currentAbout3Image, setCurrentAbout3Image] = useState("");
     const [currentAbout4Image, setCurrentAbout4Image] = useState("");
     const landingFormTextArea = useRef<HTMLTextAreaElement | null>(null);
+    const shortAboutTextArea = useRef<HTMLTextAreaElement | null>(null);
     const firstHighlightTextArea = useRef<HTMLTextAreaElement | null>(null);
     const secondHighlightTextArea = useRef<HTMLTextAreaElement | null>(null);
     const thirdHighlightTextArea = useRef<HTMLTextAreaElement | null>(null);
     const aboutFormTextArea = useRef<HTMLTextAreaElement | null>(null);
     const [landingTextAreaValue, setLandingTextAreaValue] = useState("");
+    const [shotAboutTextAreaValue, setShortAboutTextAreaValue] = useState("");
     const [firstHighlightTextAreaValue, setFirstHighlightTextAreaValue] =
         useState("");
     const [secondHighlightTextAreaValue, setSecondHighlightTextAreaValue] =
@@ -98,6 +100,18 @@ export default function ContentMain(props: {
             setLandingTextAreaValue(e);
         },
     });
+    const { ref: shortAboutRef, ...shortAboutRest } = landingRegister(
+        "shortAbout",
+        {
+            required: {
+                value: true,
+                message: "Short is required.",
+            },
+            onChange: (e) => {
+                setShortAboutTextAreaValue(e);
+            },
+        }
+    );
 
     const { ref: firstHighlightTextRef, ...firstHighlightTextRest } =
         landingRegister("firstHighlightText", {
@@ -154,6 +168,17 @@ export default function ContentMain(props: {
             )}px`;
         }
     }, [landingTextAreaValue]);
+
+    useEffect(() => {
+        if (shortAboutTextArea.current !== null) {
+            shortAboutTextArea.current!.style.height = "inherit";
+
+            shortAboutTextArea.current!.style.height = `${Math.max(
+                shortAboutTextArea.current!.scrollHeight,
+                32
+            )}px`;
+        }
+    }, [shotAboutTextAreaValue]);
 
     useEffect(() => {
         if (firstHighlightTextArea.current !== null) {
@@ -520,6 +545,26 @@ export default function ContentMain(props: {
                                     : ""
                             }
                             {...landingRest}
+                        />
+                        <label className="font-bold" htmlFor="Short About">
+                            Short About
+                        </label>
+                        <textarea
+                            ref={(e) => {
+                                shortAboutRef(e);
+                                shortAboutTextArea.current = e;
+                            }}
+                            placeholder={
+                                landingErrors.shortAbout
+                                    ? landingErrors.shortAbout.message
+                                    : "Short About"
+                            }
+                            className={
+                                landingErrors.shortAbout
+                                    ? "placeholder:text-red-400"
+                                    : ""
+                            }
+                            {...shortAboutRest}
                         />
                         <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
                             <div>

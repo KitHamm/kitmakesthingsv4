@@ -6,6 +6,8 @@ import SectionButtons from "@/components/SectionButtons";
 import TechStackSection from "@/components/TechStackSection";
 import TrippleHeader from "@/components/TrippleHeader";
 import Markdown from "react-markdown";
+import AboutMeSection from "@/components/AboutMeSection";
+import LandingContact from "@/components/LandingContact";
 
 export default async function Home() {
     const landingContent = await prisma.landing.findFirst();
@@ -24,6 +26,15 @@ export default async function Home() {
                                 <h1 className="xl:text-8xl text-6xl font-bold">
                                     {landingContent?.title}
                                 </h1>
+                            </div>
+                            <div className="xl:my-4 my-8 w-full text-center xl:text-left">
+                                <a
+                                    target="_blank"
+                                    href={"Kit_Hamm_Developer_CV.pdf"}
+                                    className="transition-all px-10 py-2 text-xl text-center font-medium bg-white border-2 border-black hover:bg-green-400 hover:border-white hover:text-white">
+                                    <i className="mr-2 fa-solid fa-file" />
+                                    CV
+                                </a>
                             </div>
                             <div className="mt-4 xl:mt-4 text-lg">
                                 <Markdown>{landingContent?.copy}</Markdown>
@@ -60,9 +71,9 @@ export default async function Home() {
             </section>
             <TechStackSection landingTech={landingTech} />
             <TrippleHeader landingContent={landingContent!} />
-            <ParallaxSection
-                shift={false}
-                imageUrl="/climate-wall-parallax-2.png">
+            <AboutMeSection short={landingContent!.shortAbout} />
+            <LandingContact />
+            <ParallaxSection shift imageUrl="/climate-wall-parallax-2.png">
                 <SectionButtons />
             </ParallaxSection>
         </main>
