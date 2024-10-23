@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { ContentProject } from "@prisma/client";
-import ProjectsContent from "@/components/ProjectsContent";
+import VisitsTracker from "@/components/VisitsTracker";
 import ProjectCard from "@/components/ProjectCard";
 
 export default async function Projects() {
@@ -35,7 +35,7 @@ export default async function Projects() {
                     </div>
                 </article>
             </section>
-            <ProjectsContent />
+            <VisitsTracker />
         </main>
     );
 }

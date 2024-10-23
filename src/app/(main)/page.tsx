@@ -6,6 +6,7 @@ import TrippleHeader from "@/components/TrippleHeader";
 import Markdown from "react-markdown";
 import AboutMeSection from "@/components/AboutMeSection";
 import LandingContact from "@/components/LandingContact";
+import VisitsTracker from "@/components/VisitsTracker";
 
 export default async function Home() {
     const landingContent = await prisma.landing.findFirst();
@@ -66,6 +67,7 @@ export default async function Home() {
             <TrippleHeader landingContent={landingContent!} />
             <AboutMeSection short={landingContent!.shortAbout} />
             <LandingContact />
+            <VisitsTracker />
         </main>
     );
 }
