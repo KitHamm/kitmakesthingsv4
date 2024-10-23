@@ -8,11 +8,7 @@ import Image from "next/image";
 import { techLogos } from "@/data/techLogos";
 import { LogoList } from "@/lib/types";
 
-export default function TechStackSection({
-    landingTech,
-}: {
-    landingTech: Tech[];
-}) {
+export default function TechStackSection() {
     const { ref, inView } = useInView({ threshold: 1 });
 
     const techBoxRef = useRef<HTMLDivElement | null>(null);

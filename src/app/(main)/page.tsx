@@ -9,11 +9,6 @@ import LandingContact from "@/components/LandingContact";
 
 export default async function Home() {
     const landingContent = await prisma.landing.findFirst();
-    const landingTech = await prisma.tech.findMany({
-        orderBy: {
-            order: "asc",
-        },
-    });
     return (
         <main className="w-full flex flex-col">
             <section id="hero" className="fade-in xl:my-20">
@@ -67,7 +62,7 @@ export default async function Home() {
                     </figure>
                 </div>
             </section>
-            <TechStackSection landingTech={landingTech} />
+            <TechStackSection />
             <TrippleHeader landingContent={landingContent!} />
             <AboutMeSection short={landingContent!.shortAbout} />
             <LandingContact />
