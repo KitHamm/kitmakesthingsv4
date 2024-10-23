@@ -49,6 +49,7 @@ singleton.ts
 
 # Dev Uploads
 /public/upload
+/arduino
 
 # Prisma
 prisma/seed.ts
