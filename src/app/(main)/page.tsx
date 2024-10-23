@@ -6,7 +6,7 @@ import TrippleHeader from "@/components/TrippleHeader";
 import Markdown from "react-markdown";
 import AboutMeSection from "@/components/AboutMeSection";
 import LandingContact from "@/components/LandingContact";
-import VisitsTracker from "@/components/VisitsTracker";
+import VisitsTracker from "@/components/AnonVisitLogger";
 
 export default async function Home() {
     const landingContent = await prisma.landing.findFirst();

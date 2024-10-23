@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { ContentProject } from "@prisma/client";
-import VisitsTracker from "@/components/VisitsTracker";
+import AnonVisitLogger from "@/components/AnonVisitLogger";
 import ProjectCard from "@/components/ProjectCard";
 
 export default async function Projects() {
@@ -35,7 +35,7 @@ export default async function Projects() {
                     </div>
                 </article>
             </section>
-            <VisitsTracker />
+            <AnonVisitLogger />
         </main>
     );
 }

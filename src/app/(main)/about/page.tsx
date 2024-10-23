@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import Markdown from "react-markdown";
 import HomeButtons from "@/components/HomeButtons";
 import AboutBoxes from "@/components/AboutBoxes";
-import VisitsTracker from "@/components/VisitsTracker";
+import AnonVisitLogger from "@/components/AnonVisitLogger";
 
 export default async function AboutPage() {
     const aboutContent = await prisma.about.findFirst();
@@ -34,7 +34,7 @@ export default async function AboutPage() {
                                 {aboutContent?.copy}
                             </Markdown>
                             <HomeButtons home={false} />
-                            <VisitsTracker />
+                            <AnonVisitLogger />
                         </div>
                     </div>
                 </article>
