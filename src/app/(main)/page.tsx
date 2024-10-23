@@ -1,8 +1,6 @@
 import prisma from "@/lib/prisma";
 import Image from "next/image";
 import HomeButtons from "@/components/HomeButtons";
-import ParallaxSection from "@/components/ParallaxSection";
-import SectionButtons from "@/components/SectionButtons";
 import TechStackSection from "@/components/TechStackSection";
 import TrippleHeader from "@/components/TrippleHeader";
 import Markdown from "react-markdown";
@@ -73,9 +71,6 @@ export default async function Home() {
             <TrippleHeader landingContent={landingContent!} />
             <AboutMeSection short={landingContent!.shortAbout} />
             <LandingContact />
-            <ParallaxSection shift imageUrl="/climate-wall-parallax-2.png">
-                <SectionButtons />
-            </ParallaxSection>
         </main>
     );
 }

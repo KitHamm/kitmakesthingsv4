@@ -230,6 +230,7 @@ export default function ContentMain(props: {
                 title: props.landingContent.title,
                 tech: props.landingContent.tech,
                 copy: props.landingContent.copy,
+                shortAbout: props.landingContent.shortAbout,
                 imageUrl: props.landingContent.imageUrl,
                 firstHighlightIcon: props.landingContent.firstHighlightIcon,
                 firstHighlightHeader: props.landingContent.firstHighlightHeader,

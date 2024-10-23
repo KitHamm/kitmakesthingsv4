@@ -148,3 +148,8 @@ export type LayoutProps = {
     imageUrl: string;
     shift: boolean;
 };
+
+export type LogoList = {
+    name: string;
+    url: string;
+};

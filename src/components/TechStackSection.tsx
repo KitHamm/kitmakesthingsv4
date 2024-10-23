@@ -4,6 +4,9 @@ import { Tech } from "@prisma/client";
 import ParallaxSection from "./ParallaxSection";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
+import { techLogos } from "@/data/techLogos";
+import { LogoList } from "@/lib/types";
 
 export default function TechStackSection({
     landingTech,
@@ -43,13 +46,12 @@ export default function TechStackSection({
     }
 
     return (
-        <ParallaxSection shift imageUrl="/me-code-paralax.png">
-            <div className="xl:w-[75dvw] mx-auto flex gap-10 h-full">
+        <ParallaxSection shift imageUrl="/me-code-parallax.png">
+            <div className="xl:w-[95dvw] mx-auto flex gap-10 justify-center h-full">
                 <div
                     ref={techBoxRef}
                     className={`
                         opacity-0
-                        xl:basis-1/2
                         flex
                         h-full
                         xl:h-auto
@@ -65,20 +67,29 @@ export default function TechStackSection({
                         backdrop-blur-sm
                     `}>
                     <div className="my-auto">
-                        <div className="xl:text-6xl text-5xl text-center xl:text-left drop-shadow-2xl text-white font-bold">
+                        <div className="xl:text-6xl text-4xl text-center drop-shadow-2xl text-white font-bold">
                             Tech Stack.
                         </div>
                         <div
                             ref={ref}
-                            className="flex flex-wrap justify-evenly xl:justify-normal xl:mt-4 mt-6 gap-4">
-                            {landingTech.map((tech, index) => (
+                            className="flex flex-wrap justify-evenly justify-evenly xl:mt-8 mt-6 gap-6 xl:gap-10">
+                            {techLogos.map((logo: LogoList, index: number) => (
                                 <div
                                     key={index}
                                     ref={(el: HTMLDivElement) => {
                                         chipRefs.current[index] = el;
                                     }}
-                                    className="opacity-0 bg-green-500 shadow-lg rounded-2xl py-2 px-4 font-medium text-lg xl:text-xl text-white">
-                                    {tech.name}
+                                    className="basis-1/6 xl:basis-auto opacity-0 text-white flex flex-col gap-4">
+                                    <Image
+                                        className="mx-auto w-8 xl:w-14 xl:h-14"
+                                        src={logo.url}
+                                        width={75}
+                                        height={75}
+                                        alt={logo.name}
+                                    />
+                                    <div className="text-center xl:text-lg font-medium">
+                                        {logo.name}
+                                    </div>
                                 </div>
                             ))}
                         </div>
