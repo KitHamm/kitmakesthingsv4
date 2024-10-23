@@ -23,7 +23,7 @@ export default function AboutMeSection(props: { short: string }) {
     }, [inView]);
 
     return (
-        <ParallaxSection shift={false} imageUrl="/drums-parallax.png">
+        <ParallaxSection shift={false} imageUrl="/drums-parallax-3.png">
             <div className="xl:w-[75dvw] mx-auto flex gap-10 h-full">
                 <div
                     ref={techBoxRef}

@@ -54,7 +54,7 @@ export default function ParallaxSection({ children, ...props }: LayoutProps) {
                 ref={headerImage}
                 style={{ top: parallaxValue + "px", maxWidth: "none" }}
                 width={2560}
-                height={700}
+                height={1196}
                 className={`${
                     props.shift ? "right-[-100%] xl:right-auto" : ""
                 } opacity-0 absolute w-[400%] xl:w-full h-auto`}
