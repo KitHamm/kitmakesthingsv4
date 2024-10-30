@@ -1,3 +1,4 @@
+import { InvoiceWithClientAndItems } from "@/lib/types";
 import { Invoice } from "@prisma/client";
 
 export function invoicedToDate(invoices: Invoice[]) {
@@ -61,7 +62,7 @@ export function projection(type: string, invoices: Invoice[]) {
     }
 }
 
-export function totalTaxYears(invoices: Invoice[]) {
+export function totalTaxYears(invoices: InvoiceWithClientAndItems[]) {
     var taxYears: string[] = [];
     for (let i = 0; i < invoices.length; i++) {
         if (!taxYears.includes(invoices[i].taxYear)) {

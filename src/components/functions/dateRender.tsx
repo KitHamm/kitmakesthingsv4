@@ -1,3 +1,5 @@
+import { parseDate } from "@internationalized/date";
+
 const months = [
     "January",
     "February",
@@ -30,6 +32,16 @@ export function dateRender(date: Date) {
         yearString;
 
     return stringFormattedDate;
+}
+
+export function formatDate(date: Date) {
+    var formattedDate = "";
+    const dateOnly = date.toISOString().split("T")[0];
+    const year = dateOnly.split("-")[0];
+    const month = dateOnly.split("-")[1];
+    const day = dateOnly.split("-")[2];
+    formattedDate = day + "/" + month + "/" + year;
+    return formattedDate;
 }
 
 function dateOrdinal(date: number) {

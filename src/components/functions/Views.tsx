@@ -52,3 +52,8 @@ export function pagesWithViews(requests: ServiceRequest[]) {
     });
     return pages;
 }
+
+export function referencePlaceholderCalc(ref: string) {
+    const reference: number = parseInt(ref);
+    return (reference + 1).toString();
+}

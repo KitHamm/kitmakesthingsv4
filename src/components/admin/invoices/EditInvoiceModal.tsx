@@ -1,8 +1,5 @@
 "use client";
 
-import { createClient, deleteClient } from "@/components/actions/ClientActions";
-import { createInvoice } from "@/components/actions/InvoiceActions";
-import { ClientForm, InvoiceForm } from "@/lib/types";
 import {
     Button,
     DatePicker,
@@ -16,78 +13,103 @@ import {
     SelectItem,
     useDisclosure,
 } from "@nextui-org/react";
-import { Client } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { InvoiceStateContext } from "./InvoiceStateProvider";
 import { useFieldArray, useForm } from "react-hook-form";
+import { InvoiceForm } from "@/lib/types";
+import { Client } from "@prisma/client";
+import { parseDate } from "@internationalized/date";
 import Markdown from "react-markdown";
+import { updateInvoice } from "@/components/actions/InvoiceActions";
 
-export default function InvoiceTopModals(props: {
-    clients: Client[];
-    referencePlaceholder: string;
-}) {
-    const [newItemDescription, setNewItemDescription] = useState("");
-    const [newItemQuantity, setNewItemQuantity] = useState(0.0);
-    const [newItemUnitPrice, setNewItemUnitPrice] = useState(0.0);
-    const [newItemSubTotal, setNewItemSubTotal] = useState(0.0);
-    const [newInvoiceTotal, setNewInvoiceTotal] = useState(0.0);
+export default function EditInvoiceModal(props: { clients: Client[] }) {
     const {
-        isOpen: isOpenNewInvoice,
-        onOpen: onOpenNewInvoice,
-        onOpenChange: onOpenChangeNewInvoice,
-        onClose: onCloseNewInvoice,
+        selectedInvoice,
+        setSelectedInvoice,
+        isOpenEditInvoice,
+        onOpenChangeEditInvoice,
+    } = useContext(InvoiceStateContext);
+
+    const {
+        isOpen: isOpenInvoiceItem,
+        onOpen: onOpenInvoiceItem,
+        onOpenChange: onOpenChangeInvoiceItem,
+        onClose: onCloseInvoiceItem,
     } = useDisclosure();
+
     const {
         isOpen: isOpenNewItem,
         onOpen: onOpenNewItem,
         onOpenChange: onOpenChangeNewItem,
         onClose: onCloseNewItem,
     } = useDisclosure();
-    const {
-        isOpen: isOpenManageClients,
-        onOpen: onOpenManageClients,
-        onOpenChange: onOpenChangeManageClients,
-        onClose: onCloseManageClients,
-    } = useDisclosure();
-    const {
-        isOpen: isOpenNewClient,
-        onOpen: onOpenNewClient,
-        onOpenChange: onOpenChangeNewClient,
-        onClose: onCloseNewClient,
-    } = useDisclosure();
 
-    const invoiceForm = useForm<InvoiceForm>({
-        defaultValues: {
-            total: 0.0,
-        },
+    const [invoiceItemEdit, setInvoiceItemEdit] = useState({
+        description: "",
+        quantity: 0,
+        unitPrice: 0,
+        subTotal: 0,
+        index: 0,
     });
+    const [invoiceTotal, setInvoiceTotal] = useState(0);
 
-    const clientForm = useForm<ClientForm>({
-        defaultValues: {
-            name: "",
-            address: "",
-        },
-    });
-    const { register, reset, formState, handleSubmit, control, setValue } =
-        invoiceForm;
+    const invoiceForm = useForm<InvoiceForm>();
+    const {
+        register,
+        reset,
+        formState,
+        handleSubmit,
+        control,
+        setValue,
+        getValues,
+    } = invoiceForm;
+
     const { errors } = formState;
-    const { fields, append, remove } = useFieldArray({
+
+    const { fields, append, remove, update } = useFieldArray({
         name: "items",
         control,
     });
 
-    const {
-        register: registerClient,
-        reset: resetClient,
-        handleSubmit: handleSubmitClient,
-        formState: formStateClient,
-    } = clientForm;
-    const { errors: errorsClient } = formStateClient;
+    useEffect(() => {
+        if (selectedInvoice.reference) {
+            reset({
+                reference: selectedInvoice.reference,
+                date: selectedInvoice.date,
+                taxYear: selectedInvoice.taxYear,
+                paid: selectedInvoice.paid,
+                total: selectedInvoice.total,
+                clientId: selectedInvoice.clientId,
+                items: selectedInvoice.invoiceItem,
+            });
+            setInvoiceTotal(selectedInvoice.total);
+        }
+    }, [selectedInvoice, reset]);
 
     useEffect(() => {
-        if (newItemQuantity > 0 && newItemUnitPrice > 0) {
-            setNewItemSubTotal(newItemUnitPrice * newItemQuantity);
+        if (!isOpenEditInvoice) {
+            reset();
         }
-    }, [newItemQuantity, newItemUnitPrice]);
+    }, [onOpenChangeEditInvoice, isOpenEditInvoice, reset]);
+
+    function handleSelectInvoiceItem(index: number) {
+        setInvoiceItemEdit({
+            description: fields[index].description,
+            quantity: fields[index].quantity,
+            unitPrice: fields[index].unitPrice,
+            subTotal: fields[index].subTotal,
+            index: index,
+        });
+    }
+
+    useEffect(() => {
+        if (invoiceItemEdit.quantity > 0 && invoiceItemEdit.unitPrice > 0) {
+            setInvoiceItemEdit({
+                ...invoiceItemEdit,
+                subTotal: invoiceItemEdit.quantity * invoiceItemEdit.unitPrice,
+            });
+        }
+    }, [invoiceItemEdit.quantity, invoiceItemEdit.unitPrice]);
 
     useEffect(() => {
         if (fields.length > 0) {
@@ -96,74 +118,47 @@ export default function InvoiceTopModals(props: {
                 total = total + fields[i].subTotal;
             }
             setValue("total", total);
-            setNewInvoiceTotal(total);
+            setInvoiceTotal(total);
         }
-    }, [fields, newItemQuantity, newItemUnitPrice, newItemSubTotal, setValue]);
+    }, [
+        fields,
+        invoiceItemEdit.quantity,
+        invoiceItemEdit.unitPrice,
+        invoiceItemEdit.subTotal,
+        setValue,
+    ]);
 
-    function resetForm() {
-        for (let i = 0; i < fields.length; i++) {
-            remove(i);
-        }
-        reset({
-            reference: "",
-            date: undefined,
-            taxYear: "",
-            paid: false,
-            total: 0.0,
-            clientId: "",
-            items: [],
-        });
-        setNewInvoiceTotal(0.0);
-    }
-
-    function submitInvoice(data: InvoiceForm) {
-        createInvoice(data)
+    function handleUpdateInvoice(data: InvoiceForm) {
+        updateInvoice(data)
             .then(() => {
-                onCloseNewInvoice();
-                resetForm();
+                onOpenChangeEditInvoice(false);
             })
             .catch((err) => console.log(err));
     }
 
-    function submitClient(data: ClientForm) {
-        createClient(data)
-            .then(() => {
-                onCloseNewClient();
-                resetClient();
-            })
-            .catch((err) => console.log(err));
-    }
     return (
         <>
-            <div className="mb-6 flex flex-col xl:flex-row gap-4">
-                <Button
-                    onClick={() => {
-                        onOpenChangeNewInvoice();
-                    }}
-                    className="bg-green-500 w-full xl:w-auto">
-                    New Invoice
-                </Button>
-                <Button
-                    onClick={() => {
-                        onOpenChangeManageClients();
-                    }}
-                    className="bg-green-500 w-full xl:w-auto">
-                    Manage Clients
-                </Button>
-            </div>
             <Modal
-                size="2xl"
                 scrollBehavior="outside"
-                isOpen={isOpenNewInvoice}
-                onOpenChange={onOpenChangeNewInvoice}>
+                size="2xl"
+                isOpen={isOpenEditInvoice}
+                onOpenChange={onOpenChangeEditInvoice}>
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">
-                                New Invoice
+                            <ModalHeader className="flex flex-col">
+                                <div>Invoice #{selectedInvoice.reference}</div>
+                                <div
+                                    className={`${
+                                        selectedInvoice.paid
+                                            ? "text-green-500"
+                                            : "text-red-500"
+                                    }`}>
+                                    {selectedInvoice.paid ? "Paid" : "Not Paid"}
+                                </div>
                             </ModalHeader>
-                            <form onSubmit={handleSubmit(submitInvoice)}>
-                                <ModalBody className="gap-2">
+                            <form onSubmit={handleSubmit(handleUpdateInvoice)}>
+                                <ModalBody>
                                     <div className="flex flex-col xl:flex-row xl:gap-8 gap-4 mb-4 xl:mb-0">
                                         <Select
                                             onChange={(e) => {
@@ -173,7 +168,11 @@ export default function InvoiceTopModals(props: {
                                                 );
                                             }}
                                             label="Select a client"
-                                            className="w-full mb-4">
+                                            className="w-full mb-4"
+                                            defaultSelectedKeys={[
+                                                // selectedInvoice.client.id,
+                                                getValues("clientId"),
+                                            ]}>
                                             {props.clients.map(
                                                 (client: Client) => (
                                                     <SelectItem key={client.id}>
@@ -182,10 +181,14 @@ export default function InvoiceTopModals(props: {
                                                 )
                                             )}
                                         </Select>
-
                                         <DatePicker
                                             className="w-full"
                                             label="Date"
+                                            defaultValue={parseDate(
+                                                getValues("date")
+                                                    .toISOString()
+                                                    .split("T")[0]
+                                            )}
                                             onChange={(e: DateValue) => {
                                                 if (e) {
                                                     const date = new Date(
@@ -204,7 +207,6 @@ export default function InvoiceTopModals(props: {
                                             }}
                                         />
                                     </div>
-
                                     <div className="flex flex-col xl:flex-row xl:gap-8">
                                         <div className="xl:w-1/2">
                                             <label
@@ -225,7 +227,7 @@ export default function InvoiceTopModals(props: {
                                                     errors.reference
                                                         ? errors.reference
                                                               .message
-                                                        : props.referencePlaceholder
+                                                        : "Reference"
                                                 }
                                                 className={
                                                     errors.reference
@@ -269,9 +271,6 @@ export default function InvoiceTopModals(props: {
                                         fields.map((field, index) => {
                                             return (
                                                 <div
-                                                    onClick={() =>
-                                                        remove(index)
-                                                    }
                                                     key={field.id}
                                                     className="border-b-2 pb-4">
                                                     <div>
@@ -315,6 +314,28 @@ export default function InvoiceTopModals(props: {
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div className="flex gap-4 w-full mt-4 justify-end">
+                                                            <Button
+                                                                color="danger"
+                                                                variant="light"
+                                                                onPress={() =>
+                                                                    remove(
+                                                                        index
+                                                                    )
+                                                                }>
+                                                                Remove
+                                                            </Button>
+                                                            <Button
+                                                                onPress={() => {
+                                                                    handleSelectInvoiceItem(
+                                                                        index
+                                                                    );
+                                                                    onOpenInvoiceItem();
+                                                                }}
+                                                                className="bg-green-500">
+                                                                Edit
+                                                            </Button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             );
@@ -335,30 +356,150 @@ export default function InvoiceTopModals(props: {
                                                 Total:
                                             </div>
                                             <div>
-                                                £
-                                                {newInvoiceTotal.toLocaleString()}
+                                                £{invoiceTotal.toLocaleString()}
                                             </div>
                                         </div>
                                     </div>
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button
-                                        type="button"
                                         color="danger"
                                         variant="light"
-                                        onPress={() => {
-                                            onClose();
-                                            resetForm();
-                                        }}>
+                                        onPress={onClose}>
                                         Close
                                     </Button>
                                     <Button
-                                        type="submit"
-                                        className="bg-green-500">
+                                        className="bg-green-500"
+                                        type="submit">
                                         Submit
                                     </Button>
                                 </ModalFooter>
                             </form>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+            <Modal
+                isOpen={isOpenInvoiceItem}
+                onOpenChange={onOpenChangeInvoiceItem}>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">
+                                Invoice Item
+                            </ModalHeader>
+                            <ModalBody>
+                                <div>
+                                    <label
+                                        className="font-bold"
+                                        htmlFor="description">
+                                        Description:
+                                    </label>
+                                    <textarea
+                                        name="description"
+                                        value={invoiceItemEdit.description}
+                                        placeholder="Description..."
+                                        onChange={(e) =>
+                                            setInvoiceItemEdit({
+                                                ...invoiceItemEdit,
+                                                description: e.target.value,
+                                            })
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        className="font-bold"
+                                        htmlFor="description">
+                                        Quantity:
+                                    </label>
+                                    <input
+                                        type="number"
+                                        value={invoiceItemEdit.quantity || ``}
+                                        onChange={(e) =>
+                                            setInvoiceItemEdit({
+                                                ...invoiceItemEdit,
+                                                quantity: parseFloat(
+                                                    e.target.value
+                                                ),
+                                            })
+                                        }
+                                        placeholder="Quantity"
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        className="font-bold"
+                                        htmlFor="description">
+                                        Unit Price:
+                                    </label>
+                                    <input
+                                        type="number"
+                                        value={invoiceItemEdit.unitPrice || ``}
+                                        onChange={(e) =>
+                                            setInvoiceItemEdit({
+                                                ...invoiceItemEdit,
+                                                unitPrice: parseFloat(
+                                                    e.target.value
+                                                ),
+                                            })
+                                        }
+                                        placeholder="Unit Price"
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        className="font-bold"
+                                        htmlFor="description">
+                                        Sub Total:
+                                    </label>
+                                    <input
+                                        type="number"
+                                        value={invoiceItemEdit.subTotal || ``}
+                                        onChange={(e) => {}}
+                                        placeholder="Sub Total (Automatic)"
+                                    />
+                                </div>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button
+                                    color="danger"
+                                    variant="light"
+                                    onPress={() => {
+                                        onClose();
+                                        setInvoiceItemEdit({
+                                            description: "",
+                                            quantity: 0.0,
+                                            unitPrice: 0.0,
+                                            subTotal: 0.0,
+                                            index: 0,
+                                        });
+                                    }}>
+                                    Close
+                                </Button>
+                                <Button
+                                    className="bg-green-500"
+                                    onPress={() => {
+                                        update(invoiceItemEdit.index, {
+                                            description:
+                                                invoiceItemEdit.description,
+                                            quantity: invoiceItemEdit.quantity,
+                                            unitPrice:
+                                                invoiceItemEdit.unitPrice,
+                                            subTotal: invoiceItemEdit.subTotal,
+                                        });
+                                        onClose();
+                                        setInvoiceItemEdit({
+                                            description: "",
+                                            quantity: 0.0,
+                                            unitPrice: 0.0,
+                                            subTotal: 0.0,
+                                            index: 0,
+                                        });
+                                    }}>
+                                    Submit
+                                </Button>
+                            </ModalFooter>
                         </>
                     )}
                 </ModalContent>
@@ -379,12 +520,15 @@ export default function InvoiceTopModals(props: {
                                     </label>
                                     <textarea
                                         name="description"
-                                        value={newItemDescription}
+                                        value={
+                                            invoiceItemEdit.description || ``
+                                        }
                                         placeholder="Description..."
                                         onChange={(e) =>
-                                            setNewItemDescription(
-                                                e.target.value
-                                            )
+                                            setInvoiceItemEdit({
+                                                ...invoiceItemEdit,
+                                                description: e.target.value,
+                                            })
                                         }
                                     />
                                 </div>
@@ -396,11 +540,14 @@ export default function InvoiceTopModals(props: {
                                     </label>
                                     <input
                                         type="number"
-                                        value={newItemQuantity || ``}
+                                        value={invoiceItemEdit.quantity || ``}
                                         onChange={(e) =>
-                                            setNewItemQuantity(
-                                                parseFloat(e.target.value)
-                                            )
+                                            setInvoiceItemEdit({
+                                                ...invoiceItemEdit,
+                                                quantity: parseFloat(
+                                                    e.target.value
+                                                ),
+                                            })
                                         }
                                         placeholder="Quantity"
                                     />
@@ -413,11 +560,14 @@ export default function InvoiceTopModals(props: {
                                     </label>
                                     <input
                                         type="number"
-                                        value={newItemUnitPrice || ``}
+                                        value={invoiceItemEdit.unitPrice || ``}
                                         onChange={(e) =>
-                                            setNewItemUnitPrice(
-                                                parseFloat(e.target.value)
-                                            )
+                                            setInvoiceItemEdit({
+                                                ...invoiceItemEdit,
+                                                unitPrice: parseFloat(
+                                                    e.target.value
+                                                ),
+                                            })
                                         }
                                         placeholder="Unit Price"
                                     />
@@ -430,7 +580,7 @@ export default function InvoiceTopModals(props: {
                                     </label>
                                     <input
                                         type="number"
-                                        value={newItemSubTotal || ``}
+                                        value={invoiceItemEdit.subTotal || ``}
                                         onChange={(e) => {}}
                                         placeholder="Sub Total (Automatic)"
                                     />
@@ -442,10 +592,13 @@ export default function InvoiceTopModals(props: {
                                     variant="light"
                                     onPress={() => {
                                         onClose();
-                                        setNewItemDescription("");
-                                        setNewItemQuantity(0.0);
-                                        setNewItemUnitPrice(0.0);
-                                        setNewItemSubTotal(0.0);
+                                        setInvoiceItemEdit({
+                                            description: "",
+                                            quantity: 0.0,
+                                            unitPrice: 0.0,
+                                            subTotal: 0.0,
+                                            index: 0,
+                                        });
                                     }}>
                                     Close
                                 </Button>
@@ -453,172 +606,23 @@ export default function InvoiceTopModals(props: {
                                     className="bg-green-500"
                                     onPress={() => {
                                         append({
-                                            description: newItemDescription,
-                                            quantity: newItemQuantity,
-                                            unitPrice: newItemUnitPrice,
-                                            subTotal: newItemSubTotal,
+                                            description:
+                                                invoiceItemEdit.description,
+                                            quantity: invoiceItemEdit.quantity,
+                                            unitPrice:
+                                                invoiceItemEdit.unitPrice,
+                                            subTotal: invoiceItemEdit.subTotal,
                                         });
                                         onClose();
-                                        setNewItemDescription("");
-                                        setNewItemQuantity(0.0);
-                                        setNewItemUnitPrice(0.0);
-                                        setNewItemSubTotal(0.0);
+                                        setInvoiceItemEdit({
+                                            description: "",
+                                            quantity: 0.0,
+                                            unitPrice: 0.0,
+                                            subTotal: 0.0,
+                                            index: 0,
+                                        });
                                     }}>
                                     Action
-                                </Button>
-                            </ModalFooter>
-                        </>
-                    )}
-                </ModalContent>
-            </Modal>
-            <Modal
-                isDismissable={false}
-                isOpen={isOpenNewClient}
-                onOpenChange={onOpenChangeNewClient}>
-                <ModalContent>
-                    {(onClose) => (
-                        <>
-                            <ModalHeader className="flex flex-col gap-1">
-                                New Client
-                            </ModalHeader>
-                            <form onSubmit={handleSubmitClient(submitClient)}>
-                                <ModalBody>
-                                    <div>
-                                        <label
-                                            className="font-bold"
-                                            htmlFor="name">
-                                            Client Name:
-                                        </label>
-                                        <input
-                                            type="text"
-                                            {...registerClient("name", {
-                                                required: {
-                                                    value: true,
-                                                    message:
-                                                        "Client Name is required.",
-                                                },
-                                            })}
-                                            placeholder={
-                                                errorsClient.name
-                                                    ? errorsClient.name.message
-                                                    : "Client Name"
-                                            }
-                                            className={
-                                                errorsClient.name
-                                                    ? "placeholder:text-red-500"
-                                                    : ""
-                                            }
-                                        />
-                                    </div>
-                                    <div>
-                                        <label
-                                            className="font-bold"
-                                            htmlFor="name">
-                                            Client Address:
-                                        </label>
-                                        <textarea
-                                            {...registerClient("address", {
-                                                required: {
-                                                    value: true,
-                                                    message:
-                                                        "Address is required.",
-                                                },
-                                            })}
-                                            placeholder={
-                                                errorsClient.address
-                                                    ? errorsClient.address
-                                                          .message
-                                                    : "Client address"
-                                            }
-                                            className={
-                                                errorsClient.address
-                                                    ? "placeholder:text-red-500"
-                                                    : ""
-                                            }
-                                        />
-                                    </div>
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button
-                                        type="button"
-                                        color="danger"
-                                        variant="light"
-                                        onPress={() => {
-                                            onClose();
-                                            resetClient();
-                                        }}>
-                                        Close
-                                    </Button>
-                                    <Button
-                                        className="bg-green-500"
-                                        type="submit">
-                                        Submit
-                                    </Button>
-                                </ModalFooter>
-                            </form>
-                        </>
-                    )}
-                </ModalContent>
-            </Modal>
-            <Modal
-                isDismissable={false}
-                isOpen={isOpenManageClients}
-                onOpenChange={onOpenChangeManageClients}>
-                <ModalContent>
-                    {(onClose) => (
-                        <>
-                            <ModalHeader className="flex flex-col gap-1">
-                                Manage Clients
-                            </ModalHeader>
-                            <div className="px-4">
-                                {props.clients.map(
-                                    (client: Client, index: number) => {
-                                        return (
-                                            <div
-                                                className="border-b-2 py-2 flex justify-between"
-                                                key={client.id}>
-                                                <div className="font-bold my-auto">
-                                                    {client.name}
-                                                </div>
-                                                <Button
-                                                    onClick={() => {
-                                                        deleteClient(client.id)
-                                                            .then(() => {
-                                                                onCloseManageClients();
-                                                            })
-                                                            .catch((err) => {
-                                                                console.log(
-                                                                    err
-                                                                );
-                                                            });
-                                                    }}
-                                                    color="danger"
-                                                    variant="light">
-                                                    Delete
-                                                </Button>
-                                            </div>
-                                        );
-                                    }
-                                )}
-                            </div>
-                            <ModalBody></ModalBody>
-                            <ModalFooter>
-                                <Button
-                                    type="button"
-                                    color="danger"
-                                    variant="light"
-                                    onPress={() => {
-                                        onClose();
-                                        resetClient();
-                                    }}>
-                                    Close
-                                </Button>
-                                <Button
-                                    className="bg-green-500"
-                                    onClick={() => {
-                                        onOpenChangeNewClient();
-                                    }}>
-                                    New Client
                                 </Button>
                             </ModalFooter>
                         </>

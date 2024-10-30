@@ -53,7 +53,7 @@ function HighlightCard(props: {
         if (inView && card.current) {
             card.current.classList.replace("opacity-0", props.fadeClass);
         }
-    }, [inView]);
+    }, [inView, props.fadeClass]);
 
     return (
         <div

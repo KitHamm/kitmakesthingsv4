@@ -1,0 +1,207 @@
+"use client";
+
+import { useContext } from "react";
+import { InvoiceStateContext } from "./InvoiceStateProvider";
+import {
+    Button,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+} from "@nextui-org/react";
+import Markdown from "react-markdown";
+import { formatDate } from "@/components/functions/dateRender";
+import { InvoiceItem } from "@prisma/client";
+import {
+    deleteInvoice,
+    updateInvoicePaid,
+} from "@/components/actions/InvoiceActions";
+import { InvoiceWithClientAndItems } from "@/lib/types";
+
+export default function ViewInvoiceModal() {
+    const {
+        selectedInvoice,
+        setSelectedInvoice,
+        isOpenViewInvoice,
+        onOpenChangeViewInvoice,
+        onOpenEditInvoice,
+    } = useContext(InvoiceStateContext);
+
+    function updatePaid() {
+        updateInvoicePaid(
+            selectedInvoice.reference,
+            !selectedInvoice.paid
+        ).catch((err) => console.log(err));
+    }
+
+    return (
+        <Modal
+            scrollBehavior="outside"
+            size="2xl"
+            isOpen={isOpenViewInvoice}
+            onOpenChange={onOpenChangeViewInvoice}>
+            <ModalContent>
+                {(onClose) => (
+                    <>
+                        <ModalHeader className="flex flex-col">
+                            <div>Invoice #{selectedInvoice.reference}</div>
+                            <div
+                                className={`${
+                                    selectedInvoice.paid
+                                        ? "text-green-500"
+                                        : "text-red-500"
+                                }`}>
+                                {selectedInvoice.paid ? "Paid" : "Not Paid"}
+                            </div>
+                        </ModalHeader>
+                        <ModalBody>
+                            <div>
+                                <div className="font-bold">Billed To:</div>
+                                <div className="font-bold">
+                                    {selectedInvoice.client.name}
+                                </div>
+                                <Markdown>
+                                    {selectedInvoice.client.address}
+                                </Markdown>
+                            </div>
+                            <div className="flex flex-col xl:flex-row gap-4 xl:gap-8">
+                                <div>
+                                    <div className="font-bold">Date:</div>
+                                    <div>
+                                        {formatDate(selectedInvoice.date)}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="font-bold">Tax Year:</div>
+                                    <div>{selectedInvoice.taxYear}</div>
+                                </div>
+                            </div>
+                            <div className="border-t-2 py-4">
+                                <div className="font-bold">Items:</div>
+                                <div className="flex flex-col gap-4 mt-4">
+                                    {selectedInvoice.invoiceItem.map(
+                                        (item: InvoiceItem) => {
+                                            return (
+                                                <div
+                                                    className="border-b-2 pb-2 flex flex-col gap-4"
+                                                    key={item.id}>
+                                                    <div className="flex flex-col">
+                                                        <div className="font-bold">
+                                                            Description:
+                                                        </div>
+                                                        <Markdown className="text-sm xl:text-base">
+                                                            {item.description}
+                                                        </Markdown>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <div className="flex-col">
+                                                            <div className="font-bold">
+                                                                Quant.
+                                                            </div>
+                                                            <div className="text-end">
+                                                                {item.quantity}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex-col">
+                                                            <div className="font-bold">
+                                                                Unit Price
+                                                            </div>
+                                                            <div className="text-end">
+                                                                £
+                                                                {item.unitPrice.toLocaleString()}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex-col">
+                                                            <div className="font-bold">
+                                                                Sub Total
+                                                            </div>
+                                                            <div className="text-end">
+                                                                £
+                                                                {item.subTotal.toLocaleString()}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        }
+                                    )}
+                                </div>
+                            </div>
+                            <div
+                                className={`${
+                                    selectedInvoice.paid
+                                        ? "justify-end"
+                                        : "justify-between"
+                                } flex gap-2`}>
+                                {!selectedInvoice.paid && (
+                                    <div>
+                                        <Button
+                                            className="bg-green-500"
+                                            onPress={() => {
+                                                onOpenEditInvoice();
+                                                onClose();
+                                            }}>
+                                            Edit Invoice
+                                        </Button>
+                                    </div>
+                                )}
+                                <div className="flex gap-2">
+                                    <div className="font-bold">Total:</div>
+                                    <div>
+                                        £
+                                        {selectedInvoice.total.toLocaleString()}
+                                    </div>
+                                </div>
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <div className="flex w-full justify-between">
+                                <Button
+                                    color="danger"
+                                    onPress={() => {
+                                        onClose();
+                                        setSelectedInvoice(
+                                            {} as InvoiceWithClientAndItems
+                                        );
+                                    }}>
+                                    Close
+                                </Button>
+                                <div className="flex gap-2">
+                                    <Button
+                                        color="danger"
+                                        variant="light"
+                                        onPress={() => {
+                                            onClose();
+                                            deleteInvoice(
+                                                selectedInvoice.reference
+                                            )
+                                                .then(() => {
+                                                    setSelectedInvoice(
+                                                        {} as InvoiceWithClientAndItems
+                                                    );
+                                                })
+                                                .catch((err) => {
+                                                    console.log(err);
+                                                });
+                                        }}>
+                                        Delete
+                                    </Button>
+                                    <Button
+                                        className="bg-green-500"
+                                        onPress={() => {
+                                            updatePaid();
+                                        }}>
+                                        {selectedInvoice.paid
+                                            ? "Mark Unpaid"
+                                            : "Mark Paid"}
+                                    </Button>
+                                </div>
+                            </div>
+                        </ModalFooter>
+                    </>
+                )}
+            </ModalContent>
+        </Modal>
+    );
+}

@@ -1,83 +1,29 @@
 "use client";
 
 import { InvoiceWithClientAndItems } from "@/lib/types";
-import { Client, InvoiceItem } from "@prisma/client";
-import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Button,
-    useDisclosure,
-} from "@nextui-org/react";
-import { useState } from "react";
-import {
-    deleteInvoice,
-    updateInvoice,
-} from "@/components/actions/InvoiceActions";
-import InvoiceTopModals from "./InvoiceTopModals";
-import {
-    currentTaxYear,
-    totalTaxYears,
-} from "@/components/functions/Statistics";
-import Markdown from "react-markdown";
+import { useContext } from "react";
+import { InvoiceStateContext } from "./InvoiceStateProvider";
+import { updateInvoicePaid } from "@/components/actions/InvoiceActions";
 
-export default function InvoicesMain(props: {
+export default function InvoiceCards(props: {
     invoices: InvoiceWithClientAndItems[];
-    clients: Client[];
 }) {
-    const [selectedInvoice, setSelectedInvoice] = useState(-1);
-    const [selectedTaxYear, setSelectedTaxYear] = useState(currentTaxYear());
-    const listTaxYears: string[] = totalTaxYears(props.invoices);
     const {
-        isOpen: isOpenViewInvoice,
-        onOpen: onOpenViewInvoice,
-        onOpenChange: onOpenChangeViewInvoice,
-    } = useDisclosure();
+        selectedInvoice,
+        setSelectedInvoice,
+        selectedTaxYear,
+        onOpenViewInvoice,
+    } = useContext(InvoiceStateContext);
 
     function updatePaid(invoiceIndex: number) {
-        updateInvoice(
+        updateInvoicePaid(
             props.invoices[invoiceIndex].reference,
             !props.invoices[invoiceIndex].paid
         ).catch((err) => console.log(err));
     }
 
-    function formatDate(date: Date) {
-        var formattedDate = "";
-        const dateOnly = date.toISOString().split("T")[0];
-        const year = dateOnly.split("-")[0];
-        const month = dateOnly.split("-")[1];
-        const day = dateOnly.split("-")[2];
-        formattedDate = day + "/" + month + "/" + year;
-        return formattedDate;
-    }
-
     return (
-        <div>
-            <div className="font-bold text-6xl mb-6 pb-4 text-center xl:text-start border-b-2">
-                Invoices.
-            </div>
-            <InvoiceTopModals
-                invoices={props.invoices}
-                clients={props.clients}
-            />
-            <div className="grid grid-cols-3 xl:grid-cols-12  gap-4 mb-6">
-                {listTaxYears.map((taxYear: string) => {
-                    return (
-                        <Button
-                            className={
-                                selectedTaxYear === taxYear
-                                    ? "bg-green-500"
-                                    : ""
-                            }
-                            onClick={() => setSelectedTaxYear(taxYear)}
-                            key={taxYear}>
-                            {taxYear}
-                        </Button>
-                    );
-                })}
-            </div>
+        <>
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
                 {props.invoices.map(
                     (invoice: InvoiceWithClientAndItems, index: number) => {
@@ -85,8 +31,8 @@ export default function InvoicesMain(props: {
                             return (
                                 <div
                                     onClick={() => {
-                                        setSelectedInvoice(index);
-                                        onOpenChangeViewInvoice();
+                                        setSelectedInvoice(invoice);
+                                        onOpenViewInvoice();
                                     }}
                                     className="xl:hover:bg-green-200 transition-all cursor-pointer bg-neutral-100 shadow rounded-lg p-4"
                                     key={invoice.reference}>
@@ -117,7 +63,7 @@ export default function InvoicesMain(props: {
                     }
                 )}
             </div>
-            <Modal
+            {/* <Modal
                 scrollBehavior="outside"
                 size="2xl"
                 isOpen={isOpenViewInvoice}
@@ -294,7 +240,7 @@ export default function InvoicesMain(props: {
                         </>
                     )}
                 </ModalContent>
-            </Modal>
-        </div>
+            </Modal> */}
+        </>
     );
 }

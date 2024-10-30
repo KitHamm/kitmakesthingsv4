@@ -14,7 +14,7 @@ export default function ProjectCard(props: {
         setTimeout(() => {
             setFade(true);
         }, 200 * props.index);
-    }, []);
+    });
 
     return (
         <>
