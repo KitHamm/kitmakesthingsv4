@@ -18,6 +18,7 @@ import {
     updateInvoicePaid,
 } from "@/components/actions/InvoiceActions";
 import { InvoiceWithClientAndItems } from "@/lib/types";
+import { generatePDF } from "@/components/actions/InvoicePDF";
 
 export default function ViewInvoiceModal() {
     const {
@@ -84,7 +85,7 @@ export default function ViewInvoiceModal() {
                                         (item: InvoiceItem) => {
                                             return (
                                                 <div
-                                                    className="border-b-2 pb-2 flex flex-col gap-4"
+                                                    className="bg-neutral-200/75 rounded-lg py-2 px-4 xl:py-4 xl:px-8 flex flex-col"
                                                     key={item.id}>
                                                     <div className="flex flex-col">
                                                         <div className="font-bold">
@@ -94,6 +95,7 @@ export default function ViewInvoiceModal() {
                                                             {item.description}
                                                         </Markdown>
                                                     </div>
+                                                    <hr className="border-black mb-3" />
                                                     <div className="flex justify-between">
                                                         <div className="flex-col">
                                                             <div className="font-bold">
@@ -146,7 +148,8 @@ export default function ViewInvoiceModal() {
                                         </Button>
                                     </div>
                                 )}
-                                <div className="flex gap-2">
+
+                                <div className="flex gap-2 my-auto">
                                     <div className="font-bold">Total:</div>
                                     <div>
                                         £
@@ -156,8 +159,26 @@ export default function ViewInvoiceModal() {
                             </div>
                         </ModalBody>
                         <ModalFooter>
-                            <div className="flex w-full justify-between">
+                            <div className="w-full grid grid-cols-2 xl:grid-cols-4 gap-2">
                                 <Button
+                                    color="danger"
+                                    variant="light"
+                                    onPress={() => {
+                                        onClose();
+                                        deleteInvoice(selectedInvoice.reference)
+                                            .then(() => {
+                                                setSelectedInvoice(
+                                                    {} as InvoiceWithClientAndItems
+                                                );
+                                            })
+                                            .catch((err) => {
+                                                console.log(err);
+                                            });
+                                    }}>
+                                    Delete
+                                </Button>
+                                <Button
+                                    className=""
                                     color="danger"
                                     onPress={() => {
                                         onClose();
@@ -167,36 +188,23 @@ export default function ViewInvoiceModal() {
                                     }}>
                                     Close
                                 </Button>
-                                <div className="flex gap-2">
-                                    <Button
-                                        color="danger"
-                                        variant="light"
-                                        onPress={() => {
-                                            onClose();
-                                            deleteInvoice(
-                                                selectedInvoice.reference
-                                            )
-                                                .then(() => {
-                                                    setSelectedInvoice(
-                                                        {} as InvoiceWithClientAndItems
-                                                    );
-                                                })
-                                                .catch((err) => {
-                                                    console.log(err);
-                                                });
-                                        }}>
-                                        Delete
-                                    </Button>
-                                    <Button
-                                        className="bg-green-500"
-                                        onPress={() => {
-                                            updatePaid();
-                                        }}>
-                                        {selectedInvoice.paid
-                                            ? "Mark Unpaid"
-                                            : "Mark Paid"}
-                                    </Button>
-                                </div>
+
+                                <Button
+                                    className="bg-green-500"
+                                    onPress={() => {
+                                        updatePaid();
+                                    }}>
+                                    {selectedInvoice.paid
+                                        ? "Mark Unpaid"
+                                        : "Mark Paid"}
+                                </Button>
+                                <Button
+                                    className="bg-green-500"
+                                    onPress={() =>
+                                        generatePDF(selectedInvoice)
+                                    }>
+                                    Print
+                                </Button>
                             </div>
                         </ModalFooter>
                     </>
