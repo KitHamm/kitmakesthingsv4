@@ -1,7 +1,6 @@
 import prisma from "@/lib/prisma";
-import { EmblaOptionsType } from "embla-carousel";
-import ErrorButtons from "@/components/404Buttons";
-import SingleProject from "@/components/SingleProject";
+import ErrorButtons from "@/components/main/404Buttons";
+import SingleProject from "@/components/main/SingleProject";
 export default async function ProjectPage({
     params,
 }: {

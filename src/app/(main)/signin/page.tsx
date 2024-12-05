@@ -1,4 +1,4 @@
-import Login from "@/components/Login";
+import Login from "@/components/main/Login";
 
 export default async function Account() {
     return (

@@ -4,6 +4,7 @@ import Image from "next/image";
 // React Components
 import { useEffect, useState, useRef } from "react";
 import { LayoutProps } from "@/lib/types";
+import { mapNumRange } from "@/lib/functions";
 
 export default function ParallaxSection({ children, ...props }: LayoutProps) {
     // Parallax element ref
@@ -65,11 +66,3 @@ export default function ParallaxSection({ children, ...props }: LayoutProps) {
         </div>
     );
 }
-
-const mapNumRange = (
-    num: number,
-    inMin: number,
-    inMax: number,
-    outMin: number,
-    outMax: number
-) => ((num - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;

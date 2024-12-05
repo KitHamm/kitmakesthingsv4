@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { ContentProject } from "@prisma/client";
-import AnonVisitLogger from "@/components/AnonVisitLogger";
-import ProjectCard from "@/components/ProjectCard";
+import AnonVisitLogger from "@/components/main/AnonVisitLogger";
+import ProjectCard from "@/components/main/ProjectCard";
 
 export default async function Projects() {
     const projects = await prisma.contentProject.findMany({

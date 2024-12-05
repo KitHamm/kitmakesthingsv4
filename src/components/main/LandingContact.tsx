@@ -3,7 +3,7 @@
 import { ContactForm, MessageState } from "@/lib/types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { sendMessage } from "./actions/MessageActions";
+import { sendMessage } from "../actions/MessageActions";
 import { Button, CircularProgress } from "@nextui-org/react";
 
 export default function LandingContact() {

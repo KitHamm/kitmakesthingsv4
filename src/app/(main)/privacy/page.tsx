@@ -1,4 +1,4 @@
-import PrivacyModalLink from "@/components/PrivacyModalLink";
+import PrivacyModalLink from "@/components/main/PrivacyModalLink";
 import Link from "next/link";
 
 export default function PrivacyPage() {

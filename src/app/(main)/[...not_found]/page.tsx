@@ -1,4 +1,4 @@
-import ErrorButtons from "@/components/404Buttons";
+import ErrorButtons from "@/components/main/404Buttons";
 
 export default function NotFound() {
     return (

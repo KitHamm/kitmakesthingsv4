@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "../globals.css";
-import NavbarComp from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import NavbarComp from "@/components/main/Navbar";
+import Footer from "@/components/main/Footer";
 
 const roboto = Roboto({
     weight: ["100", "300", "400", "500", "700", "900"],
@@ -10,6 +10,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL("https://kitmakesthings.co.uk/"),
     title: "Kit Hamm | Developer",
     description:
         "Kit Hamm is a Web and Unity Developer from the South West. Open to contract and full time opportunities.",

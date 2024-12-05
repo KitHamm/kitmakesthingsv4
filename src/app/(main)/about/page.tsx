@@ -1,8 +1,9 @@
 import prisma from "@/lib/prisma";
 import Markdown from "react-markdown";
-import HomeButtons from "@/components/HomeButtons";
-import AboutBoxes from "@/components/AboutBoxes";
-import AnonVisitLogger from "@/components/AnonVisitLogger";
+import ContactButton from "@/components/main/ContactButton";
+import AboutBoxes from "@/components/main/AboutBoxes";
+import AnonVisitLogger from "@/components/main/AnonVisitLogger";
+import Link from "next/link";
 
 export default async function AboutPage() {
     const aboutContent = await prisma.about.findFirst();
@@ -33,7 +34,15 @@ export default async function AboutPage() {
                             <Markdown className="fade-in-slow mt-10 mx-auto text-lg">
                                 {aboutContent?.copy}
                             </Markdown>
-                            <HomeButtons home={false} />
+                            <div className="flex flex-col xl:flex-row justify-between my-6 gap-10">
+                                <Link
+                                    className={`${"slide-in-right"} transition-all xl:w-1/2 py-4 text-2xl text-center font-medium bg-white bg-opacity-25 backdrop-blur-sm border-2 border-black hover:bg-green-400 hover:border-white hover:text-white`}
+                                    href={"/projects"}>
+                                    <i className="fa-solid fa-diagram-project"></i>{" "}
+                                    View Projects
+                                </Link>
+                                <ContactButton home={false} />
+                            </div>
                             <AnonVisitLogger />
                         </div>
                     </div>
