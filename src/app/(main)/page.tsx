@@ -1,23 +1,24 @@
 // Prisma
 import prisma from "@/lib/prisma";
-// COmponents
+// Components
 import ParallaxSection from "@/components/main/ParallaxSection";
 import InViewAnimation from "@/components/main/inViewAnimation";
 import TechStackIcons from "@/components/main/TechStackIcons";
 import LandingContact from "@/components/main/LandingContact";
 import HighlightCard from "@/components/main/HighlightCard";
+import DataError from "@/components/main/DataError";
 // Packages
 import Image from "next/image";
 import Markdown from "react-markdown";
-// Functions
-import VisitsTracker from "@/components/main/AnonVisitLogger";
 import Link from "next/link";
+// Functions
+import AnonVisitLogger from "@/components/main/AnonVisitLogger";
 
 export default async function Home() {
-    const landingContent = await prisma.landing.findFirst();
+    const content = await prisma.landing.findFirst();
 
-    if (!landingContent) {
-        return <div>404</div>;
+    if (!content) {
+        return <DataError />;
     }
 
     return (
@@ -28,7 +29,7 @@ export default async function Home() {
                         <div className="xl:my-auto">
                             <div className="xl:my-auto">
                                 <h1 className="xl:text-8xl text-white xl:text-black drop-shadow-3xl xl:drop-shadow-none rounded-xl py-8 text-center xl:text-start text-6xl font-bold">
-                                    {landingContent.title}
+                                    {content.title}
                                 </h1>
                             </div>
                             <div className="hidden xl:block xl:my-4 my-8 w-full text-center xl:text-left">
@@ -41,7 +42,7 @@ export default async function Home() {
                                 </Link>
                             </div>
                             <div className="hidden xl:block mt-4 xl:mt-4 text-lg">
-                                <Markdown>{landingContent?.copy}</Markdown>
+                                <Markdown>{content?.copy}</Markdown>
                             </div>
                             <div className="hidden xl:block mt-4 xl:mt-4 italic font-bold text-lg">
                                 You can view the{" "}
@@ -102,20 +103,20 @@ export default async function Home() {
                 className="flex fade-in justify-center">
                 <div className="text-center w-[90dvw] xl:w-[75dvw] grid grid-cols-1 xl:grid-cols-3 gap-5 xl:gap-20 py-10 xl:py-20">
                     <HighlightCard
-                        header={landingContent.firstHighlightHeader}
-                        text={landingContent.firstHighlightText}
+                        header={content.firstHighlightHeader}
+                        text={content.firstHighlightText}
                         avatar="ai.jpeg"
                         index={0}
                     />
                     <HighlightCard
-                        header={landingContent.secondHighlightHeader}
-                        text={landingContent.secondHighlightText}
+                        header={content.secondHighlightHeader}
+                        text={content.secondHighlightText}
                         avatar="ai3.jpeg"
                         index={1}
                     />
                     <HighlightCard
-                        header={landingContent.thirdHighlightHeader}
-                        text={landingContent.thirdHighlightText}
+                        header={content.thirdHighlightHeader}
+                        text={content.thirdHighlightText}
                         avatar="ai4.jpeg"
                         index={2}
                     />
@@ -133,7 +134,7 @@ export default async function Home() {
                                     className={
                                         "text-white text-base xl:text-lg"
                                     }>
-                                    {landingContent.shortAbout}
+                                    {content.shortAbout}
                                 </Markdown>
                                 <Link
                                     className="transition-all xl:w-1/2 py-2 text-base xl:text-lg text-white text-center font-medium bg-black border-2 border-white hover:bg-green-400 "
@@ -146,7 +147,7 @@ export default async function Home() {
                 </div>
             </ParallaxSection>
             <LandingContact />
-            <VisitsTracker />
+            <AnonVisitLogger />
         </main>
     );
 }

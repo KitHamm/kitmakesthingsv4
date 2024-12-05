@@ -1,6 +1,6 @@
 import ManageClientsButton from "@/components/admin/ManageClients";
 import NewProject from "@/components/admin/projects/newProject";
-import { dateRender } from "@/components/functions/dateRender";
+import { dateRender } from "@/lib/functions";
 import prisma from "@/lib/prisma";
 import { WorkingProjectWithTasksAndClient } from "@/lib/types";
 import { ProjectState } from "@prisma/client";

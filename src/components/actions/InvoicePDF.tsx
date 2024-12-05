@@ -3,7 +3,7 @@
 import { InvoiceWithClientAndItems } from "@/lib/types";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { formatDate } from "../functions/dateRender";
+import { formatDate } from "@/lib/functions";
 
 const START_GUTTER = 15;
 const HALF_PAGE_WIDTH = 105;

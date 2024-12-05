@@ -1,9 +1,11 @@
 "use client";
 
+// Packages
 import { Button } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+// Types
 import { LoginForm } from "@/lib/types";
 
 export default function Login() {

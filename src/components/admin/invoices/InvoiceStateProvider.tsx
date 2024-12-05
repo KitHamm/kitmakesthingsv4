@@ -1,6 +1,6 @@
 "use client";
 
-import { currentTaxYear } from "@/components/functions/Statistics";
+import { currentTaxYear } from "@/lib/functions";
 import { InvoiceWithClientAndItems } from "@/lib/types";
 import { createContext, useState } from "react";
 import { useDisclosure } from "@nextui-org/react";

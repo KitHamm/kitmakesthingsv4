@@ -1,7 +1,7 @@
 "use client";
 
 import { RemoveOldPages } from "@/components/actions/ServiceActions";
-import { countViews, pagesWithViews } from "@/components/functions/Views";
+import { countViews, pagesWithViews } from "@/lib/functions";
 import { Views } from "@/lib/types";
 import { ServiceRequest } from "@prisma/client";
 import { useEffect, useState } from "react";

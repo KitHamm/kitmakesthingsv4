@@ -1,10 +1,12 @@
 "use client";
 
-import Image from "next/image";
-// React Components
+// Packages
 import { useEffect, useState, useRef } from "react";
-import { LayoutProps } from "@/lib/types";
+import Image from "next/image";
+// Functions
 import { mapNumRange } from "@/lib/functions";
+// Types
+import { LayoutProps } from "@/lib/types";
 
 export default function ParallaxSection({ children, ...props }: LayoutProps) {
     // Parallax element ref

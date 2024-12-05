@@ -1,7 +1,14 @@
+// Prisma
 import prisma from "@/lib/prisma";
-import { ContentProject } from "@prisma/client";
+// Components
+import ProjectCardInView from "@/components/main/ProjectCardInView";
+import DataError from "@/components/main/DataError";
+// Packages
+import Link from "next/link";
+// Functions
 import AnonVisitLogger from "@/components/main/AnonVisitLogger";
-import ProjectCard from "@/components/main/ProjectCard";
+// Types
+import { ContentProject } from "@prisma/client";
 
 export default async function Projects() {
     const projects = await prisma.contentProject.findMany({
@@ -9,9 +16,14 @@ export default async function Projects() {
             order: "asc",
         },
     });
+
+    if (!projects) {
+        return <DataError />;
+    }
+
     return (
         <main>
-            <section className="">
+            <section id="projects">
                 <header className="min-h-auto my-20 flex justify-center">
                     <h1 className="text-center font-bold text-6xl xl:text-8xl mt-auto">
                         Projects.
@@ -23,11 +35,42 @@ export default async function Projects() {
                             {projects.map(
                                 (project: ContentProject, index: number) => {
                                     return (
-                                        <ProjectCard
-                                            index={index}
-                                            key={project.slug}
-                                            project={project}
-                                        />
+                                        <ProjectCardInView
+                                            key={index}
+                                            image={project.images[0]}
+                                            projectName={project.name}>
+                                            <div className="xl: w-4/5 mx-auto flex flex-col justify-center gap-6">
+                                                <div className="font-bold text-4xl">
+                                                    {project.name}
+                                                </div>
+                                                <div className="text-lg">
+                                                    {project.short}
+                                                </div>
+                                                <div className="flex flex-col xl:flex-row gap-4">
+                                                    <Link
+                                                        className="text-center transition-all xl:w-fit py-2 px-12 text-2xl font-medium border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
+                                                        href={
+                                                            "/projects/" +
+                                                            project.slug
+                                                        }>
+                                                        View Project
+                                                    </Link>
+                                                    {project.outLink &&
+                                                        project.outLinkText && (
+                                                            <Link
+                                                                target="_blank"
+                                                                className="text-center transition-all xl:w-fit py-2 px-12 text-2xl font-medium border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
+                                                                href={
+                                                                    project.outLink
+                                                                }>
+                                                                {
+                                                                    project.outLinkText
+                                                                }
+                                                            </Link>
+                                                        )}
+                                                </div>
+                                            </div>
+                                        </ProjectCardInView>
                                     );
                                 }
                             )}

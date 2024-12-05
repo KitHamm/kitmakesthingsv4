@@ -1,10 +1,13 @@
 "use client";
 
+// Packages
+import { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/modal";
 import { useForm } from "react-hook-form";
 import { Button, CircularProgress } from "@nextui-org/react";
+// Functions
 import { sendMessage } from "../actions/MessageActions";
-import { useEffect, useState } from "react";
+// Types
 import { MessageState, ContactForm } from "@/lib/types";
 
 export default function ContactModal(props: {

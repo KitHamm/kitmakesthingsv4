@@ -109,7 +109,7 @@ export default function EditInvoiceModal(props: { clients: Client[] }) {
                 subTotal: invoiceItemEdit.quantity * invoiceItemEdit.unitPrice,
             });
         }
-    }, [invoiceItemEdit.quantity, invoiceItemEdit.unitPrice]);
+    }, [invoiceItemEdit, setInvoiceItemEdit]);
 
     useEffect(() => {
         if (fields.length > 0) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { invoiceCount } from "@/components/functions/Statistics";
+import { invoiceCount } from "@/lib/functions";
 import { Invoice } from "@prisma/client";
 import { useEffect, useState } from "react";
 

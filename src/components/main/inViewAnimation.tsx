@@ -1,8 +1,10 @@
 "use client";
 
-import { highlightAnimations } from "@/lib/constants";
+// Packages
 import { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
+// Constants
+import { highlightAnimations } from "@/lib/constants";
 
 export default function InViewAnimation({
     children,
@@ -24,7 +26,7 @@ export default function InViewAnimation({
                 );
             }
         }
-    }, [inView]);
+    }, [inView, animation]);
     return (
         <div
             ref={el}

@@ -1,3 +1,4 @@
+// Components
 import ErrorButtons from "@/components/main/404Buttons";
 
 export default function NotFound() {

@@ -4,8 +4,7 @@ import InvoiceStateProvider from "@/components/admin/invoices/InvoiceStateProvid
 import InvoiceTopModals from "@/components/admin/invoices/InvoiceTopModals";
 import InvoiceYearButtons from "@/components/admin/invoices/InvoiceYearButtons";
 import ViewInvoiceModal from "@/components/admin/invoices/ViewInvoiceModal";
-import { totalTaxYears } from "@/components/functions/Statistics";
-import { referencePlaceholderCalc } from "@/components/functions/Views";
+import { totalTaxYears, referencePlaceholderCalc } from "@/lib/functions";
 import prisma from "@/lib/prisma";
 
 export default async function Invoices() {

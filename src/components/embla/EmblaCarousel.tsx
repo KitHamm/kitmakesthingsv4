@@ -1,14 +1,11 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
 import {
     Modal,
     ModalContent,
-    ModalHeader,
     ModalBody,
-    ModalFooter,
-    Button,
     useDisclosure,
 } from "@nextui-org/react";
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";

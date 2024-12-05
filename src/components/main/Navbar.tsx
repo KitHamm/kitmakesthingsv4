@@ -1,8 +1,11 @@
 "use client";
+
+// Packages
 import { Link, useDisclosure } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
-import ContactModal from "./ContactModal";
 import { useEffect, useState } from "react";
+// Components
+import ContactModal from "./ContactModal";
 
 export default function NavbarComp() {
     const { isOpen, onClose, onOpenChange } = useDisclosure();

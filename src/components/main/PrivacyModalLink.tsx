@@ -1,7 +1,9 @@
 "use client";
 
-import ContactModal from "./ContactModal";
+// Packages
 import { useDisclosure } from "@nextui-org/react";
+// Components
+import ContactModal from "./ContactModal";
 
 export default function PrivacyModalLink() {
     const { onClose, isOpen, onOpenChange } = useDisclosure();

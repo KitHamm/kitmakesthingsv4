@@ -1,10 +1,6 @@
 "use client";
 
-import {
-    invoicedToDate,
-    outStanding,
-    paidToDate,
-} from "@/components/functions/Statistics";
+import { invoicedToDate, outStanding, paidToDate } from "@/lib/functions";
 import { CircularProgress } from "@nextui-org/react";
 import { Invoice } from "@prisma/client";
 import { useEffect, useState } from "react";

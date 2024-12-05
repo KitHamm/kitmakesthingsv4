@@ -1,9 +1,12 @@
 "use client";
 
+// Packages
 import { useInView } from "react-intersection-observer";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+// Data
 import { techLogos } from "@/data/techLogos";
+// Types
 import { LogoList } from "@/lib/types";
 
 export default function TechStackIcons() {

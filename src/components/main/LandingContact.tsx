@@ -1,10 +1,13 @@
 "use client";
 
-import { ContactForm, MessageState } from "@/lib/types";
+// Packages
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { CircularProgress } from "@nextui-org/react";
+// Functions
 import { sendMessage } from "../actions/MessageActions";
-import { Button, CircularProgress } from "@nextui-org/react";
+// Types
+import { ContactForm, MessageState } from "@/lib/types";
 
 export default function LandingContact() {
     const [sendingState, setSendingState] = useState<MessageState>(

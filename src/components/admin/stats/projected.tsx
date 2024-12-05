@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { projection } from "@/components/functions/Statistics";
+import { projection } from "@/lib/functions";
 import { Invoice } from "@prisma/client";
 
 export default function Projection(props: { invoices: Invoice[] }) {

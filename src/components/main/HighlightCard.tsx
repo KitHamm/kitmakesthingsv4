@@ -26,7 +26,7 @@ export default function HighlightCard(props: {
                 highlightAnimations[index]
             );
         }
-    }, [inView, highlightAnimations[index]]);
+    }, [index, inView]);
 
     return (
         <div
