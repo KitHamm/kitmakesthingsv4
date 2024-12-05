@@ -30,12 +30,12 @@ export default function NavbarComp() {
 
     return (
         <>
-            <nav className="z-30 w-full">
+            <nav className="fixed bg-white bg-opacity-50 backdrop-blur-sm top-0 left-0 z-30 w-full">
                 <div className="px-4 py-3 xl:py-4 mx-auto flex justify-between grow xl:max-w-[75dvw]">
                     <div className="xl:w-1/4">
                         <Link
                             color="foreground"
-                            className="font-bold xl:text-5xl text-3xl hover:text-green-500 transition-colors"
+                            className="font-bold xl:text-3xl text-3xl hover:text-green-500 transition-colors"
                             href="/">
                             {"{Kit:Hamm}"}
                         </Link>
@@ -52,7 +52,7 @@ export default function NavbarComp() {
                     <div className="xl:flex hidden flex gap-4 justify-center mt-auto">
                         <div>
                             <Link
-                                className="text-xl"
+                                className=""
                                 target="_blank"
                                 rel="noreferrer"
                                 href="https://github.com/KitHamm/">
@@ -64,7 +64,7 @@ export default function NavbarComp() {
                         </div>
                         <div>
                             <Link
-                                className="text-xl"
+                                className=""
                                 target="_blank"
                                 rel="noreferrer"
                                 href="https://www.instagram.com/kit_makes_things/">
@@ -76,7 +76,7 @@ export default function NavbarComp() {
                         </div>
                         <div>
                             <Link
-                                className="text-xl"
+                                className=""
                                 target="_blank"
                                 rel="noreferrer"
                                 href="https://www.linkedin.com/in/kit-hamm/">
