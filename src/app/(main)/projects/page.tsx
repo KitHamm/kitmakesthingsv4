@@ -36,6 +36,7 @@ export default async function Projects() {
                                 (project: ContentProject, index: number) => {
                                     return (
                                         <ProjectCardInView
+                                            index={index}
                                             key={index}
                                             image={project.images[0]}
                                             projectName={project.name}>

@@ -3,19 +3,18 @@
 // Packages
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
 
 export default function ProjectCardInView({
     children,
     image,
     projectName,
+    index,
 }: {
     children: React.ReactNode;
     image: string;
     projectName: string;
+    index: number;
 }) {
-    const { ref, inView } = useInView({ threshold: 1 });
-
     const [fadeClassLeft, setFadeClassLeft] = useState<
         "opacity-0" | "slide-in-right"
     >("opacity-0");
@@ -24,17 +23,15 @@ export default function ProjectCardInView({
     >("opacity-0");
 
     useEffect(() => {
-        if (inView) {
+        setTimeout(() => {
             setFadeClassLeft("slide-in-right");
             setFadeClassRight("slide-in-left");
-        }
-    }, [inView]);
+        }, 200 * index);
+    }, [index]);
 
     return (
         <>
-            <div
-                ref={ref}
-                className="grid grid-cols-1 xl:grid-cols-2 xl:gap-20 gap-10 transition-all">
+            <div className="grid grid-cols-1 xl:grid-cols-2 xl:gap-20 gap-10 transition-all">
                 <div className={`${fadeClassLeft} w-full flex`}>{children}</div>
                 <div
                     className={`${fadeClassRight} order-first xl:order-last max-h-[40dvh] `}>
