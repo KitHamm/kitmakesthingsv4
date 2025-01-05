@@ -10,91 +10,91 @@
 @import "../css/lightboxEmbla.css";
 
 p {
-    margin-bottom: 1rem;
+	margin-bottom: 1rem;
 }
 
 .fade-in {
-    opacity: 100%;
-    animation: fadeIn 0.3s ease-in-out;
+	opacity: 100%;
+	animation: fadeIn 0.3s ease-in-out;
 }
 @keyframes fadeIn {
-    0% {
-        opacity: 0%;
-    }
-    100% {
-        opacity: 100%;
-    }
+	0% {
+		opacity: 0%;
+	}
+	100% {
+		opacity: 100%;
+	}
 }
 
 .fade-in-slow {
-    opacity: 100%;
-    animation: fadeInSlow 1s ease-in-out;
+	opacity: 100%;
+	animation: fadeInSlow 1s ease-in-out;
 }
 @keyframes fadeInSlow {
-    0% {
-        opacity: 0%;
-    }
-    100% {
-        opacity: 100%;
-    }
+	0% {
+		opacity: 0%;
+	}
+	100% {
+		opacity: 100%;
+	}
 }
 
 .in-shadow {
-    box-shadow: inset 0px 20px 20px -10px #ccc, inset 0px -20px 20px -10px #ccc;
+	box-shadow: inset 0px 20px 20px -10px #ccc, inset 0px -20px 20px -10px #ccc;
 }
 
 .inset-shadow::after {
-    box-shadow: inset 0px 15px 50px -10px black,
-        inset 0px -15px 50px -10px black;
-    content: "";
-    display: block;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    width: 100%;
+	box-shadow: inset 0px 15px 50px -10px rgba(0, 0, 0, 0.2),
+		inset 0px -15px 50px -10px rgba(0, 0, 0, 0.2);
+	content: "";
+	display: block;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	width: 100%;
 }
 
 .slide-in-right {
-    opacity: 100%;
-    transform: translateX(0%);
+	opacity: 100%;
+	transform: translateX(0%);
 
-    animation: slideInRight 1.5s ease;
+	animation: slideInRight 1.5s ease;
 }
 @keyframes slideInRight {
-    0% {
-        opacity: 0%;
-        transform: translateX(-25%);
-    }
-    10% {
-        opacity: 0;
-    }
-    50% {
-        transform: translateX(0%);
-    }
-    100% {
-        opacity: 100%;
-        transform: translateX(0%);
-    }
+	0% {
+		opacity: 0%;
+		transform: translateX(-25%);
+	}
+	10% {
+		opacity: 0;
+	}
+	50% {
+		transform: translateX(0%);
+	}
+	100% {
+		opacity: 100%;
+		transform: translateX(0%);
+	}
 }
 
 .slide-in-left {
-    opacity: 100%;
-    transform: translateX(0%);
-    animation: slideInLeft 1.5s ease-out;
+	opacity: 100%;
+	transform: translateX(0%);
+	animation: slideInLeft 1.5s ease-out;
 }
 @keyframes slideInLeft {
-    0% {
-        opacity: 0%;
-        transform: translateX(25%);
-    }
-    10% {
-        opacity: 0;
-    }
-    50% {
-        transform: translateX(0%);
-    }
-    100% {
-        opacity: 100%;
-        transform: translateX(0%);
-    }
+	0% {
+		opacity: 0%;
+		transform: translateX(25%);
+	}
+	10% {
+		opacity: 0;
+	}
+	50% {
+		transform: translateX(0%);
+	}
+	100% {
+		opacity: 100%;
+		transform: translateX(0%);
+	}
 }
