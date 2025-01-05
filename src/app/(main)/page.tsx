@@ -25,7 +25,7 @@ export default async function Home() {
 	return (
 		<main className="w-full bg-neutral-300 min-h-screen flex flex-col">
 			<section id="hero" className="fade-in grow h-screen flex relative">
-				<div className="lg:w-[75dvw] w-[90dvw] max-w-[1920px] flex flex-col gap-10 lg:gap-20 mx-auto z-10">
+				<div className="lg:w-[75dvw] xl:w-[60dvw] xxl:w-[50dvw] w-[90dvw] max-w-[1920px] flex flex-col gap-10 lg:gap-20 mx-auto z-10">
 					<ParticlesComponent>
 						<header className="slide-in-right flex flex-col justify-evenly w-fit my-auto">
 							<div className="my-auto flex flex-col lg:gap-4 gap-20">
