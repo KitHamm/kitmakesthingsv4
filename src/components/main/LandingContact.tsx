@@ -42,7 +42,7 @@ export default function LandingContact() {
 			id="contact"
 			className="lg:w-[60dvw] w-[90dvw] mx-auto pt-10 lg:pb-0 pb-10"
 		>
-			<div className="font-bold text-4xl lg:text-6xl flex gap-4 justify-center">
+			<div className="font-bold text-4xl lg:text-6xl flex gap-4 mb-8 justify-center">
 				{sendingState === MessageState.NONE ? (
 					<>
 						<i className="fade-in-slow fa-solid fa-paper-plane" />
@@ -126,7 +126,7 @@ export default function LandingContact() {
 						<div className="flex w-full justify-center">
 							<button
 								type="submit"
-								className="transition-all w-2/3 lg:w-1/2 py-2 text-2xl text-center font-medium bg-white border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
+								className="transition-all rounded-xl w-2/3 lg:w-1/2 py-2 text-2xl text-center font-medium bg-white border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 							>
 								Send Message
 							</button>

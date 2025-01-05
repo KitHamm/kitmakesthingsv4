@@ -47,10 +47,10 @@ export default async function AboutPage() {
 							</div>
 						</div>
 						<div className="my-auto">
-							<h1 className="fade-in-slow my-4 lg:my-0 text-center font-bold text-6xl lg:text-8xl">
+							<h1 className="uppercase fade-in-slow text-center mt-8 lg:mt-0 font-bold text-6xl">
 								{content.title}
 							</h1>
-							<div className="flex flex-col lg:flex-row justify-center lg:gap-10">
+							<div className="flex flex-col my-8 lg:my-4 lg:flex-row justify-center lg:gap-10">
 								<div className="slide-in-right font-bold text-center text-green-600 text-xl">
 									{content.text1}
 								</div>
@@ -58,12 +58,12 @@ export default async function AboutPage() {
 									{content.text2}
 								</div>
 							</div>
-							<Markdown className="fade-in-slow mt-10 mx-auto text-lg">
+							<Markdown className="fade-in-slow mx-auto text-lg">
 								{content.copy}
 							</Markdown>
-							<div className="flex flex-col lg:flex-row justify-between my-6 gap-10">
+							<div className="flex flex-col lg:flex-row justify-between my-6 gap-5 lg:gap-10">
 								<Link
-									className={`${"slide-in-right"} transition-all rounded-xl lg:w-full flex items-center justify-center gap-2 text-xl text-center font-medium bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white`}
+									className={`${"slide-in-right"} py-3 transition-all rounded-xl lg:w-full flex items-center justify-center gap-2 text-xl text-center font-medium bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white`}
 									href={"/projects"}
 								>
 									<i className="fa-solid fa-diagram-project"></i>{" "}

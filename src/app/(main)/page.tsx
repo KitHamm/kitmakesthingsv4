@@ -30,21 +30,21 @@ export default async function Home() {
 						<header className="slide-in-right flex flex-col justify-evenly w-fit my-auto">
 							<div className="my-auto flex flex-col lg:gap-4 gap-20">
 								<div>
-									<h2 className="lg:text-4xl text-center lg:text-start text-2xl font-bold">
+									<h2 className="lg:text-4xl text-charcoal-dark text-center lg:text-start text-2xl font-bold">
 										KIT HAMM
 									</h2>
-									<h1 className="uppercase lg:text-8xl text-center lg:text-start text-5xl font-bold">
+									<h1 className="uppercase lg:text-8xl text-center lg:text-start text-5xl font-bold text-green-600">
 										{content.title}
 									</h1>
 								</div>
 								<div className="flex justify-between lg:gap-10">
-									<div className="hidden lg:block text-lg w-1/2">
+									<div className="hidden font-medium lg:block text-charcoal-dark text-lg w-1/2">
 										<Markdown>{content?.copy}</Markdown>
 									</div>
 									<div className="flex lg:w-1/2 w-full flex-col lg:flex-row gap-6 items-center">
 										<div className="flex justify-center lg:basis-1/2 w-full">
 											<Link
-												className="w-full transition-all rounded-xl py-2 text-xl text-center font-medium bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
+												className="w-full transition-all rounded-xl py-2 text-xl text-center font-medium text-charcoal-dark bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 												href={"/projects"}
 											>
 												<i className="fa-solid fa-diagram-project"></i>{" "}
@@ -54,7 +54,7 @@ export default async function Home() {
 										<div className="flex justify-center lg:basis-1/2 w-full">
 											<Link
 												target="_blank"
-												className="w-full transition-all rounded-xl py-2 text-xl text-center font-medium bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
+												className="w-full transition-all rounded-xl py-2 text-xl text-center font-medium text-charcoal-dark bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 												href={"Kit_Hamm_Resume.pdf"}
 											>
 												<i className="mr-2 fa-solid fa-file" />

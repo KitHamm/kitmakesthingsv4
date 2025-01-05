@@ -24,9 +24,9 @@ export default async function Projects() {
 	return (
 		<main className="bg-neutral-300">
 			<section id="projects">
-				<header className="min-h-auto my-20 flex justify-center">
+				<header className="min-h-auto mb-20 mt-40 flex justify-center">
 					<h1 className="text-center font-bold text-6xl lg:text-8xl mt-auto">
-						Projects.
+						PROJECTS
 					</h1>
 				</header>
 				<article className="fade-in-slow flex flex-col lg:w-[75dvw] w-[90dvw] mx-auto mt-20">
