@@ -9,7 +9,7 @@ export default function InvoiceYearButtons(props: { taxYears: string[] }) {
 		useContext(InvoiceStateContext);
 
 	return (
-		<div className="grid grid-cols-3 xl:grid-cols-12  gap-4 mb-6">
+		<div className="grid grid-cols-3 lg:grid-cols-12  gap-4 mb-6">
 			{props.taxYears.map((taxYear: string) => {
 				return (
 					<Button

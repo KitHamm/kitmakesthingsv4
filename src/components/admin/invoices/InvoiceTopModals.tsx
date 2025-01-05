@@ -135,12 +135,12 @@ export default function InvoiceTopModals(props: {
 	}
 	return (
 		<>
-			<div className="mb-6 flex flex-col xl:flex-row gap-4">
+			<div className="mb-6 flex flex-col lg:flex-row gap-4">
 				<Button
 					onPress={() => {
 						onOpenChangeNewInvoice();
 					}}
-					className="bg-green-500 w-full xl:w-auto"
+					className="bg-green-500 w-full lg:w-auto"
 				>
 					New Invoice
 				</Button>
@@ -148,7 +148,7 @@ export default function InvoiceTopModals(props: {
 					onPress={() => {
 						onOpenChangeManageClients();
 					}}
-					className="bg-green-500 w-full xl:w-auto"
+					className="bg-green-500 w-full lg:w-auto"
 				>
 					Manage Clients
 				</Button>
@@ -167,7 +167,7 @@ export default function InvoiceTopModals(props: {
 							</ModalHeader>
 							<form onSubmit={handleSubmit(submitInvoice)}>
 								<ModalBody className="gap-2">
-									<div className="flex flex-col xl:flex-row xl:gap-8 gap-4 mb-4 xl:mb-0">
+									<div className="flex flex-col lg:flex-row lg:gap-8 gap-4 mb-4 lg:mb-0">
 										<Select
 											onChange={(e) => {
 												setValue(
@@ -209,8 +209,8 @@ export default function InvoiceTopModals(props: {
 										/>
 									</div>
 
-									<div className="flex flex-col xl:flex-row xl:gap-8">
-										<div className="xl:w-1/2">
+									<div className="flex flex-col lg:flex-row lg:gap-8">
+										<div className="lg:w-1/2">
 											<label
 												className="font-bold"
 												htmlFor="reference"
@@ -239,7 +239,7 @@ export default function InvoiceTopModals(props: {
 												}
 											/>
 										</div>
-										<div className="xl:w-1/2">
+										<div className="lg:w-1/2">
 											<label
 												className="font-bold"
 												htmlFor="reference"

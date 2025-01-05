@@ -161,7 +161,7 @@ export default function EditInvoiceModal(props: { clients: Client[] }) {
 							</ModalHeader>
 							<form onSubmit={handleSubmit(handleUpdateInvoice)}>
 								<ModalBody>
-									<div className="flex flex-col xl:flex-row xl:gap-8 gap-4 mb-4 xl:mb-0">
+									<div className="flex flex-col lg:flex-row lg:gap-8 gap-4 mb-4 lg:mb-0">
 										<Select
 											onChange={(e) => {
 												setValue(
@@ -210,8 +210,8 @@ export default function EditInvoiceModal(props: { clients: Client[] }) {
 											}}
 										/>
 									</div>
-									<div className="flex flex-col xl:flex-row xl:gap-8">
-										<div className="xl:w-1/2">
+									<div className="flex flex-col lg:flex-row lg:gap-8">
+										<div className="lg:w-1/2">
 											<label
 												className="font-bold"
 												htmlFor="reference"
@@ -240,7 +240,7 @@ export default function EditInvoiceModal(props: { clients: Client[] }) {
 												}
 											/>
 										</div>
-										<div className="xl:w-1/2">
+										<div className="lg:w-1/2">
 											<label
 												className="font-bold"
 												htmlFor="reference"

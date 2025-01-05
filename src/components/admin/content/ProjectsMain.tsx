@@ -258,7 +258,7 @@ export default function ProjectsMain(props: {
 
 	return (
 		<div className="mx-4">
-			<div className="font-bold text-6xl mb-6 pb-4 text-center xl:text-start border-b-2">
+			<div className="font-bold text-6xl mb-6 pb-4 text-center lg:text-start border-b-2">
 				Projects.
 			</div>
 			<Button
@@ -270,7 +270,7 @@ export default function ProjectsMain(props: {
 			>
 				Add Project
 			</Button>
-			<div className="mt-8 xl:w-fit">
+			<div className="mt-8 lg:w-fit">
 				{props.projects.map(
 					(project: ContentProject, index: number) => {
 						return (
@@ -281,7 +281,7 @@ export default function ProjectsMain(props: {
 								className="mb-4"
 								key={index}
 							>
-								<div className="transition-all cursor-pointer hover:bg-green-500 hover:text-white bg-neutral-100 shadow rounded-lg px-4 py-2 w-full flex flex-col xl:flex-row xl:gap-8">
+								<div className="transition-all cursor-pointer hover:bg-green-500 hover:text-white bg-neutral-100 shadow rounded-lg px-4 py-2 w-full flex flex-col lg:flex-row lg:gap-8">
 									<div className="font-bold text-xl my-auto">
 										{project.name}
 									</div>
@@ -291,7 +291,7 @@ export default function ProjectsMain(props: {
 									<div className="font-bold grow my-auto">
 										Images: {project.images.length}
 									</div>
-									<div className="flex flex-col xl:flex-row gap-4">
+									<div className="flex flex-col lg:flex-row gap-4">
 										<Image
 											src={
 												process.env
@@ -339,8 +339,8 @@ export default function ProjectsMain(props: {
 								)}
 							>
 								<ModalBody>
-									<div className="flex flex-col xl:flex-row xl:gap-10">
-										<div className="xl:w-1/2">
+									<div className="flex flex-col lg:flex-row lg:gap-10">
+										<div className="lg:w-1/2">
 											<label
 												className="font-bold"
 												htmlFor="name"
@@ -369,8 +369,8 @@ export default function ProjectsMain(props: {
 												}
 											/>
 										</div>
-										<div className="xl:w-1/2 flex gap-6">
-											<div className="xl:w-1/2">
+										<div className="lg:w-1/2 flex gap-6">
+											<div className="lg:w-1/2">
 												<label
 													className="font-bold"
 													htmlFor="name"
@@ -403,7 +403,7 @@ export default function ProjectsMain(props: {
 													}
 												/>
 											</div>
-											<div className="xl:w-1/2">
+											<div className="lg:w-1/2">
 												<label
 													className="font-bold"
 													htmlFor="name"
@@ -439,8 +439,8 @@ export default function ProjectsMain(props: {
 											</div>
 										</div>
 									</div>
-									<div className="flex flex-col xl:flex-row xl:gap-10">
-										<div className="xl:w-1/2">
+									<div className="flex flex-col lg:flex-row lg:gap-10">
+										<div className="lg:w-1/2">
 											<label
 												className="font-bold"
 												htmlFor="name"
@@ -469,7 +469,7 @@ export default function ProjectsMain(props: {
 												}
 											/>
 										</div>
-										<div className="xl:w-1/2">
+										<div className="lg:w-1/2">
 											<label
 												className="font-bold"
 												htmlFor="name"
@@ -502,8 +502,8 @@ export default function ProjectsMain(props: {
 											/>
 										</div>
 									</div>
-									<div className="flex flex-col xl:flex-row xl:gap-10">
-										<div className="xl:w-1/2">
+									<div className="flex flex-col lg:flex-row lg:gap-10">
+										<div className="lg:w-1/2">
 											<label
 												className="font-bold"
 												htmlFor="name"
@@ -532,7 +532,7 @@ export default function ProjectsMain(props: {
 												}
 											/>
 										</div>
-										<div className="xl:w-1/2">
+										<div className="lg:w-1/2">
 											<label
 												className="font-bold"
 												htmlFor="name"
@@ -566,8 +566,8 @@ export default function ProjectsMain(props: {
 										</div>
 									</div>
 
-									<div className="flex flex-col xl:flex-row xl:gap-10">
-										<div className="xl:w-1/2">
+									<div className="flex flex-col lg:flex-row lg:gap-10">
+										<div className="lg:w-1/2">
 											<label
 												className="font-bold"
 												htmlFor="outLink"
@@ -582,7 +582,7 @@ export default function ProjectsMain(props: {
 												placeholder={"Out Link"}
 											/>
 										</div>
-										<div className="xl:w-1/2">
+										<div className="lg:w-1/2">
 											<label
 												className="font-bold"
 												htmlFor="name"
@@ -654,7 +654,7 @@ export default function ProjectsMain(props: {
 											);
 										})}
 									</div>
-									<div className="xl:w-1/4 flex gap-4">
+									<div className="lg:w-1/4 flex gap-4">
 										<input
 											value={newStackItem}
 											onChange={(e) =>
@@ -678,7 +678,7 @@ export default function ProjectsMain(props: {
 									<label className="font-bold" htmlFor="name">
 										Images
 									</label>
-									<div className="grid grid-cols-2 xl:grid-cols-4">
+									<div className="grid grid-cols-2 lg:grid-cols-4">
 										{fieldsImages.map((field, index) => {
 											return (
 												<div
@@ -836,7 +836,7 @@ export default function ProjectsMain(props: {
 										)}
 									</div>
 								) : (
-									<div className="grid xl:grid-cols-4 grid-cols-2 gap-4 ">
+									<div className="grid lg:grid-cols-4 grid-cols-2 gap-4 ">
 										{props.images.map(
 											(image: Images, index: number) => {
 												return (

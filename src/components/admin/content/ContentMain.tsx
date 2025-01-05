@@ -365,11 +365,11 @@ export default function ContentMain(props: {
 
 	return (
 		<>
-			<div className="font-bold text-6xl mx-4 xl:mx-0 mb-6 pb-4 text-center xl:text-start border-b-2">
+			<div className="font-bold text-6xl mx-4 lg:mx-0 mb-6 pb-4 text-center lg:text-start border-b-2">
 				Content.
 			</div>
-			<div className="flex flex-col xl:flex-row fade-in">
-				<div className="xl:basis-1/2 bg-neutral-100 mx-4 p-4 rounded-lg">
+			<div className="flex flex-col lg:flex-row fade-in">
+				<div className="lg:basis-1/2 bg-neutral-100 mx-4 p-4 rounded-lg">
 					<div className="font-bold text-4xl border-b-2 pb-2">
 						Landing
 					</div>
@@ -573,7 +573,7 @@ export default function ContentMain(props: {
 							}
 							{...shortAboutRest}
 						/>
-						<div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+						<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 							<div>
 								<p className="font-bold text-center">
 									First Highlight
@@ -1471,7 +1471,7 @@ export default function ContentMain(props: {
 										)}
 									</div>
 								) : (
-									<div className="grid xl:grid-cols-4 grid-cols-2 gap-4 ">
+									<div className="grid lg:grid-cols-4 grid-cols-2 gap-4 ">
 										{props.images.map(
 											(image: Images, index: number) => {
 												return (

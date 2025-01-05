@@ -13,6 +13,7 @@ import Markdown from "react-markdown";
 import Link from "next/link";
 // Functions
 import AnonVisitLogger from "@/components/main/AnonVisitLogger";
+import ParticlesComponent from "@/components/main/Particles";
 
 export default async function Home() {
 	const content = await prisma.landing.findFirst();
@@ -22,65 +23,54 @@ export default async function Home() {
 	}
 
 	return (
-		<main className="w-full bg-neutral-300  min-h-screen flex flex-col">
+		<main className="w-full bg-neutral-300 min-h-screen flex flex-col">
 			<section id="hero" className="fade-in grow h-screen flex relative">
-				<div className="xl:w-[75dvw] w-[90dvw] flex flex-col xl:grid xl:grid-cols-2 gap-10 xl:gap-20 mx-auto z-10">
-					<header className="slide-in-right flex flex-col justify-evenly grow">
-						<div className="xl:my-auto">
-							<div className="xl:my-auto">
-								<h1 className="xl:text-8xl text-white xl:text-black drop-shadow-3xl xl:drop-shadow-none rounded-xl py-8 text-center xl:text-start text-6xl font-bold">
-									{content.title}
-								</h1>
+				<div className="lg:w-[75dvw] w-[90dvw] max-w-[1920px] flex flex-col gap-10 lg:gap-20 mx-auto z-10">
+					<ParticlesComponent>
+						<header className="slide-in-right flex flex-col justify-evenly w-fit my-auto">
+							<div className="my-auto flex flex-col lg:gap-4 gap-20">
+								<div>
+									<h2 className="lg:text-4xl text-2xl font-bold">
+										KIT HAMM
+									</h2>
+									<h1 className="uppercase lg:text-8xl text-center lg:text-start text-6xl font-bold">
+										{content.title}
+									</h1>
+								</div>
+								<div className="flex justify-between lg:gap-10">
+									<div className="hidden lg:block text-lg w-1/2">
+										<Markdown>{content?.copy}</Markdown>
+									</div>
+									<div className="flex lg:w-1/2 w-full flex-col lg:flex-row gap-6 items-center">
+										<div className="flex justify-center lg:basis-1/2 w-full">
+											<Link
+												className="w-full transition-all rounded-xl py-2 text-2xl text-center font-medium bg-white backdrop-blur-sm border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
+												href={"/projects"}
+											>
+												<i className="fa-solid fa-diagram-project"></i>{" "}
+												View Projects
+											</Link>
+										</div>
+										<div className="flex justify-center lg:basis-1/2 w-full">
+											<Link
+												target="_blank"
+												className="w-full transition-all rounded-xl py-2 text-2xl text-center font-medium bg-white backdrop-blur-sm border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
+												href={"Kit_Hamm_Resume.pdf"}
+											>
+												<i className="mr-2 fa-solid fa-file" />
+												Resume
+											</Link>
+										</div>
+									</div>
+								</div>
 							</div>
-							<div className="hidden xl:block xl:my-4 my-8 w-full text-center xl:text-left">
-								<Link
-									target="_blank"
-									href={"Kit_Hamm_Resume.pdf"}
-									className="transition-all px-10 py-2 text-xl text-center font-medium bg-white bg-opacity-25 backdrop-blur-sm border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
-								>
-									<i className="mr-2 fa-solid fa-file" />
-									CV
-								</Link>
-							</div>
-							<div className="hidden xl:block mt-4 xl:mt-4 text-lg">
-								<Markdown>{content?.copy}</Markdown>
-							</div>
-							<div className="hidden xl:block mt-4 xl:mt-4 italic font-bold text-lg">
-								You can view the{" "}
-								<span className="text-green-500 ">
-									<a
-										target="_blank"
-										href="https://github.com/KitHamm/kitmakesthingsv4"
-									>
-										source code
-									</a>
-								</span>{" "}
-								for this site via the button below.
-							</div>
-							<div className="flex flex-col xl:flex-row justify-between my-6 gap-10">
-								<Link
-									className="transition-all xl:w-1/2 py-4 text-2xl text-center font-medium bg-white bg-opacity-25 backdrop-blur-sm border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
-									href={"/projects"}
-								>
-									<i className="fa-solid fa-diagram-project"></i>{" "}
-									View Projects
-								</Link>
-								<Link
-									target="_blank"
-									className="transition-all xl:w-1/2 py-4 text-2xl text-center font-medium bg-white bg-opacity-25 backdrop-blur-sm border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
-									href={
-										"https://github.com/KitHamm/kitmakesthingsv4"
-									}
-								>
-									{"<SourceCode />"}
-								</Link>
-							</div>
-						</div>
-					</header>
+						</header>
+					</ParticlesComponent>
 				</div>
-				<div className="absolute flex h-full w-full justify-end items-center overflow-hidden">
+
+				{/* <div className="absolute flex h-full w-full justify-end items-center overflow-hidden">
 					<Image
-						className="h-full translate-x-1/4 xl:-translate-x-0 max-w-none w-auto xl:w-full xl:object-cover"
+						className="h-full translate-x-1/4 lg:-translate-x-0 max-w-none w-auto lg:w-full lg:object-cover"
 						src={"/render4k.webp"}
 						width={3840}
 						height={2160}
@@ -88,13 +78,13 @@ export default async function Home() {
 						unoptimized
 						quality={100}
 					/>
-				</div>
+				</div> */}
 			</section>
-			<ParallaxSection shift imageUrl="/me-code-parallax.png">
-				<div className="xl:w-[95dvw] mx-auto flex gap-10 justify-center h-full">
+			<ParallaxSection shift imageUrl="/render4k.webp">
+				<div className="lg:w-[80dvw] xl:w-[60dvw] xxl:w-[45dvw] mx-auto flex gap-10 justify-center h-full">
 					<InViewAnimation animation={0}>
 						<div className="my-auto">
-							<div className="xl:text-6xl text-4xl text-center drop-shadow-2xl text-white font-bold">
+							<div className="lg:text-6xl text-4xl text-center drop-shadow-2xl text-white font-bold">
 								Tech Stack.
 							</div>
 						</div>
@@ -103,10 +93,10 @@ export default async function Home() {
 				</div>
 			</ParallaxSection>
 			<section
-				id="tripple-threat"
-				className="flex fade-in justify-center"
+				id="triple-threat"
+				className="flex fade-in justify-center bg-neutral-300 z-10"
 			>
-				<div className="text-center w-[90dvw] xl:w-[75dvw] grid grid-cols-1 xl:grid-cols-3 gap-5 xl:gap-20 py-10 xl:py-20">
+				<div className="text-center w-[90dvw] lg:w-[75dvw] grid grid-cols-1 lg:grid-cols-3 gap-5 py-10 lg:py-20">
 					<HighlightCard
 						header={content.firstHighlightHeader}
 						text={content.firstHighlightText}
@@ -128,22 +118,22 @@ export default async function Home() {
 				</div>
 			</section>
 			<ParallaxSection shift={false} imageUrl="/drums-parallax-3.png">
-				<div className="xl:w-[75dvw] mx-auto flex gap-10 h-full">
-					<div className="xl:basis-1/2 xl:ms-auto flex">
+				<div className="lg:w-[75dvw] mx-auto flex gap-10 h-full">
+					<div className="lg:basis-2/3 lg:ms-auto flex">
 						<InViewAnimation animation={2}>
 							<div className="my-auto flex flex-col gap-2">
-								<div className="xl:text-6xl text-3xl text-center xl:text-left drop-shadow-2xl text-white font-bold">
+								<div className="lg:text-6xl text-3xl text-center lg:text-left drop-shadow-2xl text-white font-bold">
 									A little about me.
 								</div>
 								<Markdown
 									className={
-										"text-white text-base xl:text-lg"
+										"text-white text-base lg:text-lg"
 									}
 								>
 									{content.shortAbout}
 								</Markdown>
 								<Link
-									className="transition-all xl:w-1/2 py-2 text-base xl:text-lg text-white text-center font-medium bg-black border-2 border-white hover:bg-green-400 "
+									className="transition-all lg:w-1/2 py-2 text-base lg:text-lg text-white text-center font-medium bg-black border-2 border-white hover:bg-green-400 "
 									href={"/about"}
 								>
 									Learn More
@@ -153,7 +143,9 @@ export default async function Home() {
 					</div>
 				</div>
 			</ParallaxSection>
-			<LandingContact />
+			<div className="bg-neutral-300 z-10">
+				<LandingContact />
+			</div>
 			<AnonVisitLogger />
 		</main>
 	);

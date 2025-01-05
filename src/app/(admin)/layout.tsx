@@ -7,31 +7,32 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/authOptions";
 
 const roboto = Roboto({
-    weight: ["100", "300", "400", "500", "700", "900"],
-    subsets: ["latin"],
+	weight: ["100", "300", "400", "500", "700", "900"],
+	subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-    title: "Kit Hamm | Developer",
-    description:
-        "Kit Hamm is a Web Developer, Digital Artist and Music creator from Devon in the South West.",
+	title: "Kit Hamm | Developer",
+	description:
+		"Kit Hamm is a Web Developer, Digital Artist and Music creator from Devon in the South West.",
 };
 
 export default async function RootLayout({
-    children,
+	children,
 }: Readonly<{
-    children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-    const session = getServerSession(authOptions);
-    const messages = await prisma.messages.findMany();
-    return (
-        <html lang="en">
-            <body
-                className={`${roboto.className} max-w-[100dvw] flex overflow-x-hidden`}>
-                <SidePanel messages={messages} />
-                <div className="hidden xl:block w-1/6" />
-                <div className="w-full xl:w-5/6">{children}</div>
-            </body>
-        </html>
-    );
+	const session = getServerSession(authOptions);
+	const messages = await prisma.messages.findMany();
+	return (
+		<html lang="en">
+			<body
+				className={`${roboto.className} max-w-[100dvw] flex overflow-x-hidden`}
+			>
+				<SidePanel messages={messages} />
+				<div className="hidden lg:block w-1/6" />
+				<div className="w-full lg:w-5/6">{children}</div>
+			</body>
+		</html>
+	);
 }

@@ -57,7 +57,7 @@ export default function ManageClientsButton(props: { clients: Client[] }) {
 				onPress={() => {
 					onOpenChangeManageClients();
 				}}
-				className="bg-green-500 w-full xl:w-auto"
+				className="bg-green-500 w-full lg:w-auto"
 			>
 				Manage Clients
 			</Button>

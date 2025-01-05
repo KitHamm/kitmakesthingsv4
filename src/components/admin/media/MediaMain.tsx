@@ -99,13 +99,13 @@ export default function MediaMain(props: { images: Images[] }) {
 
 	return (
 		<div>
-			<div className="font-bold text-6xl mb-6 pb-4 text-center xl:text-start border-b-2">
+			<div className="font-bold text-6xl mb-6 pb-4 text-center lg:text-start border-b-2">
 				Media.
 			</div>
 			<Button onPress={onOpenUpload} className="bg-green-500">
 				Upload Image
 			</Button>
-			<div className="grid xl:grid-cols-4 grid-cols-2 gap-4 mt-8">
+			<div className="grid lg:grid-cols-4 grid-cols-2 gap-4 mt-8">
 				{props.images.length > 0 ? (
 					props.images.map((image: Images, index: number) => {
 						return (
