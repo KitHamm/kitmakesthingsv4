@@ -153,6 +153,9 @@ export default function NavbarComp() {
 				placement="left"
 				isOpen={isOpenMenu}
 				hideCloseButton
+				classNames={{
+					base: "bg-neutral-300",
+				}}
 				onOpenChange={onOpenChangeMenu}
 			>
 				<DrawerContent>
@@ -160,7 +163,12 @@ export default function NavbarComp() {
 						<>
 							<DrawerHeader className="px-8 flex justify-between items-center">
 								<div className="text-6xl">KH</div>
-								<div onClick={() => onClose()}>Close</div>
+								<div
+									className="text-2xl"
+									onClick={() => onClose()}
+								>
+									Close
+								</div>
 							</DrawerHeader>
 							<DrawerBody className="px-8 flex flex-col justify-between pb-8">
 								<div className="flex flex-col gap-4">

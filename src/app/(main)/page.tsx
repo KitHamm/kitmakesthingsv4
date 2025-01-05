@@ -30,10 +30,10 @@ export default async function Home() {
 						<header className="slide-in-right flex flex-col justify-evenly w-fit my-auto">
 							<div className="my-auto flex flex-col lg:gap-4 gap-20">
 								<div>
-									<h2 className="lg:text-4xl text-2xl font-bold">
+									<h2 className="lg:text-4xl text-center lg:text-start text-2xl font-bold">
 										KIT HAMM
 									</h2>
-									<h1 className="uppercase lg:text-8xl text-center lg:text-start text-6xl font-bold">
+									<h1 className="uppercase lg:text-8xl text-center lg:text-start text-5xl font-bold">
 										{content.title}
 									</h1>
 								</div>
