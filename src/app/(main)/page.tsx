@@ -35,7 +35,7 @@ export default async function Home() {
 							<div className="hidden xl:block xl:my-4 my-8 w-full text-center xl:text-left">
 								<Link
 									target="_blank"
-									href={"Kit_Hamm_CV.pdf"}
+									href={"Kit_Hamm_Resume.pdf"}
 									className="transition-all px-10 py-2 text-xl text-center font-medium bg-white bg-opacity-25 backdrop-blur-sm border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
 								>
 									<i className="mr-2 fa-solid fa-file" />
