@@ -50,7 +50,7 @@ export default async function Projects() {
 												</div>
 												<div className="flex flex-col lg:flex-row gap-4">
 													<Link
-														className="text-center rounded-xl transition-all lg:w-fit py-2 px-12 text-xl font-medium border-2 bg-white border-black hover:bg-green-400 hover:border-white hover:text-white"
+														className="text-center rounded-xl transition-all lg:w-fit py-2 px-12 text-xl font-medium border-2 bg-white border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 														href={
 															"/projects/" +
 															project.slug
@@ -62,7 +62,7 @@ export default async function Projects() {
 														project.outLinkText && (
 															<Link
 																target="_blank"
-																className="text-center rounded-xl transition-all lg:w-fit py-2 px-12 text-xl font-medium border-2 bg-white border-black hover:bg-green-400 hover:border-white hover:text-white"
+																className="text-center rounded-xl transition-all lg:w-fit py-2 px-12 text-xl font-medium border-2 bg-white border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 																href={
 																	project.outLink
 																}

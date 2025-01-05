@@ -15,7 +15,7 @@ export default function ContactButton(props: { about: boolean }) {
 				onPress={() => onOpenChange()}
 				className={`${
 					about ? "py-6 slide-in-left" : "py-6"
-				} lg:w-full transition-all rounded-xl font-medium text-xl bg-white border-2 border-black hover:bg-green-500 hover:border-white hover:text-white`}
+				} lg:w-full transition-all rounded-xl font-medium text-xl bg-white border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white`}
 			>
 				Contact me
 			</Button>

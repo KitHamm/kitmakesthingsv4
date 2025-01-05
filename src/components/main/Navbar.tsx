@@ -42,7 +42,7 @@ export default function NavbarComp() {
 					<div className="flex gap-4">
 						<Link
 							color="foreground"
-							className="font-bold lg:text-5xl text-3xl hover:text-green-500 transition-colors"
+							className="font-bold lg:text-5xl text-3xl hover:text-green-600 transition-colors"
 							href="/"
 						>
 							KH
@@ -56,7 +56,7 @@ export default function NavbarComp() {
 								>
 									<i
 										aria-hidden
-										className="transition-colors text-black hover:text-green-500 fa-brands fa-github fa-2xl"
+										className="transition-colors text-black hover:text-green-600 fa-brands fa-github fa-2xl"
 									/>
 								</Link>
 							</div>
@@ -68,7 +68,7 @@ export default function NavbarComp() {
 								>
 									<i
 										aria-hidden
-										className="transition-colors text-black hover:text-green-500 fa-brands fa-instagram fa-2xl"
+										className="transition-colors text-black hover:text-green-600 fa-brands fa-instagram fa-2xl"
 									/>
 								</Link>
 							</div>
@@ -80,7 +80,7 @@ export default function NavbarComp() {
 								>
 									<i
 										aria-hidden
-										className="transition-colors text-black hover:text-green-500 fa-brands fa-linkedin fa-2xl"
+										className="transition-colors text-black hover:text-green-600 fa-brands fa-linkedin fa-2xl"
 									/>
 								</Link>
 							</div>
@@ -104,9 +104,9 @@ export default function NavbarComp() {
 							<Link
 								className={`${
 									pathname === "/about"
-										? "text-green-500"
+										? "text-green-600"
 										: ""
-								} text-xl uppercase transition-colors font-medium hover:text-green-500`}
+								} text-xl uppercase transition-colors font-medium hover:text-green-600`}
 								color="foreground"
 								href="/about"
 							>
@@ -117,9 +117,9 @@ export default function NavbarComp() {
 							<a
 								className={`${
 									pathname.includes("projects")
-										? "text-green-500"
+										? "text-green-600"
 										: ""
-								} text-xl uppercase transition-colors font-medium hover:text-green-500`}
+								} text-xl uppercase transition-colors font-medium hover:text-green-600`}
 								color="foreground"
 								href="/projects"
 							>
@@ -135,7 +135,7 @@ export default function NavbarComp() {
 									  })
 									: onOpenChange();
 							}}
-							className="cursor-pointer text-xl uppercase hover:text-green-500 transition-colors font-medium"
+							className="cursor-pointer text-xl uppercase hover:text-green-600 transition-colors font-medium"
 							color="foreground"
 						>
 							Contact
@@ -172,7 +172,7 @@ export default function NavbarComp() {
 											pathname === "/"
 												? "text-green-600"
 												: ""
-										} text-2xl transition-colors font-bold hover:text-green-500`}
+										} text-2xl transition-colors font-bold hover:text-green-600`}
 										color="foreground"
 										href="/"
 									>
@@ -183,7 +183,7 @@ export default function NavbarComp() {
 											pathname === "/about"
 												? "text-green-600"
 												: ""
-										} text-2xl transition-colors font-bold hover:text-green-500`}
+										} text-2xl transition-colors font-bold hover:text-green-600`}
 										color="foreground"
 										href="/about"
 									>
@@ -194,7 +194,7 @@ export default function NavbarComp() {
 											pathname === "/projects"
 												? "text-green-600"
 												: ""
-										} text-2xl transition-colors font-bold hover:text-green-500`}
+										} text-2xl transition-colors font-bold hover:text-green-600`}
 										color="foreground"
 										href="/projects"
 									>
@@ -209,7 +209,7 @@ export default function NavbarComp() {
 												: onOpenChange();
 											onClose();
 										}}
-										className={` text-2xl transition-colors font-bold hover:text-green-500`}
+										className={` text-2xl transition-colors font-bold hover:text-green-600`}
 										color="foreground"
 									>
 										Contact
@@ -225,7 +225,7 @@ export default function NavbarComp() {
 											>
 												<i
 													aria-hidden
-													className="transition-colors text-black hover:text-green-500 fa-brands fa-github fa-2xl"
+													className="transition-colors text-black hover:text-green-600 fa-brands fa-github fa-2xl"
 												/>
 											</Link>
 										</div>
@@ -237,7 +237,7 @@ export default function NavbarComp() {
 											>
 												<i
 													aria-hidden
-													className="transition-colors text-black hover:text-green-500 fa-brands fa-instagram fa-2xl"
+													className="transition-colors text-black hover:text-green-600 fa-brands fa-instagram fa-2xl"
 												/>
 											</Link>
 										</div>
@@ -249,7 +249,7 @@ export default function NavbarComp() {
 											>
 												<i
 													aria-hidden
-													className="transition-colors text-black hover:text-green-500 fa-brands fa-linkedin fa-2xl"
+													className="transition-colors text-black hover:text-green-600 fa-brands fa-linkedin fa-2xl"
 												/>
 											</Link>
 										</div>
@@ -265,13 +265,13 @@ export default function NavbarComp() {
 				<div className="fade-in z-20 absolute h-full w-full top-0 left-0 bg-white/30 backdrop-blur-lg pt-20">
 					<div
 						className={`${
-							pathname === "/" ? "bg-green-500" : ""
+							pathname === "/" ? "bg-green-600" : ""
 						} py-2 ps-8`}
 					>
 						<Link
 							className={`${
 								pathname === "/" ? "text-white" : ""
-							} text-2xl transition-colors font-bold hover:text-green-500`}
+							} text-2xl transition-colors font-bold hover:text-green-600`}
 							color="foreground"
 							href="/"
 						>
@@ -280,13 +280,13 @@ export default function NavbarComp() {
 					</div>
 					<div
 						className={`${
-							pathname === "/about" ? "bg-green-500" : ""
+							pathname === "/about" ? "bg-green-600" : ""
 						} py-2 ps-8`}
 					>
 						<Link
 							className={`${
 								pathname === "/about" ? "text-white" : ""
-							} text-2xl transition-colors font-bold hover:text-green-500`}
+							} text-2xl transition-colors font-bold hover:text-green-600`}
 							color="foreground"
 							href="/about"
 						>
@@ -295,13 +295,13 @@ export default function NavbarComp() {
 					</div>
 					<div
 						className={`${
-							pathname.includes("projects") ? "bg-green-500" : ""
+							pathname.includes("projects") ? "bg-green-600" : ""
 						} py-2 ps-8`}
 					>
 						<Link
 							className={`${
 								pathname === "/projects" ? "text-white" : ""
-							} text-2xl transition-colors font-bold hover:text-green-500`}
+							} text-2xl transition-colors font-bold hover:text-green-600`}
 							color="foreground"
 							href="/projects"
 						>
@@ -318,7 +318,7 @@ export default function NavbarComp() {
 									: onOpenChange();
 								setIsNavOpen(false);
 							}}
-							className={` text-2xl transition-colors font-bold hover:text-green-500`}
+							className={` text-2xl transition-colors font-bold hover:text-green-600`}
 							color="foreground"
 						>
 							Contact

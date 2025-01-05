@@ -33,7 +33,7 @@ export default function AboutImageBox(props: {
 				alt="Kit Hamm"
 				className="w-full h-auto"
 			/>
-			<div className="absolute opacity-0 hover:opacity-100 transition-all top-0 left-0 bg-green-400 backdrop-blur bg-opacity-50 w-full h-full hidden lg:flex justify-center">
+			<div className="absolute opacity-0 hover:opacity-100 transition-all top-0 left-0 bg-green-600 backdrop-blur bg-opacity-50 w-full h-full hidden lg:flex justify-center">
 				<div className="pointer-events-none my-auto font-bold text-white text-4xl">
 					{title}
 				</div>

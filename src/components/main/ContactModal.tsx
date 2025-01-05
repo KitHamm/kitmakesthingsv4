@@ -194,7 +194,7 @@ export default function ContactModal(props: {
 										</Button>
 										<Button
 											type="submit"
-											className="bg-green-500 text-white"
+											className="bg-green-600 text-white"
 										>
 											Send
 										</Button>

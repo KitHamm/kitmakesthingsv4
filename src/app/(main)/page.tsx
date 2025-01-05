@@ -44,7 +44,7 @@ export default async function Home() {
 									<div className="flex lg:w-1/2 w-full flex-col lg:flex-row gap-6 items-center">
 										<div className="flex justify-center lg:basis-1/2 w-full">
 											<Link
-												className="w-full transition-all rounded-xl py-2 text-2xl text-center font-medium bg-white backdrop-blur-sm border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
+												className="w-full transition-all rounded-xl py-2 text-xl text-center font-medium bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 												href={"/projects"}
 											>
 												<i className="fa-solid fa-diagram-project"></i>{" "}
@@ -54,7 +54,7 @@ export default async function Home() {
 										<div className="flex justify-center lg:basis-1/2 w-full">
 											<Link
 												target="_blank"
-												className="w-full transition-all rounded-xl py-2 text-2xl text-center font-medium bg-white backdrop-blur-sm border-2 border-black hover:bg-green-400 hover:border-white hover:text-white"
+												className="w-full transition-all rounded-xl py-2 text-xl text-center font-medium bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 												href={"Kit_Hamm_Resume.pdf"}
 											>
 												<i className="mr-2 fa-solid fa-file" />
@@ -133,7 +133,7 @@ export default async function Home() {
 									{content.shortAbout}
 								</Markdown>
 								<Link
-									className="transition-all lg:w-1/2 py-2 text-base lg:text-lg text-white text-center font-medium bg-black border-2 border-white hover:bg-green-400 "
+									className="transition-all rounded-xl lg:w-1/2 py-2 text-base lg:text-xl text-white text-center font-medium bg-black border-2 border-white hover:bg-green-600"
 									href={"/about"}
 								>
 									Learn More
