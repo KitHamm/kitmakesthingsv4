@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 	metadataBase: new URL("https://kitmakesthings.co.uk/"),
 	title: "Kit Hamm | Developer",
 	description:
-		"Kit Hamm is a Web and Unity Developer from the South West. Open to contract and full time opportunities.",
+		"Kit Hamm is a Freelance Developer from the South West. Open to contract and full time opportunities.",
 	openGraph: {
 		title: "Kit Hamm | Developer",
 		description:
-			"Kit Hamm is a Web and Unity Developer from the South West. Open to contract and full time opportunities.",
+			"Kit Hamm is a Freelance Developer from the South West. Open to contract and full time opportunities.",
 		url: "https://kitmakesthings.co.uk/",
 		siteName: "KitMakesThings",
 		locale: "en-US",

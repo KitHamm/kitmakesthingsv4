@@ -12,9 +12,19 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-	title: "Kit Hamm | Developer",
+	metadataBase: new URL("https://kitmakesthings.co.uk/"),
+	title: "Kit Hamm | Dashboard",
 	description:
-		"Kit Hamm is a Web Developer, Digital Artist and Music creator from Devon in the South West.",
+		"Kit Hamm is a Freelance Developer from the South West. Open to contract and full time opportunities.",
+	openGraph: {
+		title: "Kit Hamm | Developer",
+		description:
+			"Kit Hamm is a Freelance Developer from the South West. Open to contract and full time opportunities.",
+		url: "https://kitmakesthings.co.uk/",
+		siteName: "KitMakesThings",
+		locale: "en-US",
+		type: "website",
+	},
 };
 
 export default async function RootLayout({
