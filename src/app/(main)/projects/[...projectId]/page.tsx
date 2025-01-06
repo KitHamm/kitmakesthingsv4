@@ -56,7 +56,7 @@ export default async function ProjectPage({
 									{project.outLink && project.outLinkText && (
 										<Link
 											target="_blank"
-											className="lg:w-full rounded-xl py-2 text-center transition-all font-bold text-xl bg-white border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
+											className="lg:w-full rounded-xl py-2 text-center transition-all font-medium text-xl bg-white border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 											href={project.outLink}
 										>
 											{project.outLinkText}
@@ -64,7 +64,7 @@ export default async function ProjectPage({
 									)}
 									<ContactButton about={false} />
 									<Link
-										className="lg:w-full rounded-xl py-2 text-center transition-all font-bold text-xl bg-white border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
+										className="lg:w-full rounded-xl py-2 text-center transition-all font-medium text-xl bg-white border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 										href={"/projects"}
 									>
 										Back
