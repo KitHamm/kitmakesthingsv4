@@ -1,0 +1,73 @@
+name: Deploy to DigitalOcean
+
+on:
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Check for changes in prisma.schema
+              id: prisma_changes
+              run: |
+                  git fetch origin
+                  if git diff --quiet HEAD origin/main -- prisma/schema.prisma; then
+                    echo "No changes in prisma.schema"
+                      echo "prisma_changed=false" >> $GITHUB_ENV
+                  else
+                    echo "prisma.schema has changed"
+                      echo "prisma_changed=true" >> $GITHUB_ENV
+                  fi
+
+            - name: Deploy to DigitalOcean
+              uses: appleboy/ssh-action@v1.2.0
+              with:
+                  host: ${{ secrets.DIGITAL_OCEAN_IP }}
+                  username: root
+                  key: ${{ secrets.SSH_PRIVATE_KEY }}
+                  passphrase: ${{ secrets.DO_SSH_PASSPHRASE }}
+                  port: 22
+                  script: |
+                      if [ "${{ env.prisma_changed }}" = "false" ]; then
+                        echo "No changes in prisma.schema. Continue with deployment..."
+                        cd ../srv/www
+                        echo "Making stable copy..."
+                        rsync -ar --exclude 'images' --exclude 'node_modules' kitmakesthingsv4/ kmt_stable
+                        echo "Making build directory..."
+                        mkdir build
+                        echo "Moving to build directory..."
+                        cd build
+                        git clone git@github.com:KitHamm/kitmakesthingsv4.git
+                        echo "Copying necessary files..."
+                        cd ..
+                        cp kitmakesthingsv4/.env build/kitmakesthingsv4
+                        echo "Moving to repo directory"...
+                        cd build/kitmakesthingsv4
+                        if [ ! -f .env ]; then
+                          echo "File is missing. Deployment cannot continue."
+                          exit 1
+                        fi
+                        echo "Installing deps..."
+                        export NVM_DIR=~/.nvm
+                        source ~/.nvm/nvm.sh
+                        npm install
+                        echo "Building..."
+                        npm run build
+                        if [ $? -ne 0 ]; then
+                          echo "Build failed. Exiting deployment."
+                          cd ../..
+                          rm -r build
+                          exit 1
+                        fi
+                        echo "Moving to base folder..."
+                        cd ../..
+                        pm2 stop kitmakesthingsv4
+                        echo "Copying build files..."
+                        rsync -ar build/kitmakesthingsv4/ kitmakesthingsv4
+                        pm2 start kitmakesthingsv4
+                        echo "Cleaning up..."
+                        rm -r build
+                      fi
