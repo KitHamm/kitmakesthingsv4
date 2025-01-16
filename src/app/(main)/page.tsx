@@ -38,13 +38,15 @@ export default async function Home() {
 									</h1>
 								</div>
 								<div className="flex justify-between lg:gap-10">
-									<div className="hidden font-medium lg:block text-charcoal-dark text-lg w-1/2">
-										<Markdown>{content?.copy}</Markdown>
+									<div className="hidden my-auto font-medium lg:block text-charcoal-dark text-lg w-1/2">
+										<Markdown className="markdown">
+											{content?.copy}
+										</Markdown>
 									</div>
-									<div className="flex lg:w-1/2 w-full flex-col lg:flex-row gap-6 items-center">
+									<div className="flex lg:w-1/2 w-full flex-col gap-4 items-center">
 										<div className="flex justify-center lg:basis-1/2 w-full">
 											<Link
-												className="w-full transition-all rounded-xl py-2 text-xl text-center font-medium text-charcoal-dark bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
+												className="w-full transition-all rounded-xl py-3 text-xl text-center font-medium text-charcoal-dark bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 												href={"/projects"}
 											>
 												<i className="fa-solid fa-diagram-project"></i>{" "}
@@ -54,11 +56,11 @@ export default async function Home() {
 										<div className="flex justify-center lg:basis-1/2 w-full">
 											<Link
 												target="_blank"
-												className="w-full transition-all rounded-xl py-2 text-xl text-center font-medium text-charcoal-dark bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
+												className="w-full transition-all rounded-xl py-3 text-xl text-center font-medium text-charcoal-dark bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 												href={"Kit_Hamm_Resume.pdf"}
 											>
 												<i className="mr-2 fa-solid fa-file" />
-												Resume
+												View Resum&#233;
 											</Link>
 										</div>
 									</div>
@@ -67,18 +69,6 @@ export default async function Home() {
 						</header>
 					</ParticlesComponent>
 				</div>
-
-				{/* <div className="absolute flex h-full w-full justify-end items-center overflow-hidden">
-					<Image
-						className="h-full translate-x-1/4 lg:-translate-x-0 max-w-none w-auto lg:w-full lg:object-cover"
-						src={"/render4k.webp"}
-						width={3840}
-						height={2160}
-						alt="this"
-						unoptimized
-						quality={100}
-					/>
-				</div> */}
 			</section>
 			<ParallaxSection shift imageUrl="/render4k.webp">
 				<div className="lg:w-[80dvw] xl:w-[60dvw] xxl:w-[45dvw] mx-auto flex gap-10 justify-center h-full">
