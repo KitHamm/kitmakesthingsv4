@@ -11,14 +11,14 @@ import {
 	TaskState,
 } from "@prisma/client";
 
-export default async function ProjectPage({
-	params,
-}: {
-	params: { projectId: string };
-}) {
+type Params = Promise<{ projectId: string }>;
+
+export default async function ProjectPage(props: { params: Params }) {
+	const params = await props.params;
+
 	const project = await prisma.workingProject.findUnique({
 		where: {
-			id: params.projectId[0],
+			id: params.projectId,
 		},
 		include: {
 			tasks: {},

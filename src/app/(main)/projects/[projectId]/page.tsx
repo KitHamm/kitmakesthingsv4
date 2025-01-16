@@ -14,14 +14,14 @@ import ContactButton from "@/components/main/ContactButton";
 // Constants
 const OPTIONS: EmblaOptionsType = { loop: true };
 
-export default async function ProjectPage({
-	params,
-}: {
-	params: { projectId: string };
-}) {
+type Params = Promise<{ projectId: string }>;
+
+export default async function ProjectPage(props: { params: Params }) {
+	const params = await props.params;
+
 	const project = await prisma.contentProject.findUnique({
 		where: {
-			slug: params.projectId[0],
+			slug: params.projectId,
 		},
 	});
 
