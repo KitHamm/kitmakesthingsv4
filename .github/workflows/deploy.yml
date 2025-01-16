@@ -37,12 +37,18 @@ jobs:
                         echo "No changes in prisma.schema. Continue with deployment..."
                         cd ../srv/www
                         echo "Making stable copy..."
-                        rsync -ar --exclude 'images' --exclude 'node_modules' kitmakesthingsv4/ kmt_stable
+                        mkdir kmt_stable
+                        rsync -ar --exclude 'images' --exclude 'node_modules' kitmakesthingsv4/ kmt_stable/kitmakesthingsv4
                         echo "Making build directory..."
-                        rsync -ar --exclude 'images' kitmakesthingsv4/ build_temp
+                        mkdir build_temp
                         echo "Moving to build directory..."
                         cd build_temp
-                        git pull origin main
+                        echo "Cloning repo"
+                        git clone git@github.com:KitHamm/kitmakesthingsv4.git
+                        cd ..
+                        cp kitmakesthingsv4/.env build_temp/kitmakesthingsv4
+                        echo "Moving to build directory..."
+                        cd build_temp/kitmakesthingsv4
                         if [ ! -f .env ]; then
                           echo "File is missing. Deployment cannot continue."
                           exit 1
@@ -55,18 +61,18 @@ jobs:
                         npm run build
                         if [ $? -ne 0 ]; then
                           echo "Build failed. Exiting deployment."
-                          cd ..
+                          cd ../..
                           rm -r build_temp
                           exit 1
                         fi
                         echo "Moving to base folder..."
-                        cd ..
+                        cd ../..
                         echo "Stopping server..."
                         pm2 stop kitmakesthingsv4 || { echo "Failed to stop PM2 process"; exit 1; }
                         echo "Server stopped."
                         echo "Copying build files..."
                         rm -rf kitmakesthingsv4/node_modules
-                        rsync -ar build_temp/ kitmakesthingsv4 || { echo "Failed to copy files"; exit 1; }
+                        rsync -ar --exclude 'images' build_temp/kitmakesthingsv4/ kitmakesthingsv4 || { echo "Failed to copy files"; exit 1; }
                         echo "Files copied."
                         echo "Starting server..."
                         pm2 start kitmakesthingsv4 || { echo "Failed to start PM2 process"; exit 1; }
