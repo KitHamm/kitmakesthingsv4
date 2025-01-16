@@ -38,15 +38,15 @@ jobs:
                         echo "Making stable copy..."
                         rsync -ar --exclude 'images' --exclude 'node_modules' kitmakesthingsv4/ kmt_stable
                         echo "Making build directory..."
-                        mkdir build
+                        mkdir build_temp
                         echo "Moving to build directory..."
-                        cd build
+                        cd build_temp
                         git clone git@github.com:KitHamm/kitmakesthingsv4.git
                         echo "Copying necessary files..."
                         cd ..
-                        cp kitmakesthingsv4/.env build/kitmakesthingsv4
+                        cp kitmakesthingsv4/.env build_temp/kitmakesthingsv4
                         echo "Moving to repo directory"...
-                        cd build/kitmakesthingsv4
+                        cd build_temp/kitmakesthingsv4
                         if [ ! -f .env ]; then
                           echo "File is missing. Deployment cannot continue."
                           exit 1
@@ -60,15 +60,21 @@ jobs:
                         if [ $? -ne 0 ]; then
                           echo "Build failed. Exiting deployment."
                           cd ../..
-                          rm -r build
+                          rm -r build_temp
                           exit 1
                         fi
                         echo "Moving to base folder..."
                         cd ../..
-                        pm2 stop kitmakesthingsv4
+                        echo "Stopping server..."
+                        pm2 stop kitmakesthingsv4 || { echo "Failed to stop PM2 process"; exit 1; }
+                        echo "Server stopped."
                         echo "Copying build files..."
-                        rsync -ar build/kitmakesthingsv4/ kitmakesthingsv4
-                        pm2 start kitmakesthingsv4
+                        rsync -ar build_temp/kitmakesthingsv4/ kitmakesthingsv4 || { echo "Failed to copy files"; exit 1; }
+                        echo "Files copied."
+                        echo "Starting server..."
+                        pm2 start kitmakesthingsv4 || { echo "Failed to start PM2 process"; exit 1; }
+                        echo "Server started."
                         echo "Cleaning up..."
-                        rm -r build
+                        rm -r build_temp || { echo "Failed to remove build directory"; exit 1; }
+                        echo "Build directory removed."
                       fi
