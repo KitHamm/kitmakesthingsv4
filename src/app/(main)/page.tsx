@@ -39,12 +39,12 @@ export default async function Home() {
 								</div>
 								<div className="flex justify-between lg:gap-10">
 									<div className="hidden my-auto font-medium lg:block text-charcoal-dark text-lg w-1/2">
-										<Markdown className="markdown">
+										<Markdown className="mt-[1rem]">
 											{content?.copy}
 										</Markdown>
 									</div>
-									<div className="flex lg:w-1/2 w-full flex-col gap-4 items-center">
-										<div className="flex justify-center lg:basis-1/2 w-full">
+									<div className="flex lg:w-1/2 w-full flex-col gap-4 my-auto items-center">
+										<div className="flex justify-center w-full">
 											<Link
 												className="w-full transition-all rounded-xl py-3 text-xl text-center font-medium text-charcoal-dark bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 												href={"/projects"}
@@ -53,7 +53,7 @@ export default async function Home() {
 												View Projects
 											</Link>
 										</div>
-										<div className="flex justify-center lg:basis-1/2 w-full">
+										<div className="flex justify-center w-full">
 											<Link
 												target="_blank"
 												className="w-full transition-all rounded-xl py-3 text-xl text-center font-medium text-charcoal-dark bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"

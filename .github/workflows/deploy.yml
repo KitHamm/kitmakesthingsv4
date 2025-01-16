@@ -30,6 +30,7 @@ jobs:
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
                   passphrase: ${{ secrets.DO_SSH_PASSPHRASE }}
                   port: 22
+                  script_stop: true
                   script: |
                       if [ "${{ env.prisma_changed }}" = "false" ]; then
                         echo "No changes in prisma.schema. Continue with deployment..."
