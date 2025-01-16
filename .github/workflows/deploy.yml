@@ -31,6 +31,7 @@ jobs:
                   passphrase: ${{ secrets.DO_SSH_PASSPHRASE }}
                   port: 22
                   script_stop: true
+                  command_timeout: 20m
                   script: |
                       if [ "${{ env.prisma_changed }}" = "false" ]; then
                         echo "No changes in prisma.schema. Continue with deployment..."
