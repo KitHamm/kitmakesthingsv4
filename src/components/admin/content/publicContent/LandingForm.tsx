@@ -50,7 +50,7 @@ export default function LandingForm(props: {
 		if (landingContent) {
 			reset(landingContent);
 		}
-	}, [landingContent]);
+	}, [landingContent, reset]);
 
 	// Copy
 	const copy = watch("copy");

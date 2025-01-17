@@ -36,7 +36,7 @@ export default function MobileNav(props: { messages: Messages[] }) {
 
 	useEffect(() => {
 		onCloseMenu();
-	}, [pathname]);
+	}, [pathname, onCloseMenu]);
 
 	return (
 		<>
@@ -110,10 +110,9 @@ export default function MobileNav(props: { messages: Messages[] }) {
 									</MobileNavLink>
 									<MobileNavLink
 										href="/dashboard/content/projects"
-										active={
-											pathname ===
+										active={pathname.includes(
 											"/dashboard/content/projects"
-										}
+										)}
 									>
 										Project Content
 									</MobileNavLink>

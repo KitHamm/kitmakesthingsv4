@@ -1,6 +1,6 @@
 "use client";
 // packages
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useCallback, useContext, useEffect } from "react";
 import {
 	useForm,
 	UseFormRegister,
@@ -50,7 +50,7 @@ export default function FormProvider({
 		formState: { errors, isDirty },
 	} = useForm<ContentProjectForm>();
 
-	const handleReset = () => {
+	const handleReset = useCallback(() => {
 		if (project) {
 			const stack = project.stack.map((stack: string) => ({
 				name: stack,
@@ -78,11 +78,11 @@ export default function FormProvider({
 				name: "New Project",
 			});
 		}
-	};
+	}, [project, reset]);
 
 	useEffect(() => {
 		handleReset();
-	}, [project]);
+	}, [project, handleReset]);
 
 	const onSubmit = (data: ContentProjectForm) => {
 		updateCreateContentProject(data, project?.slug ?? "")

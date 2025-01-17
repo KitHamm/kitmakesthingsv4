@@ -1,3 +1,6 @@
+// prisma
+import prisma from "@/lib/prisma";
+// components
 import FormProvider from "@/components/admin/content/projectContent/formProvider";
 import FormTitle from "@/components/admin/content/projectContent/formTitle";
 import ProjectButtons from "@/components/admin/content/projectContent/projectButtons";
@@ -6,7 +9,6 @@ import ProjectOrder from "@/components/admin/content/projectContent/projectOrder
 import ProjectTechStackInput from "@/components/admin/content/projectContent/projectTechStackInput";
 import ProjectTextAreaInput from "@/components/admin/content/projectContent/projectTextAreaInput";
 import ProjectTextInput from "@/components/admin/content/projectContent/projectTextInput";
-import prisma from "@/lib/prisma";
 
 export default async function NewProject() {
 	const images = await prisma.images.findMany();

@@ -25,7 +25,7 @@ export default function SidePanel(props: { messages: Messages[] }) {
 	}, [dropIsOpen]);
 
 	useEffect(() => {
-		var count = 0;
+		let count = 0;
 		for (let i = 0; i < props.messages.length; i++) {
 			if (!props.messages[i].read) {
 				count = count + 1;
@@ -84,7 +84,7 @@ export default function SidePanel(props: { messages: Messages[] }) {
 						</div>
 						<div
 							className={`${
-								pathName === "/dashboard/content/projects"
+								pathName.includes("/dashboard/content/projects")
 									? "border-s-4 border-neutral-600 bg-green-500"
 									: ""
 							} font-bold ps-12 py-1 me-24 hover:bg-neutral-400 hover:text-white rounded-tr-full rounded-br-full`}

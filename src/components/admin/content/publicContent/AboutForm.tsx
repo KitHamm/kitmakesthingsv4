@@ -34,7 +34,7 @@ export default function AboutForm(props: {
 		if (aboutContent) {
 			reset(aboutContent);
 		}
-	}, [aboutContent]);
+	}, [aboutContent, reset]);
 
 	const about1Image = watch("image1Url");
 	const about2Image = watch("image2Url");

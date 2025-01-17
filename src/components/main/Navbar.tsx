@@ -32,7 +32,7 @@ export default function NavbarComp() {
 			setContactForm(el);
 		}
 		onCloseMenu();
-	}, [pathname]);
+	}, [pathname, onCloseMenu]);
 
 	return (
 		<>

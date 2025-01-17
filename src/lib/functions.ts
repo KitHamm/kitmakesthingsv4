@@ -66,7 +66,7 @@ export const mapNumRange = (
 ) => ((num - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
 
 export function invoicedToDate(invoices: Invoice[]) {
-	var total = 0.0;
+	let total = 0.0;
 	for (let i = 0; i < invoices.length; i++) {
 		if (invoices[i].taxYear === currentTaxYear()) {
 			total = total + invoices[i].total;
@@ -76,7 +76,7 @@ export function invoicedToDate(invoices: Invoice[]) {
 }
 
 export function paidToDate(invoices: Invoice[]) {
-	var total = 0.0;
+	let total = 0.0;
 	for (let i = 0; i < invoices.length; i++) {
 		if (invoices[i].taxYear === currentTaxYear()) {
 			if (invoices[i].paid) {
@@ -95,7 +95,7 @@ export function currentTaxYear() {
 	const prevYear = dateObj.getFullYear() - 1;
 	const nextYear = dateObj.getFullYear() + 1;
 	taxDate.setFullYear(year, 3, 5);
-	var taxYear;
+	let taxYear;
 	if (dateObj <= taxDate) {
 		taxYear = prevYear + "-" + dateObj.getFullYear();
 	} else {
@@ -127,7 +127,7 @@ export function projection(type: string, invoices: Invoice[]) {
 }
 
 export function totalTaxYears(invoices: InvoiceWithClientAndItems[]) {
-	var taxYears: string[] = [];
+	let taxYears: string[] = [];
 	for (let i = 0; i < invoices.length; i++) {
 		if (!taxYears.includes(invoices[i].taxYear)) {
 			taxYears.push(invoices[i].taxYear);
@@ -137,13 +137,13 @@ export function totalTaxYears(invoices: InvoiceWithClientAndItems[]) {
 }
 
 export function outStanding(invoices: Invoice[]) {
-	var total = 0;
+	let total = 0;
 	total = invoicedToDate(invoices) - paidToDate(invoices);
 	return total;
 }
 
 export function invoiceCount(invoices: Invoice[], type: string) {
-	var count = 0;
+	let count = 0;
 	for (let i = 0; i < invoices.length; i++) {
 		if (invoices[i].taxYear === currentTaxYear()) {
 			if (type === "sent") {
@@ -195,7 +195,7 @@ export function countViews(requests: ServiceRequest[]) {
 }
 
 export function pagesWithViews(requests: ServiceRequest[]) {
-	var pages: string[] = [];
+	let pages: string[] = [];
 	requests.forEach((request) => {
 		if (!pages.includes(request.page)) {
 			pages.push(request.page);
