@@ -11,7 +11,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-	metadataBase: new URL("https://kitmakesthings.co.uk/"),
+	metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
 	title: "Kit Hamm | Dashboard",
 	description:
 		"Kit Hamm is a Freelance Developer from the South West. Open to contract and full time opportunities.",

@@ -1,4 +1,6 @@
+// prisma
 import prisma from "@/lib/prisma";
+// components
 import IncomeStatBox from "@/components/admin/stats/incomeStatBox";
 import Projection from "@/components/admin/stats/projected";
 import InvoicesSent from "@/components/admin/stats/invoiceSent";

@@ -4,22 +4,27 @@ import { parseAbsoluteToLocal } from "@internationalized/date";
 import { useState } from "react";
 import { updateDueDate as updateDueDataAction } from "@/components/actions/WorkingProjectActions";
 export default function DueDateChange(props: { dueDate: Date; id: string }) {
-	const [dateValue, setDateValue] = useState(
-		parseAbsoluteToLocal(props.dueDate.toISOString())
-	);
-
+	const [dateValue, setDateValue] = useState<Date>(props.dueDate);
 	function updateDueDate() {
-		const date = new Date(
-			dateValue.year,
-			dateValue.month - 1,
-			dateValue.day
-		);
-		date.setUTCHours(0, 0, 0, 0);
-		updateDueDataAction(props.id, date).catch((err) => console.log(err));
+		if (dateValue) {
+			const date = dateValue;
+			date.setUTCHours(0, 0, 0, 0);
+			updateDueDataAction(props.id, date).catch((err) =>
+				console.log(err)
+			);
+		}
 	}
 	return (
 		<div className="h-full flex gap-2">
-			<DatePicker
+			<input
+				type="date"
+				value={dateValue ? dateValue.toISOString().split("T")[0] : ""}
+				onChange={(e) => {
+					if (e.target.valueAsDate)
+						setDateValue(e.target.valueAsDate);
+				}}
+			/>
+			{/* <DatePicker
 				size="lg"
 				classNames={{
 					timeInput: "hidden",
@@ -37,7 +42,7 @@ export default function DueDateChange(props: { dueDate: Date; id: string }) {
 					}
 				}}
 				aria-label="due date"
-			/>
+			/> */}
 			{JSON.stringify(dateValue) !==
 				JSON.stringify(
 					parseAbsoluteToLocal(props.dueDate.toISOString())

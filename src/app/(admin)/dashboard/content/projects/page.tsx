@@ -9,6 +9,9 @@ export default async function ContentProjects() {
 		},
 	});
 	const images = await prisma.images.findMany();
+
+	// TODO less client for this
+
 	return (
 		<div className="lg:py-10 lg:px-10 py-4">
 			<ProjectsMain
