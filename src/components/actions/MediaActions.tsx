@@ -52,16 +52,16 @@ export async function deleteFile(fileName: string) {
 			where: { url: fileName },
 		});
 
-		try {
-			fs.unlinkSync(
-				process.cwd() +
-					"/" +
-					process.env.NEXT_PUBLIC_DELETE_IMAGE_DIR +
-					fileName
-			);
-		} catch (fsError) {
-			console.log(fsError);
-		}
+		// try {
+		// 	fs.unlinkSync(
+		// 		process.cwd() +
+		// 			"/" +
+		// 			process.env.NEXT_PUBLIC_DELETE_IMAGE_DIR +
+		// 			fileName
+		// 	);
+		// } catch (fsError) {
+		// 	console.log(fsError);
+		// }
 		return Promise.resolve();
 	} catch {
 		return Promise.reject(new Error("unable to delete"));
