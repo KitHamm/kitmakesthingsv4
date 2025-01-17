@@ -1,21 +1,20 @@
 "use client";
-
-import { ContentProjectForm } from "@/lib/types";
-import { ContentProject } from "@prisma/client";
-import { createContext, useContext, useEffect, useState } from "react";
+// packages
+import { createContext, useContext, useEffect } from "react";
 import {
 	useForm,
-	useFieldArray,
 	UseFormRegister,
 	UseFormHandleSubmit,
 	Control,
 	FieldErrors,
-	FieldArrayWithId,
-	UseFieldArrayAppend,
-	UseFieldArrayRemove,
 	UseFormWatch,
 	UseFormSetValue,
 } from "react-hook-form";
+// functions
+import { updateCreateContentProject } from "@/server/contentActions/updateCreateContentProject";
+// types
+import { ContentProjectForm } from "@/lib/types";
+import { ContentProject } from "@prisma/client";
 
 type FormContextType = {
 	register: UseFormRegister<ContentProjectForm>;
@@ -86,7 +85,13 @@ export default function FormProvider({
 	}, [project]);
 
 	const onSubmit = (data: ContentProjectForm) => {
-		console.log(data);
+		updateCreateContentProject(data, project?.slug ?? "")
+			.then((res) => {
+				if (res.status === 400) {
+					console.log(res.message);
+				}
+			})
+			.catch((err) => console.log(err));
 	};
 
 	return (

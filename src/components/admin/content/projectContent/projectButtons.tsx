@@ -8,6 +8,7 @@ export default function ProjectButtons() {
 	return (
 		<div className="flex justify-end items-center gap-4">
 			<Button
+				onPress={() => handleReset()}
 				type="button"
 				color="warning"
 				variant="light"
