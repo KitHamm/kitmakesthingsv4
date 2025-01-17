@@ -57,9 +57,9 @@ export async function updateCreateContentProject(
 					},
 			  });
 		await action;
-		revalidatePath("projects/");
-		revalidatePath("projects/" + data.slug);
-		revalidatePath("dashboard/content/projects/");
+		revalidatePath("/projects");
+		revalidatePath("/projects/" + data.slug);
+		revalidatePath("/dashboard/content/projects");
 		return { status: 200, message: "success" };
 	} catch (error: any) {
 		return { status: 400, message: error };
