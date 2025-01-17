@@ -121,6 +121,30 @@ export type ContentProjectForm = {
 	order: number;
 };
 
+export type ContentTextInputProps = {
+	target:
+		| "name"
+		| "slug"
+		| "role"
+		| "date"
+		| "where"
+		| "client"
+		| "outLink"
+		| "outLinkText";
+	label: string;
+	required: boolean;
+	message: string;
+	placeholder: string;
+};
+
+export type ContentTextAreaProps = {
+	target: "short" | "description";
+	label: string;
+	required: boolean;
+	message: string;
+	placeholder: string;
+};
+
 export type ContactForm = {
 	name: string;
 	email: string;

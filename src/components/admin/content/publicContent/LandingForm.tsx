@@ -11,6 +11,7 @@ import { LandingContentForm, LandingWithTech } from "@/lib/types";
 import { Images } from "@prisma/client";
 import ParallaxSection from "@/components/main/ParallaxSection";
 import ContentImageModal from "../../shared/ContentImageModal";
+import { resizeTextArea } from "@/lib/functions";
 
 export default function LandingForm(props: {
 	landingContent: LandingWithTech | null;
@@ -59,11 +60,7 @@ export default function LandingForm(props: {
 	});
 	useEffect(() => {
 		if (copyTextArea.current) {
-			copyTextArea.current.style.height =
-				copyTextArea.current.style.height = `${Math.max(
-					copyTextArea.current.scrollHeight,
-					10
-				)}px`;
+			resizeTextArea(copyTextArea.current);
 		}
 	}, [copy]);
 
@@ -76,29 +73,17 @@ export default function LandingForm(props: {
 	const thirdHighlightTextArea = useRef<HTMLTextAreaElement | null>(null);
 	useEffect(() => {
 		if (firstHighlightTextArea.current) {
-			firstHighlightTextArea.current.style.height =
-				firstHighlightTextArea.current.style.height = `${Math.max(
-					firstHighlightTextArea.current.scrollHeight,
-					10
-				)}px`;
+			resizeTextArea(firstHighlightTextArea.current);
 		}
 	}, [firstHighlightText]);
 	useEffect(() => {
 		if (secondHighlightTextArea.current) {
-			secondHighlightTextArea.current.style.height =
-				secondHighlightTextArea.current.style.height = `${Math.max(
-					secondHighlightTextArea.current.scrollHeight,
-					10
-				)}px`;
+			resizeTextArea(secondHighlightTextArea.current);
 		}
 	}, [secondHighlightText]);
 	useEffect(() => {
 		if (thirdHighlightTextArea.current) {
-			thirdHighlightTextArea.current.style.height =
-				thirdHighlightTextArea.current.style.height = `${Math.max(
-					thirdHighlightTextArea.current.scrollHeight,
-					10
-				)}px`;
+			resizeTextArea(thirdHighlightTextArea.current);
 		}
 	}, [thirdHighlightText]);
 	const { ref: firstHighlight, ...firstHighlightRest } = register(
@@ -125,11 +110,7 @@ export default function LandingForm(props: {
 	const shortAboutTextArea = useRef<HTMLTextAreaElement | null>(null);
 	useEffect(() => {
 		if (shortAboutTextArea.current) {
-			shortAboutTextArea.current.style.height =
-				shortAboutTextArea.current.style.height = `${Math.max(
-					shortAboutTextArea.current.scrollHeight,
-					10
-				)}px`;
+			resizeTextArea(shortAboutTextArea.current);
 		}
 	}, [shortAboutText]);
 	const { ref: shortAbout, ...shortAboutRest } = register("shortAbout", {

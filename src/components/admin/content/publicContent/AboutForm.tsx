@@ -51,11 +51,10 @@ export default function AboutForm(props: {
 	});
 	useEffect(() => {
 		if (copyTextArea.current) {
-			copyTextArea.current!.style.height = "inherit";
-
-			copyTextArea.current!.style.height = `${Math.max(
-				copyTextArea.current!.scrollHeight,
-				10
+			copyTextArea.current.style.height = "auto";
+			copyTextArea.current.style.height = `${Math.max(
+				copyTextArea.current.scrollHeight,
+				32
 			)}px`;
 		}
 	}, [copy]);

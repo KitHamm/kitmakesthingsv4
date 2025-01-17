@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 
 type Params = Promise<{ projectId: string }>;
 
-export default async function ProjectPage(props: { params: Params }) {
+export default async function ProjectPage(props: Readonly<{ params: Params }>) {
 	const params = await props.params;
 
 	const project = await prisma.workingProject.findUnique({
@@ -31,6 +31,16 @@ export default async function ProjectPage(props: { params: Params }) {
 		project.tasks
 	);
 
+	let stateClass = "";
+
+	if (project.state === ProjectState.PROPOSED) {
+		stateClass = "text-neutral-500";
+	} else if (project.state === ProjectState.STARTED) {
+		stateClass = "text-orange-400";
+	} else {
+		stateClass = "text-green-500";
+	}
+
 	// TODO to many components. Don't be afraid to use client components
 
 	return (
@@ -41,13 +51,7 @@ export default async function ProjectPage(props: { params: Params }) {
 						{project.name}
 					</div>
 					<div
-						className={`${
-							project.state === ProjectState.PROPOSED
-								? "text-neutral-500"
-								: project.state === ProjectState.STARTED
-								? "text-orange-400"
-								: "text-green-500"
-						} font-bold text-4xl my-auto text-center`}
+						className={`${stateClass} font-bold text-4xl my-auto text-center`}
 					>
 						{project.state}
 					</div>
