@@ -3,8 +3,7 @@ import { Roboto } from "next/font/google";
 import "../globals.css";
 import SidePanel from "@/components/admin/SidePanel";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/authOptions";
+import MobileNav from "@/components/admin/MobileNav";
 
 const roboto = Roboto({
 	weight: ["100", "300", "400", "500", "700", "900"],
@@ -12,7 +11,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-	metadataBase: new URL("https://kitmakesthings.co.uk/"),
+	metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
 	title: "Kit Hamm | Dashboard",
 	description:
 		"Kit Hamm is a Freelance Developer from the South West. Open to contract and full time opportunities.",
@@ -32,14 +31,14 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const session = getServerSession(authOptions);
 	const messages = await prisma.messages.findMany();
 	return (
 		<html lang="en">
 			<body
-				className={`${roboto.className} max-w-[100dvw] flex overflow-x-hidden`}
+				className={`${roboto.className} max-w-[100dvw] flex flex-col lg:flex-row overflow-x-hidden`}
 			>
 				<SidePanel messages={messages} />
+				<MobileNav messages={messages} />
 				<div className="hidden lg:block w-1/6" />
 				<div className="w-full lg:w-5/6">{children}</div>
 			</body>

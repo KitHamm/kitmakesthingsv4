@@ -91,7 +91,7 @@ export default function InvoiceTopModals(props: {
 
 	useEffect(() => {
 		if (fields.length > 0) {
-			var total = 0;
+			let total = 0;
 			for (let i = 0; i < fields.length; i++) {
 				total = total + fields[i].subTotal;
 			}

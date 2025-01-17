@@ -17,6 +17,22 @@ export default function ParallaxSection({ children, ...props }: LayoutProps) {
 	const [containerHeight, setContainerHeight] = useState(500);
 
 	useEffect(() => {
+		const image = headerImage.current;
+		if (!image) return;
+		const handleImageLoad = () => {
+			onScroll();
+		};
+		if (image.complete) {
+			handleImageLoad();
+		} else {
+			image.addEventListener("load", handleImageLoad);
+		}
+		return () => {
+			image.removeEventListener("load", handleImageLoad);
+		};
+	}, []);
+
+	useEffect(() => {
 		onScroll();
 		window.addEventListener("scroll", onScroll);
 	}, []);

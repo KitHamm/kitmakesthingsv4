@@ -4,16 +4,13 @@ import ProjectDeleteButton from "@/components/admin/projects/projectDeleteButton
 import ProjectStateChange from "@/components/admin/projects/projectStateChange";
 import TaskCard from "@/components/admin/projects/taskCard";
 import prisma from "@/lib/prisma";
-import {
-	ProjectState,
-	ProjectTask,
-	TaskPriority,
-	TaskState,
-} from "@prisma/client";
+import { sortTasks } from "@/lib/utils/projectTrackerUtils/sortTasks";
+import { ProjectState, ProjectTask } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 type Params = Promise<{ projectId: string }>;
 
-export default async function ProjectPage(props: { params: Params }) {
+export default async function ProjectPage(props: Readonly<{ params: Params }>) {
 	const params = await props.params;
 
 	const project = await prisma.workingProject.findUnique({
@@ -25,44 +22,59 @@ export default async function ProjectPage(props: { params: Params }) {
 			client: {},
 		},
 	});
+
+	if (!project) {
+		redirect("/dashboard/projects");
+	}
+
+	const [noneTasks, workingTasks, reviewTasks, finishedTasks] = sortTasks(
+		project.tasks
+	);
+
+	let stateClass = "";
+
+	if (project.state === ProjectState.PROPOSED) {
+		stateClass = "text-neutral-500";
+	} else if (project.state === ProjectState.STARTED) {
+		stateClass = "text-orange-400";
+	} else {
+		stateClass = "text-green-500";
+	}
+
+	// TODO to many components. Don't be afraid to use client components
+
 	return (
 		<div className="lg:py-10 lg:px-10 py-4 px-4">
 			<div className="mb-6 pb-4 border-b-2">
 				<div className="flex flex-col lg:flex-row lg:gap-10">
 					<div className="mb-4 font-bold text-center lg:text-start  text-4xl lg:text-6xl ">
-						{project?.name}
+						{project.name}
 					</div>
 					<div
-						className={`${
-							project?.state === ProjectState.PROPOSED
-								? "text-neutral-500"
-								: project?.state === ProjectState.STARTED
-								? "text-orange-400"
-								: "text-green-500"
-						} font-bold text-4xl my-auto text-center`}
+						className={`${stateClass} font-bold text-4xl my-auto text-center`}
 					>
-						{project?.state}
+						{project.state}
 					</div>
 				</div>
 				<div className="flex w-full flex-col lg:flex-row justify-center lg:justify-start gap-2 mt-4 lg:mt-0">
-					<div className="w-fit mx-auto lg:mx-0">
+					<div className="w-fit mx-auto lg:mx-0 flex">
 						<ProjectStateChange
-							state={project!.state}
-							id={project!.id}
+							state={project.state}
+							id={project.id}
 						/>
 					</div>
 					<div className="w-fit flex mx-auto lg:mx-0">
 						<div className="grow">
 							<DueDateChange
-								dueDate={project!.dateDue}
-								id={project!.id}
+								dueDate={project.dateDue}
+								id={project.id}
 							/>
 						</div>
 					</div>
 				</div>
-				<div className="flex gap-2 mt-4 justify-evenly lg:justify-start">
-					<ProjectDeleteButton id={project!.id} />
-					<NewTask projectId={project!.id} />
+				<div className="flex flex-col lg:flex-row gap-2 mt-4 justify-evenly lg:justify-start">
+					<ProjectDeleteButton id={project.id} />
+					<NewTask projectId={project.id} />
 				</div>
 			</div>
 			<div className="grid grid-cols-1 lg:grid-cols-4">
@@ -71,29 +83,8 @@ export default async function ProjectPage(props: { params: Params }) {
 						Not Started
 					</div>
 					<div className="flex flex-col gap-2 mt-4">
-						{project?.tasks.map((task: ProjectTask) => {
-							if (
-								task.status === TaskState.NONE &&
-								task.priority === TaskPriority.HIGH
-							) {
-								return <TaskCard key={task.id} task={task} />;
-							}
-						})}
-						{project?.tasks.map((task: ProjectTask) => {
-							if (
-								task.status === TaskState.NONE &&
-								task.priority === TaskPriority.MEDIUM
-							) {
-								return <TaskCard key={task.id} task={task} />;
-							}
-						})}
-						{project?.tasks.map((task: ProjectTask) => {
-							if (
-								task.status === TaskState.NONE &&
-								task.priority === TaskPriority.LOW
-							) {
-								return <TaskCard key={task.id} task={task} />;
-							}
+						{noneTasks.map((task: ProjectTask) => {
+							return <TaskCard key={task.id} task={task} />;
 						})}
 					</div>
 				</div>
@@ -102,29 +93,8 @@ export default async function ProjectPage(props: { params: Params }) {
 						Working
 					</div>
 					<div className="flex flex-col gap-2 mt-4">
-						{project?.tasks.map((task: ProjectTask) => {
-							if (
-								task.status === TaskState.WORKING &&
-								task.priority === TaskPriority.HIGH
-							) {
-								return <TaskCard key={task.id} task={task} />;
-							}
-						})}
-						{project?.tasks.map((task: ProjectTask) => {
-							if (
-								task.status === TaskState.WORKING &&
-								task.priority === TaskPriority.MEDIUM
-							) {
-								return <TaskCard key={task.id} task={task} />;
-							}
-						})}
-						{project?.tasks.map((task: ProjectTask) => {
-							if (
-								task.status === TaskState.WORKING &&
-								task.priority === TaskPriority.LOW
-							) {
-								return <TaskCard key={task.id} task={task} />;
-							}
+						{workingTasks.map((task: ProjectTask) => {
+							return <TaskCard key={task.id} task={task} />;
 						})}
 					</div>
 				</div>
@@ -133,29 +103,8 @@ export default async function ProjectPage(props: { params: Params }) {
 						Review
 					</div>
 					<div className="flex flex-col gap-2 mt-4">
-						{project?.tasks.map((task: ProjectTask) => {
-							if (
-								task.status === TaskState.REVIEW &&
-								task.priority === TaskPriority.HIGH
-							) {
-								return <TaskCard key={task.id} task={task} />;
-							}
-						})}
-						{project?.tasks.map((task: ProjectTask) => {
-							if (
-								task.status === TaskState.REVIEW &&
-								task.priority === TaskPriority.MEDIUM
-							) {
-								return <TaskCard key={task.id} task={task} />;
-							}
-						})}
-						{project?.tasks.map((task: ProjectTask) => {
-							if (
-								task.status === TaskState.REVIEW &&
-								task.priority === TaskPriority.LOW
-							) {
-								return <TaskCard key={task.id} task={task} />;
-							}
+						{reviewTasks.map((task: ProjectTask) => {
+							return <TaskCard key={task.id} task={task} />;
 						})}
 					</div>
 				</div>
@@ -164,29 +113,8 @@ export default async function ProjectPage(props: { params: Params }) {
 						Finished
 					</div>
 					<div className="flex flex-col gap-2 mt-4">
-						{project?.tasks.map((task: ProjectTask) => {
-							if (
-								task.status === TaskState.FINISHED &&
-								task.priority === TaskPriority.HIGH
-							) {
-								return <TaskCard key={task.id} task={task} />;
-							}
-						})}
-						{project?.tasks.map((task: ProjectTask) => {
-							if (
-								task.status === TaskState.FINISHED &&
-								task.priority === TaskPriority.MEDIUM
-							) {
-								return <TaskCard key={task.id} task={task} />;
-							}
-						})}
-						{project?.tasks.map((task: ProjectTask) => {
-							if (
-								task.status === TaskState.FINISHED &&
-								task.priority === TaskPriority.LOW
-							) {
-								return <TaskCard key={task.id} task={task} />;
-							}
+						{finishedTasks.map((task: ProjectTask) => {
+							return <TaskCard key={task.id} task={task} />;
 						})}
 					</div>
 				</div>

@@ -1,8 +1,8 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { LandingContentForm, AboutContentForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
+import { AboutContentForm } from "@/lib/types";
 
 export async function updateAbout(data: AboutContentForm) {
 	try {
@@ -10,13 +10,12 @@ export async function updateAbout(data: AboutContentForm) {
 			where: {
 				page: "about",
 			},
-			data: data,
+			data,
 		});
-		return Promise.resolve();
-	} catch (error: any) {
-		return Promise.reject(new Error(error));
-	} finally {
-		revalidatePath("/dashboard/content");
 		revalidatePath("/about");
+		revalidatePath("/dashboard/content");
+		return { status: 200, message: "updated" };
+	} catch (error: any) {
+		return { status: 400, message: error };
 	}
 }

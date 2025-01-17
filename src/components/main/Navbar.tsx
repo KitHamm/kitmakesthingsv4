@@ -31,7 +31,8 @@ export default function NavbarComp() {
 			) as HTMLDivElement;
 			setContactForm(el);
 		}
-	}, [pathname]);
+		onCloseMenu();
+	}, [pathname, onCloseMenu]);
 
 	return (
 		<>
@@ -191,7 +192,7 @@ export default function NavbarComp() {
 									</Link>
 									<Link
 										className={`${
-											pathname === "/projects"
+											pathname.includes("projects")
 												? "text-green-600"
 												: ""
 										} text-2xl transition-colors font-bold hover:text-green-600`}

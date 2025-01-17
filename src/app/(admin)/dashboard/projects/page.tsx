@@ -15,6 +15,9 @@ export default async function Projects() {
 			client: {},
 		},
 	});
+
+	// TODO if no projects
+
 	const clients = await prisma.client.findMany();
 	return (
 		<div className="lg:py-10 lg:px-10 py-4 px-4">

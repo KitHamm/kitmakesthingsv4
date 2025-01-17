@@ -11,8 +11,6 @@ import {
 	useDisclosure,
 	Select,
 	SelectItem,
-	DatePicker,
-	DateValue,
 } from "@nextui-org/react";
 import { Client } from "@prisma/client";
 import { useState } from "react";
@@ -23,17 +21,10 @@ export default function NewProject(props: { clients: Client[] }) {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const [formError, setFormError] = useState("");
 	const projectForm = useForm<ProjectForm>();
-	const {
-		register,
-		reset,
-		formState,
-		handleSubmit,
-		control,
-		watch,
-		setValue,
-		getValues,
-	} = projectForm;
+	const { register, reset, formState, handleSubmit, setValue, watch } =
+		projectForm;
 	const { errors } = formState;
+	const date = watch("dateDue");
 	function onProjectSubmit(data: ProjectForm) {
 		if (data.clientId === undefined || data.dateDue === undefined) {
 			setFormError("Please fill out all fields.");
@@ -96,19 +87,21 @@ export default function NewProject(props: { clients: Client[] }) {
 											</SelectItem>
 										))}
 									</Select>
-									<DatePicker
-										className="w-full"
-										label="Date"
+									<input
+										type="date"
+										value={
+											date
+												? date
+														.toISOString()
+														.split("T")[0]
+												: ""
+										}
 										onChange={(e) => {
-											if (e) {
-												const date = new Date(
-													e.year,
-													e.month - 1,
-													e.day
+											if (e.target.valueAsDate)
+												setValue(
+													"dateDue",
+													e.target.valueAsDate
 												);
-												date.setUTCHours(0, 0, 0, 0);
-												setValue("dateDue", date);
-											}
 										}}
 									/>
 									{formError !== "" && (

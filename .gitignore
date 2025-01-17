@@ -50,6 +50,6 @@ singleton.ts
 # Dev Uploads
 /public/upload
 /arduino
-
+.VSCodeCounter/
 # Prisma
 prisma/seed.ts
