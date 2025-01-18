@@ -4,25 +4,25 @@
 import { useEffect, useRef } from "react";
 
 export default function ProjectFadeIn({
-    children,
-    index,
+	children,
+	index,
 }: {
-    children: React.ReactNode;
-    index: number;
+	children: React.ReactNode;
+	index: number;
 }) {
-    const el = useRef<HTMLDivElement | null>(null);
+	const el = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        setTimeout(() => {
-            if (el.current && el.current.classList.contains("opacity-0")) {
-                el.current.classList.replace("opacity-0", "fade-in");
-            }
-        }, 100 * index);
-    }, [index]);
+	useEffect(() => {
+		setTimeout(() => {
+			if (el.current?.classList.contains("opacity-0")) {
+				el.current.classList.replace("opacity-0", "fade-in");
+			}
+		}, 100 * index);
+	}, [index]);
 
-    return (
-        <div ref={el} className="opacity-0">
-            {children}
-        </div>
-    );
+	return (
+		<div ref={el} className="opacity-0">
+			{children}
+		</div>
+	);
 }

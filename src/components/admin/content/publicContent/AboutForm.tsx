@@ -1,7 +1,12 @@
 "use client";
 // packages
-import { useForm, UseFormSetValue } from "react-hook-form";
-import { useEffect, useRef, useState } from "react";
+import {
+	FieldErrors,
+	useForm,
+	UseFormRegister,
+	UseFormSetValue,
+} from "react-hook-form";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Button, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
 // components
@@ -89,63 +94,6 @@ export default function AboutForm({
 		return undefined;
 	}
 
-	function ImageContentInput(props: {
-		image: string;
-		target: keyof AboutContentForm;
-	}) {
-		const { image, target } = props;
-		const imageUrl = image
-			? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image
-			: "https://placehold.co/500x500.png";
-
-		return (
-			<div className="relative mx-auto">
-				<Image
-					src={imageUrl}
-					height={500}
-					width={500}
-					alt="About 1 Image"
-					className="w-full h-auto"
-				/>
-				<button
-					onClick={() => {
-						setImageTarget(target);
-						onOpenChange();
-					}}
-					className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center"
-				>
-					<div className="my-auto font-bold text-white text-4xl">
-						Change
-					</div>
-				</button>
-			</div>
-		);
-	}
-
-	function TitleInput(props: {
-		target: keyof AboutContentForm;
-		placeholder: string;
-	}) {
-		const { target, placeholder } = props;
-		const placeholderText = errors[target]
-			? errors[target].message
-			: placeholder;
-
-		return (
-			<input
-				type="text"
-				{...register(target, {
-					required: {
-						value: true,
-						message: "Title is required.",
-					},
-				})}
-				placeholder={placeholderText}
-				className={errors[target] ? "placeholder:text-red-400" : ""}
-			/>
-		);
-	}
-
 	return (
 		<>
 			<form
@@ -153,20 +101,60 @@ export default function AboutForm({
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<div className="grid grid-cols-2 gap-0 w-2/3 mx-auto">
-					<ImageContentInput image={about1Image} target="image1Url" />
-					<ImageContentInput image={about2Image} target="image2Url" />
-					<ImageContentInput image={about3Image} target="image3Url" />
-					<ImageContentInput image={about4Image} target="image4Url" />
+					<ImageContentInput
+						image={about1Image}
+						target="image1Url"
+						onOpenChange={onOpenChange}
+						setImageTarget={setImageTarget}
+					/>
+					<ImageContentInput
+						image={about2Image}
+						target="image2Url"
+						onOpenChange={onOpenChange}
+						setImageTarget={setImageTarget}
+					/>
+					<ImageContentInput
+						image={about3Image}
+						target="image3Url"
+						onOpenChange={onOpenChange}
+						setImageTarget={setImageTarget}
+					/>
+					<ImageContentInput
+						image={about4Image}
+						target="image4Url"
+						onOpenChange={onOpenChange}
+						setImageTarget={setImageTarget}
+					/>
 				</div>
 				<div>
 					<label className="font-bold px-2" htmlFor="title1">
 						Image Titles
 					</label>
 					<div className="grid grid-cols-2 gap-4">
-						<TitleInput target="title1" placeholder="Title 1" />
-						<TitleInput target="title2" placeholder="Title 2" />
-						<TitleInput target="title3" placeholder="Title 3" />
-						<TitleInput target="title4" placeholder="Title 4" />
+						<TitleInput
+							target="title1"
+							placeholder="Title 1"
+							errors={errors}
+							register={register}
+						/>
+						<TitleInput
+							target="title2"
+							placeholder="Title 2"
+							errors={errors}
+							register={register}
+						/>
+						<TitleInput
+							target="title3"
+							placeholder="Title 3"
+							errors={errors}
+							register={register}
+						/>
+						<TitleInput
+							target="title4"
+							placeholder="Title 4"
+							errors={errors}
+							register={register}
+						/>
 					</div>
 				</div>
 				<div>
@@ -266,5 +254,66 @@ export default function AboutForm({
 				setValue={setValue as UseFormSetValue<AboutContentForm>}
 			/>
 		</>
+	);
+}
+
+function ImageContentInput(props: {
+	image: string;
+	target: keyof AboutContentForm;
+	setImageTarget: Dispatch<SetStateAction<keyof AboutContentForm>>;
+	onOpenChange: () => void;
+}) {
+	const { image, target, setImageTarget, onOpenChange } = props;
+	const imageUrl = image
+		? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image
+		: "https://placehold.co/500x500.png";
+
+	return (
+		<div className="relative mx-auto">
+			<Image
+				src={imageUrl}
+				height={500}
+				width={500}
+				alt="About 1 Image"
+				className="w-full h-auto"
+			/>
+			<button
+				onClick={() => {
+					setImageTarget(target);
+					onOpenChange();
+				}}
+				className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center"
+			>
+				<div className="my-auto font-bold text-white text-4xl">
+					Change
+				</div>
+			</button>
+		</div>
+	);
+}
+
+function TitleInput(props: {
+	target: keyof AboutContentForm;
+	placeholder: string;
+	errors: FieldErrors<AboutContentForm>;
+	register: UseFormRegister<AboutContentForm>;
+}) {
+	const { target, placeholder, errors, register } = props;
+	const placeholderText = errors[target]
+		? errors[target].message
+		: placeholder;
+
+	return (
+		<input
+			type="text"
+			{...register(target, {
+				required: {
+					value: true,
+					message: "Title is required.",
+				},
+			})}
+			placeholder={placeholderText}
+			className={errors[target] ? "placeholder:text-red-400" : ""}
+		/>
 	);
 }

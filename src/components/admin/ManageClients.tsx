@@ -17,13 +17,11 @@ import { ClientForm } from "@/lib/types";
 export default function ManageClientsButton(props: { clients: Client[] }) {
 	const {
 		isOpen: isOpenManageClients,
-		onOpen: onOpenManageClients,
 		onOpenChange: onOpenChangeManageClients,
 		onClose: onCloseManageClients,
 	} = useDisclosure();
 	const {
 		isOpen: isOpenNewClient,
-		onOpen: onOpenNewClient,
 		onOpenChange: onOpenChangeNewClient,
 		onClose: onCloseNewClient,
 	} = useDisclosure();

@@ -9,15 +9,12 @@ export default function ProjectTechStack(props: { stack: String[] }) {
 	const techRefs = useRef<HTMLDivElement[]>([]);
 
 	useEffect(() => {
-		techRefs.current.forEach((ref, i) => fadeTech(i));
+		techRefs.current.forEach((_, i) => fadeTech(i));
 	}, []);
 
 	function fadeTech(i: number) {
 		setTimeout(() => {
-			if (
-				techRefs.current[i] &&
-				techRefs.current[i].classList.contains("opacity-0")
-			) {
+			if (techRefs.current[i].classList.contains("opacity-0")) {
 				techRefs.current[i].classList.replace("opacity-0", "fade-in");
 			}
 		}, 100 * i);

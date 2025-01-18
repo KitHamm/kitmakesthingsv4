@@ -37,7 +37,7 @@ export default function HighlightCard(props: {
 				<Avatar
 					isBordered
 					color="success"
-					src={props.avatar}
+					src={avatar}
 					className="w-56 h-56 text-large"
 				/>
 			</div>
@@ -45,10 +45,10 @@ export default function HighlightCard(props: {
 				ref={ref}
 				className="text-5xl lg:text-5xl text-white font-bold"
 			>
-				{props.header}
+				{header}
 			</div>
 			<div className="lg:text-xl my-auto lg:text-lg text-white">
-				{props.text}
+				{text}
 			</div>
 		</div>
 	);

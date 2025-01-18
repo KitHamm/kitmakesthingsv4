@@ -27,11 +27,7 @@ export default function ContactModal(
 	async function OnSubmit(data: ContactForm) {
 		try {
 			setSendingState(MessageState.SENDING);
-
-			// Send message and wait for the result
 			await sendMessage(data);
-
-			// Handle success state after a delay
 			setTimeout(() => {
 				setSendingState(MessageState.SUCCESS);
 				resetStateAfterDelay();
@@ -46,6 +42,7 @@ export default function ContactModal(
 
 	const resetStateAfterDelay = () => {
 		setTimeout(() => {
+			reset();
 			setSendingState(MessageState.NONE);
 		}, 2000);
 	};
@@ -63,14 +60,12 @@ export default function ContactModal(
 		}
 	}, [props.isOpen, reset]);
 
-	const modalTitle =
-		sendingState === MessageState.NONE
-			? "Contact"
-			: sendingState === MessageState.SUCCESS
-			? "Success!"
-			: sendingState === MessageState.SENDING
-			? "Sending..."
-			: "Oops!";
+	const sendingStateToTitle = [
+		"Contact Me",
+		"Sending...",
+		"Success!",
+		"Oops!",
+	];
 
 	return (
 		<Modal
@@ -86,7 +81,7 @@ export default function ContactModal(
 				{(onClose) => (
 					<>
 						<ModalHeader className="flex text-center text-4xl flex-col gap-1">
-							{modalTitle}
+							{sendingStateToTitle[sendingState]}
 						</ModalHeader>
 						<ModalBody>
 							{sendingState === MessageState.NONE && (

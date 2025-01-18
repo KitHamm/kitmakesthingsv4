@@ -24,25 +24,6 @@ export default function DueDateChange(props: { dueDate: Date; id: string }) {
 						setDateValue(e.target.valueAsDate);
 				}}
 			/>
-			{/* <DatePicker
-				size="lg"
-				classNames={{
-					timeInput: "hidden",
-					timeInputLabel: "hidden",
-					base: "my-auto",
-				}}
-				showMonthAndYearPickers
-				hideTimeZone
-				value={dateValue}
-				onChange={(e) => {
-					if (e) {
-						const date = new Date(e.year, e.month - 1, e.day);
-						date.setUTCHours(0, 0, 0, 0);
-						setDateValue(parseAbsoluteToLocal(date.toISOString()));
-					}
-				}}
-				aria-label="due date"
-			/> */}
 			{JSON.stringify(dateValue) !==
 				JSON.stringify(
 					parseAbsoluteToLocal(props.dueDate.toISOString())

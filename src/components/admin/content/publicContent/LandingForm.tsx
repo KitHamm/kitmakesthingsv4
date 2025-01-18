@@ -1,7 +1,14 @@
 "use client";
 // packages
-import { useForm, useFieldArray, UseFormSetValue } from "react-hook-form";
-import { useState, useEffect, useRef } from "react";
+import {
+	useForm,
+	useFieldArray,
+	UseFormSetValue,
+	UseFormWatch,
+	UseFormRegister,
+	FieldErrors,
+} from "react-hook-form";
+import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import { Button, Chip, useDisclosure } from "@nextui-org/react";
 // functions
@@ -103,82 +110,6 @@ export default function LandingForm(props: {
 			return "placeholder:text-red-400";
 		}
 		return undefined;
-	}
-
-	function HighlighInput(props: {
-		image: string;
-		imageTarget: keyof LandingContentForm;
-		headerTarget: keyof LandingContentForm;
-		copyTarget: keyof LandingContentForm;
-	}) {
-		const { image, imageTarget, headerTarget, copyTarget } = props;
-		const highlightText = watch(copyTarget);
-		const highlightTextArea = useRef<HTMLTextAreaElement | null>(null);
-		const { ref: highlightRef, ...highlightRest } = register(copyTarget, {
-			required: { value: true, message: "First highlight is required" },
-		});
-
-		useEffect(() => {
-			if (highlightTextArea.current) {
-				resizeTextArea(highlightTextArea.current);
-			}
-		}, [highlightText]);
-
-		const imageUrl = image
-			? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image
-			: "https://placehold.co/500x500.png";
-		return (
-			<div className="flex flex-col gap-4 p-4">
-				<Image
-					src={imageUrl}
-					alt="First"
-					height={200}
-					width={200}
-					className="object-cover h-auto w-auto rounded-full"
-				/>
-				<Button
-					onPress={() => {
-						setImageTarget(imageTarget);
-						onOpenChange();
-					}}
-					className="w-full bg-green-500 text-white text-md font-bold"
-					type="button"
-				>
-					Change Image
-				</Button>
-				<input
-					type="text"
-					placeholder={
-						errors.firstHighlightHeader
-							? errors.firstHighlightHeader.message
-							: "First Header"
-					}
-					{...register(headerTarget, {
-						required: {
-							value: true,
-							message: "Header is required.",
-						},
-					})}
-				/>
-				<textarea
-					ref={(e) => {
-						highlightRef(e);
-						highlightTextArea.current = e;
-					}}
-					placeholder={
-						errors.firstHighlightHeader
-							? errors.firstHighlightHeader.message
-							: "First Text"
-					}
-					className={
-						errors.firstHighlightHeader
-							? "placeholder:text-red-400"
-							: ""
-					}
-					{...highlightRest}
-				/>
-			</div>
-		);
 	}
 
 	return (
@@ -297,6 +228,11 @@ export default function LandingForm(props: {
 							imageTarget="firstHighlightImage"
 							headerTarget="firstHighlightHeader"
 							copyTarget="firstHighlightText"
+							errors={errors}
+							register={register}
+							watch={watch}
+							setImageTarget={setImageTarget}
+							onOpenChange={onOpenChange}
 						/>
 
 						<HighlighInput
@@ -304,12 +240,22 @@ export default function LandingForm(props: {
 							imageTarget="secondHighlightImage"
 							headerTarget="secondHighlightHeader"
 							copyTarget="secondHighlightText"
+							errors={errors}
+							register={register}
+							watch={watch}
+							setImageTarget={setImageTarget}
+							onOpenChange={onOpenChange}
 						/>
 						<HighlighInput
 							image={thirdHighlightImage}
 							imageTarget="thirdHighlightImage"
 							headerTarget="thirdHighlightHeader"
 							copyTarget="thirdHighlightText"
+							errors={errors}
+							register={register}
+							watch={watch}
+							setImageTarget={setImageTarget}
+							onOpenChange={onOpenChange}
 						/>
 					</div>
 				</div>
@@ -384,5 +330,96 @@ export default function LandingForm(props: {
 				setValue={setValue as UseFormSetValue<LandingContentForm>}
 			/>
 		</>
+	);
+}
+
+function HighlighInput(props: {
+	image: string;
+	imageTarget: keyof LandingContentForm;
+	headerTarget: keyof LandingContentForm;
+	copyTarget: keyof LandingContentForm;
+	watch: UseFormWatch<LandingContentForm>;
+	register: UseFormRegister<LandingContentForm>;
+	setImageTarget: Dispatch<SetStateAction<keyof LandingContentForm>>;
+	onOpenChange: () => void;
+	errors: FieldErrors<LandingContentForm>;
+}) {
+	const {
+		image,
+		imageTarget,
+		headerTarget,
+		copyTarget,
+		watch,
+		register,
+		setImageTarget,
+		onOpenChange,
+		errors,
+	} = props;
+	const highlightText = watch(copyTarget);
+	const highlightTextArea = useRef<HTMLTextAreaElement | null>(null);
+	const { ref: highlightRef, ...highlightRest } = register(copyTarget, {
+		required: { value: true, message: "First highlight is required" },
+	});
+
+	useEffect(() => {
+		if (highlightTextArea.current) {
+			resizeTextArea(highlightTextArea.current);
+		}
+	}, [highlightText]);
+
+	const imageUrl = image
+		? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image
+		: "https://placehold.co/500x500.png";
+	return (
+		<div className="flex flex-col gap-4 p-4">
+			<Image
+				src={imageUrl}
+				alt="First"
+				height={200}
+				width={200}
+				className="object-cover h-auto w-auto rounded-full"
+			/>
+			<Button
+				onPress={() => {
+					setImageTarget(imageTarget);
+					onOpenChange();
+				}}
+				className="w-full bg-green-500 text-white text-md font-bold"
+				type="button"
+			>
+				Change Image
+			</Button>
+			<input
+				type="text"
+				placeholder={
+					errors.firstHighlightHeader
+						? errors.firstHighlightHeader.message
+						: "First Header"
+				}
+				{...register(headerTarget, {
+					required: {
+						value: true,
+						message: "Header is required.",
+					},
+				})}
+			/>
+			<textarea
+				ref={(e) => {
+					highlightRef(e);
+					highlightTextArea.current = e;
+				}}
+				placeholder={
+					errors.firstHighlightHeader
+						? errors.firstHighlightHeader.message
+						: "First Text"
+				}
+				className={
+					errors.firstHighlightHeader
+						? "placeholder:text-red-400"
+						: ""
+				}
+				{...highlightRest}
+			/>
+		</div>
 	);
 }

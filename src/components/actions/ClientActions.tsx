@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 
 export async function createClient(data: ClientForm) {
 	try {
-		const client = await prisma.client.create({
+		await prisma.client.create({
 			data: {
 				name: data.name,
 				address: data.address,

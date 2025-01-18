@@ -117,13 +117,9 @@ export function projection(type: string, invoices: Invoice[]) {
 	const projection = avgYTD * 12;
 	if (Number.isNaN(projection)) {
 		return 0;
-	} else {
-		if (type === "avg") {
-			return avgYTD;
-		} else {
-			return projection;
-		}
 	}
+
+	return type === "avg" ? avgYTD : projection;
 }
 
 export function totalTaxYears(invoices: InvoiceWithClientAndItems[]) {
@@ -146,12 +142,8 @@ export function invoiceCount(invoices: Invoice[], type: string) {
 	let count = 0;
 	for (let i = 0; i < invoices.length; i++) {
 		if (invoices[i].taxYear === currentTaxYear()) {
-			if (type === "sent") {
-				count = count + 1;
-			} else {
-				if (invoices[i].paid) {
-					count = count + 1;
-				}
+			if (type === "sent" || invoices[i].paid) {
+				count += 1;
 			}
 		}
 	}

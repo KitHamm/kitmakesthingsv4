@@ -1,6 +1,12 @@
 "use client";
 // packages
-import { createContext, useCallback, useContext, useEffect } from "react";
+import {
+	createContext,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+} from "react";
 import {
 	useForm,
 	UseFormRegister,
@@ -101,19 +107,31 @@ export default function FormProvider({
 			.catch((err) => console.log(err));
 	};
 
+	const formContextValue = useMemo(
+		() => ({
+			register,
+			handleSubmit,
+			control,
+			handleReset,
+			watch,
+			setValue,
+			errors,
+			isDirty,
+		}),
+		[
+			register,
+			handleSubmit,
+			control,
+			handleReset,
+			watch,
+			setValue,
+			errors,
+			isDirty,
+		]
+	);
+
 	return (
-		<FormContext.Provider
-			value={{
-				register,
-				handleSubmit,
-				control,
-				handleReset,
-				watch,
-				setValue,
-				errors,
-				isDirty,
-			}}
-		>
+		<FormContext.Provider value={formContextValue}>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className={`${classNames} lg:py-10 lg:px-10 py-4 px-4`}

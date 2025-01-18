@@ -249,7 +249,7 @@ export default function ProjectImageSelect(
 											) {
 												return (
 													<div
-														key={index}
+														key={image.url}
 														className="relative fade-in bg-neutral-200 p-4"
 													>
 														<Image

@@ -15,10 +15,7 @@ export default function AboutImageBox(props: {
 
 	useEffect(() => {
 		setTimeout(() => {
-			if (
-				boxRef.current &&
-				boxRef.current.classList.contains("opacity-0")
-			) {
+			if (boxRef.current?.classList.contains("opacity-0")) {
 				boxRef.current.classList.replace("opacity-0", "fade-in");
 			}
 		}, 75 * index);

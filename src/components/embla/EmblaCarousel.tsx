@@ -20,12 +20,12 @@ import Image from "next/image";
 import LightBoxEmblaCarousel from "../lightBoxEmbla/LightboxEmblaCarousel";
 
 type PropType = {
-	slides: String[];
+	slides: string[];
 	options?: EmblaOptionsType;
 };
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
-	const { isOpen, onOpen, onOpenChange } = useDisclosure();
+	const { isOpen, onOpenChange } = useDisclosure();
 	const { slides, options } = props;
 	const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
 
@@ -57,8 +57,8 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 		<section className="embla">
 			<div className="embla__viewport" ref={emblaRef}>
 				<div className="embla__container">
-					{slides.map((slide: String, index: number) => (
-						<div className="embla__slide" key={index}>
+					{slides.map((slide: string) => (
+						<div className="embla__slide" key={slide}>
 							<Image
 								onClick={() => {
 									onOpenChange();
@@ -70,7 +70,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 								height={1200}
 								width={1200}
 								className="hidden lg:block cursor-pointer m-auto w-auto h-auto max-h-[66dvh]"
-								alt={slide as string}
+								alt={slide}
 							/>
 							<Image
 								src={
@@ -80,7 +80,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 								height={1200}
 								width={1200}
 								className="lg:hidden cursor-pointer m-auto w-auto h-auto max-h-[66dvh]"
-								alt={slide as string}
+								alt={slide}
 							/>
 						</div>
 					))}
@@ -102,7 +102,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 				<div className="embla__dots">
 					{scrollSnaps.map((_, index) => (
 						<DotButton
-							key={index}
+							key={"dot-button-" + index}
 							onClick={() => onDotButtonClick(index)}
 							className={"embla__dot".concat(
 								index === selectedIndex

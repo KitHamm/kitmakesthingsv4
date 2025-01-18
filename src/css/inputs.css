@@ -13,7 +13,6 @@ select {
 	padding: 12px 20px !important;
 	resize: none !important;
 	width: 100%;
-	/* height: -webkit-fill-available; */
 }
 input[type="text"]:focus-visible,
 input[type="date"]:focus-visible,

@@ -29,7 +29,9 @@ export default function ProjectTextAreaInput(props: ContentTextAreaProps) {
 					landingCopy(e);
 					textArea.current = e;
 				}}
-				placeholder={errors[target] ? errors[target].message : ""}
+				placeholder={
+					errors[target] ? errors[target].message : placeholder
+				}
 				className={errors[target] ? "placeholder:text-red-400" : ""}
 				{...landingCopyRest}
 			/>

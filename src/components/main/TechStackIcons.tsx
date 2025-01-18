@@ -49,7 +49,7 @@ export default function TechStackIcons() {
 		>
 			{techLogos.map((logo: LogoList, index: number) => (
 				<div
-					key={index}
+					key={logo.name}
 					ref={(el: HTMLDivElement) => {
 						chipRefs.current[index] = el;
 					}}

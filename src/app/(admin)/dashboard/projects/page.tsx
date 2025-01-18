@@ -33,6 +33,15 @@ export default async function Projects() {
 
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 				{projects.map((project: WorkingProjectWithTasksAndClient) => {
+					const getProjectStateClass = (state: ProjectState) => {
+						if (state === ProjectState.PROPOSED) {
+							return "text-neutral-600";
+						} else if (state === ProjectState.STARTED) {
+							return "text-orange-400";
+						} else {
+							return "text-green-400";
+						}
+					};
 					return (
 						<a
 							key={project.id}
@@ -50,15 +59,9 @@ export default async function Projects() {
 							<div className="grow flex justify-center">
 								<div>
 									<div
-										className={`${
-											project.state ===
-											ProjectState.PROPOSED
-												? "text-neutral-600"
-												: project.state ===
-												  ProjectState.STARTED
-												? "text-orange-400"
-												: "text-green-400"
-										} font-bold text-2xl`}
+										className={`${getProjectStateClass(
+											project.state
+										)} font-bold text-2xl`}
 									>
 										{project.state}
 									</div>

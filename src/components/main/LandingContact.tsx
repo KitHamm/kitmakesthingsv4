@@ -20,11 +20,7 @@ export default function LandingContact() {
 	async function OnSubmit(data: ContactForm) {
 		try {
 			setSendingState(MessageState.SENDING);
-
-			// Send message and wait for the result
 			await sendMessage(data);
-
-			// Handle success state after a delay
 			setTimeout(() => {
 				setSendingState(MessageState.SUCCESS);
 				resetStateAfterDelay();
@@ -39,9 +35,17 @@ export default function LandingContact() {
 
 	const resetStateAfterDelay = () => {
 		setTimeout(() => {
+			reset();
 			setSendingState(MessageState.NONE);
 		}, 2000);
 	};
+
+	const sendingStateToTitle = [
+		"Contact Me",
+		"Sending...",
+		"Success!",
+		"Oops!",
+	];
 
 	return (
 		<div
@@ -49,18 +53,7 @@ export default function LandingContact() {
 			className="lg:w-[60dvw] w-[90dvw] mx-auto pt-10 lg:pb-0 pb-10"
 		>
 			<div className="font-bold text-4xl lg:text-6xl flex gap-4 mb-8 justify-center">
-				{sendingState === MessageState.NONE ? (
-					<>
-						<i className="fade-in-slow fa-solid fa-paper-plane" />
-						<div className="fade-in-slow">Contact Me</div>
-					</>
-				) : sendingState === MessageState.SUCCESS ? (
-					<div className="fade-in-slow">Success!</div>
-				) : sendingState === MessageState.SENDING ? (
-					<div className="fade-in-slow">Sending...</div>
-				) : (
-					<div className="fade-in-slow">Oops!</div>
-				)}
+				{sendingStateToTitle[sendingState]}
 			</div>
 			<div className="mt-4 h-72 lg:h-96 flex flex-col">
 				{sendingState === MessageState.NONE && (

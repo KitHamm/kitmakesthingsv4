@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 	const preBuffer = Buffer.from(await file.arrayBuffer());
 	const buffer = await sharp(preBuffer).webp().toBuffer();
 	const fileName = file.name.split(".")[0].replace(" ", "-");
-	const formattedDate = date.toISOString().replace(/:|\./g, "-");
+	const formattedDate = date.toISOString().replace(/[:.]/g, "-");
 	const formattedName =
 		fileName.replace(" ", "_") + "-" + formattedDate + ".webp";
 	try {

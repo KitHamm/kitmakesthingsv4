@@ -3,7 +3,6 @@
 import {
 	Button,
 	DatePicker,
-	DateValue,
 	Modal,
 	ModalBody,
 	ModalContent,
@@ -23,26 +22,17 @@ import Markdown from "react-markdown";
 import { updateInvoice } from "@/components/actions/InvoiceActions";
 
 export default function EditInvoiceModal(props: { clients: Client[] }) {
-	const {
-		selectedInvoice,
-		setSelectedInvoice,
-		isOpenEditInvoice,
-		onOpenChangeEditInvoice,
-	} = useContext(InvoiceStateContext);
+	const { selectedInvoice, isOpenEditInvoice, onOpenChangeEditInvoice } =
+		useContext(InvoiceStateContext);
 
 	const {
 		isOpen: isOpenInvoiceItem,
 		onOpen: onOpenInvoiceItem,
 		onOpenChange: onOpenChangeInvoiceItem,
-		onClose: onCloseInvoiceItem,
 	} = useDisclosure();
 
-	const {
-		isOpen: isOpenNewItem,
-		onOpen: onOpenNewItem,
-		onOpenChange: onOpenChangeNewItem,
-		onClose: onCloseNewItem,
-	} = useDisclosure();
+	const { isOpen: isOpenNewItem, onOpenChange: onOpenChangeNewItem } =
+		useDisclosure();
 
 	const [invoiceItemEdit, setInvoiceItemEdit] = useState({
 		description: "",
