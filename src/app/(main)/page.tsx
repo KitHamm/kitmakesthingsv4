@@ -21,6 +21,20 @@ export default async function Home() {
 		return <DataError />;
 	}
 
+	function getHighlighImageUrl(image: string) {
+		if (!image) {
+			return "https://placehold.co/500x500.png";
+		}
+		return process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image;
+	}
+
+	function getParallaxImageUrl(image: string) {
+		if (!image) {
+			return "https://placehold.co/1000x500.png";
+		}
+		return process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image;
+	}
+
 	return (
 		<main className="w-full bg-neutral-300 min-h-screen flex flex-col">
 			<section id="hero" className="fade-in grow h-screen flex relative">
@@ -69,7 +83,10 @@ export default async function Home() {
 					</ParticlesComponent>
 				</div>
 			</section>
-			<ParallaxSection shift imageUrl="/render4k.webp">
+			<ParallaxSection
+				shift
+				imageUrl={getParallaxImageUrl(content.techParallaxImage)}
+			>
 				<div className="lg:w-[80dvw] xl:w-[60dvw] xxl:w-[45dvw] mx-auto flex gap-10 justify-center h-full">
 					<InViewAnimation animation={0}>
 						<div className="my-auto">
@@ -89,24 +106,33 @@ export default async function Home() {
 					<HighlightCard
 						header={content.firstHighlightHeader}
 						text={content.firstHighlightText}
-						avatar="ai.jpeg"
+						avatar={getHighlighImageUrl(
+							content.firstHighlightImage
+						)}
 						index={0}
 					/>
 					<HighlightCard
 						header={content.secondHighlightHeader}
 						text={content.secondHighlightText}
-						avatar="ai3.jpeg"
+						avatar={getHighlighImageUrl(
+							content.secondHighlightImage
+						)}
 						index={1}
 					/>
 					<HighlightCard
 						header={content.thirdHighlightHeader}
 						text={content.thirdHighlightText}
-						avatar="ai4.jpeg"
+						avatar={getHighlighImageUrl(
+							content.thirdHighlightImage
+						)}
 						index={2}
 					/>
 				</div>
 			</section>
-			<ParallaxSection shift={false} imageUrl="/drums-parallax-3.png">
+			<ParallaxSection
+				shift={false}
+				imageUrl={getParallaxImageUrl(content.aboutParallaxImage)}
+			>
 				<div className="lg:w-[75dvw] mx-auto flex gap-10 h-full">
 					<div className="lg:basis-2/3 lg:ms-auto flex">
 						<InViewAnimation animation={2}>
