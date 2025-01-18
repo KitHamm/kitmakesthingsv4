@@ -9,10 +9,10 @@ import { highlightAnimations } from "@/lib/constants";
 export default function InViewAnimation({
 	children,
 	animation,
-}: {
+}: Readonly<{
 	children: React.ReactNode;
 	animation: number;
-}) {
+}>) {
 	const { ref, inView } = useInView({ threshold: 0.5 });
 
 	const el = useRef<HTMLDivElement | null>(null);

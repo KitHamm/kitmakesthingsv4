@@ -4,7 +4,9 @@ import { useContext } from "react";
 import { InvoiceStateContext } from "./InvoiceStateProvider";
 import { Button } from "@nextui-org/react";
 
-export default function InvoiceYearButtons(props: { taxYears: string[] }) {
+export default function InvoiceYearButtons(
+	props: Readonly<{ taxYears: string[] }>
+) {
 	const { selectedTaxYear, setSelectedTaxYear } =
 		useContext(InvoiceStateContext);
 

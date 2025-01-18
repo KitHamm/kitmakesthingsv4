@@ -26,9 +26,9 @@ export const InvoiceStateContext = createContext<InvoiceStateType>(
 
 export default function InvoiceStateProvider({
 	children,
-}: {
+}: Readonly<{
 	children: React.ReactNode;
-}) {
+}>) {
 	const [selectedTaxYear, setSelectedTaxYear] = useState<string>(
 		currentTaxYear()
 	);

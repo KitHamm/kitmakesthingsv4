@@ -5,7 +5,9 @@ import { useFormContext } from "./formProvider";
 import { useEffect, useRef } from "react";
 import { resizeTextArea } from "@/lib/functions";
 
-export default function ProjectTextAreaInput(props: ContentTextAreaProps) {
+export default function ProjectTextAreaInput(
+	props: Readonly<ContentTextAreaProps>
+) {
 	const { register, watch, errors } = useFormContext();
 	const { target, label, required, message, placeholder } = props;
 	const content = watch(target);

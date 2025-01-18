@@ -5,16 +5,8 @@ import { ContentProjectForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
 export async function addProject(data: ContentProjectForm) {
-	const stack: string[] = [];
-	const images: string[] = [];
-
-	for (let i = 0; i < data.stack.length; i++) {
-		stack.push(data.stack[i].name);
-	}
-
-	for (let i = 0; i < data.images.length; i++) {
-		images.push(data.images[i].url);
-	}
+	const stack: string[] = data.stack.map((stack) => stack.name);
+	const images: string[] = data.images.map((image) => image.url);
 
 	try {
 		await prisma.contentProject.upsert({

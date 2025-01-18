@@ -304,9 +304,7 @@ export default function MediaMain(props: Readonly<{ images: Images[] }>) {
 								</Button>
 								<Button
 									className="bg-green-500"
-									isDisabled={
-										imageToUpload === null ? true : false
-									}
+									isDisabled={imageToUpload === null}
 									onPress={() => {
 										if (imageToUpload !== null) {
 											uploadImage(imageToUpload);

@@ -21,7 +21,9 @@ import { parseDate } from "@internationalized/date";
 import Markdown from "react-markdown";
 import { updateInvoice } from "@/components/actions/InvoiceActions";
 
-export default function EditInvoiceModal(props: { clients: Client[] }) {
+export default function EditInvoiceModal(
+	props: Readonly<{ clients: Client[] }>
+) {
 	const { selectedInvoice, isOpenEditInvoice, onOpenChangeEditInvoice } =
 		useContext(InvoiceStateContext);
 
@@ -103,10 +105,10 @@ export default function EditInvoiceModal(props: { clients: Client[] }) {
 
 	useEffect(() => {
 		if (fields.length > 0) {
-			let total = 0;
-			for (let i = 0; i < fields.length; i++) {
-				total = total + fields[i].subTotal;
-			}
+			const total = fields.reduce(
+				(acc, field) => acc + field.subTotal,
+				0
+			);
 			setValue("total", total);
 			setInvoiceTotal(total);
 		}

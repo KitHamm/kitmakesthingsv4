@@ -11,7 +11,6 @@ import { CircularProgress } from "@nextui-org/react";
 
 type PropType = {
 	slides: string[];
-	options?: EmblaOptionsType;
 };
 
 const OPTIONS: EmblaOptionsType = { loop: true };

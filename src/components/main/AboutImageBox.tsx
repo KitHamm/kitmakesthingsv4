@@ -5,11 +5,13 @@ import Image from "next/image";
 // Functions
 import { useEffect, useRef } from "react";
 
-export default function AboutImageBox(props: {
-	image: string;
-	title: string;
-	index: number;
-}) {
+export default function AboutImageBox(
+	props: Readonly<{
+		image: string;
+		title: string;
+		index: number;
+	}>
+) {
 	const { image, title, index } = props;
 	const boxRef = useRef<HTMLDivElement | null>(null);
 

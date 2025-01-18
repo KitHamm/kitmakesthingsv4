@@ -16,7 +16,7 @@ const OPTIONS: EmblaOptionsType = { loop: true };
 
 type Params = Promise<{ projectId: string }>;
 
-export default async function ProjectPage(props: { params: Params }) {
+export default async function ProjectPage(props: Readonly<{ params: Params }>) {
 	const params = await props.params;
 
 	const project = await prisma.contentProject.findUnique({

@@ -3,7 +3,7 @@
 import { deleteTask } from "@/components/actions/WorkingProjectActions";
 import { Button } from "@nextui-org/react";
 
-export default function DeleteTaskButton(props: { id: string }) {
+export default function DeleteTaskButton(props: Readonly<{ id: string }>) {
 	return (
 		<Button
 			onPress={() =>

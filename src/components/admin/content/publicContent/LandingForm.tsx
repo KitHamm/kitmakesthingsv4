@@ -20,10 +20,12 @@ import ParallaxSection from "@/components/main/ParallaxSection";
 import ContentImageModal from "../../shared/ContentImageModal";
 import { resizeTextArea } from "@/lib/functions";
 
-export default function LandingForm(props: {
-	landingContent: LandingWithTech | null;
-	images: Images[];
-}) {
+export default function LandingForm(
+	props: Readonly<{
+		landingContent: LandingWithTech | null;
+		images: Images[];
+	}>
+) {
 	const { landingContent, images } = props;
 	const { isOpen, onOpenChange } = useDisclosure();
 	const [imageTarget, setImageTarget] =
@@ -333,17 +335,19 @@ export default function LandingForm(props: {
 	);
 }
 
-function HighlighInput(props: {
-	image: string;
-	imageTarget: keyof LandingContentForm;
-	headerTarget: keyof LandingContentForm;
-	copyTarget: keyof LandingContentForm;
-	watch: UseFormWatch<LandingContentForm>;
-	register: UseFormRegister<LandingContentForm>;
-	setImageTarget: Dispatch<SetStateAction<keyof LandingContentForm>>;
-	onOpenChange: () => void;
-	errors: FieldErrors<LandingContentForm>;
-}) {
+function HighlighInput(
+	props: Readonly<{
+		image: string;
+		imageTarget: keyof LandingContentForm;
+		headerTarget: keyof LandingContentForm;
+		copyTarget: keyof LandingContentForm;
+		watch: UseFormWatch<LandingContentForm>;
+		register: UseFormRegister<LandingContentForm>;
+		setImageTarget: Dispatch<SetStateAction<keyof LandingContentForm>>;
+		onOpenChange: () => void;
+		errors: FieldErrors<LandingContentForm>;
+	}>
+) {
 	const {
 		image,
 		imageTarget,

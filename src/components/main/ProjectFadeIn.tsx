@@ -6,10 +6,10 @@ import { useEffect, useRef } from "react";
 export default function ProjectFadeIn({
 	children,
 	index,
-}: {
+}: Readonly<{
 	children: React.ReactNode;
 	index: number;
-}) {
+}>) {
 	const el = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {

@@ -4,10 +4,12 @@ import { updateTaskState } from "@/components/actions/WorkingProjectActions";
 import { Button } from "@nextui-org/react";
 import { TaskState } from "@prisma/client";
 
-export default function TaskStateButton(props: {
-	id: string;
-	currentState: TaskState;
-}) {
+export default function TaskStateButton(
+	props: Readonly<{
+		id: string;
+		currentState: TaskState;
+	}>
+) {
 	function updateTask(state: TaskState) {
 		updateTaskState(props.id, state).catch((err) => console.log(err));
 	}

@@ -2,7 +2,9 @@
 import { ContentTextInputProps } from "@/lib/types";
 import { useFormContext } from "./formProvider";
 
-export default function ProjectTextInput(props: ContentTextInputProps) {
+export default function ProjectTextInput(
+	props: Readonly<ContentTextInputProps>
+) {
 	const { register, errors } = useFormContext();
 	const { target, label, required, message, placeholder } = props;
 	return (

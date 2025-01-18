@@ -1,7 +1,5 @@
-import { ServiceRequest } from "@prisma/client";
-import { Views } from "@/lib/types";
-import { InvoiceWithClientAndItems } from "@/lib/types";
-import { Invoice } from "@prisma/client";
+import { ServiceRequest, Invoice } from "@prisma/client";
+import { Views, InvoiceWithClientAndItems } from "@/lib/types";
 
 const months = [
 	"January",
@@ -65,27 +63,23 @@ export const mapNumRange = (
 	outMax: number
 ) => ((num - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
 
-export function invoicedToDate(invoices: Invoice[]) {
-	let total = 0.0;
-	for (let i = 0; i < invoices.length; i++) {
-		if (invoices[i].taxYear === currentTaxYear()) {
-			total = total + invoices[i].total;
-		}
-	}
-	return total;
+export function invoicedToDate(invoices: Invoice[]): number {
+	return invoices.reduce(
+		(total, invoice) =>
+			invoice.taxYear === currentTaxYear()
+				? total + invoice.total
+				: total,
+		0.0
+	);
 }
 
-export function paidToDate(invoices: Invoice[]) {
-	let total = 0.0;
-	for (let i = 0; i < invoices.length; i++) {
-		if (invoices[i].taxYear === currentTaxYear()) {
-			if (invoices[i].paid) {
-				total = total + invoices[i].total;
-			}
+export function paidToDate(invoices: Invoice[]): number {
+	return invoices.reduce((total, invoice) => {
+		if (invoice.taxYear === currentTaxYear() && invoice.paid) {
+			return total + invoice.total;
 		}
-	}
-	total = parseFloat(total + "");
-	return total;
+		return total;
+	}, 0.0);
 }
 
 export function currentTaxYear() {
@@ -122,14 +116,8 @@ export function projection(type: string, invoices: Invoice[]) {
 	return type === "avg" ? avgYTD : projection;
 }
 
-export function totalTaxYears(invoices: InvoiceWithClientAndItems[]) {
-	let taxYears: string[] = [];
-	for (let i = 0; i < invoices.length; i++) {
-		if (!taxYears.includes(invoices[i].taxYear)) {
-			taxYears.push(invoices[i].taxYear);
-		}
-	}
-	return taxYears;
+export function totalTaxYears(invoices: InvoiceWithClientAndItems[]): string[] {
+	return [...new Set(invoices.map((invoice) => invoice.taxYear))];
 }
 
 export function outStanding(invoices: Invoice[]) {
@@ -138,16 +126,12 @@ export function outStanding(invoices: Invoice[]) {
 	return total;
 }
 
-export function invoiceCount(invoices: Invoice[], type: string) {
-	let count = 0;
-	for (let i = 0; i < invoices.length; i++) {
-		if (invoices[i].taxYear === currentTaxYear()) {
-			if (type === "sent" || invoices[i].paid) {
-				count += 1;
-			}
-		}
-	}
-	return count;
+export function invoiceCount(invoices: Invoice[], type: string): number {
+	return invoices.filter(
+		(invoice) =>
+			invoice.taxYear === currentTaxYear() &&
+			(type === "sent" || invoice.paid)
+	).length;
 }
 
 export function countViews(requests: ServiceRequest[]) {

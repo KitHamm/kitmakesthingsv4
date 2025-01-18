@@ -8,7 +8,6 @@ import LandingContact from "@/components/main/LandingContact";
 import HighlightCard from "@/components/main/HighlightCard";
 import DataError from "@/components/main/DataError";
 // Packages
-import Image from "next/image";
 import Markdown from "react-markdown";
 import Link from "next/link";
 // Functions
@@ -46,20 +45,20 @@ export default async function Home() {
 									<div className="flex lg:w-1/2 w-full flex-col gap-4 my-auto items-center">
 										<div className="flex justify-center w-full">
 											<Link
-												className="flex gap-2 justify-center items-center w-full transition-all rounded-xl py-3 text-xl font-medium text-charcoal-dark bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
+												className="w-full transition-all rounded-xl py-3 text-xl font-medium text-charcoal-dark bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 												href={"/projects"}
 											>
-												<i className="fa-solid fa-diagram-project" />
+												<i className="fa-solid fa-diagram-project" />{" "}
 												View Projects
 											</Link>
 										</div>
 										<div className="flex justify-center w-full">
 											<Link
 												target="_blank"
-												className="flex gap-2 justify-center items-center w-full transition-all rounded-xl py-3 text-xl font-medium text-charcoal-dark bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
+												className="w-full transition-all rounded-xl py-3 text-xl font-medium text-charcoal-dark bg-white backdrop-blur-sm border-2 border-neutral-400 hover:bg-green-600 hover:border-white hover:text-white"
 												href={"Kit_Hamm_Resume.pdf"}
 											>
-												<i className="fa-solid fa-file" />
+												<i className="fa-solid fa-file" />{" "}
 												View Resum&#233;
 											</Link>
 										</div>

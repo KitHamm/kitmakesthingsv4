@@ -1,9 +1,11 @@
 "use client";
-import { Button, DatePicker } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { parseAbsoluteToLocal } from "@internationalized/date";
 import { useState } from "react";
 import { updateDueDate as updateDueDataAction } from "@/components/actions/WorkingProjectActions";
-export default function DueDateChange(props: { dueDate: Date; id: string }) {
+export default function DueDateChange(
+	props: Readonly<{ dueDate: Date; id: string }>
+) {
 	const [dateValue, setDateValue] = useState<Date>(props.dueDate);
 	function updateDueDate() {
 		if (dateValue) {

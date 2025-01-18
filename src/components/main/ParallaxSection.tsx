@@ -8,7 +8,10 @@ import { mapNumRange } from "@/lib/functions";
 // Types
 import { LayoutProps } from "@/lib/types";
 
-export default function ParallaxSection({ children, ...props }: LayoutProps) {
+export default function ParallaxSection({
+	children,
+	...props
+}: Readonly<LayoutProps>) {
 	// Parallax element ref
 	const headerImageContainer = useRef<HTMLDivElement | null>(null);
 	const headerImage = useRef<HTMLImageElement | null>(null);

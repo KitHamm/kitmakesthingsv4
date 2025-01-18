@@ -21,10 +21,12 @@ const priorities: PriorityType[] = [
 	},
 ];
 
-export default function TaskCardPriority(props: {
-	id: string;
-	priority: TaskPriority;
-}) {
+export default function TaskCardPriority(
+	props: Readonly<{
+		id: string;
+		priority: TaskPriority;
+	}>
+) {
 	const [value, setValue] = useState(new Set([props.priority]));
 
 	useEffect(() => {
@@ -54,18 +56,16 @@ export default function TaskCardPriority(props: {
 	}
 
 	return (
-		<>
-			<Select
-				classNames={{ trigger: "bg-white" }}
-				selectedKeys={value}
-				onChange={(e) => handleChange(e.target.value)}
-				label="Priority"
-				placeholder="Select a priority"
-			>
-				{priorities.map((p: PriorityType) => (
-					<SelectItem key={p.key}>{p.label}</SelectItem>
-				))}
-			</Select>
-		</>
+		<Select
+			classNames={{ trigger: "bg-white" }}
+			selectedKeys={value}
+			onChange={(e) => handleChange(e.target.value)}
+			label="Priority"
+			placeholder="Select a priority"
+		>
+			{priorities.map((p: PriorityType) => (
+				<SelectItem key={p.key}>{p.label}</SelectItem>
+			))}
+		</Select>
 	);
 }

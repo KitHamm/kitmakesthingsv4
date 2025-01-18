@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProjectForm } from "@/lib/types";
 
-export default function NewProject(props: { clients: Client[] }) {
+export default function NewProject(props: Readonly<{ clients: Client[] }>) {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const [formError, setFormError] = useState("");
 	const projectForm = useForm<ProjectForm>();

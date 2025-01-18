@@ -11,10 +11,12 @@ const StateSelection = [
 	{ key: "FINISHED", label: "Finished" },
 ];
 
-export default function ProjectStateChange(props: {
-	state: ProjectState;
-	id: string;
-}) {
+export default function ProjectStateChange(
+	props: Readonly<{
+		state: ProjectState;
+		id: string;
+	}>
+) {
 	const [value, setValue] = useState(new Set([props.state]));
 
 	function handleChange(e: SharedSelection) {

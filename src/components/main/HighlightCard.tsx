@@ -8,12 +8,14 @@ import { useInView } from "react-intersection-observer";
 // Constants
 import { highlightAnimations } from "@/lib/constants";
 
-export default function HighlightCard(props: {
-	header: string;
-	text: string;
-	avatar: string;
-	index: number;
-}) {
+export default function HighlightCard(
+	props: Readonly<{
+		header: string;
+		text: string;
+		avatar: string;
+		index: number;
+	}>
+) {
 	const { header, text, index, avatar } = props;
 
 	const { ref, inView } = useInView({ threshold: 1 });

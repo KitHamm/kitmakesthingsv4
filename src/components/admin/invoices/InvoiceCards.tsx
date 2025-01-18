@@ -3,7 +3,6 @@
 import { InvoiceWithClientAndItems } from "@/lib/types";
 import { useContext } from "react";
 import { InvoiceStateContext } from "./InvoiceStateProvider";
-import { updateInvoicePaid } from "@/components/actions/InvoiceActions";
 
 export default function InvoiceCards(
 	props: Readonly<{

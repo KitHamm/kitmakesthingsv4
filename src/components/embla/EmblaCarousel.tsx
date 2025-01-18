@@ -122,11 +122,9 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 			>
 				<ModalContent>
 					{(onClose) => (
-						<>
-							<ModalBody className="p-10">
-								<LightBoxEmblaCarousel slides={slides} />
-							</ModalBody>
-						</>
+						<ModalBody className="p-10">
+							<LightBoxEmblaCarousel slides={slides} />
+						</ModalBody>
 					)}
 				</ModalContent>
 			</Modal>

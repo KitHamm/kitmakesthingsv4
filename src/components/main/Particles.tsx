@@ -1,15 +1,15 @@
 "use client";
 
 import { useCallback } from "react";
-import type { Container, Engine } from "tsparticles-engine";
+import type { Engine } from "tsparticles-engine";
 import Particles from "react-particles";
 import { loadSlim } from "tsparticles-slim";
 
 export default function ParticlesComponent({
 	children,
-}: {
+}: Readonly<{
 	children: React.ReactNode;
-}) {
+}>) {
 	const particlesInit = useCallback(async (engine: Engine) => {
 		// you can initialize the tsParticles instance (engine) here, adding custom shapes or presets
 		// this loads the tsparticles package bundle, it's the easiest method for getting everything ready

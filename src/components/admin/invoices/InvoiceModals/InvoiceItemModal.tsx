@@ -43,9 +43,11 @@ const FormInput = ({
 		</div>
 	);
 };
-export default function NewItemModal(props: {
-	append: UseFieldArrayAppend<InvoiceForm, "items">;
-}) {
+export default function NewItemModal(
+	props: Readonly<{
+		append: UseFieldArrayAppend<InvoiceForm, "items">;
+	}>
+) {
 	const { append } = props;
 	const [newItemDescription, setNewItemDescription] = useState("");
 	const [newItemQuantity, setNewItemQuantity] = useState(0.0);
@@ -94,9 +96,7 @@ export default function NewItemModal(props: {
 									label="Quantity"
 									value={newItemQuantity}
 									onChange={(value) =>
-										setNewItemQuantity(
-											parseFloat(value as string)
-										)
+										setNewItemQuantity(parseFloat(value))
 									}
 									placeholder="Quantity"
 									type="number"
@@ -105,9 +105,7 @@ export default function NewItemModal(props: {
 									label="Unit Price"
 									value={newItemUnitPrice}
 									onChange={(value) =>
-										setNewItemUnitPrice(
-											parseFloat(value as string)
-										)
+										setNewItemUnitPrice(parseFloat(value))
 									}
 									placeholder="Unit Price"
 									type="number"

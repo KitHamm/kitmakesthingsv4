@@ -4,7 +4,7 @@
 import { Chip } from "@nextui-org/react";
 import { useEffect, useRef } from "react";
 
-export default function ProjectTechStack(props: { stack: String[] }) {
+export default function ProjectTechStack(props: Readonly<{ stack: string[] }>) {
 	const { stack } = props;
 	const techRefs = useRef<HTMLDivElement[]>([]);
 
@@ -22,7 +22,7 @@ export default function ProjectTechStack(props: { stack: String[] }) {
 
 	return (
 		<div className="mt-6 flex flex-wrap text-center gap-2">
-			{stack.map((tech: String, index: number) => {
+			{stack.map((tech: string, index: number) => {
 				return (
 					<div
 						ref={(el: HTMLDivElement) => {

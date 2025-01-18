@@ -48,11 +48,11 @@ export default function FormProvider({
 	project,
 	images,
 	classNames,
-}: {
+}: Readonly<{
 	project: ContentProject | null;
 	images: Images[];
 	classNames?: string;
-}) {
+}>) {
 	const {
 		register,
 		handleSubmit,

@@ -9,12 +9,12 @@ export default function ProjectCardInView({
 	image,
 	projectName,
 	index,
-}: {
+}: Readonly<{
 	children: React.ReactNode;
 	image: string;
 	projectName: string;
 	index: number;
-}) {
+}>) {
 	const [fadeClassLeft, setFadeClassLeft] = useState<
 		"opacity-0" | "slide-in-right"
 	>("opacity-0");

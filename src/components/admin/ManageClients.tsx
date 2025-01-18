@@ -14,7 +14,9 @@ import { createClient, deleteClient } from "../actions/ClientActions";
 import { useForm } from "react-hook-form";
 import { ClientForm } from "@/lib/types";
 
-export default function ManageClientsButton(props: { clients: Client[] }) {
+export default function ManageClientsButton(
+	props: Readonly<{ clients: Client[] }>
+) {
 	const {
 		isOpen: isOpenManageClients,
 		onOpenChange: onOpenChangeManageClients,

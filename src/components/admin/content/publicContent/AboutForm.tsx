@@ -257,12 +257,14 @@ export default function AboutForm({
 	);
 }
 
-function ImageContentInput(props: {
-	image: string;
-	target: keyof AboutContentForm;
-	setImageTarget: Dispatch<SetStateAction<keyof AboutContentForm>>;
-	onOpenChange: () => void;
-}) {
+function ImageContentInput(
+	props: Readonly<{
+		image: string;
+		target: keyof AboutContentForm;
+		setImageTarget: Dispatch<SetStateAction<keyof AboutContentForm>>;
+		onOpenChange: () => void;
+	}>
+) {
 	const { image, target, setImageTarget, onOpenChange } = props;
 	const imageUrl = image
 		? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image
@@ -292,12 +294,14 @@ function ImageContentInput(props: {
 	);
 }
 
-function TitleInput(props: {
-	target: keyof AboutContentForm;
-	placeholder: string;
-	errors: FieldErrors<AboutContentForm>;
-	register: UseFormRegister<AboutContentForm>;
-}) {
+function TitleInput(
+	props: Readonly<{
+		target: keyof AboutContentForm;
+		placeholder: string;
+		errors: FieldErrors<AboutContentForm>;
+		register: UseFormRegister<AboutContentForm>;
+	}>
+) {
 	const { target, placeholder, errors, register } = props;
 	const placeholderText = errors[target]
 		? errors[target].message

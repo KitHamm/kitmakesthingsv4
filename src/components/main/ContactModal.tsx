@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/modal";
 import { useForm } from "react-hook-form";
-import { Button, CircularProgress, modal } from "@nextui-org/react";
+import { Button, CircularProgress } from "@nextui-org/react";
 // Functions
 import { sendMessage } from "../actions/MessageActions";
 // Types

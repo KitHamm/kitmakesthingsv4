@@ -8,7 +8,9 @@ import { createClient, deleteClient } from "@/components/actions/ClientActions";
 import { Client } from "@prisma/client";
 import { ClientForm } from "@/lib/types";
 
-export default function ManageClientsButton(props: { clients: Client[] }) {
+export default function ManageClientsButton(
+	props: Readonly<{ clients: Client[] }>
+) {
 	const [currentModal, setCurrentModal] = useState<
 		"manageClients" | "newClient" | null
 	>(null);
