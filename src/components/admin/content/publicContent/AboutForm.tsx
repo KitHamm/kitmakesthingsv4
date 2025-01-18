@@ -10,7 +10,6 @@ import ContentImageModal from "../../shared/ContentImageModal";
 import { About, Images } from "@prisma/client";
 import { AboutContentForm } from "@/lib/types";
 import { updateAbout } from "@/server/contentActions/updateAbout";
-import { get } from "http";
 
 interface AboutFormProps {
 	aboutContent: About | null;
@@ -80,15 +79,7 @@ export default function AboutForm({
 	}
 
 	function getPlaceholderText(
-		target:
-			| "title1"
-			| "title2"
-			| "title3"
-			| "title4"
-			| "title"
-			| "text1"
-			| "text2"
-			| "copy",
+		target: "title" | "text1" | "text2" | "copy",
 		placeholder: string
 	) {
 		if (errors[target]) {
@@ -97,21 +88,68 @@ export default function AboutForm({
 		return placeholder;
 	}
 
-	function getClassName(
-		target:
-			| "title1"
-			| "title2"
-			| "title3"
-			| "title4"
-			| "title"
-			| "text1"
-			| "text2"
-			| "copy"
-	) {
+	function getClassName(target: "title" | "text1" | "text2" | "copy") {
 		if (errors[target]) {
 			return "placeholder:text-red-400";
 		}
 		return undefined;
+	}
+
+	function ImageContentInput(props: {
+		image: string;
+		target: "image1Url" | "image2Url" | "image3Url" | "image4Url";
+	}) {
+		const { image, target } = props;
+		const imageUrl = image
+			? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image
+			: "https://placehold.co/500x500.png";
+
+		return (
+			<div className="relative mx-auto">
+				<Image
+					src={imageUrl}
+					height={500}
+					width={500}
+					alt="About 1 Image"
+					className="w-full h-auto"
+				/>
+				<button
+					onClick={() => {
+						setImageTarget(target);
+						onOpenChange();
+					}}
+					className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center"
+				>
+					<div className="my-auto font-bold text-white text-4xl">
+						Change
+					</div>
+				</button>
+			</div>
+		);
+	}
+
+	function TitleInput(props: {
+		target: "title1" | "title2" | "title3" | "title4" | "title";
+		placeholder: string;
+	}) {
+		const { target, placeholder } = props;
+		const placeholderText = errors[target]
+			? errors[target].message
+			: placeholder;
+
+		return (
+			<input
+				type="text"
+				{...register(target, {
+					required: {
+						value: true,
+						message: "Title is required.",
+					},
+				})}
+				placeholder={placeholderText}
+				className={errors[target] ? "placeholder:text-red-400" : ""}
+			/>
+		);
 	}
 
 	return (
@@ -121,148 +159,20 @@ export default function AboutForm({
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<div className="grid grid-cols-2 gap-0 w-2/3 mx-auto">
-					<div className="relative mx-auto">
-						<Image
-							src={getImageUrl(about1Image)}
-							height={500}
-							width={500}
-							alt="About 1 Image"
-							className="w-full h-auto"
-						/>
-						<button
-							onClick={() => {
-								setImageTarget("image1Url");
-								onOpenChange();
-							}}
-							className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center"
-						>
-							<div className="my-auto font-bold text-white text-4xl">
-								Change
-							</div>
-						</button>
-					</div>
-					<div className="relative mx-auto">
-						<Image
-							src={getImageUrl(about2Image)}
-							height={500}
-							width={500}
-							alt="About 2 Image"
-							className="w-full h-auto"
-						/>
-						<button
-							onClick={() => {
-								setImageTarget("image2Url");
-								onOpenChange();
-							}}
-							className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center"
-						>
-							<div className="my-auto font-bold text-white text-4xl">
-								Change
-							</div>
-						</button>
-					</div>
-					<div className="relative mx-auto">
-						<Image
-							src={getImageUrl(about3Image)}
-							height={500}
-							width={500}
-							alt="About 3 Image"
-							className="w-full h-auto"
-						/>
-						<button
-							onClick={() => {
-								setImageTarget("image3Url");
-								onOpenChange();
-							}}
-							className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center"
-						>
-							<div className="my-auto font-bold text-white text-4xl">
-								Change
-							</div>
-						</button>
-					</div>
-					<div className="relative mx-auto">
-						<Image
-							src={getImageUrl(about4Image)}
-							height={500}
-							width={500}
-							alt="About 4 Image"
-							className="w-full h-auto"
-						/>
-						<button
-							onClick={() => {
-								setImageTarget("image4Url");
-								onOpenChange();
-							}}
-							className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center"
-						>
-							<div className="my-auto font-bold text-white text-4xl">
-								Change
-							</div>
-						</button>
-					</div>
+					<ImageContentInput image={about1Image} target="image1Url" />
+					<ImageContentInput image={about2Image} target="image2Url" />
+					<ImageContentInput image={about3Image} target="image3Url" />
+					<ImageContentInput image={about4Image} target="image4Url" />
 				</div>
 				<div>
 					<label className="font-bold px-2" htmlFor="title1">
 						Image Titles
 					</label>
 					<div className="grid grid-cols-2 gap-4">
-						<input
-							type="text"
-							{...register("title1", {
-								required: {
-									value: true,
-									message: "Title is required.",
-								},
-							})}
-							placeholder={getPlaceholderText(
-								"title1",
-								"Title 1"
-							)}
-							className={getClassName("title1")}
-						/>
-						<input
-							type="text"
-							{...register("title2", {
-								required: {
-									value: true,
-									message: "Title is required.",
-								},
-							})}
-							placeholder={getPlaceholderText(
-								"title2",
-								"Title 2"
-							)}
-							className={getClassName("title2")}
-						/>
-						<input
-							type="text"
-							{...register("title3", {
-								required: {
-									value: true,
-									message: "Title is required.",
-								},
-							})}
-							placeholder={getPlaceholderText(
-								"title3",
-								"Title 3"
-							)}
-							className={getClassName("title3")}
-						/>
-						<input
-							type="text"
-							{...register("title4", {
-								required: {
-									value: true,
-									message: "Title is required.",
-								},
-							})}
-							placeholder={getPlaceholderText(
-								"title4",
-								"Title 4"
-							)}
-							className={getClassName("title4")}
-						/>
+						<TitleInput target="title1" placeholder="Title 1" />
+						<TitleInput target="title2" placeholder="Title 2" />
+						<TitleInput target="title3" placeholder="Title 3" />
+						<TitleInput target="title4" placeholder="Title 4" />
 					</div>
 				</div>
 				<div>
