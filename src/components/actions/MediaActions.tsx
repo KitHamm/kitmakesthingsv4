@@ -6,9 +6,6 @@ import { Landing, About, ContentProject } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function deleteFile(fileName: string) {
-	const landingContent: Landing[] = await prisma.landing.findMany({
-		where: { imageUrl: fileName },
-	});
 	const aboutContent1: About[] = await prisma.about.findMany({
 		where: { image1Url: fileName },
 	});
@@ -28,9 +25,6 @@ export async function deleteFile(fileName: string) {
 			},
 		},
 	});
-	if (landingContent.length > 0) {
-		return { status: 400, message: "Landing Content" };
-	}
 	if (aboutContent1.length > 0) {
 		return { status: 400, message: "About Content 1" };
 	}
