@@ -223,7 +223,7 @@ export default function ContentImageModal(
 											return (
 												<div
 													key={image.url}
-													className="relative fade-in bg-neutral-200 p-4"
+													className="relative fade-in bg-neutral-200 p-4 max-h-96"
 												>
 													<Image
 														height={500}
@@ -234,7 +234,7 @@ export default function ContentImageModal(
 															image.url
 														}
 														alt={image.url}
-														className="w-full h-auto m-auto"
+														className="object-contain w-full h-full m-auto"
 													/>
 													<button
 														onClick={() => {
