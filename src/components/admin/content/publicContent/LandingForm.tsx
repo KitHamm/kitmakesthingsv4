@@ -19,14 +19,8 @@ export default function LandingForm(props: {
 }) {
 	const { landingContent, images } = props;
 	const { isOpen, onOpenChange } = useDisclosure();
-	const [imageTarget, setImageTarget] = useState<
-		| "imageUrl"
-		| "techParallaxImage"
-		| "aboutParallaxImage"
-		| "firstHighlightImage"
-		| "secondHighlightImage"
-		| "thirdHighlightImage"
-	>("imageUrl");
+	const [imageTarget, setImageTarget] =
+		useState<keyof LandingContentForm>("imageUrl");
 	const form = useForm<LandingContentForm>();
 	const {
 		register,
@@ -64,47 +58,6 @@ export default function LandingForm(props: {
 		}
 	}, [copy]);
 
-	// Highlights
-	const firstHighlightText = watch("firstHighlightText");
-	const secondHighlightText = watch("secondHighlightText");
-	const thirdHighlightText = watch("thirdHighlightText");
-	const firstHighlightTextArea = useRef<HTMLTextAreaElement | null>(null);
-	const secondHighlightTextArea = useRef<HTMLTextAreaElement | null>(null);
-	const thirdHighlightTextArea = useRef<HTMLTextAreaElement | null>(null);
-	useEffect(() => {
-		if (firstHighlightTextArea.current) {
-			resizeTextArea(firstHighlightTextArea.current);
-		}
-	}, [firstHighlightText]);
-	useEffect(() => {
-		if (secondHighlightTextArea.current) {
-			resizeTextArea(secondHighlightTextArea.current);
-		}
-	}, [secondHighlightText]);
-	useEffect(() => {
-		if (thirdHighlightTextArea.current) {
-			resizeTextArea(thirdHighlightTextArea.current);
-		}
-	}, [thirdHighlightText]);
-	const { ref: firstHighlight, ...firstHighlightRest } = register(
-		"firstHighlightText",
-		{
-			required: { value: true, message: "First highlight is required" },
-		}
-	);
-	const { ref: secondHighlight, ...secondHighlightRest } = register(
-		"secondHighlightText",
-		{
-			required: { value: true, message: "Second highlight is required" },
-		}
-	);
-	const { ref: thirdHighlight, ...thirdHighlightRest } = register(
-		"thirdHighlightText",
-		{
-			required: { value: true, message: "Third highlight is required" },
-		}
-	);
-
 	// Short about
 	const shortAboutText = watch("shortAbout");
 	const shortAboutTextArea = useRef<HTMLTextAreaElement | null>(null);
@@ -127,6 +80,107 @@ export default function LandingForm(props: {
 			.catch((err) => console.log(err));
 	};
 
+	function getLongImageUrl(image: string) {
+		if (!image) {
+			("https://placehold.co/1000x500.png");
+		}
+		return process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image;
+	}
+
+	function getPlaceHolderText(
+		target: keyof LandingContentForm,
+		placeholder: string
+	) {
+		if (errors[target]) {
+			return errors[target].message;
+		} else {
+			return placeholder;
+		}
+	}
+
+	function getClassName(target: keyof LandingContentForm) {
+		if (errors[target]) {
+			return "placeholder:text-red-400";
+		}
+		return undefined;
+	}
+
+	function HighlighInput(props: {
+		image: string;
+		imageTarget: keyof LandingContentForm;
+		headerTarget: keyof LandingContentForm;
+		copyTarget: keyof LandingContentForm;
+	}) {
+		const { image, imageTarget, headerTarget, copyTarget } = props;
+		const highlightText = watch(copyTarget);
+		const highlightTextArea = useRef<HTMLTextAreaElement | null>(null);
+		const { ref: highlightRef, ...highlightRest } = register(copyTarget, {
+			required: { value: true, message: "First highlight is required" },
+		});
+
+		useEffect(() => {
+			if (highlightTextArea.current) {
+				resizeTextArea(highlightTextArea.current);
+			}
+		}, [highlightText]);
+
+		const imageUrl = image
+			? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image
+			: "https://placehold.co/500x500.png";
+		return (
+			<div className="flex flex-col gap-4 p-4">
+				<Image
+					src={imageUrl}
+					alt="First"
+					height={200}
+					width={200}
+					className="object-cover h-auto w-auto rounded-full"
+				/>
+				<Button
+					onPress={() => {
+						setImageTarget(imageTarget);
+						onOpenChange();
+					}}
+					className="w-full bg-green-500 text-white text-md font-bold"
+					type="button"
+				>
+					Change Image
+				</Button>
+				<input
+					type="text"
+					placeholder={
+						errors.firstHighlightHeader
+							? errors.firstHighlightHeader.message
+							: "First Header"
+					}
+					{...register(headerTarget, {
+						required: {
+							value: true,
+							message: "Header is required.",
+						},
+					})}
+				/>
+				<textarea
+					ref={(e) => {
+						highlightRef(e);
+						highlightTextArea.current = e;
+					}}
+					placeholder={
+						errors.firstHighlightHeader
+							? errors.firstHighlightHeader.message
+							: "First Text"
+					}
+					className={
+						errors.firstHighlightHeader
+							? "placeholder:text-red-400"
+							: ""
+					}
+					{...highlightRest}
+				/>
+			</div>
+		);
+	}
+
 	return (
 		<>
 			<form
@@ -145,12 +199,8 @@ export default function LandingForm(props: {
 								message: "Title is required.",
 							},
 						})}
-						placeholder={
-							errors.title ? errors.title.message : "Title"
-						}
-						className={
-							errors.title ? "placeholder:text-red-400" : ""
-						}
+						placeholder={getPlaceHolderText("title", "Title")}
+						className={getClassName("title")}
 					/>
 				</div>
 				<div>
@@ -162,10 +212,8 @@ export default function LandingForm(props: {
 							landingCopy(e);
 							copyTextArea.current = e;
 						}}
-						placeholder={errors.copy ? errors.copy.message : "Copy"}
-						className={
-							errors.copy ? "placeholder:text-red-400" : ""
-						}
+						placeholder={getPlaceHolderText("copy", "Copy")}
+						className={getClassName("copy")}
 						{...landingCopyRest}
 					/>
 				</div>
@@ -173,17 +221,15 @@ export default function LandingForm(props: {
 					<div className="font-bold px-2 mb-2">Tech Parallax</div>
 					<ParallaxSection
 						shift
-						imageUrl={
-							techParallaxImage
-								? process.env.NEXT_PUBLIC_BASE_IMAGE_URL +
-								  techParallaxImage
-								: "https://placehold.co/1000x500.png"
-						}
+						imageUrl={getLongImageUrl(techParallaxImage)}
 					>
 						<div className="flex justify-center items-center h-full px-4 lg:px-10">
 							<div>
-								<label className="font-bold" htmlFor="title">
-									Tech{" "}
+								<label
+									className="font-bold flex gap-1 items-center"
+									htmlFor="title"
+								>
+									Tech
 									<span className="text-sm font-light">
 										(Click to remove)
 									</span>
@@ -211,7 +257,6 @@ export default function LandingForm(props: {
 				</div>
 				<div className="flex flex-col lg:flex-row w-full justify-between gap-4 lg:gap-10">
 					<div className="flex w-full items-center">
-						{/* TODO Add image modal */}
 						<Button
 							onPress={() => {
 								setImageTarget("techParallaxImage");
@@ -250,174 +295,25 @@ export default function LandingForm(props: {
 				<div>
 					<div className="font-bold px-2">Triple Highlight</div>
 					<div className="flex flex-col lg:flex-row gap-4">
-						<div className="flex flex-col gap-4 p-4">
-							<Image
-								src={
-									firstHighlightImage
-										? process.env
-												.NEXT_PUBLIC_BASE_IMAGE_URL +
-										  firstHighlightImage
-										: "https://placehold.co/500x500.png"
-								}
-								alt="First"
-								height={200}
-								width={200}
-								className="object-cover h-auto w-auto rounded-full"
-							/>
-							<Button
-								onPress={() => {
-									setImageTarget("firstHighlightImage");
-									onOpenChange();
-								}}
-								className="w-full bg-green-500 text-white text-md font-bold"
-								type="button"
-							>
-								Change Image
-							</Button>
-							<input
-								type="text"
-								placeholder={
-									errors.firstHighlightHeader
-										? errors.firstHighlightHeader.message
-										: "First Header"
-								}
-								{...register("firstHighlightHeader", {
-									required: {
-										value: true,
-										message: "Header is required.",
-									},
-								})}
-							/>
-							<textarea
-								ref={(e) => {
-									firstHighlight(e);
-									firstHighlightTextArea.current = e;
-								}}
-								placeholder={
-									errors.firstHighlightHeader
-										? errors.firstHighlightHeader.message
-										: "First Text"
-								}
-								className={
-									errors.firstHighlightHeader
-										? "placeholder:text-red-400"
-										: ""
-								}
-								{...firstHighlightRest}
-							/>
-						</div>
-						<div className="flex flex-col gap-4 p-4">
-							<Image
-								src={
-									secondHighlightImage
-										? process.env
-												.NEXT_PUBLIC_BASE_IMAGE_URL +
-										  secondHighlightImage
-										: "https://placehold.co/500x500.png"
-								}
-								alt="Second"
-								height={200}
-								width={200}
-								className="object-cover h-auto w-auto rounded-full"
-							/>
-							<Button
-								onPress={() => {
-									setImageTarget("secondHighlightImage");
-									onOpenChange();
-								}}
-								className="w-full bg-green-500 text-white text-md font-bold"
-								type="button"
-							>
-								Change Image
-							</Button>
-							<input
-								type="text"
-								placeholder={
-									errors.secondHighlightHeader
-										? errors.secondHighlightHeader.message
-										: "Second Header"
-								}
-								{...register("secondHighlightHeader", {
-									required: {
-										value: true,
-										message: "Header is required.",
-									},
-								})}
-							/>
-							<textarea
-								ref={(e) => {
-									secondHighlight(e);
-									secondHighlightTextArea.current = e;
-								}}
-								placeholder={
-									errors.secondHighlightHeader
-										? errors.secondHighlightHeader.message
-										: "Second Text"
-								}
-								className={
-									errors.secondHighlightHeader
-										? "placeholder:text-red-400"
-										: ""
-								}
-								{...secondHighlightRest}
-							/>
-						</div>
-						<div className="flex flex-col gap-4 p-4">
-							<Image
-								src={
-									thirdHighlightImage
-										? process.env
-												.NEXT_PUBLIC_BASE_IMAGE_URL +
-										  thirdHighlightImage
-										: "https://placehold.co/500x500.png"
-								}
-								alt="Third"
-								height={200}
-								width={200}
-								className="object-cover h-auto w-auto rounded-full"
-							/>
-							<Button
-								onPress={() => {
-									setImageTarget("thirdHighlightImage");
-									onOpenChange();
-								}}
-								className="w-full bg-green-500 text-white text-md font-bold"
-								type="button"
-							>
-								Change Image
-							</Button>
-							<input
-								type="text"
-								placeholder={
-									errors.thirdHighlightHeader
-										? errors.thirdHighlightHeader.message
-										: "Third Header"
-								}
-								{...register("thirdHighlightHeader", {
-									required: {
-										value: true,
-										message: "Header is required.",
-									},
-								})}
-							/>
-							<textarea
-								ref={(e) => {
-									thirdHighlight(e);
-									thirdHighlightTextArea.current = e;
-								}}
-								placeholder={
-									errors.thirdHighlightHeader
-										? errors.thirdHighlightHeader.message
-										: "Third Text"
-								}
-								className={
-									errors.thirdHighlightHeader
-										? "placeholder:text-red-400"
-										: ""
-								}
-								{...thirdHighlightRest}
-							/>
-						</div>
+						<HighlighInput
+							image={firstHighlightImage}
+							imageTarget="firstHighlightImage"
+							headerTarget="firstHighlightHeader"
+							copyTarget="firstHighlightText"
+						/>
+
+						<HighlighInput
+							image={secondHighlightImage}
+							imageTarget="secondHighlightImage"
+							headerTarget="secondHighlightHeader"
+							copyTarget="secondHighlightText"
+						/>
+						<HighlighInput
+							image={thirdHighlightImage}
+							imageTarget="thirdHighlightImage"
+							headerTarget="thirdHighlightHeader"
+							copyTarget="thirdHighlightText"
+						/>
 					</div>
 				</div>
 				<div>
@@ -425,12 +321,7 @@ export default function LandingForm(props: {
 
 					<ParallaxSection
 						shift={false}
-						imageUrl={
-							aboutParallaxImage
-								? process.env.NEXT_PUBLIC_BASE_IMAGE_URL +
-								  aboutParallaxImage
-								: "https://placehold.co/1000x500.png"
-						}
+						imageUrl={getLongImageUrl(aboutParallaxImage)}
 					>
 						<div className="flex justify-center items-center h-full w-full px-4 lg:px-10">
 							<Button
@@ -455,14 +346,11 @@ export default function LandingForm(props: {
 							shortAbout(e);
 							shortAboutTextArea.current = e;
 						}}
-						placeholder={
-							errors.shortAbout
-								? errors.shortAbout.message
-								: "Short About"
-						}
-						className={
-							errors.shortAbout ? "placeholder:text-red-400" : ""
-						}
+						placeholder={getPlaceHolderText(
+							"shortAbout",
+							"Short About"
+						)}
+						className={getClassName("shortAbout")}
 						{...shortAboutRest}
 					/>
 				</div>

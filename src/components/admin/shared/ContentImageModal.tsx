@@ -16,20 +16,12 @@ import { useEffect, useState } from "react";
 import { itemOrder } from "@/lib/utils/contentUtils/sortUtils";
 import Image from "next/image";
 
+type CombinedFormKeys = keyof LandingContentForm | keyof AboutContentForm;
+
 export default function ContentImageModal(
 	props: Readonly<{
 		images: Images[];
-		target:
-			| "imageUrl"
-			| "techParallaxImage"
-			| "aboutParallaxImage"
-			| "firstHighlightImage"
-			| "secondHighlightImage"
-			| "thirdHighlightImage"
-			| "image1Url"
-			| "image2Url"
-			| "image3Url"
-			| "image4Url";
+		target: CombinedFormKeys;
 		isOpen: boolean;
 		onOpenChange: () => void;
 		setValue:

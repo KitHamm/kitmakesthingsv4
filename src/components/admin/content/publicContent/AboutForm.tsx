@@ -21,9 +21,8 @@ export default function AboutForm({
 	images,
 }: Readonly<AboutFormProps>) {
 	const { isOpen, onOpenChange } = useDisclosure();
-	const [imageTarget, setImageTarget] = useState<
-		"image1Url" | "image2Url" | "image3Url" | "image4Url"
-	>("image1Url");
+	const [imageTarget, setImageTarget] =
+		useState<keyof AboutContentForm>("image1Url");
 	const form = useForm<AboutContentForm>();
 	const {
 		register,
@@ -73,11 +72,6 @@ export default function AboutForm({
 			.catch((err) => console.log(err));
 	};
 
-	function getImageUrl(image: string) {
-		if (!image) return "https://placehold.co/500x500.png";
-		return process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image;
-	}
-
 	function getPlaceholderText(
 		target: "title" | "text1" | "text2" | "copy",
 		placeholder: string
@@ -88,7 +82,7 @@ export default function AboutForm({
 		return placeholder;
 	}
 
-	function getClassName(target: "title" | "text1" | "text2" | "copy") {
+	function getClassName(target: keyof AboutContentForm) {
 		if (errors[target]) {
 			return "placeholder:text-red-400";
 		}
@@ -97,7 +91,7 @@ export default function AboutForm({
 
 	function ImageContentInput(props: {
 		image: string;
-		target: "image1Url" | "image2Url" | "image3Url" | "image4Url";
+		target: keyof AboutContentForm;
 	}) {
 		const { image, target } = props;
 		const imageUrl = image
@@ -129,7 +123,7 @@ export default function AboutForm({
 	}
 
 	function TitleInput(props: {
-		target: "title1" | "title2" | "title3" | "title4" | "title";
+		target: keyof AboutContentForm;
 		placeholder: string;
 	}) {
 		const { target, placeholder } = props;
