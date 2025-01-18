@@ -39,7 +39,7 @@ export default async function Home() {
 								<div className="flex justify-between lg:gap-10">
 									<div className="hidden my-auto font-medium lg:block text-charcoal-dark text-lg w-1/2">
 										<Markdown className="mt-[1rem]">
-											{content?.copy}
+											{content.copy}
 										</Markdown>
 									</div>
 									<div className="flex lg:w-1/2 w-full flex-col gap-4 my-auto items-center">

@@ -72,7 +72,6 @@ model Landing {
   tech                  Tech[]
   copy                  String
   shortAbout            String @default("")
-  imageUrl              String
   techParallaxImage     String @default("")
   aboutParallaxImage    String @default("")
   firstHighlightImage   String @default("")
