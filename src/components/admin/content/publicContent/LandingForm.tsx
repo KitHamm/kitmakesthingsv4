@@ -82,7 +82,7 @@ export default function LandingForm(props: {
 
 	function getLongImageUrl(image: string) {
 		if (!image) {
-			("https://placehold.co/1000x500.png");
+			return "https://placehold.co/1000x500.png";
 		}
 		return process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image;
 	}
