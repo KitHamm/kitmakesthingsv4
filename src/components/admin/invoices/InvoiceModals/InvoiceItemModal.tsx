@@ -1,5 +1,4 @@
 "use client";
-
 import { InvoiceForm } from "@/lib/types";
 import {
 	Button,
@@ -13,6 +12,37 @@ import {
 import { useEffect, useState } from "react";
 import { UseFieldArrayAppend } from "react-hook-form";
 
+interface FormInputProps {
+	label: string;
+	value: string | number;
+	onChange: (value: string) => void; // Change to accept only string for this case
+	placeholder: string;
+	type: "text" | "number";
+}
+
+const FormInput = ({
+	label,
+	value,
+	onChange,
+	placeholder,
+	type,
+}: FormInputProps) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		onChange(e.target.value); // Pass the value as string
+	};
+
+	return (
+		<div>
+			<label className="font-bold">{label}</label>
+			<input
+				type={type}
+				value={value || ""}
+				onChange={handleChange} // Use the handler for the onChange
+				placeholder={placeholder}
+			/>
+		</div>
+	);
+};
 export default function NewItemModal(props: {
 	append: UseFieldArrayAppend<InvoiceForm, "items">;
 }) {
@@ -29,6 +59,14 @@ export default function NewItemModal(props: {
 			setNewItemSubTotal(newItemUnitPrice * newItemQuantity);
 		}
 	}, [newItemQuantity, newItemUnitPrice]);
+
+	const handleReset = () => {
+		setNewItemDescription("");
+		setNewItemQuantity(0.0);
+		setNewItemUnitPrice(0.0);
+		setNewItemSubTotal(0.0);
+	};
+
 	return (
 		<>
 			<Button
@@ -45,74 +83,42 @@ export default function NewItemModal(props: {
 								Invoice Item
 							</ModalHeader>
 							<ModalBody>
-								<div>
-									<label
-										className="font-bold"
-										htmlFor="description"
-									>
-										Description:
-									</label>
-									<textarea
-										name="description"
-										value={newItemDescription}
-										placeholder="Description..."
-										onChange={(e) =>
-											setNewItemDescription(
-												e.target.value
-											)
-										}
-									/>
-								</div>
-								<div>
-									<label
-										className="font-bold"
-										htmlFor="description"
-									>
-										Quantity:
-									</label>
-									<input
-										type="number"
-										value={newItemQuantity || ``}
-										onChange={(e) =>
-											setNewItemQuantity(
-												parseFloat(e.target.value)
-											)
-										}
-										placeholder="Quantity"
-									/>
-								</div>
-								<div>
-									<label
-										className="font-bold"
-										htmlFor="description"
-									>
-										Unit Price:
-									</label>
-									<input
-										type="number"
-										value={newItemUnitPrice || ``}
-										onChange={(e) =>
-											setNewItemUnitPrice(
-												parseFloat(e.target.value)
-											)
-										}
-										placeholder="Unit Price"
-									/>
-								</div>
-								<div>
-									<label
-										className="font-bold"
-										htmlFor="description"
-									>
-										Sub Total:
-									</label>
-									<input
-										type="number"
-										value={newItemSubTotal || ``}
-										onChange={(e) => {}}
-										placeholder="Sub Total (Automatic)"
-									/>
-								</div>
+								<FormInput
+									label="Description"
+									value={newItemDescription}
+									onChange={setNewItemDescription}
+									placeholder="Description..."
+									type="text"
+								/>
+								<FormInput
+									label="Quantity"
+									value={newItemQuantity}
+									onChange={(value) =>
+										setNewItemQuantity(
+											parseFloat(value as string)
+										)
+									}
+									placeholder="Quantity"
+									type="number"
+								/>
+								<FormInput
+									label="Unit Price"
+									value={newItemUnitPrice}
+									onChange={(value) =>
+										setNewItemUnitPrice(
+											parseFloat(value as string)
+										)
+									}
+									placeholder="Unit Price"
+									type="number"
+								/>
+								<FormInput
+									label="Sub Total"
+									value={newItemSubTotal}
+									onChange={() => {}}
+									placeholder="Sub Total (Automatic)"
+									type="number"
+								/>
 							</ModalBody>
 							<ModalFooter>
 								<Button
@@ -120,10 +126,7 @@ export default function NewItemModal(props: {
 									variant="light"
 									onPress={() => {
 										onClose();
-										setNewItemDescription("");
-										setNewItemQuantity(0.0);
-										setNewItemUnitPrice(0.0);
-										setNewItemSubTotal(0.0);
+										handleReset();
 									}}
 								>
 									Close
@@ -138,10 +141,7 @@ export default function NewItemModal(props: {
 											subTotal: newItemSubTotal,
 										});
 										onClose();
-										setNewItemDescription("");
-										setNewItemQuantity(0.0);
-										setNewItemUnitPrice(0.0);
-										setNewItemSubTotal(0.0);
+										handleReset();
 									}}
 								>
 									Action
