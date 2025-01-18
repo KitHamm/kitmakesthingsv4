@@ -24,25 +24,31 @@ export default function ContactModal(
 	const { handleSubmit, register, formState, reset } = contactForm;
 	const { errors } = formState;
 
-	function OnSubmit(data: ContactForm) {
-		setSendingState(MessageState.SENDING);
-		sendMessage(data)
-			.then(() => {
-				setTimeout(() => {
-					setSendingState(MessageState.SUCCESS);
-					setTimeout(() => {
-						setSendingState(MessageState.NONE);
-						reset();
-					}, 2000);
-				}, 2000);
-			})
-			.catch((err) => {
-				console.log(err);
-				setTimeout(() => {
-					setSendingState(MessageState.ERROR);
-				}, 2000);
-			});
+	async function OnSubmit(data: ContactForm) {
+		try {
+			setSendingState(MessageState.SENDING);
+
+			// Send message and wait for the result
+			await sendMessage(data);
+
+			// Handle success state after a delay
+			setTimeout(() => {
+				setSendingState(MessageState.SUCCESS);
+				resetStateAfterDelay();
+			}, 2000);
+		} catch (err) {
+			console.error(err);
+			setTimeout(() => {
+				setSendingState(MessageState.ERROR);
+			}, 2000);
+		}
 	}
+
+	const resetStateAfterDelay = () => {
+		setTimeout(() => {
+			setSendingState(MessageState.NONE);
+		}, 2000);
+	};
 
 	function handleClose() {
 		reset();
