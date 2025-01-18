@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import { Messages } from "@prisma/client";
 import { signOut } from "next-auth/react";
 
-export default function MobileNav(props: { messages: Messages[] }) {
+export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 	const [newMessages, setNewMessages] = useState(0);
 	const pathname = usePathname();
 	const {
@@ -25,9 +25,9 @@ export default function MobileNav(props: { messages: Messages[] }) {
 	} = useDisclosure();
 
 	useEffect(() => {
-		var count = 0;
-		for (let i = 0; i < props.messages.length; i++) {
-			if (!props.messages[i].read) {
+		let count = 0;
+		for (const message of props.messages) {
+			if (!message.read) {
 				count = count + 1;
 			}
 		}
@@ -37,6 +37,8 @@ export default function MobileNav(props: { messages: Messages[] }) {
 	useEffect(() => {
 		onCloseMenu();
 	}, [pathname, onCloseMenu]);
+
+	const badgeIsInvisible = newMessages === 0;
 
 	return (
 		<>
@@ -53,7 +55,7 @@ export default function MobileNav(props: { messages: Messages[] }) {
 							</Link>
 						</div>
 					</div>
-					<div
+					<button
 						onClick={() => {
 							onOpenChangeMenu();
 						}}
@@ -64,7 +66,7 @@ export default function MobileNav(props: { messages: Messages[] }) {
 								isOpenMenu ? "-rotate-90" : "rotate-0"
 							} fa-solid fa-bars fa-2xl mt-auto transition-transform`}
 						/>
-					</div>
+					</button>
 				</div>
 			</nav>
 			<Drawer
@@ -79,12 +81,12 @@ export default function MobileNav(props: { messages: Messages[] }) {
 						<>
 							<DrawerHeader className="px-8 flex justify-between items-center">
 								<div className="text-6xl">MENU</div>
-								<div
+								<button
 									className="text-2xl"
 									onClick={() => onClose()}
 								>
 									Close
-								</div>
+								</button>
 							</DrawerHeader>
 							<DrawerBody className="px-8 flex flex-col justify-between pb-8">
 								<div className="flex flex-col gap-4">
@@ -127,9 +129,7 @@ export default function MobileNav(props: { messages: Messages[] }) {
 												badge: "-right-1 top-",
 											}}
 											showOutline={false}
-											isInvisible={
-												newMessages === 0 ? true : false
-											}
+											isInvisible={badgeIsInvisible}
 											placement="top-right"
 											content={newMessages}
 											color="danger"
@@ -159,12 +159,12 @@ export default function MobileNav(props: { messages: Messages[] }) {
 									>
 										Media
 									</MobileNavLink>
-									<div
+									<button
 										onClick={() => signOut()}
-										className="text-red-400 text-2xl transition-colors font-bold"
+										className="text-start text-red-400 text-2xl transition-colors font-bold"
 									>
 										Log Out
-									</div>
+									</button>
 								</div>
 								<div className="flex flex-col gap-8">
 									<div className="flex flex gap-4">
@@ -220,11 +220,11 @@ function MobileNavLink({
 	children,
 	href,
 	active,
-}: {
+}: Readonly<{
 	children: React.ReactNode;
 	href: string;
 	active: boolean;
-}) {
+}>) {
 	return (
 		<Link
 			className={`${

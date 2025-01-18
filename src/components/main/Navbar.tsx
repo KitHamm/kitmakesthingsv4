@@ -21,7 +21,7 @@ export default function NavbarComp() {
 		onClose: onCloseMenu,
 		onOpenChange: onOpenChangeMenu,
 	} = useDisclosure();
-	const [contactFrom, setContactForm] = useState<HTMLDivElement | null>(null);
+	const [contactForm, setContactForm] = useState<HTMLDivElement | null>(null);
 	const pathname = usePathname();
 
 	useEffect(() => {
@@ -82,7 +82,7 @@ export default function NavbarComp() {
 							</Link>
 						</div>
 					</div>
-					<div
+					<button
 						onClick={() => {
 							onOpenChangeMenu();
 						}}
@@ -93,7 +93,7 @@ export default function NavbarComp() {
 								isOpenMenu ? "-rotate-90" : "rotate-0"
 							} fa-solid fa-bars fa-2xl mt-auto transition-transform`}
 						/>
-					</div>
+					</button>
 
 					<div className="hidden lg:flex justify-end gap-10 w-1/4 my-auto">
 						<div>
@@ -123,10 +123,10 @@ export default function NavbarComp() {
 							</a>
 						</div>
 
-						<div
+						<button
 							onClick={() => {
 								pathname === "/"
-									? contactFrom?.scrollIntoView({
+									? contactForm?.scrollIntoView({
 											behavior: "smooth",
 									  })
 									: onOpenChange();
@@ -135,7 +135,7 @@ export default function NavbarComp() {
 							color="foreground"
 						>
 							Contact
-						</div>
+						</button>
 					</div>
 					<ContactModal
 						isOpen={isOpen}
@@ -159,12 +159,12 @@ export default function NavbarComp() {
 						<>
 							<DrawerHeader className="px-8 flex justify-between items-center">
 								<div className="text-6xl">MENU</div>
-								<div
+								<button
 									className="text-2xl"
 									onClick={() => onClose()}
 								>
 									Close
-								</div>
+								</button>
 							</DrawerHeader>
 							<DrawerBody className="px-8 flex flex-col justify-between pb-8">
 								<div className="flex flex-col gap-4">
@@ -201,20 +201,20 @@ export default function NavbarComp() {
 									>
 										Projects
 									</Link>
-									<div
+									<button
 										onClick={() => {
 											pathname === "/"
-												? contactFrom?.scrollIntoView({
+												? contactForm?.scrollIntoView({
 														behavior: "smooth",
 												  })
 												: onOpenChange();
 											onClose();
 										}}
-										className={` text-2xl transition-colors font-bold hover:text-green-600`}
+										className={`text-start text-2xl transition-colors font-bold hover:text-green-600`}
 										color="foreground"
 									>
 										Contact
-									</div>
+									</button>
 								</div>
 								<div className="flex flex-col gap-8">
 									<div className="flex flex gap-4">

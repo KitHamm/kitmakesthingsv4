@@ -16,25 +16,27 @@ import { useEffect, useState } from "react";
 import { itemOrder } from "@/lib/utils/contentUtils/sortUtils";
 import Image from "next/image";
 
-export default function ContentImageModal(props: {
-	images: Images[];
-	target:
-		| "imageUrl"
-		| "techParallaxImage"
-		| "aboutParallaxImage"
-		| "firstHighlightImage"
-		| "secondHighlightImage"
-		| "thirdHighlightImage"
-		| "image1Url"
-		| "image2Url"
-		| "image3Url"
-		| "image4Url";
-	isOpen: boolean;
-	onOpenChange: () => void;
-	setValue:
-		| UseFormSetValue<LandingContentForm>
-		| UseFormSetValue<AboutContentForm>;
-}) {
+export default function ContentImageModal(
+	props: Readonly<{
+		images: Images[];
+		target:
+			| "imageUrl"
+			| "techParallaxImage"
+			| "aboutParallaxImage"
+			| "firstHighlightImage"
+			| "secondHighlightImage"
+			| "thirdHighlightImage"
+			| "image1Url"
+			| "image2Url"
+			| "image3Url"
+			| "image4Url";
+		isOpen: boolean;
+		onOpenChange: () => void;
+		setValue:
+			| UseFormSetValue<LandingContentForm>
+			| UseFormSetValue<AboutContentForm>;
+	}>
+) {
 	const { images, target, isOpen, onOpenChange, setValue } = props;
 	const [title, setTitle] = useState(
 		target.split(/(?=[A-Z])/).map((string: string) => {
@@ -228,7 +230,7 @@ export default function ContentImageModal(props: {
 										) {
 											return (
 												<div
-													key={index}
+													key={image.url}
 													className="relative fade-in bg-neutral-200 p-4"
 												>
 													<Image
@@ -242,7 +244,7 @@ export default function ContentImageModal(props: {
 														alt={image.url}
 														className="w-full h-auto m-auto"
 													/>
-													<div
+													<button
 														onClick={() => {
 															if (
 																target ===
@@ -298,7 +300,7 @@ export default function ContentImageModal(props: {
 														<div className="text-white text-xl font-bold">
 															Select
 														</div>
-													</div>
+													</button>
 												</div>
 											);
 										}

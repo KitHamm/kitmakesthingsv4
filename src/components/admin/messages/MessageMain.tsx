@@ -16,8 +16,10 @@ import {
 import { Messages } from "@prisma/client";
 import { useState } from "react";
 
-export default function MessagesMain(props: { messages: Messages[] }) {
-	const { isOpen, onOpen, onOpenChange } = useDisclosure();
+export default function MessagesMain(
+	props: Readonly<{ messages: Messages[] }>
+) {
+	const { isOpen, onOpenChange } = useDisclosure();
 	const [selectedMessage, setSelectedMessage] = useState(-1);
 
 	function UpdateMessage(messageId: string, read: boolean) {
@@ -34,9 +36,8 @@ export default function MessagesMain(props: { messages: Messages[] }) {
 					{props.messages.map((message: Messages, index: number) => {
 						return (
 							<div key={message.id}>
-								{/* Desktop */}
-								<div
-									className="hidden  lg:block"
+								<button
+									className="w-full text-start lg:block"
 									onClick={() => {
 										setSelectedMessage(index);
 										if (!message.read) {
@@ -45,20 +46,7 @@ export default function MessagesMain(props: { messages: Messages[] }) {
 									}}
 								>
 									<MessageRepeat message={message} />
-								</div>
-								{/* Mobile */}
-								<div
-									className="lg:hidden"
-									onClick={() => {
-										setSelectedMessage(index);
-										if (!message.read) {
-											UpdateMessage(message.id, true);
-										}
-										onOpenChange();
-									}}
-								>
-									<MessageRepeat message={message} />
-								</div>
+								</button>
 							</div>
 						);
 					})}
@@ -207,7 +195,7 @@ export default function MessagesMain(props: { messages: Messages[] }) {
 	);
 }
 
-function MessageRepeat(props: { message: Messages }) {
+function MessageRepeat(props: Readonly<{ message: Messages }>) {
 	return (
 		<div
 			className={`${
