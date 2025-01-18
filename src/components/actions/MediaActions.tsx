@@ -29,22 +29,22 @@ export async function deleteFile(fileName: string) {
 		},
 	});
 	if (landingContent.length > 0) {
-		return Promise.reject({ Location: "Landing Content" });
+		return { status: 400, message: "Landing Content" };
 	}
 	if (aboutContent1.length > 0) {
-		return Promise.reject({ Location: "About Content 1" });
+		return { status: 400, message: "About Content 1" };
 	}
 	if (aboutContent2.length > 0) {
-		return Promise.reject({ Location: "About Content 2" });
+		return { status: 400, message: "About Content 2" };
 	}
 	if (aboutContent3.length > 0) {
-		return Promise.reject({ Location: "About Content 3" });
+		return { status: 400, message: "About Content 3" };
 	}
 	if (aboutContent4.length > 0) {
-		return Promise.reject({ Location: "About Content 4" });
+		return { status: 400, message: "About Content 4" };
 	}
 	if (projects.length > 0) {
-		return Promise.reject({ Location: projects[0].name });
+		return { status: 400, message: projects[0].name };
 	}
 
 	try {
@@ -62,11 +62,13 @@ export async function deleteFile(fileName: string) {
 		} catch (fsError) {
 			console.log(fsError);
 		}
-		return Promise.resolve();
+		revalidatePath("/dashboard/media");
+		revalidatePath("/dashboard/content");
+		revalidatePath("/dashboard/content");
+		revalidatePath("/dashboard/content/projects");
+		return { status: 200, message: "success" };
 	} catch {
-		return Promise.reject(new Error("unable to delete"));
-	} finally {
-		revalidatePath("/dashboard");
+		return { status: 400, message: "unable to delete" };
 	}
 }
 

@@ -183,6 +183,8 @@ export default function ContactModal(
 										>
 											Privacy Policy
 										</button>
+										{/*
+										 */}
 										.
 									</p>
 

@@ -175,7 +175,6 @@ export default function PrivacyPage() {
 										Us through the Service.
 									</li>
 									<li>
-										To contact You:
 										<strong className="text-green-500">
 											To contact You:
 										</strong>{" "}

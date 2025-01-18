@@ -225,11 +225,8 @@ export default function LandingForm(props: {
 					>
 						<div className="flex justify-center items-center h-full px-4 lg:px-10">
 							<div>
-								<label
-									className="font-bold flex gap-1 items-center"
-									htmlFor="title"
-								>
-									Tech
+								<label className="font-bold" htmlFor="title">
+									Tech{" "}
 									<span className="text-sm font-light">
 										(Click to remove)
 									</span>

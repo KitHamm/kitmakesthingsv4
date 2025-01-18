@@ -13,7 +13,7 @@ jobs:
             - name: Check for changes in prisma.schema
               id: prisma_changes
               run: |
-                  git fetch origin
+                  git fetch origin main
                   if git diff --quiet HEAD origin/main -- prisma/schema.prisma; then
                     echo "No changes in prisma.schema"
                       echo "prisma_changed=false" >> $GITHUB_ENV
@@ -34,50 +34,36 @@ jobs:
                   command_timeout: 20m
                   script: |
                       if [ "${{ env.prisma_changed }}" = "false" ]; then
-                        echo "No changes in prisma.schema. Continue with deployment..."
-                        cd ../srv/www
+                        echo "No changes in prisma.schema, continuing with deployment..."
+
                         echo "Making stable copy..."
-                        mkdir kmt_stable
-                        rsync -ar --exclude 'images' --exclude 'node_modules' kitmakesthingsv4/ kmt_stable/kitmakesthingsv4
-                        echo "Making build directory..."
-                        mkdir build_temp
-                        echo "Moving to build directory..."
-                        cd build_temp
-                        echo "Cloning repo"
-                        git clone git@github.com:KitHamm/kitmakesthingsv4.git
-                        cd ..
-                        cp kitmakesthingsv4/.env build_temp/kitmakesthingsv4
-                        echo "Moving to build directory..."
-                        cd build_temp/kitmakesthingsv4
-                        if [ ! -f .env ]; then
-                          echo "File is missing. Deployment cannot continue."
-                          exit 1
-                        fi
-                        echo "Installing deps..."
+                        cd ../srv/www || { echo "Failed to change directory to /srv/www"; exit 1; }
+
+                        rm -rf kmt_stable/kitmakesthingsv4/* || { echo "Failed to clean stable copy"; exit 1; }
+
+                        rsync -ar --exclude 'images' --exclude 'node_modules' kitmakesthingsv4/ kmt_stable/kitmakesthingsv4 || { echo "Failed to create stable copy"; exit 1; }
+
+                        echo "Pulling latest changes..."
+                        cd kitmakesthingsv4 || { echo "Failed to change directory to kitmakesthingsv4"; exit 1; }
+                        git pull || { echo "Git pull failed"; exit 1; }
+
+                        echo "Installing dependencies..."
                         export NVM_DIR=~/.nvm
-                        source ~/.nvm/nvm.sh
-                        npm install
-                        echo "Building..."
+                        source ~/.nvm/nvm.sh || { echo "Failed to source NVM"; exit 1; }
+                        npm install || { echo "NPM install failed"; exit 1; }
+
+                        echo "Stopping PM2 process..."
+                        pm2 stop kitmakesthingsv4 || { echo "Failed to stop PM2 process"; exit 1; }
+
+                        echo "Building project..."
                         npm run build
                         if [ $? -ne 0 ]; then
-                          echo "Build failed. Exiting deployment."
-                          cd ../..
-                          rm -r build_temp
+                          echo "Build failed, exiting deployment."
                           exit 1
                         fi
-                        echo "Moving to base folder..."
-                        cd ../..
-                        echo "Stopping server..."
-                        pm2 stop kitmakesthingsv4 || { echo "Failed to stop PM2 process"; exit 1; }
-                        echo "Server stopped."
-                        echo "Copying build files..."
-                        rm -rf kitmakesthingsv4/node_modules
-                        rsync -ar --exclude 'images' build_temp/kitmakesthingsv4/ kitmakesthingsv4 || { echo "Failed to copy files"; exit 1; }
-                        echo "Files copied."
-                        echo "Starting server..."
+
+                        echo "Starting PM2 process..."
                         pm2 start kitmakesthingsv4 || { echo "Failed to start PM2 process"; exit 1; }
-                        echo "Server started."
-                        echo "Cleaning up..."
-                        rm -r build_temp || { echo "Failed to remove build directory"; exit 1; }
-                        echo "Build directory removed."
+
+                        echo "Deployment completed successfully."
                       fi

@@ -89,9 +89,13 @@ export default function MediaMain(props: Readonly<{ images: Images[] }>) {
 
 	function deleteFile(file: string) {
 		deleteMediaFile(file)
-			.then(() => {
-				onClose();
-				setSelectedImage("");
+			.then((res) => {
+				if (res.status === 200) {
+					onClose();
+					setSelectedImage("");
+				} else {
+					console.log(res.message);
+				}
 			})
 			.catch((err) => console.log(err));
 	}
