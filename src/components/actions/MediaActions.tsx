@@ -6,18 +6,29 @@ import { Landing, About, ContentProject } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function deleteFile(fileName: string) {
-	const aboutContent1: About[] = await prisma.about.findMany({
-		where: { image1Url: fileName },
+	const landingContent: Landing[] = await prisma.landing.findMany({
+		where: {
+			OR: [
+				{ techParallaxImage: fileName },
+				{ aboutParallaxImage: fileName },
+				{ firstHighlightImage: fileName },
+				{ secondHighlightImage: fileName },
+				{ thirdHighlightImage: fileName },
+			],
+		},
 	});
-	const aboutContent2: About[] = await prisma.about.findMany({
-		where: { image2Url: fileName },
+
+	const aboutContent: About[] = await prisma.about.findMany({
+		where: {
+			OR: [
+				{ image1Url: fileName },
+				{ image2Url: fileName },
+				{ image3Url: fileName },
+				{ image4Url: fileName },
+			],
+		},
 	});
-	const aboutContent3: About[] = await prisma.about.findMany({
-		where: { image3Url: fileName },
-	});
-	const aboutContent4: About[] = await prisma.about.findMany({
-		where: { image4Url: fileName },
-	});
+
 	const projects: ContentProject[] = await prisma.contentProject.findMany({
 		where: {
 			images: {
@@ -25,17 +36,11 @@ export async function deleteFile(fileName: string) {
 			},
 		},
 	});
-	if (aboutContent1.length > 0) {
-		return { status: 400, message: "About Content 1" };
+	if (landingContent.length > 0) {
+		return { status: 400, message: "Landing Content" };
 	}
-	if (aboutContent2.length > 0) {
-		return { status: 400, message: "About Content 2" };
-	}
-	if (aboutContent3.length > 0) {
-		return { status: 400, message: "About Content 3" };
-	}
-	if (aboutContent4.length > 0) {
-		return { status: 400, message: "About Content 4" };
+	if (aboutContent.length > 0) {
+		return { status: 400, message: "About Content" };
 	}
 	if (projects.length > 0) {
 		return { status: 400, message: projects[0].name };
