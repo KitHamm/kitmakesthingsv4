@@ -6,8 +6,6 @@ export default async function Messages() {
 		orderBy: { createdAt: "desc" },
 	});
 
-	// TODO copy from YogaWithZen
-
 	return (
 		<div className="lg:py-10 lg:px-10 py-4 px-4">
 			<MessagesMain messages={messages} />

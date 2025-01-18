@@ -20,7 +20,6 @@ export default async function Invoices() {
 	});
 
 	const clients = await prisma.client.findMany();
-	// TODO less client and make each button a component
 
 	return (
 		<div className="lg:py-10 lg:px-10 py-4 px-4">

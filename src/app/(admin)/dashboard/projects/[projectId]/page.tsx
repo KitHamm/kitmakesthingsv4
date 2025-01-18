@@ -41,8 +41,6 @@ export default async function ProjectPage(props: Readonly<{ params: Params }>) {
 		stateClass = "text-green-500";
 	}
 
-	// TODO to many components. Don't be afraid to use client components
-
 	return (
 		<div className="lg:py-10 lg:px-10 py-4 px-4">
 			<div className="mb-6 pb-4 border-b-2">
