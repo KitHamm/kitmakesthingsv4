@@ -20,10 +20,12 @@ import { useFieldArray, useForm } from "react-hook-form";
 import Markdown from "react-markdown";
 import NewItemModal from "./InvoiceItemModal";
 
-export default function NewInvoiceModal(props: {
-	clients: Client[];
-	referencePlaceholder: string;
-}) {
+export default function NewInvoiceModal(
+	props: Readonly<{
+		clients: Client[];
+		referencePlaceholder: string;
+	}>
+) {
 	const [newItemDescription, setNewItemDescription] = useState("");
 	const [newItemQuantity, setNewItemQuantity] = useState(0.0);
 	const [newItemUnitPrice, setNewItemUnitPrice] = useState(0.0);
@@ -60,8 +62,8 @@ export default function NewInvoiceModal(props: {
 	useEffect(() => {
 		if (fields.length > 0) {
 			let total = 0;
-			for (let i = 0; i < fields.length; i++) {
-				total = total + fields[i].subTotal;
+			for (const field of fields) {
+				total = total + field.subTotal;
 			}
 			setValue("total", total);
 			setNewInvoiceTotal(total);
@@ -225,12 +227,12 @@ export default function NewInvoiceModal(props: {
 									{fields.length > 0 ? (
 										fields.map((field, index) => {
 											return (
-												<div
+												<button
 													onClick={() =>
 														remove(index)
 													}
 													key={field.id}
-													className="border-b-2 pb-4"
+													className="text-left border-b-2 pb-4"
 												>
 													<div>
 														<div className="font-bold">
@@ -274,7 +276,7 @@ export default function NewInvoiceModal(props: {
 															</div>
 														</div>
 													</div>
-												</div>
+												</button>
 											);
 										})
 									) : (

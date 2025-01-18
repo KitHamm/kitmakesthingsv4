@@ -4,17 +4,19 @@
 import { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/modal";
 import { useForm } from "react-hook-form";
-import { Button, CircularProgress } from "@nextui-org/react";
+import { Button, CircularProgress, modal } from "@nextui-org/react";
 // Functions
 import { sendMessage } from "../actions/MessageActions";
 // Types
 import { MessageState, ContactForm } from "@/lib/types";
 
-export default function ContactModal(props: {
-	onOpenChange: any;
-	isOpen: any;
-	onClose: any;
-}) {
+export default function ContactModal(
+	props: Readonly<{
+		onOpenChange: () => void;
+		isOpen: boolean;
+		onClose: () => void;
+	}>
+) {
 	const [sendingState, setSendingState] = useState<MessageState>(
 		MessageState.NONE
 	);
@@ -55,6 +57,15 @@ export default function ContactModal(props: {
 		}
 	}, [props.isOpen, reset]);
 
+	const modalTitle =
+		sendingState === MessageState.NONE
+			? "Contact"
+			: sendingState === MessageState.SUCCESS
+			? "Success!"
+			: sendingState === MessageState.SENDING
+			? "Sending..."
+			: "Oops!";
+
 	return (
 		<Modal
 			id="modal"
@@ -69,13 +80,7 @@ export default function ContactModal(props: {
 				{(onClose) => (
 					<>
 						<ModalHeader className="flex text-center text-4xl flex-col gap-1">
-							{sendingState === MessageState.NONE
-								? "Contact"
-								: sendingState === MessageState.SUCCESS
-								? "Success!"
-								: sendingState === MessageState.SENDING
-								? "Sending..."
-								: "Oops!"}
+							{modalTitle}
 						</ModalHeader>
 						<ModalBody>
 							{sendingState === MessageState.NONE && (
@@ -168,7 +173,7 @@ export default function ContactModal(props: {
 									<p className="text-sm">
 										By using this service you agree to the
 										terms set out in our{" "}
-										<span
+										<button
 											onClick={() => {
 												onClose();
 												window.location.href =
@@ -177,7 +182,7 @@ export default function ContactModal(props: {
 											className="text-green-500 cursor-pointer"
 										>
 											Privacy Policy
-										</span>
+										</button>
 										.
 									</p>
 

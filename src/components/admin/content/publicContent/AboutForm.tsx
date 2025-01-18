@@ -11,11 +11,15 @@ import { About, Images } from "@prisma/client";
 import { AboutContentForm } from "@/lib/types";
 import { updateAbout } from "@/server/contentActions/updateAbout";
 
-export default function AboutForm(props: {
+interface AboutFormProps {
 	aboutContent: About | null;
 	images: Images[];
-}) {
-	const { aboutContent, images } = props;
+}
+
+export default function AboutForm({
+	aboutContent,
+	images,
+}: Readonly<AboutFormProps>) {
 	const { isOpen, onOpenChange } = useDisclosure();
 	const [imageTarget, setImageTarget] = useState<
 		"image1Url" | "image2Url" | "image3Url" | "image4Url"
@@ -69,6 +73,44 @@ export default function AboutForm(props: {
 			.catch((err) => console.log(err));
 	};
 
+	const aboutImage1Url = about1Image
+		? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + about1Image
+		: "https://placehold.co/500x500.png";
+	const aboutImage2Url = about2Image
+		? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + about2Image
+		: "https://placehold.co/500x500.png";
+	const aboutImage3Url = about3Image
+		? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + about3Image
+		: "https://placehold.co/500x500.png";
+	const aboutImage4Url = about4Image
+		? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + about4Image
+		: "https://placehold.co/500x500.png";
+
+	const imageTitle1Placeholder = errors.title1
+		? errors.title1.message
+		: "Title 1";
+	const imageTitle1ClassName = errors.title1
+		? "placeholder:text-red-400"
+		: "";
+	const imageTitle2Placeholder = errors.title2
+		? errors.title2.message
+		: "Title 2";
+	const imageTitle2ClassName = errors.title2
+		? "placeholder:text-red-400"
+		: "";
+	const imageTitle3Placeholder = errors.title3
+		? errors.title3.message
+		: "Title 3";
+	const imageTitle3ClassName = errors.title3
+		? "placeholder:text-red-400"
+		: "";
+	const imageTitle4Placeholder = errors.title4
+		? errors.title4.message
+		: "Title 4";
+	const imageTitle4ClassName = errors.title4
+		? "placeholder:text-red-400"
+		: "";
+
 	return (
 		<>
 			<form
@@ -78,18 +120,13 @@ export default function AboutForm(props: {
 				<div className="grid grid-cols-2 gap-0 w-2/3 mx-auto">
 					<div className="relative mx-auto">
 						<Image
-							src={
-								about1Image
-									? process.env.NEXT_PUBLIC_BASE_IMAGE_URL +
-									  about1Image
-									: "https://placehold.co/500x500.png"
-							}
+							src={aboutImage1Url}
 							height={500}
 							width={500}
 							alt="About 1 Image"
 							className="w-full h-auto"
 						/>
-						<div
+						<button
 							onClick={() => {
 								setImageTarget("image1Url");
 								onOpenChange();
@@ -99,22 +136,17 @@ export default function AboutForm(props: {
 							<div className="my-auto font-bold text-white text-4xl">
 								Change
 							</div>
-						</div>
+						</button>
 					</div>
 					<div className="relative mx-auto">
 						<Image
-							src={
-								about2Image
-									? process.env.NEXT_PUBLIC_BASE_IMAGE_URL +
-									  about2Image
-									: "https://placehold.co/500x500.png"
-							}
+							src={aboutImage2Url}
 							height={500}
 							width={500}
 							alt="About 2 Image"
 							className="w-full h-auto"
 						/>
-						<div
+						<button
 							onClick={() => {
 								setImageTarget("image2Url");
 								onOpenChange();
@@ -124,22 +156,17 @@ export default function AboutForm(props: {
 							<div className="my-auto font-bold text-white text-4xl">
 								Change
 							</div>
-						</div>
+						</button>
 					</div>
 					<div className="relative mx-auto">
 						<Image
-							src={
-								about3Image
-									? process.env.NEXT_PUBLIC_BASE_IMAGE_URL +
-									  about3Image
-									: "https://placehold.co/500x500.png"
-							}
+							src={aboutImage3Url}
 							height={500}
 							width={500}
 							alt="About 3 Image"
 							className="w-full h-auto"
 						/>
-						<div
+						<button
 							onClick={() => {
 								setImageTarget("image3Url");
 								onOpenChange();
@@ -149,22 +176,17 @@ export default function AboutForm(props: {
 							<div className="my-auto font-bold text-white text-4xl">
 								Change
 							</div>
-						</div>
+						</button>
 					</div>
 					<div className="relative mx-auto">
 						<Image
-							src={
-								about4Image
-									? process.env.NEXT_PUBLIC_BASE_IMAGE_URL +
-									  about4Image
-									: "https://placehold.co/500x500.png"
-							}
+							src={aboutImage4Url}
 							height={500}
 							width={500}
 							alt="About 4 Image"
 							className="w-full h-auto"
 						/>
-						<div
+						<button
 							onClick={() => {
 								setImageTarget("image4Url");
 								onOpenChange();
@@ -174,7 +196,7 @@ export default function AboutForm(props: {
 							<div className="my-auto font-bold text-white text-4xl">
 								Change
 							</div>
-						</div>
+						</button>
 					</div>
 				</div>
 				<div>
@@ -190,12 +212,8 @@ export default function AboutForm(props: {
 									message: "Title is required.",
 								},
 							})}
-							placeholder={
-								errors.title1 ? errors.title1.message : "Title"
-							}
-							className={
-								errors.title1 ? "placeholder:text-red-400" : ""
-							}
+							placeholder={imageTitle1Placeholder}
+							className={imageTitle1ClassName}
 						/>
 						<input
 							type="text"
@@ -205,12 +223,8 @@ export default function AboutForm(props: {
 									message: "Title is required.",
 								},
 							})}
-							placeholder={
-								errors.title2 ? errors.title2.message : "Title"
-							}
-							className={
-								errors.title2 ? "placeholder:text-red-400" : ""
-							}
+							placeholder={imageTitle2Placeholder}
+							className={imageTitle2ClassName}
 						/>
 						<input
 							type="text"
@@ -220,12 +234,8 @@ export default function AboutForm(props: {
 									message: "Title is required.",
 								},
 							})}
-							placeholder={
-								errors.title3 ? errors.title3.message : "Title"
-							}
-							className={
-								errors.title3 ? "placeholder:text-red-400" : ""
-							}
+							placeholder={imageTitle3Placeholder}
+							className={imageTitle3ClassName}
 						/>
 						<input
 							type="text"
@@ -235,12 +245,8 @@ export default function AboutForm(props: {
 									message: "Title is required.",
 								},
 							})}
-							placeholder={
-								errors.title4 ? errors.title4.message : "Title"
-							}
-							className={
-								errors.title4 ? "placeholder:text-red-400" : ""
-							}
+							placeholder={imageTitle4Placeholder}
+							className={imageTitle4ClassName}
 						/>
 					</div>
 				</div>

@@ -22,7 +22,9 @@ import { itemOrder } from "@/lib/utils/contentUtils/sortUtils";
 // types
 import { Images } from "@prisma/client";
 
-export default function ProjectImageSelect(props: { images: Images[] }) {
+export default function ProjectImageSelect(
+	props: Readonly<{ images: Images[] }>
+) {
 	const { images } = props;
 	const { control } = useFormContext();
 	const { fields, append, remove } = useFieldArray({
@@ -62,7 +64,7 @@ export default function ProjectImageSelect(props: { images: Images[] }) {
 			<div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-8">
 				{fields.map((image: { url: string }, index: number) => {
 					return (
-						<div
+						<button
 							onClick={() => remove(index)}
 							className="cursor-pointer"
 							key={image.url}
@@ -76,7 +78,7 @@ export default function ProjectImageSelect(props: { images: Images[] }) {
 									image.url
 								}
 							/>
-						</div>
+						</button>
 					);
 				})}
 			</div>
@@ -261,7 +263,7 @@ export default function ProjectImageSelect(props: { images: Images[] }) {
 															alt={image.url}
 															className="w-full h-auto m-auto"
 														/>
-														<div
+														<button
 															onClick={() => {
 																append({
 																	url: image.url,
@@ -273,7 +275,7 @@ export default function ProjectImageSelect(props: { images: Images[] }) {
 															<div className="text-white text-xl font-bold">
 																Select
 															</div>
-														</div>
+														</button>
 													</div>
 												);
 											}

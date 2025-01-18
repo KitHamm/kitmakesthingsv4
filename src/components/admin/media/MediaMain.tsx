@@ -19,7 +19,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function MediaMain(props: { images: Images[] }) {
+export default function MediaMain(props: Readonly<{ images: Images[] }>) {
 	const [uploading, setUploading] = useState(false);
 	const [uploadProgress, setUploadProgress] = useState(0);
 	const [imageToUpload, setImageToUpload] = useState<File | null>(null);
@@ -59,7 +59,6 @@ export default function MediaMain(props: { images: Images[] }) {
 		setUploadProgress(0);
 		if (file.type.split("/")[0] !== "image") {
 			setUploading(false);
-			return;
 		} else {
 			const formData = new FormData();
 			formData.append("file", file);
@@ -123,7 +122,7 @@ export default function MediaMain(props: { images: Images[] }) {
 									height={400}
 									className="w-full h-auto my-auto"
 								/>
-								<div
+								<button
 									onClick={(e) => {
 										setSelectedImage(image.url);
 										onOpen();
@@ -133,7 +132,7 @@ export default function MediaMain(props: { images: Images[] }) {
 									<div className="my-auto font-bold text-white text-4xl">
 										Edit
 									</div>
-								</div>
+								</button>
 							</div>
 						);
 					})
@@ -169,8 +168,8 @@ export default function MediaMain(props: { images: Images[] }) {
 									variant="light"
 									onPress={() => {
 										deleteFile(selectedImage);
-										// onClose();
-										// setSelectedImage("");
+										onClose();
+										setSelectedImage("");
 									}}
 								>
 									Delete
