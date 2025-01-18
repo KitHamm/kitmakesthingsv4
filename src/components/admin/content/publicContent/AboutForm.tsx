@@ -10,6 +10,7 @@ import ContentImageModal from "../../shared/ContentImageModal";
 import { About, Images } from "@prisma/client";
 import { AboutContentForm } from "@/lib/types";
 import { updateAbout } from "@/server/contentActions/updateAbout";
+import { get } from "http";
 
 interface AboutFormProps {
 	aboutContent: About | null;
@@ -73,43 +74,45 @@ export default function AboutForm({
 			.catch((err) => console.log(err));
 	};
 
-	const aboutImage1Url = about1Image
-		? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + about1Image
-		: "https://placehold.co/500x500.png";
-	const aboutImage2Url = about2Image
-		? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + about2Image
-		: "https://placehold.co/500x500.png";
-	const aboutImage3Url = about3Image
-		? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + about3Image
-		: "https://placehold.co/500x500.png";
-	const aboutImage4Url = about4Image
-		? process.env.NEXT_PUBLIC_BASE_IMAGE_URL + about4Image
-		: "https://placehold.co/500x500.png";
+	function getImageUrl(image: string) {
+		if (!image) return "https://placehold.co/500x500.png";
+		return process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image;
+	}
 
-	const imageTitle1Placeholder = errors.title1
-		? errors.title1.message
-		: "Title 1";
-	const imageTitle1ClassName = errors.title1
-		? "placeholder:text-red-400"
-		: "";
-	const imageTitle2Placeholder = errors.title2
-		? errors.title2.message
-		: "Title 2";
-	const imageTitle2ClassName = errors.title2
-		? "placeholder:text-red-400"
-		: "";
-	const imageTitle3Placeholder = errors.title3
-		? errors.title3.message
-		: "Title 3";
-	const imageTitle3ClassName = errors.title3
-		? "placeholder:text-red-400"
-		: "";
-	const imageTitle4Placeholder = errors.title4
-		? errors.title4.message
-		: "Title 4";
-	const imageTitle4ClassName = errors.title4
-		? "placeholder:text-red-400"
-		: "";
+	function getPlaceholderText(
+		target:
+			| "title1"
+			| "title2"
+			| "title3"
+			| "title4"
+			| "title"
+			| "text1"
+			| "text2"
+			| "copy",
+		placeholder: string
+	) {
+		if (errors[target]) {
+			return errors[target].message;
+		}
+		return placeholder;
+	}
+
+	function getClassName(
+		target:
+			| "title1"
+			| "title2"
+			| "title3"
+			| "title4"
+			| "title"
+			| "text1"
+			| "text2"
+			| "copy"
+	) {
+		if (errors[target]) {
+			return "placeholder:text-red-400";
+		}
+		return undefined;
+	}
 
 	return (
 		<>
@@ -120,7 +123,7 @@ export default function AboutForm({
 				<div className="grid grid-cols-2 gap-0 w-2/3 mx-auto">
 					<div className="relative mx-auto">
 						<Image
-							src={aboutImage1Url}
+							src={getImageUrl(about1Image)}
 							height={500}
 							width={500}
 							alt="About 1 Image"
@@ -140,7 +143,7 @@ export default function AboutForm({
 					</div>
 					<div className="relative mx-auto">
 						<Image
-							src={aboutImage2Url}
+							src={getImageUrl(about2Image)}
 							height={500}
 							width={500}
 							alt="About 2 Image"
@@ -160,7 +163,7 @@ export default function AboutForm({
 					</div>
 					<div className="relative mx-auto">
 						<Image
-							src={aboutImage3Url}
+							src={getImageUrl(about3Image)}
 							height={500}
 							width={500}
 							alt="About 3 Image"
@@ -180,7 +183,7 @@ export default function AboutForm({
 					</div>
 					<div className="relative mx-auto">
 						<Image
-							src={aboutImage4Url}
+							src={getImageUrl(about4Image)}
 							height={500}
 							width={500}
 							alt="About 4 Image"
@@ -212,8 +215,11 @@ export default function AboutForm({
 									message: "Title is required.",
 								},
 							})}
-							placeholder={imageTitle1Placeholder}
-							className={imageTitle1ClassName}
+							placeholder={getPlaceholderText(
+								"title1",
+								"Title 1"
+							)}
+							className={getClassName("title1")}
 						/>
 						<input
 							type="text"
@@ -223,8 +229,11 @@ export default function AboutForm({
 									message: "Title is required.",
 								},
 							})}
-							placeholder={imageTitle2Placeholder}
-							className={imageTitle2ClassName}
+							placeholder={getPlaceholderText(
+								"title2",
+								"Title 2"
+							)}
+							className={getClassName("title2")}
 						/>
 						<input
 							type="text"
@@ -234,8 +243,11 @@ export default function AboutForm({
 									message: "Title is required.",
 								},
 							})}
-							placeholder={imageTitle3Placeholder}
-							className={imageTitle3ClassName}
+							placeholder={getPlaceholderText(
+								"title3",
+								"Title 3"
+							)}
+							className={getClassName("title3")}
 						/>
 						<input
 							type="text"
@@ -245,8 +257,11 @@ export default function AboutForm({
 									message: "Title is required.",
 								},
 							})}
-							placeholder={imageTitle4Placeholder}
-							className={imageTitle4ClassName}
+							placeholder={getPlaceholderText(
+								"title4",
+								"Title 4"
+							)}
+							className={getClassName("title4")}
 						/>
 					</div>
 				</div>
@@ -262,12 +277,8 @@ export default function AboutForm({
 								message: "Title is required.",
 							},
 						})}
-						placeholder={
-							errors.title ? errors.title.message : "Title"
-						}
-						className={
-							errors.title ? "placeholder:text-red-400" : ""
-						}
+						placeholder={getPlaceholderText("title", "Title")}
+						className={getClassName("title")}
 					/>
 				</div>
 				<div className="flex justify-between gap-8">
@@ -283,12 +294,8 @@ export default function AboutForm({
 									message: "Text is required.",
 								},
 							})}
-							placeholder={
-								errors.text1 ? errors.text1.message : "Text 1"
-							}
-							className={
-								errors.text1 ? "placeholder:text-red-400" : ""
-							}
+							placeholder={getPlaceholderText("text1", "Text 1")}
+							className={getClassName("text1")}
 						/>
 					</div>
 					<div className="w-1/2">
@@ -303,12 +310,8 @@ export default function AboutForm({
 									message: "Text is required.",
 								},
 							})}
-							placeholder={
-								errors.text2 ? errors.text2.message : "Text 2"
-							}
-							className={
-								errors.text2 ? "placeholder:text-red-400" : ""
-							}
+							placeholder={getPlaceholderText("text2", "Text 2")}
+							className={getClassName("text2")}
 						/>
 					</div>
 				</div>
@@ -321,10 +324,8 @@ export default function AboutForm({
 							copyRef(e);
 							copyTextArea.current = e;
 						}}
-						placeholder={errors.copy ? errors.copy.message : "Copy"}
-						className={
-							errors.copy ? "placeholder:text-red-400" : ""
-						}
+						placeholder={getPlaceholderText("copy", "Copy")}
+						className={getClassName("copy")}
 						{...copyRest}
 					/>
 				</div>
