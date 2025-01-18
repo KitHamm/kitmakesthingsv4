@@ -1,12 +1,10 @@
 "use client";
 
-import { createClient, deleteClient } from "@/components/actions/ClientActions";
 import { createInvoice } from "@/components/actions/InvoiceActions";
-import { ClientForm, InvoiceForm } from "@/lib/types";
+import { InvoiceForm } from "@/lib/types";
 import {
 	Button,
 	DatePicker,
-	DateValue,
 	Modal,
 	ModalBody,
 	ModalContent,
@@ -20,8 +18,9 @@ import { Client } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import Markdown from "react-markdown";
+import NewItemModal from "./InvoiceItemModal";
 
-export default function InvoiceTopModals(props: {
+export default function NewInvoiceModal(props: {
 	clients: Client[];
 	referencePlaceholder: string;
 }) {
@@ -32,28 +31,11 @@ export default function InvoiceTopModals(props: {
 	const [newInvoiceTotal, setNewInvoiceTotal] = useState(0.0);
 	const {
 		isOpen: isOpenNewInvoice,
-		onOpen: onOpenNewInvoice,
 		onOpenChange: onOpenChangeNewInvoice,
 		onClose: onCloseNewInvoice,
 	} = useDisclosure();
-	const {
-		isOpen: isOpenNewItem,
-		onOpen: onOpenNewItem,
-		onOpenChange: onOpenChangeNewItem,
-		onClose: onCloseNewItem,
-	} = useDisclosure();
-	const {
-		isOpen: isOpenManageClients,
-		onOpen: onOpenManageClients,
-		onOpenChange: onOpenChangeManageClients,
-		onClose: onCloseManageClients,
-	} = useDisclosure();
-	const {
-		isOpen: isOpenNewClient,
-		onOpen: onOpenNewClient,
-		onOpenChange: onOpenChangeNewClient,
-		onClose: onCloseNewClient,
-	} = useDisclosure();
+	const { isOpen: isOpenNewItem, onOpenChange: onOpenChangeNewItem } =
+		useDisclosure();
 
 	const invoiceForm = useForm<InvoiceForm>({
 		defaultValues: {
@@ -61,12 +43,6 @@ export default function InvoiceTopModals(props: {
 		},
 	});
 
-	const clientForm = useForm<ClientForm>({
-		defaultValues: {
-			name: "",
-			address: "",
-		},
-	});
 	const { register, reset, formState, handleSubmit, control, setValue } =
 		invoiceForm;
 	const { errors } = formState;
@@ -74,14 +50,6 @@ export default function InvoiceTopModals(props: {
 		name: "items",
 		control,
 	});
-
-	const {
-		register: registerClient,
-		reset: resetClient,
-		handleSubmit: handleSubmitClient,
-		formState: formStateClient,
-	} = clientForm;
-	const { errors: errorsClient } = formStateClient;
 
 	useEffect(() => {
 		if (newItemQuantity > 0 && newItemUnitPrice > 0) {
@@ -124,15 +92,6 @@ export default function InvoiceTopModals(props: {
 			})
 			.catch((err) => console.log(err));
 	}
-
-	function submitClient(data: ClientForm) {
-		createClient(data)
-			.then(() => {
-				onCloseNewClient();
-				resetClient();
-			})
-			.catch((err) => console.log(err));
-	}
 	return (
 		<>
 			<div className="mb-6 flex flex-col lg:flex-row gap-4">
@@ -143,14 +102,6 @@ export default function InvoiceTopModals(props: {
 					className="bg-green-500 w-full lg:w-auto"
 				>
 					New Invoice
-				</Button>
-				<Button
-					onPress={() => {
-						onOpenChangeManageClients();
-					}}
-					className="bg-green-500 w-full lg:w-auto"
-				>
-					Manage Clients
 				</Button>
 			</div>
 			<Modal
@@ -330,14 +281,7 @@ export default function InvoiceTopModals(props: {
 										<div>No Items</div>
 									)}
 									<div className="flex justify-between">
-										<Button
-											onPress={() =>
-												onOpenChangeNewItem()
-											}
-											className="bg-green-500"
-										>
-											Add Item
-										</Button>
+										<NewItemModal append={append} />
 										<div className="flex gap-2 my-auto">
 											<div className="font-bold">
 												Total:
@@ -481,170 +425,6 @@ export default function InvoiceTopModals(props: {
 									}}
 								>
 									Action
-								</Button>
-							</ModalFooter>
-						</>
-					)}
-				</ModalContent>
-			</Modal>
-			<Modal
-				isDismissable={false}
-				isOpen={isOpenNewClient}
-				onOpenChange={onOpenChangeNewClient}
-			>
-				<ModalContent>
-					{(onClose) => (
-						<>
-							<ModalHeader className="flex flex-col gap-1">
-								New Client
-							</ModalHeader>
-							<form onSubmit={handleSubmitClient(submitClient)}>
-								<ModalBody>
-									<div>
-										<label
-											className="font-bold"
-											htmlFor="name"
-										>
-											Client Name:
-										</label>
-										<input
-											type="text"
-											{...registerClient("name", {
-												required: {
-													value: true,
-													message:
-														"Client Name is required.",
-												},
-											})}
-											placeholder={
-												errorsClient.name
-													? errorsClient.name.message
-													: "Client Name"
-											}
-											className={
-												errorsClient.name
-													? "placeholder:text-red-500"
-													: ""
-											}
-										/>
-									</div>
-									<div>
-										<label
-											className="font-bold"
-											htmlFor="name"
-										>
-											Client Address:
-										</label>
-										<textarea
-											{...registerClient("address", {
-												required: {
-													value: true,
-													message:
-														"Address is required.",
-												},
-											})}
-											placeholder={
-												errorsClient.address
-													? errorsClient.address
-															.message
-													: "Client address"
-											}
-											className={
-												errorsClient.address
-													? "placeholder:text-red-500"
-													: ""
-											}
-										/>
-									</div>
-								</ModalBody>
-								<ModalFooter>
-									<Button
-										type="button"
-										color="danger"
-										variant="light"
-										onPress={() => {
-											onClose();
-											resetClient();
-										}}
-									>
-										Close
-									</Button>
-									<Button
-										className="bg-green-500"
-										type="submit"
-									>
-										Submit
-									</Button>
-								</ModalFooter>
-							</form>
-						</>
-					)}
-				</ModalContent>
-			</Modal>
-			<Modal
-				isDismissable={false}
-				isOpen={isOpenManageClients}
-				onOpenChange={onOpenChangeManageClients}
-			>
-				<ModalContent>
-					{(onClose) => (
-						<>
-							<ModalHeader className="flex flex-col gap-1">
-								Manage Clients
-							</ModalHeader>
-							<div className="px-4">
-								{props.clients.map(
-									(client: Client, index: number) => {
-										return (
-											<div
-												className="border-b-2 py-2 flex justify-between"
-												key={client.id}
-											>
-												<div className="font-bold my-auto">
-													{client.name}
-												</div>
-												<Button
-													onPress={() => {
-														deleteClient(client.id)
-															.then(() => {
-																onCloseManageClients();
-															})
-															.catch((err) => {
-																console.log(
-																	err
-																);
-															});
-													}}
-													color="danger"
-													variant="light"
-												>
-													Delete
-												</Button>
-											</div>
-										);
-									}
-								)}
-							</div>
-							<ModalBody></ModalBody>
-							<ModalFooter>
-								<Button
-									type="button"
-									color="danger"
-									variant="light"
-									onPress={() => {
-										onClose();
-										resetClient();
-									}}
-								>
-									Close
-								</Button>
-								<Button
-									className="bg-green-500"
-									onPress={() => {
-										onOpenChangeNewClient();
-									}}
-								>
-									New Client
 								</Button>
 							</ModalFooter>
 						</>

@@ -57,7 +57,7 @@ export default function TechStackIcons() {
 				>
 					<Image
 						className="mx-auto w-8 lg:w-14 lg:h-14"
-						src={logo.url}
+						src={"/logos/" + logo.url}
 						width={75}
 						height={75}
 						alt={logo.name}
