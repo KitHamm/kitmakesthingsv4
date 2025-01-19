@@ -13,10 +13,8 @@ import {
 import Markdown from "react-markdown";
 import { formatDate } from "@/lib/functions";
 import { InvoiceItem } from "@prisma/client";
-import {
-	deleteInvoice,
-	updateInvoicePaid,
-} from "@/components/actions/InvoiceActions";
+import { deleteInvoice } from "@/server/invoiceActions/deleteInvoice";
+import { updateInvoicePaid } from "@/server/invoiceActions/updateInvoicePaid";
 import { InvoiceWithClientAndItems } from "@/lib/types";
 import { generatePDF } from "@/components/actions/InvoicePDF";
 
@@ -30,10 +28,23 @@ export default function ViewInvoiceModal() {
 	} = useContext(InvoiceStateContext);
 
 	function updatePaid() {
-		updateInvoicePaid(
-			selectedInvoice.reference,
-			!selectedInvoice.paid
-		).catch((err) => console.log(err));
+		updateInvoicePaid(selectedInvoice.reference, !selectedInvoice.paid)
+			.then((res) => {
+				if (res.status === 400) console.log(res.message);
+			})
+			.catch((err) => console.log(err));
+	}
+
+	function handleDeleteInvoice(reference: string) {
+		deleteInvoice(reference)
+			.then((res) => {
+				if (res.status === 200) {
+					onOpenChangeViewInvoice(false);
+				} else {
+					console.log(res.message);
+				}
+			})
+			.catch((err) => console.log(err));
 	}
 
 	return (
@@ -169,16 +180,9 @@ export default function ViewInvoiceModal() {
 									color="danger"
 									variant="light"
 									onPress={() => {
-										onClose();
-										deleteInvoice(selectedInvoice.reference)
-											.then(() => {
-												setSelectedInvoice(
-													{} as InvoiceWithClientAndItems
-												);
-											})
-											.catch((err) => {
-												console.log(err);
-											});
+										handleDeleteInvoice(
+											selectedInvoice.reference
+										);
 									}}
 								>
 									Delete

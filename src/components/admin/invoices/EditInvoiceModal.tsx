@@ -19,7 +19,7 @@ import { InvoiceForm } from "@/lib/types";
 import { Client } from "@prisma/client";
 import { parseDate } from "@internationalized/date";
 import Markdown from "react-markdown";
-import { updateInvoice } from "@/components/actions/InvoiceActions";
+import { updateInvoice } from "@/server/invoiceActions/updateInvoice";
 
 export default function EditInvoiceModal(
 	props: Readonly<{ clients: Client[] }>
@@ -122,8 +122,12 @@ export default function EditInvoiceModal(
 
 	function handleUpdateInvoice(data: InvoiceForm) {
 		updateInvoice(data)
-			.then(() => {
-				onOpenChangeEditInvoice(false);
+			.then((res) => {
+				if (res.status === 200) {
+					onOpenChangeEditInvoice(false);
+				} else {
+					console.log(res.message);
+				}
 			})
 			.catch((err) => console.log(err));
 	}
