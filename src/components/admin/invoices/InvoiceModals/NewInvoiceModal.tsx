@@ -2,7 +2,6 @@
 
 import {
 	Button,
-	DatePicker,
 	Modal,
 	ModalBody,
 	ModalContent,
@@ -261,12 +260,14 @@ export default function NewInvoiceModal(
 	);
 }
 
-function TextInput(props: {
-	label: string;
-	target: keyof InvoiceForm;
-	register: UseFormRegister<InvoiceForm>;
-	errors: FieldErrors<InvoiceForm>;
-}) {
+function TextInput(
+	props: Readonly<{
+		label: string;
+		target: keyof InvoiceForm;
+		register: UseFormRegister<InvoiceForm>;
+		errors: FieldErrors<InvoiceForm>;
+	}>
+) {
 	const { label, target, register, errors } = props;
 	return (
 		<div className="lg:w-1/2">
