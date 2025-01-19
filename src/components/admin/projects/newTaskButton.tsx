@@ -1,6 +1,6 @@
 "use client";
 
-import { addNewTask } from "@/components/actions/WorkingProjectActions";
+import { addNewTask } from "@/server/projectTrackerActions/addNewTask";
 import {
 	Modal,
 	ModalContent,
@@ -35,10 +35,15 @@ export default function NewTask(props: Readonly<{ projectId: string }>) {
 			setFormError("Please select a priority.");
 		} else {
 			addNewTask(data)
-				.then(() => {
-					reset();
-					onOpenChange();
-					setFormError("");
+				.then((res) => {
+					if (res.status === 200) {
+						reset();
+						onOpenChange();
+						setFormError("");
+					} else {
+						console.log(res.message);
+						setFormError("Something went wrong.");
+					}
 				})
 				.catch((err) => {
 					console.log(err);

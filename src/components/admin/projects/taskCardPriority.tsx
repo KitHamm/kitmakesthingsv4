@@ -1,7 +1,7 @@
 "use client";
 
-import { updateTaskPriority } from "@/components/actions/WorkingProjectActions";
-import { Select, SelectItem } from "@nextui-org/react";
+import { updateTaskPriority } from "@/server/projectTrackerActions/updateTaskPriority";
+import { Select, SelectItem, SharedSelection } from "@nextui-org/react";
 import { PriorityType } from "@/lib/types";
 import { TaskPriority } from "@prisma/client";
 import { useEffect, useState } from "react";
@@ -33,33 +33,25 @@ export default function TaskCardPriority(
 		setValue(new Set([props.priority]));
 	}, [props.priority]);
 
-	function handleChange(value: string) {
-		switch (value) {
-			case "LOW":
-				updateTaskPriority(props.id, TaskPriority.LOW).catch((err) =>
-					console.log(err)
-				);
-				return;
-			case "MEDIUM":
-				updateTaskPriority(props.id, TaskPriority.MEDIUM).catch((err) =>
-					console.log(err)
-				);
-				return;
-			case "HIGH":
-				updateTaskPriority(props.id, TaskPriority.HIGH).catch((err) =>
-					console.log(err)
-				);
-				return;
-			default:
-				return;
-		}
+	function handleChange(e: SharedSelection) {
+		if (!e.anchorKey || !Object.keys(TaskPriority).includes(e.anchorKey))
+			return;
+
+		const taskPriority =
+			TaskPriority[e.anchorKey as keyof typeof TaskPriority];
+
+		updateTaskPriority(props.id, taskPriority)
+			.then((res) => {
+				if (res.status === 400) console.log(res.message);
+			})
+			.catch((err) => console.log(err));
 	}
 
 	return (
 		<Select
 			classNames={{ trigger: "bg-white" }}
 			selectedKeys={value}
-			onChange={(e) => handleChange(e.target.value)}
+			onSelectionChange={(e) => handleChange(e)}
 			label="Priority"
 			placeholder="Select a priority"
 		>

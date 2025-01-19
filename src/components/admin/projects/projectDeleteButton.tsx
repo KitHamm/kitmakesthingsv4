@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteProject } from "@/components/actions/WorkingProjectActions";
+import { deleteProject } from "@/server/projectTrackerActions/deleteProject";
 import {
 	Modal,
 	ModalContent,
@@ -16,8 +16,12 @@ export default function ProjectDeleteButton(props: Readonly<{ id: string }>) {
 
 	function onDelete() {
 		deleteProject(props.id)
-			.then(() => {
-				window.location.href = "/dashboard/projects";
+			.then((res) => {
+				if (res.status === 200) {
+					window.location.href = "/dashboard/projects";
+				} else {
+					console.log(res.message);
+				}
 			})
 			.catch((err) => console.log(err));
 	}
