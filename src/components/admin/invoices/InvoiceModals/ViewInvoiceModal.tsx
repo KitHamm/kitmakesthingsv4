@@ -24,7 +24,6 @@ export default function ViewInvoiceModal() {
 		setSelectedInvoice,
 		isOpenViewInvoice,
 		onOpenChangeViewInvoice,
-		onOpenEditInvoice,
 	} = useContext(InvoiceStateContext);
 
 	function updatePaid() {
@@ -151,20 +150,6 @@ export default function ViewInvoiceModal() {
 										: "justify-between"
 								} flex gap-2`}
 							>
-								{!selectedInvoice.paid && (
-									<div>
-										<Button
-											className="bg-green-500"
-											onPress={() => {
-												onOpenEditInvoice();
-												onClose();
-											}}
-										>
-											Edit Invoice
-										</Button>
-									</div>
-								)}
-
 								<div className="flex gap-2 my-auto">
 									<div className="font-bold">Total:</div>
 									<div>
