@@ -28,28 +28,28 @@ export default function ContactModal(
 		setSendingState(MessageState.SENDING);
 		createMessage(data)
 			.then((res) => {
-				if (res.status === 200) {
-					handleSendingState(MessageState.SUCCESS);
-				} else {
-					handleSendingState(MessageState.ERROR);
-				}
+				const nextState =
+					res.status === 200
+						? MessageState.SUCCESS
+						: MessageState.ERROR;
+				updateSendingState(nextState);
 			})
 			.catch((err) => {
 				console.error(err);
-				handleSendingState(MessageState.ERROR);
+				updateSendingState(MessageState.ERROR);
 			});
 	}
 
-	const handleSendingState = (state: MessageState) => {
+	const updateSendingState = (state: MessageState) => {
 		setTimeout(() => {
 			setSendingState(state);
 			if (state === MessageState.SUCCESS) {
-				resetStateAfterDelay();
+				resetStateWithDelay();
 			}
 		}, 2000);
 	};
 
-	const resetStateAfterDelay = () => {
+	const resetStateWithDelay = () => {
 		setTimeout(() => {
 			reset();
 			setSendingState(MessageState.NONE);
