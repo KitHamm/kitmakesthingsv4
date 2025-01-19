@@ -10,7 +10,8 @@ import {
 	useDisclosure,
 } from "@nextui-org/react";
 import { Client } from "@prisma/client";
-import { createClient, deleteClient } from "../actions/ClientActions";
+import { deleteClient } from "@/server/clientActions/deleteClient";
+import { createClient } from "@/server/clientActions/createClient";
 import { useForm } from "react-hook-form";
 import { ClientForm } from "@/lib/types";
 
@@ -44,11 +45,25 @@ export default function ManageClientsButton(
 
 	function submitClient(data: ClientForm) {
 		createClient(data)
-			.then(() => {
-				onCloseNewClient();
-				resetClient();
+			.then((res) => {
+				if (res.status === 200) {
+					onCloseNewClient();
+					resetClient();
+				} else {
+					console.log(res.message);
+				}
 			})
 			.catch((err) => console.log(err));
+	}
+
+	function handleDeleteClient(id: string) {
+		deleteClient(id).then((res) => {
+			if (res.status === 200) {
+				onCloseManageClients();
+			} else {
+				console.log(res.message);
+			}
+		});
 	}
 
 	return (
@@ -73,30 +88,29 @@ export default function ManageClientsButton(
 								Manage Clients
 							</ModalHeader>
 							<div className="px-4">
-								{props.clients.map(
-									(client: Client, index: number) => {
-										return (
-											<div
-												className="border-b-2 py-2 flex justify-between"
-												key={client.id}
-											>
-												<div className="font-bold my-auto">
-													{client.name}
-												</div>
-												<Button
-													onPress={() => {
-														onCloseManageClients();
-														deleteClient(client.id);
-													}}
-													color="danger"
-													variant="light"
-												>
-													Delete
-												</Button>
+								{props.clients.map((client: Client) => {
+									return (
+										<div
+											className="border-b-2 py-2 flex justify-between"
+											key={client.id}
+										>
+											<div className="font-bold my-auto">
+												{client.name}
 											</div>
-										);
-									}
-								)}
+											<Button
+												onPress={() => {
+													handleDeleteClient(
+														client.id
+													);
+												}}
+												color="danger"
+												variant="light"
+											>
+												Delete
+											</Button>
+										</div>
+									);
+								})}
 							</div>
 							<ModalBody></ModalBody>
 							<ModalFooter>

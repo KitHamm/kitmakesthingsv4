@@ -12,22 +12,9 @@ export async function createClient(data: ClientForm) {
 				address: data.address,
 			},
 		});
-
-		return Promise.resolve();
-	} catch (error: any) {
-		return Promise.reject(new Error(error));
-	} finally {
 		revalidatePath("/dashboard/invoices");
-	}
-}
-
-export async function deleteClient(clientId: string) {
-	try {
-		await prisma.client.delete({ where: { id: clientId } });
-		return Promise.resolve();
+		return { status: 200, message: "created" };
 	} catch (error: any) {
-		return Promise.reject(new Error(error));
-	} finally {
-		revalidatePath("/dashboard/invoices");
+		return { status: 400, message: error };
 	}
 }

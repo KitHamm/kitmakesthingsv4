@@ -4,7 +4,8 @@ import CustomModal from "./CustomModal";
 import ClientList from "./ClientList";
 import ClientFormComponent from "./ClientForm";
 import { useState } from "react";
-import { createClient, deleteClient } from "@/components/actions/ClientActions";
+import { createClient } from "@/server/clientActions/createClient";
+import { deleteClient } from "@/server/clientActions/deleteClient";
 import { Client } from "@prisma/client";
 import { ClientForm } from "@/lib/types";
 
@@ -20,7 +21,13 @@ export default function ManageClientsButton(
 	const closeModal = () => setCurrentModal(null);
 
 	const handleCreateClient = (data: ClientForm) => {
-		createClient(data).catch(console.error);
+		createClient(data)
+			.then((res) => {
+				if (res.status === 400) {
+					console.log(res.message);
+				}
+			})
+			.catch(console.error);
 	};
 
 	const handleDeleteClient = (id: string) => {
