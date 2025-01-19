@@ -1,6 +1,5 @@
 "use client";
 
-import { revalidateMedia } from "@/components/actions/MediaActions";
 import {
 	Button,
 	CircularProgress,
@@ -68,7 +67,6 @@ export default function UploadImageModal() {
 						setUploading(false);
 						setImageToUpload(null);
 						onCloseUpload();
-						revalidateMedia();
 					}
 				})
 				.catch((err) => console.log(err));

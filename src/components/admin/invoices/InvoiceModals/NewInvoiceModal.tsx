@@ -1,7 +1,5 @@
 "use client";
 
-import { createInvoice } from "@/components/actions/InvoiceActions";
-import { InvoiceForm } from "@/lib/types";
 import {
 	Button,
 	DatePicker,
@@ -14,11 +12,13 @@ import {
 	SelectItem,
 	useDisclosure,
 } from "@nextui-org/react";
-import { Client } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import Markdown from "react-markdown";
+import { createInvoice } from "@/server/invoiceActions/createInvoice";
 import NewItemModal from "./InvoiceItemModal";
+import { Client } from "@prisma/client";
+import { InvoiceForm } from "@/lib/types";
 
 export default function NewInvoiceModal(
 	props: Readonly<{
@@ -88,9 +88,13 @@ export default function NewInvoiceModal(
 
 	function submitInvoice(data: InvoiceForm) {
 		createInvoice(data)
-			.then(() => {
-				onCloseNewInvoice();
-				resetForm();
+			.then((res) => {
+				if (res.status === 200) {
+					onCloseNewInvoice();
+					resetForm();
+				} else {
+					console.log(res.message);
+				}
 			})
 			.catch((err) => console.log(err));
 	}

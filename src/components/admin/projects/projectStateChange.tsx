@@ -1,6 +1,6 @@
 "use client";
 
-import { updateProjectState } from "@/components/actions/WorkingProjectActions";
+import { updateProjectState } from "@/server/projectTrackerActions/updateProjectState";
 import { Select, SelectItem, SharedSelection } from "@nextui-org/react";
 import { ProjectState } from "@prisma/client";
 import { useState } from "react";
@@ -20,28 +20,18 @@ export default function ProjectStateChange(
 	const [value, setValue] = useState(new Set([props.state]));
 
 	function handleChange(e: SharedSelection) {
-		switch (e.anchorKey) {
-			case "PROPOSED":
-				setValue(new Set([ProjectState.PROPOSED]));
-				updateProjectState(props.id, ProjectState.PROPOSED).catch(
-					(err) => console.log(err)
-				);
-				return;
-			case "STARTED":
-				setValue(new Set([ProjectState.STARTED]));
-				updateProjectState(props.id, ProjectState.STARTED).catch(
-					(err) => console.log(err)
-				);
-				return;
-			case "FINISHED":
-				setValue(new Set([ProjectState.FINISHED]));
-				updateProjectState(props.id, ProjectState.FINISHED).catch(
-					(err) => console.log(err)
-				);
-				return;
-			default:
-				return;
-		}
+		if (!e.anchorKey || !Object.keys(ProjectState).includes(e.anchorKey))
+			return;
+
+		const projectState =
+			ProjectState[e.anchorKey as keyof typeof ProjectState];
+
+		setValue(new Set([projectState]));
+		updateProjectState(props.id, projectState)
+			.then((res) => {
+				if (res.status === 400) console.log(res.message);
+			})
+			.catch((err) => console.log(err));
 	}
 
 	return (

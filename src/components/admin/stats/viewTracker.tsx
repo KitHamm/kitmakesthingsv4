@@ -1,6 +1,5 @@
 "use client";
 
-import { RemoveOldPages } from "@/components/actions/ServiceActions";
 import { countViews, pagesWithViews } from "@/lib/functions";
 import { Views } from "@/lib/types";
 import { ServiceRequest } from "@prisma/client";
@@ -19,9 +18,6 @@ export default function ViewTracker(
 		setPages(pagesWithViews(props.serviceRequests));
 	}, [props.serviceRequests]);
 
-	useEffect(() => {
-		RemoveOldPages();
-	}, []);
 	return (
 		<div className="bg-neutral-100 rounded-lg shadow p-4">
 			<div className="flex flex-col">

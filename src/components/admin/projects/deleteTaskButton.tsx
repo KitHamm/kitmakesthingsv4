@@ -1,13 +1,17 @@
 "use client";
 
-import { deleteTask } from "@/components/actions/WorkingProjectActions";
+import { deleteTask } from "@/server/projectTrackerActions/deleteTask";
 import { Button } from "@nextui-org/react";
 
 export default function DeleteTaskButton(props: Readonly<{ id: string }>) {
 	return (
 		<Button
 			onPress={() =>
-				deleteTask(props.id).catch((err) => console.log(err))
+				deleteTask(props.id)
+					.then((res) => {
+						if (res.status === 400) console.log(res.message);
+					})
+					.catch((err) => console.log(err))
 			}
 			className="w-full"
 			variant="light"

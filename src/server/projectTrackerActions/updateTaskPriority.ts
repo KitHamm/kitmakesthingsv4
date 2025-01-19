@@ -1,20 +1,21 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { TaskPriority } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { actionResponse } from "@/lib/functions";
-import { AboutContentForm } from "@/lib/types";
 
-export async function updateAbout(data: AboutContentForm) {
+export async function updateTaskPriority(id: string, priority: TaskPriority) {
 	try {
-		await prisma.about.update({
+		await prisma.projectTask.update({
 			where: {
-				page: "about",
+				id: id,
 			},
-			data,
+			data: {
+				priority: priority,
+			},
 		});
-		revalidatePath("/about");
-		revalidatePath("/dashboard/content");
+		revalidatePath("/dashboard/projects");
 		return actionResponse(200, "updated");
 	} catch (error: any) {
 		return actionResponse(400, error);

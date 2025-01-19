@@ -1,20 +1,21 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { TaskState } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { actionResponse } from "@/lib/functions";
-import { AboutContentForm } from "@/lib/types";
 
-export async function updateAbout(data: AboutContentForm) {
+export async function updateTaskState(id: string, state: TaskState) {
 	try {
-		await prisma.about.update({
+		await prisma.projectTask.update({
 			where: {
-				page: "about",
+				id: id,
 			},
-			data,
+			data: {
+				status: state,
+			},
 		});
-		revalidatePath("/about");
-		revalidatePath("/dashboard/content");
+		revalidatePath("/dashboard/projects");
 		return actionResponse(200, "updated");
 	} catch (error: any) {
 		return actionResponse(400, error);

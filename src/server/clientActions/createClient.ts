@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { ClientForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
+import { actionResponse } from "@/lib/functions";
 
 export async function createClient(data: ClientForm) {
 	try {
@@ -12,22 +13,9 @@ export async function createClient(data: ClientForm) {
 				address: data.address,
 			},
 		});
-
-		return Promise.resolve();
-	} catch (error: any) {
-		return Promise.reject(new Error(error));
-	} finally {
 		revalidatePath("/dashboard/invoices");
-	}
-}
-
-export async function deleteClient(clientId: string) {
-	try {
-		await prisma.client.delete({ where: { id: clientId } });
-		return Promise.resolve();
+		return actionResponse(200, "created");
 	} catch (error: any) {
-		return Promise.reject(new Error(error));
-	} finally {
-		revalidatePath("/dashboard/invoices");
+		return actionResponse(400, error);
 	}
 }

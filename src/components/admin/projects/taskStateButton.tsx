@@ -1,6 +1,6 @@
 "use client";
 
-import { updateTaskState } from "@/components/actions/WorkingProjectActions";
+import { updateTaskState } from "@/server/projectTrackerActions/updateTaskState";
 import { Button } from "@nextui-org/react";
 import { TaskState } from "@prisma/client";
 
@@ -11,7 +11,11 @@ export default function TaskStateButton(
 	}>
 ) {
 	function updateTask(state: TaskState) {
-		updateTaskState(props.id, state).catch((err) => console.log(err));
+		updateTaskState(props.id, state)
+			.then((res) => {
+				if (res.status === 400) console.log(res.message);
+			})
+			.catch((err) => console.log(err));
 	}
 
 	switch (props.currentState) {

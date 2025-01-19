@@ -188,3 +188,7 @@ export function resizeTextArea(el: HTMLTextAreaElement) {
 	el.style.height = "auto";
 	el.style.height = `${Math.max(el.scrollHeight, 32)}px`;
 }
+
+export function actionResponse(status: number, message: string) {
+	return { status: status, message: message };
+}

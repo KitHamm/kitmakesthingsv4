@@ -1,3 +1,4 @@
+import DeleteProjectButton from "@/components/admin/content/projectContent/deleteProjectButton";
 import prisma from "@/lib/prisma";
 import { ContentProject } from "@prisma/client";
 import Link from "next/link";
@@ -28,7 +29,7 @@ export default async function ContentProjects() {
 				{projects.map((project: ContentProject) => {
 					return (
 						<div key={`project-${project.slug}`}>
-							<div className="bg-neutral-100 shadow rounded-lg px-4 py-2 grid lg:grid-cols-[1fr_1fr_auto] gap-2 lg:gap-10">
+							<div className="bg-neutral-100 shadow rounded-lg px-4 py-2 grid lg:grid-cols-[1fr_1fr_auto_auto] gap-2 lg:gap-10">
 								<div className="flex flex-col">
 									<div className="font-bold">
 										Project Name
@@ -50,6 +51,9 @@ export default async function ContentProjects() {
 									>
 										View Project
 									</Link>
+								</div>
+								<div className="flex justify-center items-center grow-0">
+									<DeleteProjectButton id={project.slug} />
 								</div>
 							</div>
 						</div>

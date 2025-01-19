@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CircularProgress } from "@nextui-org/react";
 // Functions
-import { sendMessage } from "../actions/MessageActions";
+import { createMessage } from "@/server/messageActions/createMessage";
 // Types
 import { ContactForm, MessageState } from "@/lib/types";
 
@@ -17,21 +17,30 @@ export default function LandingContact() {
 	const { handleSubmit, register, formState, reset } = contactForm;
 	const { errors } = formState;
 
-	async function OnSubmit(data: ContactForm) {
-		try {
-			setSendingState(MessageState.SENDING);
-			await sendMessage(data);
-			setTimeout(() => {
-				setSendingState(MessageState.SUCCESS);
-				resetStateAfterDelay();
-			}, 2000);
-		} catch (err) {
-			console.error(err);
-			setTimeout(() => {
-				setSendingState(MessageState.ERROR);
-			}, 2000);
-		}
+	function OnSubmit(data: ContactForm) {
+		setSendingState(MessageState.SENDING);
+		createMessage(data)
+			.then((res) => {
+				if (res.status === 200) {
+					handleSendingState(MessageState.SUCCESS);
+				} else {
+					handleSendingState(MessageState.ERROR);
+				}
+			})
+			.catch((err) => {
+				console.error(err);
+				handleSendingState(MessageState.ERROR);
+			});
 	}
+
+	const handleSendingState = (state: MessageState) => {
+		setTimeout(() => {
+			setSendingState(state);
+			if (state === MessageState.SUCCESS) {
+				resetStateAfterDelay();
+			}
+		}, 2000);
+	};
 
 	const resetStateAfterDelay = () => {
 		setTimeout(() => {

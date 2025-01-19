@@ -2,18 +2,20 @@
 import { Button } from "@nextui-org/react";
 import { parseAbsoluteToLocal } from "@internationalized/date";
 import { useState } from "react";
-import { updateDueDate as updateDueDataAction } from "@/components/actions/WorkingProjectActions";
+import { updateDueDate } from "@/server/projectTrackerActions/updateDueDate";
 export default function DueDateChange(
 	props: Readonly<{ dueDate: Date; id: string }>
 ) {
 	const [dateValue, setDateValue] = useState<Date>(props.dueDate);
-	function updateDueDate() {
+	function handleUpdateDueDate() {
 		if (dateValue) {
 			const date = dateValue;
 			date.setUTCHours(0, 0, 0, 0);
-			updateDueDataAction(props.id, date).catch((err) =>
-				console.log(err)
-			);
+			updateDueDate(props.id, date)
+				.then((res) => {
+					if (res.status === 400) console.log(res.message);
+				})
+				.catch((err) => console.log(err));
 		}
 	}
 	return (
@@ -31,7 +33,7 @@ export default function DueDateChange(
 					parseAbsoluteToLocal(props.dueDate.toISOString())
 				) && (
 				<Button
-					onPress={updateDueDate}
+					onPress={handleUpdateDueDate}
 					className="bg-green-500 my-auto"
 				>
 					Save

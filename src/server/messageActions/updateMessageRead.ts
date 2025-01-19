@@ -3,18 +3,18 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { actionResponse } from "@/lib/functions";
-import { AboutContentForm } from "@/lib/types";
 
-export async function updateAbout(data: AboutContentForm) {
+export async function updateMessageRead(messageId: string, read: boolean) {
 	try {
-		await prisma.about.update({
+		await prisma.messages.update({
 			where: {
-				page: "about",
+				id: messageId,
 			},
-			data,
+			data: {
+				read: read,
+			},
 		});
-		revalidatePath("/about");
-		revalidatePath("/dashboard/content");
+		revalidatePath("/dashboard/messages");
 		return actionResponse(200, "updated");
 	} catch (error: any) {
 		return actionResponse(400, error);
