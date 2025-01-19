@@ -2,7 +2,8 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { LandingContentForm } from "@/lib/types";
-import { actionResponse } from "@/lib/functions";
+import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
+
 export async function updateLanding(data: LandingContentForm) {
 	try {
 		// Update the landing page content

@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { ProjectForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/functions";
+import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
 
 export async function addNewProject(data: ProjectForm) {
 	try {

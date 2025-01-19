@@ -18,7 +18,7 @@ import { LandingContentForm, LandingWithTech } from "@/lib/types";
 import { Images } from "@prisma/client";
 import ParallaxSection from "@/components/main/ParallaxSection";
 import ContentImageModal from "../../shared/ContentImageModal";
-import { resizeTextArea } from "@/lib/functions";
+import { resizeTextArea } from "@/lib/utils/miscUtils/resizeTextArea";
 
 export default function LandingForm(
 	props: Readonly<{

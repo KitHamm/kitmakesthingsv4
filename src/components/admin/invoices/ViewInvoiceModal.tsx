@@ -11,7 +11,7 @@ import {
 	ModalHeader,
 } from "@nextui-org/react";
 import Markdown from "react-markdown";
-import { formatDate } from "@/lib/functions";
+import { formatDate } from "@/lib/utils/dateUtils/formatDate";
 import { InvoiceItem } from "@prisma/client";
 import { deleteInvoice } from "@/server/invoiceActions/deleteInvoice";
 import { updateInvoicePaid } from "@/server/invoiceActions/updateInvoicePaid";

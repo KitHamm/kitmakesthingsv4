@@ -1,6 +1,6 @@
 "use client";
 
-import { invoiceCount } from "@/lib/functions";
+import { getInvoiceCount } from "@/lib/utils/invoiceUtils/getInvoiceCount";
 import { Invoice } from "@prisma/client";
 import { useEffect, useState } from "react";
 
@@ -9,8 +9,8 @@ export default function InvoicesSent(props: Readonly<{ invoices: Invoice[] }>) {
 	const [invoicePaid, setInvoicePaid] = useState(0);
 
 	useEffect(() => {
-		setInvoicePaid(invoiceCount(props.invoices, "paid"));
-		setInvoiceSent(invoiceCount(props.invoices, "sent"));
+		setInvoicePaid(getInvoiceCount(props.invoices, "paid"));
+		setInvoiceSent(getInvoiceCount(props.invoices, "sent"));
 	}, [props.invoices]);
 
 	return (

@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/functions";
+import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
 
 export async function deleteTask(id: string) {
 	try {

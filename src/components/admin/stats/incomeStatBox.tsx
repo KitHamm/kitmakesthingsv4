@@ -1,6 +1,8 @@
 "use client";
 
-import { invoicedToDate, outStanding, paidToDate } from "@/lib/functions";
+import { getOutStandingBalanceTotal } from "@/lib/utils/invoiceUtils/outstandingBalanceTotal";
+import { totalInvoicedToDate } from "@/lib/utils/invoiceUtils/totalInvoicedToDate";
+import { totalPaidToDate } from "@/lib/utils/invoiceUtils/totalPaidToDate";
 import { CircularProgress } from "@nextui-org/react";
 import { Invoice } from "@prisma/client";
 import { useEffect, useState } from "react";
@@ -13,9 +15,9 @@ export default function IncomeStatBox(
 	const [invoicedToDateRender, setInvoicedToDateRender] = useState(0);
 
 	useEffect(() => {
-		setPaidToDateRender(paidToDate(props.invoices));
-		setOutstandingRender(outStanding(props.invoices));
-		setInvoicedToDateRender(invoicedToDate(props.invoices));
+		setPaidToDateRender(totalPaidToDate(props.invoices));
+		setOutstandingRender(getOutStandingBalanceTotal(props.invoices));
+		setInvoicedToDateRender(totalInvoicedToDate(props.invoices));
 	}, [props.invoices]);
 
 	return (

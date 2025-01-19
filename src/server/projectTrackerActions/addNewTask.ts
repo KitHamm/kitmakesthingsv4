@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { TaskForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/functions";
+import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
 
 export async function addNewTask(data: TaskForm) {
 	try {

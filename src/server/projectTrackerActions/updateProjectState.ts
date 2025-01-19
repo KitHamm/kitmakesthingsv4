@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { ProjectState } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/functions";
+import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
 
 export async function updateProjectState(id: string, state: ProjectState) {
 	try {
