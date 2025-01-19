@@ -21,26 +21,18 @@ export default function LandingContact() {
 		setSendingState(MessageState.SENDING);
 		createMessage(data)
 			.then((res) => {
-				const nextState =
-					res.status === 200
-						? MessageState.SUCCESS
-						: MessageState.ERROR;
-				updateSendingState(nextState);
+				if (res.status === 200) {
+					setSendingState(MessageState.SUCCESS);
+					resetStateWithDelay();
+				} else {
+					setSendingState(MessageState.ERROR);
+				}
 			})
 			.catch((err) => {
 				console.error(err);
-				updateSendingState(MessageState.ERROR);
+				setSendingState(MessageState.ERROR);
 			});
 	}
-
-	const updateSendingState = (state: MessageState) => {
-		setTimeout(() => {
-			setSendingState(state);
-			if (state === MessageState.SUCCESS) {
-				resetStateWithDelay();
-			}
-		}, 2000);
-	};
 
 	const resetStateWithDelay = () => {
 		setTimeout(() => {
