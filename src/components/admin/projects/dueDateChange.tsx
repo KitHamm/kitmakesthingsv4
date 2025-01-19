@@ -34,9 +34,9 @@ export default function DueDateChange(
 				) && (
 				<Button
 					onPress={handleUpdateDueDate}
-					className="bg-green-500 my-auto"
+					className="bg-green-500 px-8 my-auto text-white text-md"
 				>
-					Save
+					Save Date
 				</Button>
 			)}
 		</div>

@@ -53,7 +53,10 @@ export default function NewTask(props: Readonly<{ projectId: string }>) {
 	}
 	return (
 		<>
-			<Button onPress={onOpen} className="bg-green-500 text-white">
+			<Button
+				onPress={onOpen}
+				className="bg-green-500 text-white text-md"
+			>
 				New Task
 			</Button>
 			<Modal isOpen={isOpen} onOpenChange={onOpenChange}>

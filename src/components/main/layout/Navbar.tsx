@@ -65,33 +65,15 @@ export default function NavbarComp() {
 					</button>
 
 					<div className="hidden lg:flex justify-end gap-10 w-1/4 my-auto">
-						<div>
-							<Link
-								className={`${
-									pathname === "/about"
-										? "text-green-600"
-										: ""
-								} text-xl uppercase transition-colors font-medium hover:text-green-600`}
-								color="foreground"
-								href="/about"
-							>
-								About
-							</Link>
-						</div>
-						<div>
-							<a
-								className={`${
-									pathname.includes("projects")
-										? "text-green-600"
-										: ""
-								} text-xl uppercase transition-colors font-medium hover:text-green-600`}
-								color="foreground"
-								href="/projects"
-							>
-								Projects
-							</a>
-						</div>
-
+						<NavLink href="/about" active={pathname === "/about"}>
+							About
+						</NavLink>
+						<NavLink
+							href="/projects"
+							active={pathname.includes("projects")}
+						>
+							Projects
+						</NavLink>
 						<button
 							onClick={() => {
 								pathname === "/"
@@ -137,39 +119,29 @@ export default function NavbarComp() {
 							</DrawerHeader>
 							<DrawerBody className="px-8 flex flex-col justify-between pb-8">
 								<div className="flex flex-col gap-4">
-									<Link
-										className={`${
-											pathname === "/"
-												? "text-green-600"
-												: ""
-										} text-2xl transition-colors font-bold hover:text-green-600`}
-										color="foreground"
+									<MobileNavLink
 										href="/"
+										active={pathname === "/"}
 									>
-										Home
-									</Link>
-									<Link
-										className={`${
-											pathname === "/about"
-												? "text-green-600"
-												: ""
-										} text-2xl transition-colors font-bold hover:text-green-600`}
-										color="foreground"
+										<i className="w-8 fa-solid fa-house" />
+										<div className="font-bold">Home</div>
+									</MobileNavLink>
+									<MobileNavLink
 										href="/about"
+										active={pathname === "/about"}
 									>
-										About
-									</Link>
-									<Link
-										className={`${
-											pathname.includes("projects")
-												? "text-green-600"
-												: ""
-										} text-2xl transition-colors font-bold hover:text-green-600`}
-										color="foreground"
+										<i className="w-8 fa-solid fa-circle-info" />
+										<div className="font-bold">About</div>
+									</MobileNavLink>
+									<MobileNavLink
 										href="/projects"
+										active={pathname.includes("projects")}
 									>
-										Projects
-									</Link>
+										<i className="w-8 fa-solid fa-diagram-project" />
+										<div className="font-bold">
+											Projects
+										</div>
+									</MobileNavLink>
 									<button
 										onClick={() => {
 											pathname === "/"
@@ -179,10 +151,11 @@ export default function NavbarComp() {
 												: onOpenChange();
 											onClose();
 										}}
-										className={`text-start text-2xl transition-colors font-bold hover:text-green-600`}
+										className="flex gap-3 items-center text-start text-2xl transition-colors font-bold hover:text-green-600"
 										color="foreground"
 									>
-										Contact
+										<i className="w-8 fa-solid fa-envelope" />
+										<div>Contact</div>
 									</button>
 								</div>
 								<div className="flex flex-col gap-8">
@@ -195,5 +168,47 @@ export default function NavbarComp() {
 				</DrawerContent>
 			</Drawer>
 		</>
+	);
+}
+
+function NavLink(
+	props: Readonly<{
+		children: React.ReactNode;
+		href: string;
+		active: boolean;
+	}>
+) {
+	const { children, href, active } = props;
+	return (
+		<Link
+			className={`${
+				active ? "text-green-600" : ""
+			} text-xl uppercase transition-colors font-medium hover:text-green-600`}
+			color="foreground"
+			href={href}
+		>
+			{children}
+		</Link>
+	);
+}
+
+function MobileNavLink(
+	props: Readonly<{
+		children: React.ReactNode;
+		active: boolean;
+		href: string;
+	}>
+) {
+	const { children, active, href } = props;
+	return (
+		<Link
+			className={`${
+				active ? "text-green-600" : ""
+			} text-2xl flex gap-3 items-center`}
+			color="foreground"
+			href={href}
+		>
+			{children}
+		</Link>
 	);
 }

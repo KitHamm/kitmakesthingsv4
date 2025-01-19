@@ -192,7 +192,7 @@ export default function LandingForm(
 								setImageTarget("techParallaxImage");
 								onOpenChange();
 							}}
-							className="w-full bg-green-500 text-white text-md font-bold"
+							className="w-full bg-green-500 text-white text-md"
 							type="button"
 						>
 							Change Image
@@ -274,7 +274,7 @@ export default function LandingForm(
 									setImageTarget("aboutParallaxImage");
 									onOpenChange();
 								}}
-								className="bg-green-500 text-white text-md font-bold"
+								className="bg-green-500 text-white text-md"
 							>
 								Change Image
 							</Button>
@@ -388,7 +388,7 @@ function HighlighInput(
 					setImageTarget(imageTarget);
 					onOpenChange();
 				}}
-				className="w-full bg-green-500 text-white text-md font-bold"
+				className="w-full bg-green-500 text-white text-md"
 				type="button"
 			>
 				Change Image

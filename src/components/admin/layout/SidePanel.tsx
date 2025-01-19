@@ -53,15 +53,17 @@ export default function SidePanel(props: Readonly<{ messages: Messages[] }>) {
 			</div>
 			<div className="flex flex-col my-8 transition-all">
 				<NavLink link="/dashboard" active={pathName === "/dashboard"}>
-					Statistics
+					<i className="fa-solid fa-chart-simple" />
+					<div className="font-bold">Statistics</div>
 				</NavLink>
 				<button
 					onClick={(e) => {
 						e.preventDefault();
 						setDropIsOpen(!dropIsOpen);
 					}}
-					className={`text-start cursor-pointer py-2 ps-8 font-bold text-lg me-16 rounded-tr-full rounded-br-full transition-all hover:bg-neutral-400 hover:text-white`}
+					className="flex gap-3 items-center text-start cursor-pointer py-2 px-4 font-bold text-lg mx-4 rounded-xl transition-all hover:bg-neutral-400 hover:text-white hover:shadow-lg"
 				>
+					<i className="fa-solid fa-align-left" />
 					Content
 				</button>
 				<div
@@ -74,19 +76,29 @@ export default function SidePanel(props: Readonly<{ messages: Messages[] }>) {
 							pathName === "/dashboard/content"
 								? "border-s-4 border-neutral-600 bg-green-500"
 								: ""
-						} font-bold ps-12 py-1 me-24 hover:bg-neutral-400 hover:text-white rounded-tr-full rounded-br-full`}
+						} ps-12 py-1 me-24 hover:bg-neutral-400 hover:text-white rounded-tr-full rounded-br-full`}
 					>
-						<Link href={"/dashboard/content"}>Pages</Link>
+						<Link
+							className="flex gap-2 items-center"
+							href={"/dashboard/content"}
+						>
+							<i className="fa-solid fa-file" />
+							<div className="font-bold">Pages</div>
+						</Link>
 					</div>
 					<div
 						className={`${
 							pathName.includes("/dashboard/content/projects")
 								? "border-s-4 border-neutral-600 bg-green-500"
 								: ""
-						} font-bold ps-12 py-1 me-24 hover:bg-neutral-400 hover:text-white rounded-tr-full rounded-br-full`}
+						} ps-12 py-1 me-24 hover:bg-neutral-400 hover:text-white rounded-tr-full rounded-br-full`}
 					>
-						<Link href={"/dashboard/content/projects"}>
-							Projects
+						<Link
+							className="flex gap-2 items-center"
+							href={"/dashboard/content/projects"}
+						>
+							<i className="fa-solid fa-diagram-project" />
+							<div className="font-bold">Projects</div>
 						</Link>
 					</div>
 				</div>
@@ -94,6 +106,7 @@ export default function SidePanel(props: Readonly<{ messages: Messages[] }>) {
 					link="/dashboard/messages"
 					active={pathName === "/dashboard/messages"}
 				>
+					<i className="fa-solid fa-message" />
 					<Badge
 						classNames={{ badge: "-right-1 top-" }}
 						showOutline={false}
@@ -102,7 +115,7 @@ export default function SidePanel(props: Readonly<{ messages: Messages[] }>) {
 						content={newMessages}
 						color="danger"
 					>
-						Messages
+						<div className="font-bold">Messages</div>
 					</Badge>
 				</NavLink>
 
@@ -110,25 +123,29 @@ export default function SidePanel(props: Readonly<{ messages: Messages[] }>) {
 					link="/dashboard/invoices"
 					active={pathName === "/dashboard/invoices"}
 				>
-					Invoices
+					<i className="fa-solid fa-money-bill" />
+					<div className="font-bold">Invoices</div>
 				</NavLink>
 				<NavLink
 					link="/dashboard/projects"
 					active={pathName.includes("/dashboard/projects")}
 				>
-					Projects
+					<i className="fa-solid fa-diagram-project" />
+					<div className="font-bold">Projects</div>
 				</NavLink>
 				<NavLink
 					link="/dashboard/media"
 					active={pathName === "/dashboard/media"}
 				>
-					Media
+					<i className="fa-solid fa-photo-film" />
+					<div className="font-bold">Media</div>
 				</NavLink>
 				<button
 					onClick={() => signOut()}
-					className="py-2 ps-8 text-left font-bold text-lg me-16 rounded-tr-full rounded-br-full transition-all hover:bg-red-400 hover:text-white"
+					className="flex gap-3 items-center py-2 px-4 text-left font-bold text-lg mx-4 rounded-xl transition-all hover:bg-red-400 hover:text-white hover:shadow-lg"
 				>
-					Log Out
+					<i className="rotate-180 fa-solid fa-arrow-right-to-bracket" />
+					<div className="font-bold">Log Out</div>
 				</button>
 			</div>
 		</div>
@@ -147,8 +164,8 @@ function NavLink({
 	return (
 		<Link
 			className={`${
-				active ? "bg-green-500 border-s-4 border-neutral-600" : ""
-			} py-2 ps-8 font-bold text-lg me-16 rounded-tr-full rounded-br-full transition-all hover:bg-neutral-400 hover:text-white`}
+				active ? "bg-green-500 text-white shadow-lg" : ""
+			} flex gap-3 items-center py-2 px-4 text-lg mx-4 rounded-xl transition-all hover:bg-neutral-400 hover:text-white hover:shadow-lg`}
 			href={link}
 		>
 			{children}

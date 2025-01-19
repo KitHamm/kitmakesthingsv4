@@ -19,15 +19,13 @@ export default async function Projects() {
 	const clients = await prisma.client.findMany();
 	return (
 		<div className="lg:py-10 lg:px-10 py-4 px-4">
-			<div className="font-bold flex flex-col lg:flex-row gap-6 text-6xl mb-6 pb-4 text-center lg:text-start border-b-2">
-				<div>Projects.</div>
-				<div className="flex gap-6 justify-center">
-					<div className="flex flex-col justify-center">
-						<ManageClientsButton clients={clients} />
-					</div>
-					<div className="flex flex-col justify-center">
-						<NewProject clients={clients} />
-					</div>
+			<div className="flex flex-col lg:flex-row gap-6 mb-6 pb-4 border-b-2">
+				<div className="text-6xl font-bold text-center lg:text-start">
+					Projects.
+				</div>
+				<div className="flex gap-6 justify-center items-center">
+					<ManageClientsButton clients={clients} />
+					<NewProject clients={clients} />
 				</div>
 			</div>
 

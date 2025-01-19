@@ -95,13 +95,17 @@ export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 										href="/"
 										active={pathname === "/"}
 									>
-										Home
+										<i className="fa-solid fa-house" />
+										<div className="font-bold">Home</div>
 									</MobileNavLink>
 									<MobileNavLink
 										href="/dashboard"
 										active={pathname === "/dashboard"}
 									>
-										Statistics
+										<i className="fa-solid fa-chart-simple" />
+										<div className="font-bold">
+											Statistics
+										</div>
 									</MobileNavLink>
 									<MobileNavLink
 										href="/dashboard/content"
@@ -109,7 +113,10 @@ export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 											pathname === "/dashboard/content"
 										}
 									>
-										Page Content
+										<i className="fa-solid fa-file" />
+										<div className="font-bold">
+											Pages Content
+										</div>
 									</MobileNavLink>
 									<MobileNavLink
 										href="/dashboard/content/projects"
@@ -117,7 +124,10 @@ export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 											"/dashboard/content/projects"
 										)}
 									>
-										Project Content
+										<i className="fa-solid fa-diagram-project" />
+										<div className="font-bold">
+											Project Content
+										</div>
 									</MobileNavLink>
 									<MobileNavLink
 										href="/dashboard/messages"
@@ -125,6 +135,7 @@ export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 											pathname === "/dashboard/messages"
 										}
 									>
+										<i className="fa-solid fa-message" />
 										<Badge
 											classNames={{
 												badge: "-right-1 top-",
@@ -135,7 +146,9 @@ export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 											content={newMessages}
 											color="danger"
 										>
-											Messages
+											<div className="font-bold">
+												Messages
+											</div>
 										</Badge>
 									</MobileNavLink>
 									<MobileNavLink
@@ -144,7 +157,10 @@ export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 											pathname === "/dashboard/invoices"
 										}
 									>
-										Invoices
+										<i className="fa-solid fa-money-bill" />
+										<div className="font-bold">
+											Invoices
+										</div>
 									</MobileNavLink>
 									<MobileNavLink
 										href="/dashboard/projects"
@@ -152,19 +168,24 @@ export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 											pathname === "/dashboard/projects"
 										}
 									>
-										Projects
+										<i className="fa-solid fa-diagram-project" />
+										<div className="font-bold">
+											Projects
+										</div>
 									</MobileNavLink>
 									<MobileNavLink
 										href="/dashboard/media"
 										active={pathname === "/dashboard/media"}
 									>
-										Media
+										<i className="fa-solid fa-photo-film" />
+										<div className="font-bold">Media</div>
 									</MobileNavLink>
 									<button
 										onClick={() => signOut()}
-										className="text-start text-red-400 text-2xl transition-colors font-bold"
+										className="flex gap-3 items-center text-start text-red-400 text-2xl transition-colors"
 									>
-										Log Out
+										<i className="rotate-180 fa-solid fa-arrow-right-to-bracket" />
+										<div className="font-bold">Log Out</div>
 									</button>
 								</div>
 								<div className="flex flex-col gap-8">
@@ -193,19 +214,11 @@ function MobileNavLink({
 		<Link
 			className={`${
 				active ? "text-green-600" : ""
-			} text-2xl transition-colors font-bold hover:text-green-600`}
+			} flex gap-3 items-center text-2xl transition-colors hover:text-green-600`}
 			color="foreground"
 			href={href}
 		>
 			{children}
 		</Link>
-	);
-}
-
-function LogOutButton() {
-	return (
-		<div className="text-2xl transition-colors font-bold hover:text-green-600">
-			Log Out
-		</div>
 	);
 }
