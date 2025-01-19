@@ -10,8 +10,6 @@ import {
 	ModalFooter,
 	Button,
 	useDisclosure,
-	Select,
-	SelectItem,
 	Pagination,
 } from "@nextui-org/react";
 import { Images } from "@prisma/client";
