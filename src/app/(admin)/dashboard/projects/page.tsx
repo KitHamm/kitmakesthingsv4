@@ -1,4 +1,4 @@
-import ManageClientsButton from "@/components/admin/ManageClients";
+import ManageClientsButton from "@/components/admin/shared/ManageClients";
 import NewProject from "@/components/admin/projects/newProject";
 import { dateRender } from "@/lib/utils/dateUtils/dateRender";
 import prisma from "@/lib/prisma";

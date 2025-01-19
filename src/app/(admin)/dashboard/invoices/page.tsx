@@ -4,7 +4,7 @@ import NewInvoiceModal from "@/components/admin/invoices/InvoiceModals/NewInvoic
 import InvoiceStateProvider from "@/components/admin/invoices/InvoiceStateProvider";
 import InvoiceYearButtons from "@/components/admin/invoices/InvoiceYearButtons";
 import ViewInvoiceModal from "@/components/admin/invoices/ViewInvoiceModal";
-import ManageClientsButton from "@/components/admin/ManageClients";
+import ManageClientsButton from "@/components/admin/shared/ManageClients";
 import { getReferencePlaceholder } from "@/lib/utils/invoiceUtils/getReferencePlaceholder";
 import { getAllTaxYears } from "@/lib/utils/invoiceUtils/totalTaxYears";
 import prisma from "@/lib/prisma";
