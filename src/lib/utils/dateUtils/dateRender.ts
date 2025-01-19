@@ -12,13 +12,9 @@ export function dateRender(date: Date): string {
 }
 
 function dateOrdinal(date: number): string {
-	if (date > 3 && date < 21) return "th"; // Special case for teen numbers
+	const ordinals = ["th", "st", "nd", "rd"];
+	if (date > 3 && date < 21) return ordinals[0]; // Special case for teen numbers
 	const lastDigit = date % 10;
-	return lastDigit === 1
-		? "st"
-		: lastDigit === 2
-		? "nd"
-		: lastDigit === 3
-		? "rd"
-		: "th";
+	if (lastDigit < 4 && lastDigit > 0) return ordinals[lastDigit];
+	return ordinals[0];
 }
