@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteFile as deleteMediaFile } from "@/components/actions/MediaActions";
+import { deleteMedia } from "@/server/mediaActions/deleteMedia";
 import { itemOrder } from "@/lib/utils/contentUtils/sortUtils";
 import {
 	Modal,
@@ -47,7 +47,7 @@ export default function MediaMain(props: Readonly<{ images: Images[] }>) {
 	}, [onOpenChange, isOpen]);
 
 	function deleteFile(file: string) {
-		deleteMediaFile(file)
+		deleteMedia(file)
 			.then((res) => {
 				if (res.status === 200) {
 					onClose();

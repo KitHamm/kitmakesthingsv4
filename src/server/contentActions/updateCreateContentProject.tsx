@@ -1,5 +1,6 @@
 "use server";
 
+import { actionResponse } from "@/lib/functions";
 import prisma from "@/lib/prisma";
 import { ContentProjectForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
@@ -60,8 +61,8 @@ export async function updateCreateContentProject(
 		revalidatePath("/projects");
 		revalidatePath("/projects/" + data.slug);
 		revalidatePath("/dashboard/content/projects");
-		return { status: 200, message: "success" };
+		return actionResponse(200, "updated");
 	} catch (error: any) {
-		return { status: 400, message: error };
+		return actionResponse(400, error);
 	}
 }

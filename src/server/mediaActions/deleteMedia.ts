@@ -4,8 +4,9 @@ import fs from "fs";
 import prisma from "@/lib/prisma";
 import { Landing, About, ContentProject } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { actionResponse } from "@/lib/functions";
 
-export async function deleteFile(fileName: string) {
+export async function deleteMedia(fileName: string) {
 	const landingContent: Landing[] = await prisma.landing.findMany({
 		where: {
 			OR: [
@@ -65,12 +66,8 @@ export async function deleteFile(fileName: string) {
 		revalidatePath("/dashboard/content");
 		revalidatePath("/dashboard/content");
 		revalidatePath("/dashboard/content/projects");
-		return { status: 200, message: "success" };
+		return actionResponse(200, "deleted");
 	} catch {
-		return { status: 400, message: "unable to delete" };
+		return actionResponse(400, "error");
 	}
-}
-
-export async function revalidateMedia() {
-	revalidatePath("/dashboard");
 }

@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { actionResponse } from "@/lib/functions";
 import { AboutContentForm } from "@/lib/types";
 
 export async function updateAbout(data: AboutContentForm) {
@@ -14,8 +15,8 @@ export async function updateAbout(data: AboutContentForm) {
 		});
 		revalidatePath("/about");
 		revalidatePath("/dashboard/content");
-		return { status: 200, message: "updated" };
+		return actionResponse(200, "updated");
 	} catch (error: any) {
-		return { status: 400, message: error };
+		return actionResponse(400, error);
 	}
 }

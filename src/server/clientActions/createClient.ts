@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { ClientForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
+import { actionResponse } from "@/lib/functions";
 
 export async function createClient(data: ClientForm) {
 	try {
@@ -13,8 +14,8 @@ export async function createClient(data: ClientForm) {
 			},
 		});
 		revalidatePath("/dashboard/invoices");
-		return { status: 200, message: "created" };
+		return actionResponse(200, "created");
 	} catch (error: any) {
-		return { status: 400, message: error };
+		return actionResponse(400, error);
 	}
 }

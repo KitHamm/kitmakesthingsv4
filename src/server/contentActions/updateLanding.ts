@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 // types
 import { LandingContentForm } from "@/lib/types";
+import { actionResponse } from "@/lib/functions";
 export async function updateLanding(data: LandingContentForm) {
 	try {
 		// Update the landing page content
@@ -39,8 +40,8 @@ export async function updateLanding(data: LandingContentForm) {
 		revalidatePath("/dashboard/content");
 		revalidatePath("/");
 
-		return { status: 200, message: "updated" };
+		return actionResponse(200, "updated");
 	} catch (error: any) {
-		return { status: 400, message: error };
+		return actionResponse(400, error);
 	}
 }
