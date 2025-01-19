@@ -14,6 +14,7 @@ import { useState, useEffect } from "react";
 // types
 import { Messages } from "@prisma/client";
 import { signOut } from "next-auth/react";
+import SocialLinks from "@/components/main/shared/socialLinks";
 
 export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 	const [newMessages, setNewMessages] = useState(0);
@@ -167,44 +168,7 @@ export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 									</button>
 								</div>
 								<div className="flex flex-col gap-8">
-									<div className="flex flex gap-4">
-										<div className="flex items-center">
-											<Link
-												target="_blank"
-												rel="noreferrer"
-												href="https://github.com/KitHamm/"
-											>
-												<i
-													aria-hidden
-													className="transition-colors text-black hover:text-green-600 fa-brands fa-github fa-2xl"
-												/>
-											</Link>
-										</div>
-										<div className="flex items-center">
-											<Link
-												target="_blank"
-												rel="noreferrer"
-												href="https://www.instagram.com/kit_makes_things/"
-											>
-												<i
-													aria-hidden
-													className="transition-colors text-black hover:text-green-600 fa-brands fa-instagram fa-2xl"
-												/>
-											</Link>
-										</div>
-										<div className="flex items-center">
-											<Link
-												target="_blank"
-												rel="noreferrer"
-												href="https://www.linkedin.com/in/kit-hamm/"
-											>
-												<i
-													aria-hidden
-													className="transition-colors text-black hover:text-green-600 fa-brands fa-linkedin fa-2xl"
-												/>
-											</Link>
-										</div>
-									</div>
+									<SocialLinks />
 									<div>&copy; KitMakesThings 2024</div>
 								</div>
 							</DrawerBody>

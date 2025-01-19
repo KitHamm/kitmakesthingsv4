@@ -1,10 +1,9 @@
-import EditInvoiceModal from "@/components/admin/invoices/EditInvoiceModal";
 import InvoiceCards from "@/components/admin/invoices/InvoiceCards";
 import NewInvoiceModal from "@/components/admin/invoices/InvoiceModals/NewInvoiceModal";
 import InvoiceStateProvider from "@/components/admin/invoices/InvoiceStateProvider";
 import InvoiceYearButtons from "@/components/admin/invoices/InvoiceYearButtons";
-import ViewInvoiceModal from "@/components/admin/invoices/ViewInvoiceModal";
-import ManageClientsButton from "@/components/admin/ManageClients";
+import ViewInvoiceModal from "@/components/admin/invoices/InvoiceModals/ViewInvoiceModal";
+import ManageClientsButton from "@/components/admin/shared/ManageClients";
 import { getReferencePlaceholder } from "@/lib/utils/invoiceUtils/getReferencePlaceholder";
 import { getAllTaxYears } from "@/lib/utils/invoiceUtils/totalTaxYears";
 import prisma from "@/lib/prisma";
@@ -42,7 +41,6 @@ export default async function Invoices() {
 				<InvoiceYearButtons taxYears={getAllTaxYears(invoices)} />
 				<InvoiceCards invoices={invoices} />
 				<ViewInvoiceModal />
-				<EditInvoiceModal clients={clients} />
 			</InvoiceStateProvider>
 		</div>
 	);

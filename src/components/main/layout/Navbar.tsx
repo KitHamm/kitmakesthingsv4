@@ -12,7 +12,8 @@ import {
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 // Components
-import ContactModal from "./ContactModal";
+import ContactModal from "../shared/ContactModal";
+import SocialLinks from "../shared/socialLinks";
 
 export default function NavbarComp() {
 	const { isOpen, onClose, onOpenChange } = useDisclosure();
@@ -48,39 +49,7 @@ export default function NavbarComp() {
 								KH
 							</Link>
 						</div>
-						<div className="lg:flex hidden gap-4 h-full">
-							<Link
-								target="_blank"
-								rel="noreferrer"
-								href="https://github.com/KitHamm/"
-							>
-								<i
-									aria-hidden
-									className="transition-colors text-black hover:text-green-600 fa-brands fa-github fa-2xl"
-								/>
-							</Link>
-							<Link
-								target="_blank"
-								rel="noreferrer"
-								href="https://www.instagram.com/kit_makes_things/"
-							>
-								<i
-									aria-hidden
-									className="transition-colors text-black hover:text-green-600 fa-brands fa-instagram fa-2xl"
-								/>
-							</Link>
-
-							<Link
-								target="_blank"
-								rel="noreferrer"
-								href="https://www.linkedin.com/in/kit-hamm/"
-							>
-								<i
-									aria-hidden
-									className="transition-colors text-black hover:text-green-600 fa-brands fa-linkedin fa-2xl"
-								/>
-							</Link>
-						</div>
+						<SocialLinks />
 					</div>
 					<button
 						onClick={() => {
@@ -217,44 +186,7 @@ export default function NavbarComp() {
 									</button>
 								</div>
 								<div className="flex flex-col gap-8">
-									<div className="flex flex gap-4">
-										<div className="flex items-center">
-											<Link
-												target="_blank"
-												rel="noreferrer"
-												href="https://github.com/KitHamm/"
-											>
-												<i
-													aria-hidden
-													className="transition-colors text-black hover:text-green-600 fa-brands fa-github fa-2xl"
-												/>
-											</Link>
-										</div>
-										<div className="flex items-center">
-											<Link
-												target="_blank"
-												rel="noreferrer"
-												href="https://www.instagram.com/kit_makes_things/"
-											>
-												<i
-													aria-hidden
-													className="transition-colors text-black hover:text-green-600 fa-brands fa-instagram fa-2xl"
-												/>
-											</Link>
-										</div>
-										<div className="flex items-center">
-											<Link
-												target="_blank"
-												rel="noreferrer"
-												href="https://www.linkedin.com/in/kit-hamm/"
-											>
-												<i
-													aria-hidden
-													className="transition-colors text-black hover:text-green-600 fa-brands fa-linkedin fa-2xl"
-												/>
-											</Link>
-										</div>
-									</div>
+									<SocialLinks />
 									<div>&copy; KitMakesThings 2024</div>
 								</div>
 							</DrawerBody>

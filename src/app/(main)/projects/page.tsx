@@ -1,12 +1,12 @@
 // Prisma
 import prisma from "@/lib/prisma";
 // Components
-import ProjectCardInView from "@/components/main/ProjectCardInView";
-import DataError from "@/components/main/DataError";
+import ProjectCardInView from "@/components/main/projects/ProjectCardInView";
+import DataError from "@/components/main/shared/DataError";
 // Packages
 import Link from "next/link";
 // Functions
-import AnonVisitLogger from "@/components/main/AnonVisitLogger";
+import AnonVisitLogger from "@/components/main/shared/AnonVisitLogger";
 // Types
 import { ContentProject } from "@prisma/client";
 

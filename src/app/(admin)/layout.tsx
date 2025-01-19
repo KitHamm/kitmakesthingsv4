@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "../globals.css";
-import SidePanel from "@/components/admin/SidePanel";
+import SidePanel from "@/components/admin/layout/SidePanel";
 import prisma from "@/lib/prisma";
-import MobileNav from "@/components/admin/MobileNav";
+import MobileNav from "@/components/admin/layout/MobileNav";
 
 const roboto = Roboto({
 	weight: ["100", "300", "400", "500", "700", "900"],

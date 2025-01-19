@@ -15,9 +15,6 @@ type InvoiceStateType = {
 	isOpenViewInvoice: boolean;
 	onOpenViewInvoice: () => void;
 	onOpenChangeViewInvoice: (value: boolean) => void;
-	isOpenEditInvoice: boolean;
-	onOpenEditInvoice: () => void;
-	onOpenChangeEditInvoice: (value: boolean) => void;
 };
 
 export const InvoiceStateContext = createContext<InvoiceStateType>(
@@ -41,12 +38,6 @@ export default function InvoiceStateProvider({
 		onOpenChange: onOpenChangeViewInvoice,
 	} = useDisclosure();
 
-	const {
-		isOpen: isOpenEditInvoice,
-		onOpen: onOpenEditInvoice,
-		onOpenChange: onOpenChangeEditInvoice,
-	} = useDisclosure();
-
 	const invoiceContextValue = useMemo(
 		() => ({
 			selectedTaxYear,
@@ -56,9 +47,6 @@ export default function InvoiceStateProvider({
 			isOpenViewInvoice,
 			onOpenViewInvoice,
 			onOpenChangeViewInvoice,
-			isOpenEditInvoice,
-			onOpenEditInvoice,
-			onOpenChangeEditInvoice,
 		}),
 		[
 			selectedTaxYear,
@@ -68,9 +56,6 @@ export default function InvoiceStateProvider({
 			isOpenViewInvoice,
 			onOpenViewInvoice,
 			onOpenChangeViewInvoice,
-			isOpenEditInvoice,
-			onOpenEditInvoice,
-			onOpenChangeEditInvoice,
 		]
 	);
 
