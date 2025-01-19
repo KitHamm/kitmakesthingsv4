@@ -61,10 +61,10 @@ export default function SidePanel(props: Readonly<{ messages: Messages[] }>) {
 						e.preventDefault();
 						setDropIsOpen(!dropIsOpen);
 					}}
-					className="flex gap-3 items-center text-start cursor-pointer py-2 px-4 font-bold text-lg mx-4 rounded-xl transition-all hover:bg-neutral-400 hover:text-white hover:shadow-lg"
+					className="flex gap-3 items-center text-start cursor-pointer py-2 px-4 text-lg mx-4 rounded-xl transition-all hover:bg-neutral-400 hover:text-white hover:shadow-lg"
 				>
 					<i className="fa-solid fa-align-left" />
-					Content
+					<div className="font-bold">Content</div>
 				</button>
 				<div
 					style={{ height: "0px" }}
