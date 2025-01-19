@@ -16,7 +16,7 @@ import { InvoiceItem } from "@prisma/client";
 import { deleteInvoice } from "@/server/invoiceActions/deleteInvoice";
 import { updateInvoicePaid } from "@/server/invoiceActions/updateInvoicePaid";
 import { InvoiceWithClientAndItems } from "@/lib/types";
-import { generatePDF } from "@/components/actions/InvoicePDF";
+import { generatePDF } from "@/lib/utils/invoiceUtils/generatePDF";
 
 export default function ViewInvoiceModal() {
 	const {
