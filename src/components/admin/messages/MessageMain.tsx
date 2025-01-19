@@ -1,9 +1,7 @@
 "use client";
 
-import {
-	deleteMessage,
-	updateMessageRead,
-} from "@/components/actions/MessageActions";
+import { deleteMessage } from "@/server/messageActions/deleteMessage";
+import { updateMessageRead } from "@/server/messageActions/updateMessageRead";
 import {
 	Modal,
 	ModalContent,
@@ -19,11 +17,29 @@ import { useState } from "react";
 export default function MessagesMain(
 	props: Readonly<{ messages: Messages[] }>
 ) {
-	const { isOpen, onOpenChange } = useDisclosure();
+	const { messages } = props;
+	const { isOpen, onOpenChange, onClose } = useDisclosure();
 	const [selectedMessage, setSelectedMessage] = useState(-1);
 
 	function UpdateMessage(messageId: string, read: boolean) {
-		updateMessageRead(messageId, read).catch((err) => console.log(err));
+		updateMessageRead(messageId, read)
+			.then((res) => {
+				if (res.status === 400) console.log(res.message);
+			})
+			.catch((err) => console.log(err));
+	}
+
+	function handleDelete(messageId: string) {
+		deleteMessage(messageId)
+			.then((res) => {
+				if (res.status === 200) {
+					onClose();
+					setSelectedMessage(-1);
+				} else {
+					console.log(res.message);
+				}
+			})
+			.catch((err) => console.log(err));
 	}
 
 	return (
@@ -33,7 +49,7 @@ export default function MessagesMain(
 			</div>
 			<div className="flex fade-in gap-10">
 				<div className="lg:w-1/4 w-full flex flex-col gap-4">
-					{props.messages.map((message: Messages, index: number) => {
+					{messages.map((message: Messages, index: number) => {
 						return (
 							<div key={message.id}>
 								<button
@@ -61,37 +77,23 @@ export default function MessagesMain(
 							<div className="fade-in flex flex-col h-full">
 								<div className="flex gap-2">
 									<div className="font-bold">From:</div>
-									<div>
-										{props.messages[selectedMessage].name}
-									</div>
+									<div>{messages[selectedMessage].name}</div>
 								</div>
 								<div className="flex gap-2 border-b pb-2">
 									<div className="font-bold">Email:</div>
-									<div>
-										{props.messages[selectedMessage].email}
-									</div>
+									<div>{messages[selectedMessage].email}</div>
 								</div>
 								<div className="flex grow gap-2 pt-2">
 									<div className="">
-										{
-											props.messages[selectedMessage]
-												.message
-										}
+										{messages[selectedMessage].message}
 									</div>
 								</div>
 								<div className="flex justify-end gap-4">
 									<Button
 										onPress={() => {
-											deleteMessage(
-												props.messages[selectedMessage]
-													.id
-											)
-												.then(() => {
-													setSelectedMessage(-1);
-												})
-												.catch((err) =>
-													console.log(err)
-												);
+											handleDelete(
+												messages[selectedMessage].id
+											);
 										}}
 										color="danger"
 										variant="light"
@@ -107,8 +109,7 @@ export default function MessagesMain(
 									<Button
 										onPress={() => {
 											UpdateMessage(
-												props.messages[selectedMessage]
-													.id,
+												messages[selectedMessage].id,
 												false
 											);
 											setSelectedMessage(-1);
@@ -128,36 +129,23 @@ export default function MessagesMain(
 							<>
 								<ModalHeader className="flex flex-col gap-1">
 									<div className="text-xl">
-										{props.messages[selectedMessage].name}
+										{messages[selectedMessage].name}
 									</div>
 									<div className="font-normal text-base">
-										{props.messages[selectedMessage].email}
+										{messages[selectedMessage].email}
 									</div>
 								</ModalHeader>
 								<ModalBody>
-									<p>
-										{
-											props.messages[selectedMessage]
-												.message
-										}
-									</p>
+									<p>{messages[selectedMessage].message}</p>
 								</ModalBody>
 								<ModalFooter>
 									<Button
 										color="danger"
 										variant="light"
 										onPress={() => {
-											deleteMessage(
-												props.messages[selectedMessage]
-													.id
-											)
-												.then(() => {
-													onClose();
-													setSelectedMessage(-1);
-												})
-												.catch((err) =>
-													console.log(err)
-												);
+											handleDelete(
+												messages[selectedMessage].id
+											);
 										}}
 									>
 										Delete
@@ -176,8 +164,7 @@ export default function MessagesMain(
 										onPress={() => {
 											onClose();
 											UpdateMessage(
-												props.messages[selectedMessage]
-													.id,
+												messages[selectedMessage].id,
 												false
 											);
 											setSelectedMessage(-1);
@@ -196,16 +183,17 @@ export default function MessagesMain(
 }
 
 function MessageRepeat(props: Readonly<{ message: Messages }>) {
+	const { message } = props;
 	return (
 		<div
 			className={`${
-				props.message.read ? "bg-neutral-100" : "bg-green-500"
+				message.read ? "bg-neutral-100" : "bg-green-500"
 			} flex flex-col lg:hover:bg-green-300 transition-colors cursor-pointer shadow p-2 rounded-lg`}
 		>
-			<div className="font-bold text-xl">{props.message.name}</div>
-			<div className="font-bold mb-2">{props.message.email}</div>
+			<div className="font-bold text-xl">{message.name}</div>
+			<div className="font-bold mb-2">{message.email}</div>
 			<div className="overflow-hidden truncate text-nowrap">
-				{props.message.message}
+				{message.message}
 			</div>
 		</div>
 	);

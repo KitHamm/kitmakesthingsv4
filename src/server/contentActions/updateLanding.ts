@@ -1,9 +1,6 @@
 "use server";
-// prisma
 import prisma from "@/lib/prisma";
-// packages
 import { revalidatePath } from "next/cache";
-// types
 import { LandingContentForm } from "@/lib/types";
 import { actionResponse } from "@/lib/functions";
 export async function updateLanding(data: LandingContentForm) {
