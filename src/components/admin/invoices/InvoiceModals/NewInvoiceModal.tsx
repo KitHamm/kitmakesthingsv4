@@ -13,7 +13,12 @@ import {
 	useDisclosure,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import {
+	FieldErrors,
+	useFieldArray,
+	useForm,
+	UseFormRegister,
+} from "react-hook-form";
 import Markdown from "react-markdown";
 import { createInvoice } from "@/server/invoiceActions/createInvoice";
 import NewItemModal from "./InvoiceItemModal";
@@ -26,56 +31,43 @@ export default function NewInvoiceModal(
 		referencePlaceholder: string;
 	}>
 ) {
-	const [newItemDescription, setNewItemDescription] = useState("");
-	const [newItemQuantity, setNewItemQuantity] = useState(0.0);
-	const [newItemUnitPrice, setNewItemUnitPrice] = useState(0.0);
-	const [newItemSubTotal, setNewItemSubTotal] = useState(0.0);
+	const { clients, referencePlaceholder } = props;
 	const [newInvoiceTotal, setNewInvoiceTotal] = useState(0.0);
-	const {
-		isOpen: isOpenNewInvoice,
-		onOpenChange: onOpenChangeNewInvoice,
-		onClose: onCloseNewInvoice,
-	} = useDisclosure();
-	const { isOpen: isOpenNewItem, onOpenChange: onOpenChangeNewItem } =
-		useDisclosure();
+	const { isOpen, onOpenChange, onClose } = useDisclosure();
 
 	const invoiceForm = useForm<InvoiceForm>({
 		defaultValues: {
 			total: 0.0,
+			reference: referencePlaceholder,
 		},
 	});
 
-	const { register, reset, formState, handleSubmit, control, setValue } =
-		invoiceForm;
-	const { errors } = formState;
+	const {
+		register,
+		reset,
+		formState: { errors },
+		handleSubmit,
+		control,
+		setValue,
+	} = invoiceForm;
+
 	const { fields, append, remove } = useFieldArray({
 		name: "items",
 		control,
 	});
 
 	useEffect(() => {
-		if (newItemQuantity > 0 && newItemUnitPrice > 0) {
-			setNewItemSubTotal(newItemUnitPrice * newItemQuantity);
-		}
-	}, [newItemQuantity, newItemUnitPrice]);
-
-	useEffect(() => {
-		if (fields.length > 0) {
-			let total = 0;
-			for (const field of fields) {
-				total = total + field.subTotal;
-			}
-			setValue("total", total);
-			setNewInvoiceTotal(total);
-		}
-	}, [fields, newItemQuantity, newItemUnitPrice, newItemSubTotal, setValue]);
+		const total = fields.reduce((sum, field) => sum + field.subTotal, 0);
+		setValue("total", total);
+		setNewInvoiceTotal(total);
+	}, [fields, setValue]);
 
 	function resetForm() {
-		for (let i = 0; i < fields.length; i++) {
-			remove(i);
+		for (const field of fields) {
+			remove(fields.indexOf(field));
 		}
 		reset({
-			reference: "",
+			reference: referencePlaceholder,
 			date: undefined,
 			taxYear: "",
 			paid: false,
@@ -90,7 +82,7 @@ export default function NewInvoiceModal(
 		createInvoice(data)
 			.then((res) => {
 				if (res.status === 200) {
-					onCloseNewInvoice();
+					onClose();
 					resetForm();
 				} else {
 					console.log(res.message);
@@ -103,7 +95,7 @@ export default function NewInvoiceModal(
 			<div className="mb-6 flex flex-col lg:flex-row gap-4">
 				<Button
 					onPress={() => {
-						onOpenChangeNewInvoice();
+						onOpenChange();
 					}}
 					className="bg-green-500 w-full lg:w-auto"
 				>
@@ -113,8 +105,8 @@ export default function NewInvoiceModal(
 			<Modal
 				size="2xl"
 				scrollBehavior="outside"
-				isOpen={isOpenNewInvoice}
-				onOpenChange={onOpenChangeNewInvoice}
+				isOpen={isOpen}
+				onOpenChange={onOpenChange}
 			>
 				<ModalContent>
 					{(onClose) => (
@@ -124,106 +116,49 @@ export default function NewInvoiceModal(
 							</ModalHeader>
 							<form onSubmit={handleSubmit(submitInvoice)}>
 								<ModalBody className="gap-2">
-									<div className="flex flex-col lg:flex-row lg:gap-8 gap-4 mb-4 lg:mb-0">
-										<Select
-											onChange={(e) => {
-												setValue(
-													"clientId",
-													e.target.value
-												);
-											}}
-											label="Select a client"
-											className="w-full mb-4"
-										>
-											{props.clients.map(
-												(client: Client) => (
-													<SelectItem key={client.id}>
-														{client.name}
-													</SelectItem>
-												)
-											)}
-										</Select>
-
-										<DatePicker
-											className="w-full"
-											label="Date"
-											onChange={(e) => {
-												if (e) {
-													const date = new Date(
-														e.year,
-														e.month - 1,
-														e.day
+									<div className="flex flex-col items-center justify-center lg:flex-row lg:gap-8 gap-4 mb-4 lg:mb-0">
+										<div className="w-full">
+											<Select
+												onChange={(e) => {
+													setValue(
+														"clientId",
+														e.target.value
 													);
-													date.setUTCHours(
-														0,
-														0,
-														0,
-														0
-													);
-													setValue("date", date);
-												}
-											}}
-										/>
+												}}
+												label="Select a client"
+											>
+												{clients.map(
+													(client: Client) => (
+														<SelectItem
+															key={client.id}
+														>
+															{client.name}
+														</SelectItem>
+													)
+												)}
+											</Select>
+										</div>
+										<div className="w-full">
+											<input
+												type="date"
+												{...register("date")}
+											/>
+										</div>
 									</div>
 
-									<div className="flex flex-col lg:flex-row lg:gap-8">
-										<div className="lg:w-1/2">
-											<label
-												className="font-bold"
-												htmlFor="reference"
-											>
-												Reference:
-											</label>
-											<input
-												type="text"
-												{...register("reference", {
-													required: {
-														value: true,
-														message:
-															"Reference is required.",
-													},
-												})}
-												placeholder={
-													errors.reference
-														? errors.reference
-																.message
-														: props.referencePlaceholder
-												}
-												className={
-													errors.reference
-														? "placeholder:text-red-400"
-														: ""
-												}
-											/>
-										</div>
-										<div className="lg:w-1/2">
-											<label
-												className="font-bold"
-												htmlFor="reference"
-											>
-												Tax Year:
-											</label>
-											<input
-												type="text"
-												{...register("taxYear", {
-													required: {
-														value: true,
-														message:
-															"Tax Year is required.",
-													},
-												})}
-												placeholder={
-													errors.taxYear
-														? errors.taxYear.message
-														: "Tax Year"
-												}
-												className={
-													errors.taxYear
-														? "placeholder:text-red-400"
-														: ""
-												}
-											/>
-										</div>
+									<div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
+										<TextInput
+											label="Reference"
+											target="reference"
+											register={register}
+											errors={errors}
+										/>
+										<TextInput
+											label="Tax Year"
+											target="taxYear"
+											register={register}
+											errors={errors}
+										/>
 									</div>
 									<div className="font-bold border-b-2 pb-2">
 										Items:
@@ -293,8 +228,7 @@ export default function NewInvoiceModal(
 												Total:
 											</div>
 											<div>
-												£
-												{newInvoiceTotal.toLocaleString()}
+												{`£${newInvoiceTotal.toLocaleString()}`}
 											</div>
 										</div>
 									</div>
@@ -323,120 +257,34 @@ export default function NewInvoiceModal(
 					)}
 				</ModalContent>
 			</Modal>
-			<Modal isOpen={isOpenNewItem} onOpenChange={onOpenChangeNewItem}>
-				<ModalContent>
-					{(onClose) => (
-						<>
-							<ModalHeader className="flex flex-col gap-1">
-								Invoice Item
-							</ModalHeader>
-							<ModalBody>
-								<div>
-									<label
-										className="font-bold"
-										htmlFor="description"
-									>
-										Description:
-									</label>
-									<textarea
-										name="description"
-										value={newItemDescription}
-										placeholder="Description..."
-										onChange={(e) =>
-											setNewItemDescription(
-												e.target.value
-											)
-										}
-									/>
-								</div>
-								<div>
-									<label
-										className="font-bold"
-										htmlFor="description"
-									>
-										Quantity:
-									</label>
-									<input
-										type="number"
-										value={newItemQuantity || ``}
-										onChange={(e) =>
-											setNewItemQuantity(
-												parseFloat(e.target.value)
-											)
-										}
-										placeholder="Quantity"
-									/>
-								</div>
-								<div>
-									<label
-										className="font-bold"
-										htmlFor="description"
-									>
-										Unit Price:
-									</label>
-									<input
-										type="number"
-										value={newItemUnitPrice || ``}
-										onChange={(e) =>
-											setNewItemUnitPrice(
-												parseFloat(e.target.value)
-											)
-										}
-										placeholder="Unit Price"
-									/>
-								</div>
-								<div>
-									<label
-										className="font-bold"
-										htmlFor="description"
-									>
-										Sub Total:
-									</label>
-									<input
-										type="number"
-										value={newItemSubTotal || ``}
-										onChange={(e) => {}}
-										placeholder="Sub Total (Automatic)"
-									/>
-								</div>
-							</ModalBody>
-							<ModalFooter>
-								<Button
-									color="danger"
-									variant="light"
-									onPress={() => {
-										onClose();
-										setNewItemDescription("");
-										setNewItemQuantity(0.0);
-										setNewItemUnitPrice(0.0);
-										setNewItemSubTotal(0.0);
-									}}
-								>
-									Close
-								</Button>
-								<Button
-									className="bg-green-500"
-									onPress={() => {
-										append({
-											description: newItemDescription,
-											quantity: newItemQuantity,
-											unitPrice: newItemUnitPrice,
-											subTotal: newItemSubTotal,
-										});
-										onClose();
-										setNewItemDescription("");
-										setNewItemQuantity(0.0);
-										setNewItemUnitPrice(0.0);
-										setNewItemSubTotal(0.0);
-									}}
-								>
-									Action
-								</Button>
-							</ModalFooter>
-						</>
-					)}
-				</ModalContent>
-			</Modal>
 		</>
+	);
+}
+
+function TextInput(props: {
+	label: string;
+	target: keyof InvoiceForm;
+	register: UseFormRegister<InvoiceForm>;
+	errors: FieldErrors<InvoiceForm>;
+}) {
+	const { label, target, register, errors } = props;
+	return (
+		<div className="lg:w-1/2">
+			<label className="font-bold px-2" htmlFor={target}>
+				{label}
+			</label>
+			<input
+				type="text"
+				id={target}
+				{...register(target, {
+					required: {
+						value: true,
+						message: `${label} is required.`,
+					},
+				})}
+				placeholder={errors[target] ? errors[target].message : label}
+				className={errors[target] ? "placeholder:text-red-400" : ""}
+			/>
+		</div>
 	);
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext } from "react";
-import { InvoiceStateContext } from "./InvoiceStateProvider";
+import { InvoiceStateContext } from "../InvoiceStateProvider";
 import {
 	Button,
 	Modal,

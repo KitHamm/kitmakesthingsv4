@@ -1,14 +1,14 @@
 // Prisma
 import prisma from "@/lib/prisma";
 // Components
-import ContactButton from "@/components/main/ContactButton";
-import DataError from "@/components/main/DataError";
+import ContactButton from "@/components/main/shared/ContactButton";
+import DataError from "@/components/main/shared/DataError";
 // Packages
 import Markdown from "react-markdown";
 import Link from "next/link";
 // Functions
-import AnonVisitLogger from "@/components/main/AnonVisitLogger";
-import AboutImageBox from "@/components/main/AboutImageBox";
+import AnonVisitLogger from "@/components/main/shared/AnonVisitLogger";
+import AboutImageBox from "@/components/main/about/AboutImageBox";
 
 export default async function AboutPage() {
 	const content = await prisma.about.findFirst();

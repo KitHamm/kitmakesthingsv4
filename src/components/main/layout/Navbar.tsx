@@ -12,7 +12,7 @@ import {
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 // Components
-import ContactModal from "./ContactModal";
+import ContactModal from "../shared/ContactModal";
 
 export default function NavbarComp() {
 	const { isOpen, onClose, onOpenChange } = useDisclosure();

@@ -1,18 +1,18 @@
 // Prisma
 import prisma from "@/lib/prisma";
 // Components
-import ParallaxSection from "@/components/main/ParallaxSection";
-import InViewAnimation from "@/components/main/inViewAnimation";
-import TechStackIcons from "@/components/main/TechStackIcons";
-import LandingContact from "@/components/main/LandingContact";
-import HighlightCard from "@/components/main/HighlightCard";
-import DataError from "@/components/main/DataError";
+import ParallaxSection from "@/components/main/landing/ParallaxSection";
+import InViewAnimation from "@/components/main/landing/inViewAnimation";
+import TechStackIcons from "@/components/main/landing/TechStackIcons";
+import LandingContact from "@/components/main/landing/LandingContact";
+import HighlightCard from "@/components/main/landing/HighlightCard";
+import DataError from "@/components/main/shared/DataError";
 // Packages
 import Markdown from "react-markdown";
 import Link from "next/link";
 // Functions
-import AnonVisitLogger from "@/components/main/AnonVisitLogger";
-import ParticlesComponent from "@/components/main/Particles";
+import AnonVisitLogger from "@/components/main/shared/AnonVisitLogger";
+import ParticlesComponent from "@/components/main/landing/Particles";
 
 export default async function Home() {
 	const content = await prisma.landing.findFirst();

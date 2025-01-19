@@ -16,7 +16,7 @@ import { updateLanding } from "@/server/contentActions/updateLanding";
 // types
 import { LandingContentForm, LandingWithTech } from "@/lib/types";
 import { Images } from "@prisma/client";
-import ParallaxSection from "@/components/main/ParallaxSection";
+import ParallaxSection from "@/components/main/landing/ParallaxSection";
 import ContentImageModal from "../../shared/ContentImageModal";
 import { resizeTextArea } from "@/lib/utils/miscUtils/resizeTextArea";
 

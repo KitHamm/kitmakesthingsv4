@@ -1,16 +1,16 @@
 // Prisma
 import prisma from "@/lib/prisma";
 // Components
-import ProjectFadeIn from "@/components/main/ProjectFadeIn";
+import ProjectFadeIn from "@/components/main/projects/ProjectFadeIn";
 import EmblaCarousel from "@/components/embla/EmblaCarousel";
-import ProjectTechStack from "@/components/main/ProjectTechStack";
-import DataError from "@/components/main/DataError";
+import ProjectTechStack from "@/components/main/projects/ProjectTechStack";
+import DataError from "@/components/main/shared/DataError";
 // Packages
 import Link from "next/link";
 import Markdown from "react-markdown";
 // Types
 import { EmblaOptionsType } from "embla-carousel";
-import ContactButton from "@/components/main/ContactButton";
+import ContactButton from "@/components/main/shared/ContactButton";
 // Constants
 const OPTIONS: EmblaOptionsType = { loop: true };
 
