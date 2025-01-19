@@ -4,7 +4,7 @@ import fs from "fs";
 import prisma from "@/lib/prisma";
 import { Landing, About, ContentProject } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/functions";
+import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
 
 export async function deleteMedia(fileName: string) {
 	const landingContent: Landing[] = await prisma.landing.findMany({

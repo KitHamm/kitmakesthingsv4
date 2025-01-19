@@ -3,7 +3,7 @@
 import { ContentTextAreaProps } from "@/lib/types";
 import { useFormContext } from "./formProvider";
 import { useEffect, useRef } from "react";
-import { resizeTextArea } from "@/lib/functions";
+import { resizeTextArea } from "@/lib/utils/miscUtils/resizeTextArea";
 
 export default function ProjectTextAreaInput(
 	props: Readonly<ContentTextAreaProps>

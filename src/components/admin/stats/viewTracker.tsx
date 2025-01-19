@@ -1,6 +1,7 @@
 "use client";
 
-import { countViews, pagesWithViews } from "@/lib/functions";
+import { countViews } from "@/lib/utils/viewCountUtils/countViews";
+import { getPagesWithViews } from "@/lib/utils/viewCountUtils/getPagesWithView";
 import { Views } from "@/lib/types";
 import { ServiceRequest } from "@prisma/client";
 import { useEffect, useState } from "react";
@@ -15,7 +16,7 @@ export default function ViewTracker(
 
 	useEffect(() => {
 		setViews(countViews(props.serviceRequests));
-		setPages(pagesWithViews(props.serviceRequests));
+		setPages(getPagesWithViews(props.serviceRequests));
 	}, [props.serviceRequests]);
 
 	return (

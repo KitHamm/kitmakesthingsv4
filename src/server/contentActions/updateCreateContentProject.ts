@@ -1,6 +1,6 @@
 "use server";
 
-import { actionResponse } from "@/lib/functions";
+import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
 import prisma from "@/lib/prisma";
 import { ContentProjectForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";

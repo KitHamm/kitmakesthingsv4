@@ -1,6 +1,6 @@
 "use client";
 
-import { currentTaxYear } from "@/lib/functions";
+import { getCurrentTaxYear } from "@/lib/utils/invoiceUtils/getCurrentTaxYear";
 import { InvoiceWithClientAndItems } from "@/lib/types";
 import { createContext, useState, useMemo } from "react";
 import { useDisclosure } from "@nextui-org/react";
@@ -30,7 +30,7 @@ export default function InvoiceStateProvider({
 	children: React.ReactNode;
 }>) {
 	const [selectedTaxYear, setSelectedTaxYear] = useState<string>(
-		currentTaxYear()
+		getCurrentTaxYear()
 	);
 	const [selectedInvoice, setSelectedInvoice] =
 		useState<InvoiceWithClientAndItems>({} as InvoiceWithClientAndItems);

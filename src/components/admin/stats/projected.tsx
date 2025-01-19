@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { projection } from "@/lib/functions";
+import { currentYearProjection } from "@/lib/utils/invoiceUtils/currentYearProjection";
 import { Invoice } from "@prisma/client";
 
 export default function Projection(props: Readonly<{ invoices: Invoice[] }>) {
@@ -9,8 +9,8 @@ export default function Projection(props: Readonly<{ invoices: Invoice[] }>) {
 	const [projectedAvg, setProjectedAvg] = useState(0);
 
 	useEffect(() => {
-		setProjectedIncome(projection("", props.invoices));
-		setProjectedAvg(projection("avg", props.invoices));
+		setProjectedIncome(currentYearProjection("", props.invoices));
+		setProjectedAvg(currentYearProjection("avg", props.invoices));
 	}, [props.invoices]);
 
 	return (

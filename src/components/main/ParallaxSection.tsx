@@ -4,7 +4,7 @@
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 // Functions
-import { mapNumRange } from "@/lib/functions";
+import { mapNumRange } from "@/lib/utils/mathUtils/mapNumberRange";
 // Types
 import { LayoutProps } from "@/lib/types";
 

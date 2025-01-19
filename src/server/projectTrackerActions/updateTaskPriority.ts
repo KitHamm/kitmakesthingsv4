@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { TaskPriority } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/functions";
+import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
 
 export async function updateTaskPriority(id: string, priority: TaskPriority) {
 	try {
