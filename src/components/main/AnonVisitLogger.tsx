@@ -2,12 +2,12 @@
 
 // Functions
 import { useEffect } from "react";
-import { Request } from "../actions/ServiceActions";
+import { serviceRequest } from "@/server/serviceActions/serviceRequest";
 
 export default function AnonVisitLogger() {
-    useEffect(() => {
-        Request(window.location.pathname);
-    }, []);
+	useEffect(() => {
+		serviceRequest(window.location.pathname);
+	}, []);
 
-    return <></>;
+	return <></>;
 }
