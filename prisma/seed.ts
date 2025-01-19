@@ -4,25 +4,14 @@ import { Role } from "@prisma/client";
 import { hash } from "bcrypt";
 
 async function main() {
-	const oldInvoiceItems = await prisma.invoiceItem.findMany();
-
-	// for (let i = 0; i < oldInvoiceItems.length; i++) {
-	//     await prisma.invoiceItem.update({
-	//         where: {
-	//             id: oldInvoiceItems[i].id,
-	//         },
-	//         data: {
-	//             invoiceReference: oldInvoiceItems[i].invocieReference,
-	//         },
-	//     });
-	// }
-
 	const hashedPassword = await hash("n7nNWFTkoejrs:Q3Phf", 12);
 	await prisma.user.upsert({
 		where: {
 			email: "kitmakesthings@gmail.com",
 		},
-		update: {},
+		update: {
+			password: hashedPassword,
+		},
 		create: {
 			email: "kitmakesthings@gmail.com",
 			firstName: "Kit",
