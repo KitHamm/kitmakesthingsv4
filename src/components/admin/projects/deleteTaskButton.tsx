@@ -13,7 +13,7 @@ export default function DeleteTaskButton(props: Readonly<{ id: string }>) {
 					})
 					.catch((err) => console.log(err))
 			}
-			className="w-full"
+			className="w-full text-md"
 			variant="light"
 			color="danger"
 		>

@@ -44,7 +44,10 @@ export default function NewProject(props: Readonly<{ clients: Client[] }>) {
 	}
 	return (
 		<>
-			<Button onPress={onOpen} className="bg-green-500">
+			<Button
+				onPress={onOpen}
+				className="bg-green-500 text-white text-md"
+			>
 				New Project
 			</Button>
 			<Modal isOpen={isOpen} onOpenChange={onOpenChange}>

@@ -15,9 +15,10 @@ export default function InvoiceYearButtons(
 			{props.taxYears.map((taxYear: string) => {
 				return (
 					<Button
-						className={
+						className={`${
 							selectedTaxYear === taxYear ? "bg-green-500" : ""
-						}
+						} text-md text-white
+						`}
 						onPress={() => setSelectedTaxYear(taxYear)}
 						key={taxYear}
 					>

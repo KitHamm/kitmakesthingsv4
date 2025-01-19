@@ -28,7 +28,12 @@ export default function ProjectDeleteButton(props: Readonly<{ id: string }>) {
 
 	return (
 		<>
-			<Button onPress={onOpen} variant="light" color="danger">
+			<Button
+				onPress={onOpen}
+				className="text-md"
+				variant="light"
+				color="danger"
+			>
 				Delete Project
 			</Button>
 			<Modal isOpen={isOpen} onOpenChange={onOpenChange}>

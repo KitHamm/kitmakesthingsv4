@@ -72,7 +72,7 @@ export default function ManageClientsButton(
 				onPress={() => {
 					onOpenChangeManageClients();
 				}}
-				className="bg-green-500 w-full lg:w-auto"
+				className="bg-green-500 w-full lg:w-auto text-white text-md"
 			>
 				Manage Clients
 			</Button>

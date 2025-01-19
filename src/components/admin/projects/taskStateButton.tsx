@@ -23,7 +23,7 @@ export default function TaskStateButton(
 			return (
 				<Button
 					onPress={() => updateTask(TaskState.WORKING)}
-					className="w-full bg-green-500 text-lg font-bold text-white"
+					className="w-full bg-green-500 text-md text-white"
 				>
 					Start
 				</Button>
@@ -33,13 +33,13 @@ export default function TaskStateButton(
 				<div className="flex gap-4">
 					<Button
 						onPress={() => updateTask(TaskState.NONE)}
-						className="w-full bg-green-500 text-lg font-bold text-white"
+						className="w-full bg-green-500 text-md text-white"
 					>
 						Not Started
 					</Button>
 					<Button
 						onPress={() => updateTask(TaskState.REVIEW)}
-						className="w-full bg-green-500 text-lg font-bold text-white"
+						className="w-full bg-green-500 text-md text-white"
 					>
 						Review
 					</Button>
@@ -50,13 +50,13 @@ export default function TaskStateButton(
 				<div className="flex gap-4">
 					<Button
 						onPress={() => updateTask(TaskState.WORKING)}
-						className="w-full bg-green-500 text-lg font-bold text-white"
+						className="w-full bg-green-500 text-md text-white"
 					>
 						Working
 					</Button>
 					<Button
 						onPress={() => updateTask(TaskState.FINISHED)}
-						className="w-full bg-green-500 text-lg font-bold text-white"
+						className="w-full bg-green-500 text-md text-white"
 					>
 						Finished
 					</Button>
@@ -66,7 +66,7 @@ export default function TaskStateButton(
 			return (
 				<Button
 					onPress={() => updateTask(TaskState.REVIEW)}
-					className="w-full bg-green-500 text-lg font-bold text-white"
+					className="w-full bg-green-500 text-md text-white"
 				>
 					Review
 				</Button>

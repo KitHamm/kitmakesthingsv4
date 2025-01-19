@@ -27,7 +27,7 @@ export default async function Invoices() {
 				<div className="font-bold text-6xl mb-6 pb-4 text-center lg:text-start border-b-2">
 					Invoices.
 				</div>
-				<div className="mb-6 flex flex-col lg:flex-row gap-4">
+				<div className="flex flex-col lg:flex-row gap-4">
 					<NewInvoiceModal
 						clients={clients}
 						referencePlaceholder={
