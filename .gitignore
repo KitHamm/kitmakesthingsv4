@@ -43,6 +43,7 @@ jest.config.ts
 jest.setup.ts
 client.ts
 singleton.ts
+docker-compose.yaml
 
 # Other Docs
 /Design
