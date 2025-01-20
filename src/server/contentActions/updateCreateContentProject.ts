@@ -37,7 +37,7 @@ export async function updateCreateContentProject(
 						short: data.short,
 						outLink: data.outLink ?? null,
 						outLinkText: data.outLinkText ?? null,
-						order: data.order,
+						order: parseInt(data.order.toString()),
 					},
 			  })
 			: prisma.contentProject.create({
@@ -54,7 +54,7 @@ export async function updateCreateContentProject(
 						short: data.short,
 						outLink: data.outLink ?? null,
 						outLinkText: data.outLinkText ?? null,
-						order: data.order,
+						order: parseInt(data.order.toString()),
 					},
 			  });
 		await action;

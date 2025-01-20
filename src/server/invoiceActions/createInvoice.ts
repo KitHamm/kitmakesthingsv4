@@ -8,11 +8,12 @@ import { revalidatePath } from "next/cache";
 export async function createInvoice(data: InvoiceForm) {
 	// Create Invoice
 	try {
+		const date = new Date(data.date);
 		const invoice = await prisma.invoice.create({
 			data: {
 				reference: data.reference,
 				total: data.total,
-				date: data.date,
+				date: date,
 				taxYear: data.taxYear,
 				paid: false,
 				clientId: data.clientId,

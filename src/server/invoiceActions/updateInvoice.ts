@@ -7,6 +7,7 @@ import { InvoiceForm } from "@/lib/types";
 
 export async function updateInvoice(data: InvoiceForm) {
 	try {
+		const date = new Date(data.date);
 		await prisma.invoiceItem.deleteMany({
 			where: {
 				invoiceReference: data.reference,
@@ -20,7 +21,7 @@ export async function updateInvoice(data: InvoiceForm) {
 			data: {
 				reference: data.reference,
 				total: data.total,
-				date: data.date,
+				date: date,
 				taxYear: data.taxYear,
 				clientId: data.clientId,
 			},
