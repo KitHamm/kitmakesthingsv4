@@ -1,13 +1,14 @@
 // Prisma
 import prisma from "@/lib/prisma";
+// Packages
+import Link from "next/link";
+import Markdown from "react-markdown";
 // Components
 import ProjectFadeIn from "@/components/main/projects/ProjectFadeIn";
 import EmblaCarousel from "@/components/embla/EmblaCarousel";
 import ProjectTechStack from "@/components/main/projects/ProjectTechStack";
 import DataError from "@/components/main/shared/DataError";
-// Packages
-import Link from "next/link";
-import Markdown from "react-markdown";
+import AnonVisitLogger from "@/components/main/shared/AnonVisitLogger";
 // Types
 import { EmblaOptionsType } from "embla-carousel";
 import ContactButton from "@/components/main/shared/ContactButton";
@@ -81,6 +82,7 @@ export default async function ProjectPage(props: Readonly<{ params: Params }>) {
 					</figure>
 				</article>
 			</section>
+			<AnonVisitLogger />
 		</main>
 	);
 }
