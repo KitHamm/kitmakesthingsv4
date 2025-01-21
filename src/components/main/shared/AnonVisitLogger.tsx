@@ -6,7 +6,16 @@ import { serviceRequest } from "@/server/serviceActions/serviceRequest";
 
 export default function AnonVisitLogger() {
 	useEffect(() => {
-		serviceRequest(window.location.pathname);
+		const userAgent = navigator.userAgent;
+		const botDetected = /bot|googlebot|crawler|spider|robot|crawling/i.test(
+			userAgent
+		);
+		if (!botDetected) {
+			console.log("Create request");
+			serviceRequest(window.location.pathname);
+		} else {
+			console.log("Bot detected");
+		}
 	}, []);
 
 	return <></>;

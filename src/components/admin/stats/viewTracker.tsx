@@ -4,7 +4,7 @@ import { countViews } from "@/lib/utils/viewCountUtils/countViews";
 import { getPagesWithViews } from "@/lib/utils/viewCountUtils/getPagesWithView";
 import { Views } from "@/lib/types";
 import { ServiceRequest } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 export default function ViewTracker(
 	props: Readonly<{
@@ -21,36 +21,31 @@ export default function ViewTracker(
 
 	return (
 		<div className="bg-neutral-100 rounded-lg shadow p-4">
-			<div className="flex flex-col">
-				<div className="font-bold flex">
-					<div className="grow">Views</div>
-					{views?.map((view) => {
-						return (
-							<div className="w-1/12 text-center" key={view.date}>
-								{view.date.split("/")[0]}
-							</div>
-						);
-					})}
-				</div>
+			<div className="grid grid-cols-[auto_1fr_1fr_1fr_1fr_1fr_1fr_1fr]">
+				<div className="mb-2 font-bold">View Tracker</div>
+				{views?.map((view) => {
+					return (
+						<div className="text-center" key={view.date}>
+							{view.date.split("/")[0]}
+						</div>
+					);
+				})}
+
 				{pages?.map((page) => {
 					return (
-						<div className="flex" key={page}>
-							<div className="grow">{page}</div>
+						<Fragment key={page}>
+							<div className="truncate">{page}</div>
 							{views?.map((view) => {
 								return (
 									<div
-										key={view.date + "-map"}
-										className="w-1/12 border-s border-e"
+										key={`${page}-${view.date}`}
+										className="border-s border-e"
 									>
-										{view.pages.map((pageName, index) => {
+										{view.pages.map((pageName) => {
 											if (pageName.page === page) {
 												return (
 													<div
-														key={
-															pageName.page +
-															"-" +
-															index
-														}
+														key={pageName.page}
 														className="text-center"
 													>
 														{pageName.count}
@@ -61,7 +56,7 @@ export default function ViewTracker(
 									</div>
 								);
 							})}
-						</div>
+						</Fragment>
 					);
 				})}
 			</div>
