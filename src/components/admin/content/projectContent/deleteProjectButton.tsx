@@ -1,6 +1,5 @@
 "use client";
-
-import { deleteProject } from "@/server/contentActions/deleteContentProject";
+// packages
 import {
 	Button,
 	Modal,
@@ -10,6 +9,8 @@ import {
 	ModalHeader,
 	useDisclosure,
 } from "@nextui-org/react";
+// functions
+import { deleteProject } from "@/server/contentActions/deleteContentProject";
 
 const DeleteProjectButton = ({ id }: Readonly<{ id: string }>) => {
 	const { isOpen, onOpenChange } = useDisclosure();
