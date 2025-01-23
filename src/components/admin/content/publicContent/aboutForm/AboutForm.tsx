@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Button, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
 // components
-import ContentImageModal from "../../shared/ContentImageModal";
+import ContentImageModal from "@/components/admin/shared/ContentImageModal";
 // types
 import { About, Images } from "@prisma/client";
 import { AboutContentForm } from "@/lib/types";
@@ -248,10 +248,10 @@ export default function AboutForm({
 			</form>
 			<ContentImageModal
 				images={images}
-				target={imageTarget}
+				aboutTarget={imageTarget}
 				isOpen={isOpen}
 				onOpenChange={onOpenChange}
-				setValue={setValue as UseFormSetValue<AboutContentForm>}
+				setValueAbout={setValue}
 			/>
 		</>
 	);

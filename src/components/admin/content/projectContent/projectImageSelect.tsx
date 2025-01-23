@@ -20,9 +20,9 @@ import { itemOrder } from "@/lib/utils/contentUtils/sortUtils";
 import { isInSelectedPage } from "@/lib/utils/miscUtils/isInCurrentPage";
 // types
 import { Images } from "@prisma/client";
-import ImagePerPageSelect from "../../shared/ImagePerPageSelect";
 import ImageSortBySelect from "../../shared/ImageSortBySelect";
 import ImageOrderBySelect from "../../shared/ImageOrderBySelect";
+import ImagesPerPageSelect from "../../shared/ImagesPerPageSelect";
 
 const ProjectImageSelect = (props: Readonly<{ images: Images[] }>) => {
 	const { images } = props;
@@ -97,7 +97,7 @@ const ProjectImageSelect = (props: Readonly<{ images: Images[] }>) => {
 							</ModalHeader>
 							<ModalBody>
 								<div className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-6">
-									<ImagePerPageSelect
+									<ImagesPerPageSelect
 										imagesPerPage={imagesPerPage}
 										setImagesPerPage={setImagesPerPage}
 									/>

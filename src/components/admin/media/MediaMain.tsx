@@ -15,9 +15,9 @@ import {
 import { Images } from "@prisma/client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import ImagePerPageSelect from "../shared/ImagePerPageSelect";
 import ImageSortBySelect from "../shared/ImageSortBySelect";
 import ImageOrderBySelect from "../shared/ImageOrderBySelect";
+import ImagesPerPageSelect from "../shared/ImagesPerPageSelect";
 
 export default function MediaMain(props: Readonly<{ images: Images[] }>) {
 	const { images } = props;
@@ -62,7 +62,7 @@ export default function MediaMain(props: Readonly<{ images: Images[] }>) {
 	return (
 		<>
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-6">
-				<ImagePerPageSelect
+				<ImagesPerPageSelect
 					imagesPerPage={imagesPerPage}
 					setImagesPerPage={setImagesPerPage}
 				/>

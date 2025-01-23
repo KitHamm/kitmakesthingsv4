@@ -172,12 +172,6 @@ export type Views = {
 	pages: { page: string; count: number }[];
 };
 
-export type LayoutProps = {
-	children?: ReactNode;
-	imageUrl: string;
-	shift: boolean;
-};
-
 export type LogoList = {
 	name: string;
 	url: string;
