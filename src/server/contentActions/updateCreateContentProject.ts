@@ -16,8 +16,8 @@ export async function updateCreateContentProject(
 			},
 		});
 
-		const stack = data.stack.map((stack) => stack.name);
-		const images = data.images.map((image) => image.url);
+		const stack = data.stack?.map((stack) => stack.name) || [];
+		const images = data.images?.map((image) => image.url) || [];
 
 		const action = project
 			? prisma.contentProject.update({

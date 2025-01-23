@@ -27,7 +27,7 @@ export default async function RootLayout({
 				<SidePanel messages={messages} />
 				<MobileNav messages={messages} />
 				<div className="hidden lg:block w-1/6" />
-				<div className="w-full lg:w-5/6">{children}</div>
+				<main className="w-full lg:w-5/6">{children}</main>
 			</body>
 		</html>
 	);

@@ -11,20 +11,21 @@ import {
 	useDisclosure,
 } from "@nextui-org/react";
 
-export default function DeleteProjectButton(props: Readonly<{ id: string }>) {
+const DeleteProjectButton = ({ id }: Readonly<{ id: string }>) => {
 	const { isOpen, onOpenChange } = useDisclosure();
 
-	function onDelete() {
-		deleteProject(props.id)
-			.then((res) => {
-				if (res.status === 200) {
-					onOpenChange();
-				} else {
-					console.log(res.message);
-				}
-			})
-			.catch((err) => console.log(err));
-	}
+	const onDelete = async () => {
+		try {
+			const res = await deleteProject(id);
+			if (res.status === 200) {
+				onOpenChange();
+			} else {
+				console.log(res.message);
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	return (
 		<>
@@ -71,4 +72,6 @@ export default function DeleteProjectButton(props: Readonly<{ id: string }>) {
 			</Modal>
 		</>
 	);
-}
+};
+
+export default DeleteProjectButton;

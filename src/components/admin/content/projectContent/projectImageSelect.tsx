@@ -10,8 +10,6 @@ import {
 	ModalFooter,
 	ModalHeader,
 	Pagination,
-	Select,
-	SelectItem,
 	useDisclosure,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
@@ -19,12 +17,14 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "./formProvider";
 // functions
 import { itemOrder } from "@/lib/utils/contentUtils/sortUtils";
+import { isInSelectedPage } from "@/lib/utils/miscUtils/isInCurrentPage";
 // types
 import { Images } from "@prisma/client";
+import ImagePerPageSelect from "../../shared/ImagePerPageSelect";
+import ImageSortBySelect from "../../shared/ImageSortBySelect";
+import ImageOrderBySelect from "../../shared/ImageOrderBySelect";
 
-export default function ProjectImageSelect(
-	props: Readonly<{ images: Images[] }>
-) {
+const ProjectImageSelect = (props: Readonly<{ images: Images[] }>) => {
 	const { images } = props;
 	const { control } = useFormContext();
 	const { fields, append, remove } = useFieldArray({
@@ -97,127 +97,18 @@ export default function ProjectImageSelect(
 							</ModalHeader>
 							<ModalBody>
 								<div className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-6">
-									<Select
-										className="ms-auto me-auto xl:me-0"
-										variant="bordered"
-										selectedKeys={[
-											imagesPerPage.toString(),
-										]}
-										labelPlacement="outside"
-										label={"Images Per Page"}
-										onChange={(e) =>
-											setImagesPerPage(
-												parseInt(e.target.value)
-											)
-										}
-									>
-										<SelectItem
-											className="light"
-											key={4}
-											value={4}
-										>
-											4
-										</SelectItem>
-										<SelectItem
-											className="light"
-											key={8}
-											value={8}
-										>
-											8
-										</SelectItem>
-										<SelectItem
-											className="light"
-											key={12}
-											value={12}
-										>
-											12
-										</SelectItem>
-										<SelectItem
-											className="light"
-											key={16}
-											value={16}
-										>
-											16
-										</SelectItem>
-										<SelectItem
-											className="light"
-											key={20}
-											value={20}
-										>
-											20
-										</SelectItem>
-										<SelectItem
-											className="light"
-											key={1000000}
-											value={1000000}
-										>
-											All
-										</SelectItem>
-									</Select>
-									<Select
-										className="ms-auto me-auto xl:me-0"
-										variant="bordered"
-										selectedKeys={[sortBy]}
-										labelPlacement="outside"
-										label={"Sort by"}
-										onChange={(e) => {
-											switch (e.target.value) {
-												case "date":
-													setSortBy("date");
-													break;
-												case "name":
-													setSortBy("name");
-													break;
-											}
-										}}
-									>
-										<SelectItem
-											className="light"
-											key={"date"}
-											value={"date"}
-										>
-											Date
-										</SelectItem>
-										<SelectItem
-											className="light"
-											key={"name"}
-											value={"name"}
-										>
-											Name
-										</SelectItem>
-									</Select>
-									<Select
-										className="ms-auto me-auto xl:me-0"
-										variant="bordered"
-										selectedKeys={[orderBy]}
-										labelPlacement="outside"
-										label={"Order"}
-										onChange={(e) => {
-											switch (e.target.value) {
-												case "asc":
-													setOrderBy("asc");
-													break;
-												case "desc":
-													setOrderBy("desc");
-													break;
-											}
-										}}
-									>
-										<SelectItem
-											className="light"
-											key={"asc"}
-											value={"asc"}
-										>
-											Ascending
-										</SelectItem>
-										<SelectItem
-											className="light"
-											key={"desc"}
-											value={"desc"}
-										>
-											Descending
-										</SelectItem>
-									</Select>
+									<ImagePerPageSelect
+										imagesPerPage={imagesPerPage}
+										setImagesPerPage={setImagesPerPage}
+									/>
+									<ImageSortBySelect
+										sortBy={sortBy}
+										setSortBy={setSortBy}
+									/>
+									<ImageOrderBySelect
+										orderBy={orderBy}
+										setOrderBy={setOrderBy}
+									/>
 								</div>
 								<div className="flex justify-center my-4">
 									<div className="flex justify-center">
@@ -240,12 +131,11 @@ export default function ProjectImageSelect(
 									{orderedImages.map(
 										(image: Images, index: number) => {
 											if (
-												index >
-													currentPage *
-														imagesPerPage -
-														(imagesPerPage + 1) &&
-												index <
-													currentPage * imagesPerPage
+												isInSelectedPage(
+													index,
+													currentPage,
+													imagesPerPage
+												)
 											) {
 												return (
 													<div
@@ -299,4 +189,6 @@ export default function ProjectImageSelect(
 			</Modal>
 		</div>
 	);
-}
+};
+
+export default ProjectImageSelect;

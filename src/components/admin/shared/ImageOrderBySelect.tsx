@@ -3,13 +3,13 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { Dispatch, SetStateAction } from "react";
 
-export default function ImageOrderBySelect(
-	props: Readonly<{
-		orderBy: string;
-		setOrderBy: Dispatch<SetStateAction<"asc" | "desc">>;
-	}>
-) {
-	const { orderBy, setOrderBy } = props;
+const ImageOrderBySelect = ({
+	orderBy,
+	setOrderBy,
+}: Readonly<{
+	orderBy: string;
+	setOrderBy: Dispatch<SetStateAction<"asc" | "desc">>;
+}>) => {
 	return (
 		<Select
 			className="ms-auto me-auto xl:me-0"
@@ -31,4 +31,6 @@ export default function ImageOrderBySelect(
 			</SelectItem>
 		</Select>
 	);
-}
+};
+
+export default ImageOrderBySelect;
