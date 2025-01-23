@@ -11,10 +11,7 @@ export default function AnonVisitLogger() {
 			userAgent
 		);
 		if (!botDetected) {
-			console.log("Create request");
 			serviceRequest(window.location.pathname);
-		} else {
-			console.log("Bot detected");
 		}
 	}, []);
 

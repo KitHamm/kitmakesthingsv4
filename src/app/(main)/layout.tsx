@@ -2,30 +2,14 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "../globals.css";
 import NavbarComp from "@/components/main/layout/Navbar";
+import { getMetaData } from "@/data/metaData";
 
 const roboto = Roboto({
 	weight: ["100", "300", "400", "500", "700", "900"],
 	subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-	metadataBase: new URL(
-		process.env.NEXT_PUBLIC_BASE_URL ?? "https://kitmakesthings.co.uk"
-	),
-
-	title: "Kit Hamm | Developer",
-	description:
-		"Kit Hamm is a Freelance Developer from the South West. Open to contract and full time opportunities.",
-	openGraph: {
-		title: "Kit Hamm | Developer",
-		description:
-			"Kit Hamm is a Freelance Developer from the South West. Open to contract and full time opportunities.",
-		url: "https://kitmakesthings.co.uk/",
-		siteName: "KitMakesThings",
-		locale: "en-US",
-		type: "website",
-	},
-};
+export const metadata: Metadata = getMetaData("Kit Hamm | Developer");
 
 export default function RootLayout({
 	children,

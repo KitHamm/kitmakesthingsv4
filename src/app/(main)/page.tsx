@@ -42,7 +42,7 @@ export default async function Home() {
 					<ParticlesComponent>
 						<header className="slide-in-right flex flex-col justify-evenly w-fit my-auto">
 							<div className="my-auto flex flex-col lg:gap-4 gap-20">
-								<div>
+								<div className="pointer-events-none">
 									<h2 className="lg:text-4xl text-charcoal-dark text-center lg:text-start text-2xl font-bold">
 										KIT HAMM
 									</h2>
@@ -51,7 +51,7 @@ export default async function Home() {
 									</h1>
 								</div>
 								<div className="flex justify-between lg:gap-10">
-									<div className="hidden my-auto font-medium lg:block text-charcoal-dark text-lg w-1/2">
+									<div className="pointer-events-none hidden my-auto font-medium lg:block text-charcoal-dark text-lg w-1/2">
 										<Markdown className="mt-[1rem]">
 											{content.copy}
 										</Markdown>

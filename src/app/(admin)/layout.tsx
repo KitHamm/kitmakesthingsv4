@@ -4,29 +4,14 @@ import "../globals.css";
 import SidePanel from "@/components/admin/layout/SidePanel";
 import prisma from "@/lib/prisma";
 import MobileNav from "@/components/admin/layout/MobileNav";
+import { getMetaData } from "@/data/metaData";
 
 const roboto = Roboto({
 	weight: ["100", "300", "400", "500", "700", "900"],
 	subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-	metadataBase: new URL(
-		process.env.NEXT_PUBLIC_BASE_URL ?? "https://kitmakesthings.co.uk"
-	),
-	title: "Kit Hamm | Dashboard",
-	description:
-		"Kit Hamm is a Freelance Developer from the South West. Open to contract and full time opportunities.",
-	openGraph: {
-		title: "Kit Hamm | Developer",
-		description:
-			"Kit Hamm is a Freelance Developer from the South West. Open to contract and full time opportunities.",
-		url: "https://kitmakesthings.co.uk/",
-		siteName: "KitMakesThings",
-		locale: "en-US",
-		type: "website",
-	},
-};
+export const metadata: Metadata = getMetaData("Kit Hamm | Dashboard");
 
 export default async function RootLayout({
 	children,
