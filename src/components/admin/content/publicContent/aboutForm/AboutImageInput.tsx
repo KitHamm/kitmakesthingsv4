@@ -33,9 +33,7 @@ const AboutImageInput = ({
 				className="w-full h-auto"
 			/>
 			<button
-				onClick={() => {
-					onOpenChange();
-				}}
+				onClick={onOpenChange}
 				className="cursor-pointer opacity-0 hover:opacity-100 transition-all absolute top-0 left-0 h-full w-full bg-neutral-400 bg-opacity-75 flex justify-center"
 			>
 				<div className="my-auto font-bold text-white text-4xl">

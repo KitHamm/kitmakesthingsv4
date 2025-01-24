@@ -11,6 +11,17 @@ const LandingStackInput = ({ label }: Readonly<{ label: string }>) => {
 	const { fields, append, remove } = useFieldArray({ control, name: "tech" });
 	const [newTech, setNewTech] = useState("");
 
+	const handleAddTech = () => {
+		if (newTech) {
+			append({
+				name: newTech,
+				landingId: "landing",
+				order: 0,
+			});
+			setNewTech("");
+		}
+	};
+
 	return (
 		<div>
 			<label className="flex gap-2 items-center" htmlFor="title">
@@ -42,16 +53,7 @@ const LandingStackInput = ({ label }: Readonly<{ label: string }>) => {
 					onChange={(e) => setNewTech(e.target.value)}
 				/>
 				<Button
-					onPress={() => {
-						if (newTech) {
-							append({
-								name: newTech,
-								landingId: "landing",
-								order: 0,
-							});
-							setNewTech("");
-						}
-					}}
+					onPress={handleAddTech}
 					className="bg-green-500 text-white"
 				>
 					<i className="fa-solid fa-plus" />

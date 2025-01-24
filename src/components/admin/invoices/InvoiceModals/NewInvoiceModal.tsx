@@ -1,5 +1,5 @@
 "use client";
-
+// packages
 import {
 	Button,
 	Modal,
@@ -12,34 +12,26 @@ import {
 	useDisclosure,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import {
-	FieldErrors,
-	useFieldArray,
-	useForm,
-	UseFormRegister,
-} from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import Markdown from "react-markdown";
+// functions
 import { createInvoice } from "@/server/invoiceActions/createInvoice";
+// components
 import NewItemModal from "./InvoiceItemModal";
+import InvoiceTextInput from "./InvoiceTextInput";
+// types
 import { Client } from "@prisma/client";
 import { InvoiceForm } from "@/lib/types";
 
-export default function NewInvoiceModal(
-	props: Readonly<{
-		clients: Client[];
-		referencePlaceholder: string;
-	}>
-) {
-	const { clients, referencePlaceholder } = props;
+const NewInvoiceModal = ({
+	clients,
+	referencePlaceholder,
+}: Readonly<{
+	clients: Client[];
+	referencePlaceholder: string;
+}>) => {
 	const [newInvoiceTotal, setNewInvoiceTotal] = useState(0.0);
 	const { isOpen, onOpenChange, onClose } = useDisclosure();
-
-	const invoiceForm = useForm<InvoiceForm>({
-		defaultValues: {
-			total: 0.0,
-			reference: referencePlaceholder,
-		},
-	});
 
 	const {
 		register,
@@ -48,7 +40,12 @@ export default function NewInvoiceModal(
 		handleSubmit,
 		control,
 		setValue,
-	} = invoiceForm;
+	} = useForm<InvoiceForm>({
+		defaultValues: {
+			total: 0.0,
+			reference: referencePlaceholder,
+		},
+	});
 
 	const { fields, append, remove } = useFieldArray({
 		name: "items",
@@ -61,7 +58,7 @@ export default function NewInvoiceModal(
 		setNewInvoiceTotal(total);
 	}, [fields, setValue]);
 
-	function resetForm() {
+	const handleReset = () => {
 		for (const field of fields) {
 			remove(fields.indexOf(field));
 		}
@@ -75,34 +72,33 @@ export default function NewInvoiceModal(
 			items: [],
 		});
 		setNewInvoiceTotal(0.0);
-	}
+	};
 
-	function submitInvoice(data: InvoiceForm) {
-		createInvoice(data)
-			.then((res) => {
-				if (res.status === 200) {
-					onClose();
-					resetForm();
-				} else {
-					console.log(res.message);
-				}
-			})
-			.catch((err) => console.log(err));
-	}
+	const onSubmit = async (data: InvoiceForm) => {
+		try {
+			const res = await createInvoice(data);
+			if (res.status === 200) {
+				onClose();
+				handleReset();
+			} else {
+				console.log(res.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<>
-			<div className="mb-6 flex flex-col lg:flex-row gap-4">
-				<Button
-					onPress={() => {
-						onOpenChange();
-					}}
-					className="bg-green-500 w-full lg:w-auto text-white text-md"
-				>
-					New Invoice
-				</Button>
-			</div>
+			<Button
+				onPress={onOpenChange}
+				className="bg-green-500 rounded-lg w-full lg:w-auto text-white text-md"
+			>
+				New Invoice
+			</Button>
 			<Modal
 				size="2xl"
+				backdrop="blur"
 				scrollBehavior="outside"
 				isOpen={isOpen}
 				onOpenChange={onOpenChange}
@@ -113,7 +109,7 @@ export default function NewInvoiceModal(
 							<ModalHeader className="flex flex-col gap-1">
 								New Invoice
 							</ModalHeader>
-							<form onSubmit={handleSubmit(submitInvoice)}>
+							<form onSubmit={handleSubmit(onSubmit)}>
 								<ModalBody className="gap-2">
 									<div className="flex flex-col items-center justify-center lg:flex-row lg:gap-8 gap-4 mb-4 lg:mb-0">
 										<div className="w-full">
@@ -146,13 +142,13 @@ export default function NewInvoiceModal(
 									</div>
 
 									<div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
-										<TextInput
+										<InvoiceTextInput
 											label="Reference"
 											target="reference"
 											register={register}
 											errors={errors}
 										/>
-										<TextInput
+										<InvoiceTextInput
 											label="Tax Year"
 											target="taxYear"
 											register={register}
@@ -239,7 +235,7 @@ export default function NewInvoiceModal(
 										variant="light"
 										onPress={() => {
 											onClose();
-											resetForm();
+											handleReset();
 										}}
 									>
 										Close
@@ -258,34 +254,6 @@ export default function NewInvoiceModal(
 			</Modal>
 		</>
 	);
-}
+};
 
-function TextInput(
-	props: Readonly<{
-		label: string;
-		target: keyof InvoiceForm;
-		register: UseFormRegister<InvoiceForm>;
-		errors: FieldErrors<InvoiceForm>;
-	}>
-) {
-	const { label, target, register, errors } = props;
-	return (
-		<div className="lg:w-1/2">
-			<label className="font-bold px-2" htmlFor={target}>
-				{label}
-			</label>
-			<input
-				type="text"
-				id={target}
-				{...register(target, {
-					required: {
-						value: true,
-						message: `${label} is required.`,
-					},
-				})}
-				placeholder={errors[target] ? errors[target].message : label}
-				className={errors[target] ? "placeholder:text-red-400" : ""}
-			/>
-		</div>
-	);
-}
+export default NewInvoiceModal;

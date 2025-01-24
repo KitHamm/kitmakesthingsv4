@@ -56,9 +56,7 @@ const LandingHighlightInput = ({
 				className="object-cover h-auto w-auto rounded-full"
 			/>
 			<Button
-				onPress={() => {
-					onOpenChange();
-				}}
+				onPress={onOpenChange}
 				className="w-full bg-green-500 text-white text-md"
 				type="button"
 			>

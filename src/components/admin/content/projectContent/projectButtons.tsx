@@ -8,7 +8,7 @@ const ProjectButtons = () => {
 	return (
 		<div className="flex justify-end items-center gap-4">
 			<Button
-				onPress={() => handleReset()}
+				onPress={handleReset}
 				type="button"
 				color="warning"
 				variant="light"
