@@ -165,6 +165,14 @@ export enum MessageState {
 	ERROR,
 }
 
+export enum UploadState {
+	NONE,
+	READY,
+	UPLOADING,
+	SUCCESS,
+	ERROR,
+}
+
 // Functions
 
 export type Views = {
