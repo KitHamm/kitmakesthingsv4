@@ -1,44 +1,53 @@
+// prisma
+import prisma from "@/lib/prisma";
+// packages
+import Link from "next/link";
+import { Divider } from "@nextui-org/react";
+// functions
+import { dateRender } from "@/lib/utils/dateUtils/dateRender";
+import { getProjectStateClass } from "@/lib/utils/projectTrackerUtils/getClassByState";
+// components
+import PageTitle from "@/components/admin/shared/PageTitle";
 import ManageClientsButton from "@/components/admin/shared/ManageClients";
 import NewProject from "@/components/admin/projects/newProject";
-import { dateRender } from "@/lib/utils/dateUtils/dateRender";
-import prisma from "@/lib/prisma";
+// types
 import { WorkingProjectWithTasksAndClient } from "@/lib/types";
-import { ProjectState } from "@prisma/client";
-import PageTitle from "@/components/admin/shared/PageTitle";
+import { Client, ProjectState } from "@prisma/client";
 
-export default async function Projects() {
-	const projects = await prisma.workingProject.findMany({
-		orderBy: {
-			name: "asc",
-		},
-		include: {
-			tasks: {},
-			client: {},
-		},
-	});
+export default async function ProjectTrackerPage() {
+	let projects: WorkingProjectWithTasksAndClient[] = [];
+	let clients: Client[] = [];
+	try {
+		clients = await prisma.client.findMany();
+		projects = await prisma.workingProject.findMany({
+			orderBy: {
+				name: "asc",
+			},
+			include: {
+				tasks: {},
+				client: {},
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
 
-	const clients = await prisma.client.findMany();
 	return (
 		<div className="lg:py-10 lg:px-10 py-4 px-4">
-			<PageTitle title="Projects Tracker." />
-			<div className="w-fit bg-neutral-100 p-4 mb-4 rounded-xl shadow flex gap-6 items-center">
-				<ManageClientsButton clients={clients} />
-				<NewProject clients={clients} />
+			<PageTitle title="WIP Projects." />
+			<div className="bg-neutral-100 lg:w-fit p-4 mb-4 rounded-xl shadow">
+				<div className="font-bold text-xl">Project Actions</div>
+				<Divider className="mb-4" />
+				<div className="flex gap-6 items-center">
+					<ManageClientsButton clients={clients} />
+					<NewProject clients={clients} />
+				</div>
 			</div>
 
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 				{projects.map((project: WorkingProjectWithTasksAndClient) => {
-					const getProjectStateClass = (state: ProjectState) => {
-						if (state === ProjectState.PROPOSED) {
-							return "text-neutral-600";
-						} else if (state === ProjectState.STARTED) {
-							return "text-orange-400";
-						} else {
-							return "text-green-400";
-						}
-					};
 					return (
-						<a
+						<Link
 							key={project.id}
 							href={"/dashboard/projects/" + project.id}
 							className="fade-in cursor-pointer hover:bg-green-200 flex bg-neutral-100 rounded-lg shadow p-4 transition-all"
@@ -66,7 +75,7 @@ export default async function Projects() {
 									</div>
 								</div>
 							</div>
-						</a>
+						</Link>
 					);
 				})}
 			</div>

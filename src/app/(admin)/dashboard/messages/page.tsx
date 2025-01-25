@@ -1,6 +1,5 @@
 "use client";
 // packages
-import Link from "next/link";
 import { useEffect, useState } from "react";
 // functions
 import { getMessages } from "@/server/messageActions/getMessages";

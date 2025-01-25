@@ -1,6 +1,5 @@
 "use client";
-
-import { deleteProject } from "@/server/projectTrackerActions/deleteProject";
+// packages
 import {
 	Modal,
 	ModalContent,
@@ -10,21 +9,24 @@ import {
 	Button,
 	useDisclosure,
 } from "@nextui-org/react";
+// functions
+import { deleteProject } from "@/server/projectTrackerActions/deleteProject";
 
-export default function ProjectDeleteButton(props: Readonly<{ id: string }>) {
+const ProjectDeleteButton = ({ id }: Readonly<{ id: string }>) => {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-	function onDelete() {
-		deleteProject(props.id)
-			.then((res) => {
-				if (res.status === 200) {
-					window.location.href = "/dashboard/projects";
-				} else {
-					console.log(res.message);
-				}
-			})
-			.catch((err) => console.log(err));
-	}
+	const onDelete = async () => {
+		try {
+			const res = await deleteProject(id);
+			if (res.status === 200) {
+				window.location.href = "/dashboard/projects";
+			} else {
+				console.log(res.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<>
@@ -40,8 +42,8 @@ export default function ProjectDeleteButton(props: Readonly<{ id: string }>) {
 				<ModalContent>
 					{(onClose) => (
 						<>
-							<ModalHeader className="flex flex-col gap-1">
-								Are you sure?
+							<ModalHeader className="flex flex-col gap-1 text-red-500">
+								WARNING
 							</ModalHeader>
 							<ModalBody>
 								<p>
@@ -54,12 +56,13 @@ export default function ProjectDeleteButton(props: Readonly<{ id: string }>) {
 								<Button
 									color="danger"
 									variant="light"
+									className="text-md rounded-lg"
 									onPress={onDelete}
 								>
 									Delete
 								</Button>
 								<Button
-									className="bg-green-500"
+									className="bg-green-500 text-white text-md rounded-lg"
 									onPress={onClose}
 								>
 									Close
@@ -71,4 +74,6 @@ export default function ProjectDeleteButton(props: Readonly<{ id: string }>) {
 			</Modal>
 		</>
 	);
-}
+};
+
+export default ProjectDeleteButton;

@@ -1,6 +1,5 @@
 "use client";
-
-import { addNewTask } from "@/server/projectTrackerActions/addNewTask";
+// packages
 import {
 	Modal,
 	ModalContent,
@@ -12,9 +11,12 @@ import {
 	Select,
 	SelectItem,
 } from "@nextui-org/react";
-import { TaskPriority } from "@prisma/client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+// functions
+import { addNewTask } from "@/server/projectTrackerActions/addNewTask";
+// types
+import { TaskPriority } from "@prisma/client";
 import { PriorityType, TaskForm } from "@/lib/types";
 
 const priority: PriorityType[] = [
@@ -23,34 +25,43 @@ const priority: PriorityType[] = [
 	{ label: "High", key: TaskPriority.HIGH },
 ];
 
-export default function NewTask(props: Readonly<{ projectId: string }>) {
-	const [formError, setFormError] = useState("");
-	const { isOpen, onOpen, onOpenChange } = useDisclosure();
-	const taskForm = useForm<TaskForm>();
-	const { register, reset, handleSubmit, setValue, formState } = taskForm;
-	const { errors } = formState;
+const NewTask = (props: Readonly<{ projectId: string }>) => {
+	const [formError, setFormError] = useState<string | null>(null);
+	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+	const {
+		register,
+		reset,
+		handleSubmit,
+		setValue,
+		formState: { errors },
+	} = useForm<TaskForm>();
 
-	function submitNewTask(data: TaskForm) {
+	const onSubmit = async (data: TaskForm) => {
 		if (!data.priority) {
 			setFormError("Please select a priority.");
-		} else {
-			addNewTask(data)
-				.then((res) => {
-					if (res.status === 200) {
-						reset();
-						onOpenChange();
-						setFormError("");
-					} else {
-						console.log(res.message);
-						setFormError("Something went wrong.");
-					}
-				})
-				.catch((err) => {
-					console.log(err);
-					setFormError("Something went wrong.");
-				});
+			return;
 		}
-	}
+		try {
+			const res = await addNewTask(data);
+			if (res.status === 200) {
+				reset();
+				onOpenChange();
+				setFormError(null);
+			} else {
+				console.log(res.message);
+				setFormError("Something went wrong.");
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleClose = () => {
+		reset();
+		setFormError(null);
+		onClose();
+	};
+
 	return (
 		<>
 			<Button
@@ -66,7 +77,7 @@ export default function NewTask(props: Readonly<{ projectId: string }>) {
 							<ModalHeader className="flex flex-col gap-1">
 								New Task
 							</ModalHeader>
-							<form onSubmit={handleSubmit(submitNewTask)}>
+							<form onSubmit={handleSubmit(onSubmit)}>
 								<ModalBody>
 									<input
 										type="hidden"
@@ -123,7 +134,7 @@ export default function NewTask(props: Readonly<{ projectId: string }>) {
 											</SelectItem>
 										))}
 									</Select>
-									{formError !== "" && (
+									{formError && (
 										<p className="text-red-400">
 											{formError}
 										</p>
@@ -134,17 +145,14 @@ export default function NewTask(props: Readonly<{ projectId: string }>) {
 										type="button"
 										color="danger"
 										variant="light"
-										onPress={() => {
-											reset();
-											setFormError("");
-											onClose();
-										}}
+										className="text-md rounded-lg"
+										onPress={handleClose}
 									>
 										Close
 									</Button>
 									<Button
 										type="submit"
-										className="bg-green-500 text-white"
+										className="bg-green-500 text-white text-md rounded-lg"
 									>
 										Submit
 									</Button>
@@ -156,4 +164,6 @@ export default function NewTask(props: Readonly<{ projectId: string }>) {
 			</Modal>
 		</>
 	);
-}
+};
+
+export default NewTask;

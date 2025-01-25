@@ -77,6 +77,7 @@ const ManageClientsModal = ({ clients }: Readonly<{ clients: Client[] }>) => {
 				Manage Clients
 			</Button>
 			<Modal
+				backdrop="blur"
 				isDismissable={false}
 				isOpen={isOpenManageClients}
 				onOpenChange={onOpenChangeManageClients}
@@ -87,11 +88,11 @@ const ManageClientsModal = ({ clients }: Readonly<{ clients: Client[] }>) => {
 							<ModalHeader className="flex flex-col gap-1">
 								Manage Clients
 							</ModalHeader>
-							<div className="px-4">
+							<div className="px-4 flex flex-col gap-2">
 								{clients.map((client: Client) => {
 									return (
 										<div
-											className="border-b-2 py-2 flex justify-between"
+											className="bg-neutral-100 rounded-lg shadow py-2 px-4 flex justify-between"
 											key={client.id}
 										>
 											<div className="font-bold my-auto">
@@ -116,6 +117,7 @@ const ManageClientsModal = ({ clients }: Readonly<{ clients: Client[] }>) => {
 									type="button"
 									color="danger"
 									variant="light"
+									className="text-md rounded-lg"
 									onPress={() => {
 										onClose();
 										reset();
@@ -124,7 +126,7 @@ const ManageClientsModal = ({ clients }: Readonly<{ clients: Client[] }>) => {
 									Close
 								</Button>
 								<Button
-									className="bg-green-500"
+									className="bg-green-500 text-md text-white rounded-lg"
 									onPress={onOpenChangeNewClient}
 								>
 									New Client
@@ -135,6 +137,7 @@ const ManageClientsModal = ({ clients }: Readonly<{ clients: Client[] }>) => {
 				</ModalContent>
 			</Modal>
 			<Modal
+				backdrop="blur"
 				isDismissable={false}
 				isOpen={isOpenNewClient}
 				onOpenChange={onOpenChangeNewClient}
@@ -208,6 +211,7 @@ const ManageClientsModal = ({ clients }: Readonly<{ clients: Client[] }>) => {
 										type="button"
 										color="danger"
 										variant="light"
+										className="text-md rounded-lg"
 										onPress={() => {
 											onClose();
 											reset();
@@ -216,7 +220,7 @@ const ManageClientsModal = ({ clients }: Readonly<{ clients: Client[] }>) => {
 										Close
 									</Button>
 									<Button
-										className="bg-green-500"
+										className="bg-green-500 text-md text-white rounded-lg"
 										type="submit"
 									>
 										Submit
