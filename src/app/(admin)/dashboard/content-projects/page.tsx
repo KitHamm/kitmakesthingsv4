@@ -3,11 +3,12 @@ import prisma from "@/lib/prisma";
 // packages
 import Link from "next/link";
 // components
+import PageTitle from "@/components/admin/shared/PageTitle";
 import DeleteProjectButton from "@/components/admin/content/projectContent/deleteProjectButton";
 // types
 import { ContentProject } from "@prisma/client";
 
-export default async function ContentProjects() {
+export default async function ContentProjectsPage() {
 	let projects: ContentProject[] = [];
 
 	try {
@@ -22,11 +23,7 @@ export default async function ContentProjects() {
 
 	return (
 		<div className="lg:py-10 lg:px-10 py-4 px-4">
-			<div className="mx-4">
-				<div className="font-bold text-6xl mb-6 pb-4 text-center lg:text-start border-b-2">
-					Projects.
-				</div>
-			</div>
+			<PageTitle title="Projects." />
 			<div className="flex">
 				<Link
 					className="hover:bg-green-400 w-full text-center lg:w-auto bg-green-500 transition-colors px-8 py-2 rounded text-md text-white"

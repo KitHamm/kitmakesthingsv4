@@ -75,7 +75,7 @@ const ContentImageModal = ({
 					.join("")
 			);
 		}
-	}, []);
+	}, [aboutTarget, landingTarget]);
 
 	const handleSetValue = (imageUrl: string) => {
 		if (setValueLanding && landingTarget) {

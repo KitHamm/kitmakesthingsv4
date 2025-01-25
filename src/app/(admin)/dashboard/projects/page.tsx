@@ -4,6 +4,7 @@ import { dateRender } from "@/lib/utils/dateUtils/dateRender";
 import prisma from "@/lib/prisma";
 import { WorkingProjectWithTasksAndClient } from "@/lib/types";
 import { ProjectState } from "@prisma/client";
+import PageTitle from "@/components/admin/shared/PageTitle";
 
 export default async function Projects() {
 	const projects = await prisma.workingProject.findMany({
@@ -19,14 +20,10 @@ export default async function Projects() {
 	const clients = await prisma.client.findMany();
 	return (
 		<div className="lg:py-10 lg:px-10 py-4 px-4">
-			<div className="flex flex-col lg:flex-row gap-6 mb-6 pb-4 border-b-2">
-				<div className="text-6xl font-bold text-center lg:text-start">
-					Projects.
-				</div>
-				<div className="flex gap-6 justify-center items-center">
-					<ManageClientsButton clients={clients} />
-					<NewProject clients={clients} />
-				</div>
+			<PageTitle title="Projects Tracker." />
+			<div className="w-fit bg-neutral-100 p-4 mb-4 rounded-xl shadow flex gap-6 items-center">
+				<ManageClientsButton clients={clients} />
+				<NewProject clients={clients} />
 			</div>
 
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">

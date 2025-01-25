@@ -63,7 +63,7 @@ const textInputs: {
 	},
 ];
 
-export default async function ContentProject({
+export default async function ContentProjectEditPage({
 	params,
 }: Readonly<{ params: Promise<{ slug: string }> }>) {
 	const { slug } = await params;

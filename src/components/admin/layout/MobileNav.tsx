@@ -1,45 +1,49 @@
 "use client";
 // packages
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
-	Badge,
 	Drawer,
 	DrawerBody,
 	DrawerContent,
 	DrawerHeader,
 	useDisclosure,
 } from "@nextui-org/react";
-import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-// types
-import { Messages } from "@prisma/client";
+// functions
+import getUnreadMessages from "@/server/messageActions/getUnreadMessages";
 import { signOut } from "next-auth/react";
+// constants
+import { navLinks } from "@/lib/constants";
+// components
 import SocialLinks from "@/components/main/shared/socialLinks";
+import NavLink from "./NavLink";
 
-export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
+const MobileNav = () => {
 	const [newMessages, setNewMessages] = useState(0);
 	const pathname = usePathname();
-	const {
-		isOpen: isOpenMenu,
-		onClose: onCloseMenu,
-		onOpenChange: onOpenChangeMenu,
-	} = useDisclosure();
+	const { isOpen, onClose, onOpenChange } = useDisclosure();
 
 	useEffect(() => {
-		let count = 0;
-		for (const message of props.messages) {
-			if (!message.read) {
-				count = count + 1;
+		const fetchUnreadMessages = async () => {
+			try {
+				const response = await getUnreadMessages();
+				if (response.status === 200) {
+					setNewMessages(response.message.messageCount);
+				} else {
+					setNewMessages(0);
+				}
+			} catch (error) {
+				setNewMessages(0);
+				console.log(error);
 			}
-		}
-		setNewMessages(count);
-	}, [props.messages]);
+		};
+		fetchUnreadMessages();
+	}, [pathname]);
 
 	useEffect(() => {
-		onCloseMenu();
-	}, [pathname, onCloseMenu]);
-
-	const badgeIsInvisible = newMessages === 0;
+		onClose();
+	}, [pathname, onClose]);
 
 	return (
 		<>
@@ -58,13 +62,13 @@ export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 					</div>
 					<button
 						onClick={() => {
-							onOpenChangeMenu();
+							onOpenChange();
 						}}
 						className="my-auto py-2 px-4 lg:hidden"
 					>
 						<i
 							className={`${
-								isOpenMenu ? "-rotate-90" : "rotate-0"
+								isOpen ? "-rotate-90" : "rotate-0"
 							} fa-solid fa-bars fa-2xl mt-auto transition-transform`}
 						/>
 					</button>
@@ -73,9 +77,9 @@ export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 			<Drawer
 				size="full"
 				placement="left"
-				isOpen={isOpenMenu}
+				isOpen={isOpen}
 				hideCloseButton
-				onOpenChange={onOpenChangeMenu}
+				onOpenChange={onOpenChange}
 			>
 				<DrawerContent>
 					{(onClose) => (
@@ -91,101 +95,25 @@ export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 							</DrawerHeader>
 							<DrawerBody className="px-8 flex flex-col justify-between pb-8">
 								<div className="flex flex-col gap-4">
-									<MobileNavLink
-										href="/"
-										active={pathname === "/"}
-									>
-										<i className="fa-solid fa-house" />
-										<div className="font-bold">Home</div>
-									</MobileNavLink>
-									<MobileNavLink
-										href="/dashboard"
-										active={pathname === "/dashboard"}
-									>
-										<i className="fa-solid fa-chart-simple" />
-										<div className="font-bold">
-											Statistics
-										</div>
-									</MobileNavLink>
-									<MobileNavLink
-										href="/dashboard/content"
-										active={
-											pathname === "/dashboard/content"
-										}
-									>
-										<i className="fa-solid fa-file" />
-										<div className="font-bold">
-											Pages Content
-										</div>
-									</MobileNavLink>
-									<MobileNavLink
-										href="/dashboard/content/projects"
-										active={pathname.includes(
-											"/dashboard/content/projects"
-										)}
-									>
-										<i className="fa-solid fa-diagram-project" />
-										<div className="font-bold">
-											Project Content
-										</div>
-									</MobileNavLink>
-									<MobileNavLink
-										href="/dashboard/messages"
-										active={
-											pathname === "/dashboard/messages"
-										}
-									>
-										<i className="fa-solid fa-message" />
-										<Badge
-											classNames={{
-												badge: "-right-1 top-",
-											}}
-											showOutline={false}
-											isInvisible={badgeIsInvisible}
-											placement="top-right"
-											content={newMessages}
-											color="danger"
-										>
-											<div className="font-bold">
-												Messages
-											</div>
-										</Badge>
-									</MobileNavLink>
-									<MobileNavLink
-										href="/dashboard/invoices"
-										active={
-											pathname === "/dashboard/invoices"
-										}
-									>
-										<i className="fa-solid fa-money-bill" />
-										<div className="font-bold">
-											Invoices
-										</div>
-									</MobileNavLink>
-									<MobileNavLink
-										href="/dashboard/projects"
-										active={
-											pathname === "/dashboard/projects"
-										}
-									>
-										<i className="fa-solid fa-diagram-project" />
-										<div className="font-bold">
-											Projects
-										</div>
-									</MobileNavLink>
-									<MobileNavLink
-										href="/dashboard/media"
-										active={pathname === "/dashboard/media"}
-									>
-										<i className="fa-solid fa-photo-film" />
-										<div className="font-bold">Media</div>
-									</MobileNavLink>
+									{navLinks.map((link) => (
+										<NavLink
+											key={link.href}
+											href={link.href}
+											label={link.label}
+											icon={link.icon}
+											newMessages={newMessages}
+											classNames="text-2xl"
+											activeClassNames="text-green-500"
+										/>
+									))}
 									<button
 										onClick={() => signOut()}
 										className="flex gap-3 items-center text-start text-red-400 text-2xl transition-colors"
 									>
 										<i className="rotate-180 fa-solid fa-arrow-right-to-bracket" />
-										<div className="font-bold">Log Out</div>
+										<div className="font-bold">
+											Sign Out
+										</div>
 									</button>
 								</div>
 								<div className="flex flex-col gap-8">
@@ -199,26 +127,6 @@ export default function MobileNav(props: Readonly<{ messages: Messages[] }>) {
 			</Drawer>
 		</>
 	);
-}
+};
 
-function MobileNavLink({
-	children,
-	href,
-	active,
-}: Readonly<{
-	children: React.ReactNode;
-	href: string;
-	active: boolean;
-}>) {
-	return (
-		<Link
-			className={`${
-				active ? "text-green-600" : ""
-			} flex gap-3 items-center text-2xl transition-colors hover:text-green-600`}
-			color="foreground"
-			href={href}
-		>
-			{children}
-		</Link>
-	);
-}
+export default MobileNav;

@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { getReferencePlaceholder } from "@/lib/utils/invoiceUtils/getReferencePlaceholder";
 import { getAllTaxYears } from "@/lib/utils/invoiceUtils/totalTaxYears";
 // components
+import PageTitle from "@/components/admin/shared/PageTitle";
 import NewInvoiceModal from "@/components/admin/invoices/InvoiceModals/NewInvoiceModal";
 import InvoiceStateProvider from "@/components/admin/invoices/InvoiceStateProvider";
 import InvoiceYearButtons from "@/components/admin/invoices/InvoiceYearButtons";
@@ -14,7 +15,7 @@ import { Client } from "@prisma/client";
 import { Divider } from "@nextui-org/react";
 import InvoiceCard from "@/components/admin/invoices/InvoiceCard";
 
-export default async function Invoices() {
+export default async function InvoicesPage() {
 	let invoices: InvoiceWithClientAndItems[] = [];
 	let clients: Client[] = [];
 	try {
@@ -35,9 +36,7 @@ export default async function Invoices() {
 	return (
 		<div className="lg:py-10 lg:px-10 py-4 px-4">
 			<InvoiceStateProvider>
-				<div className="font-bold text-6xl mb-6 pb-4 text-center lg:text-start border-b-2">
-					Invoices.
-				</div>
+				<PageTitle title="Invoices." />
 				<div className="bg-neutral-100 lg:w-fit p-4 mb-4 rounded-xl shadow">
 					<div className="font-bold text-xl">Invoice Actions</div>
 					<Divider className="mb-4" />

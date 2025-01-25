@@ -14,7 +14,7 @@ export async function updateMessageRead(messageId: string, read: boolean) {
 				read: read,
 			},
 		});
-		revalidatePath("/dashboard/messages");
+		revalidatePath("/dashboard");
 		return actionResponse(200, "updated");
 	} catch (error: any) {
 		return actionResponse(400, error);

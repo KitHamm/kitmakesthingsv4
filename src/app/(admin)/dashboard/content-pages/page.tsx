@@ -1,6 +1,7 @@
 // prisma
 import prisma from "@/lib/prisma";
 // components
+import PageTitle from "@/components/admin/shared/PageTitle";
 import LandingFormProvider from "@/components/admin/content/publicContent/landingForm/LandingFormProvider";
 import AboutFormProvider from "@/components/admin/content/publicContent/aboutForm/AboutFormProvider";
 import LandingFormTextInput from "@/components/admin/content/publicContent/landingForm/LandingFormTextInput";
@@ -58,7 +59,7 @@ const aboutImageTitleKeys: { target: keyof AboutContentForm }[] = [
 	{ target: "title4" },
 ];
 
-export default async function Content() {
+export default async function ContentPage() {
 	let landingContent: LandingWithTech | null = null;
 	let aboutContent: About | null = null;
 	let images: Images[] = [];
@@ -81,9 +82,7 @@ export default async function Content() {
 
 	return (
 		<div className="lg:py-10 lg:px-10 py-4">
-			<div className="font-bold text-6xl mx-4 lg:mx-0 mb-6 pb-4 text-center lg:text-start border-b-2">
-				Content.
-			</div>
+			<PageTitle title="Content." />
 			<div className="flex flex-col lg:flex-row fade-in gap-10 lg:gap-0">
 				<div className="h-auto lg:basis-1/2 bg-neutral-100 mx-4 p-4 rounded-lg">
 					<div className="font-bold text-4xl border-b-2 pb-2">
