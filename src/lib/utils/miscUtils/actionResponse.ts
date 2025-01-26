@@ -1,7 +1,3 @@
-// export function actionResponse(status: number, message: string) {
-// 	return { status: status, message: message };
-// }
-
 export const createResponse = <T>(
 	success: boolean,
 	payload: T | null = null,
