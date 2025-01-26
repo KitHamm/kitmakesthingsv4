@@ -1,5 +1,5 @@
 "use client";
-import { ContentProjectForm, ContentTextInputProps } from "@/lib/types";
+import { ContentProjectForm } from "@/lib/types";
 import { useFormContext } from "./formProvider";
 
 const ProjectTextInput = ({

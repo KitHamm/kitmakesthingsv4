@@ -5,7 +5,7 @@ export const getMetaData = (title: string) => {
 		process.env.NODE_ENV === "production"
 			? process.env.NEXT_PUBLIC_BASE_URL ||
 			  "https://kitmakesthings.co.uk/"
-			: "http://kitmakesthings.co.uk/";
+			: "https://kitmakesthings.co.uk/";
 	const description =
 		"Kit Hamm is a Freelance Developer from the South West. Open to contract and full time opportunities.";
 

@@ -11,8 +11,7 @@ import {
 	useDisclosure,
 } from "@nextui-org/react";
 import axios, { AxiosProgressEvent } from "axios";
-import { useState } from "react";
-import { DragEvent, ChangeEvent } from "react";
+import { DragEvent, ChangeEvent, useState } from "react";
 // functions
 import { forceRevalidate } from "@/server/forceRevalidate";
 import { isImages } from "@/lib/utils/contentUtils/imageUtils";

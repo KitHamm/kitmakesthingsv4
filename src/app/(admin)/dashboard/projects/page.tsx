@@ -12,7 +12,7 @@ import ManageClientsButton from "@/components/admin/shared/ManageClients";
 import NewProject from "@/components/admin/projects/newProject";
 // types
 import { WorkingProjectWithTasksAndClient } from "@/lib/types";
-import { Client, ProjectState } from "@prisma/client";
+import { Client } from "@prisma/client";
 
 export default async function ProjectTrackerPage() {
 	let projects: WorkingProjectWithTasksAndClient[] = [];
