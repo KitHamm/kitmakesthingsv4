@@ -1,11 +1,11 @@
 "use client";
 
-// Packages
+// packages
 import { Button } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-// Types
+// types
 import { LoginForm } from "@/lib/types";
 
 export default function SignIn() {
@@ -14,20 +14,23 @@ export default function SignIn() {
 	const { errors } = formState;
 	const [loginError, setLoginError] = useState("");
 
-	function login(data: LoginForm) {
-		signIn("credentials", {
-			email: data.email.toLowerCase(),
-			password: data.password,
-			redirect: false,
-		}).then((res) => {
+	const login = async (data: LoginForm) => {
+		try {
+			const res = await signIn("credentials", {
+				email: data.email.toLowerCase(),
+				password: data.password,
+				redirect: false,
+			});
 			if (res?.ok) {
 				window.location.href = "/dashboard";
 			} else {
 				setLoginError(res?.error ?? "Unknown error.");
 				reset();
 			}
-		});
-	}
+		} catch (error) {
+			console.log("Unexpected error:", error);
+		}
+	};
 	return (
 		<main className="flex flex-col grow">
 			<div className="m-auto">
