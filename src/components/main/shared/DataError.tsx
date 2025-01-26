@@ -1,7 +1,7 @@
 // Components
 import ErrorButtons from "./404Buttons";
 
-export default function DataError() {
+const DataError = () => {
 	return (
 		<div className="grow w-full flex flex-col justify-center items-center">
 			<h1 className="font-bold text-3xl">Oops!</h1>
@@ -12,4 +12,6 @@ export default function DataError() {
 			</div>
 		</div>
 	);
-}
+};
+
+export default DataError;
