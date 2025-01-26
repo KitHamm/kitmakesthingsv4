@@ -9,22 +9,28 @@ import EmblaCarousel from "@/components/embla/EmblaCarousel";
 import ProjectTechStack from "@/components/main/projects/ProjectTechStack";
 import DataError from "@/components/main/shared/DataError";
 import AnonVisitLogger from "@/components/main/shared/AnonVisitLogger";
+import ContactButton from "@/components/main/shared/ContactButton";
 // Types
 import { EmblaOptionsType } from "embla-carousel";
-import ContactButton from "@/components/main/shared/ContactButton";
-// Constants
+import { ContentProject } from "@prisma/client";
+
 const OPTIONS: EmblaOptionsType = { loop: true };
 
-type Params = Promise<{ projectId: string }>;
+export default async function ProjectPage({
+	params,
+}: Readonly<{ params: Promise<{ projectId: string }> }>) {
+	const { projectId } = await params;
 
-export default async function ProjectPage(props: Readonly<{ params: Params }>) {
-	const params = await props.params;
-
-	const project = await prisma.contentProject.findUnique({
-		where: {
-			slug: params.projectId,
-		},
-	});
+	let project: ContentProject | null = null;
+	try {
+		project = await prisma.contentProject.findUnique({
+			where: {
+				slug: projectId,
+			},
+		});
+	} catch (error) {
+		return <DataError />;
+	}
 
 	if (!project) {
 		return <DataError />;

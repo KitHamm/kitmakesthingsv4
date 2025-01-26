@@ -15,8 +15,7 @@ type PropType = {
 
 const OPTIONS: EmblaOptionsType = { loop: true };
 
-const LightBoxEmblaCarousel: React.FC<PropType> = (props) => {
-	const { slides } = props;
+const LightBoxEmblaCarousel: React.FC<PropType> = ({ slides }) => {
 	const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS);
 	const [loaded, setLoaded] = useState(false);
 
