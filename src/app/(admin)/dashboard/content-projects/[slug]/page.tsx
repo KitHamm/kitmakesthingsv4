@@ -83,12 +83,12 @@ export default async function ContentProjectEditPage({
 	} catch (error) {
 		console.log("Error fetching data:", error);
 		if (!project) {
-			return redirect("/projects");
+			return redirect("/content-projects");
 		}
 	}
 
 	if (slug !== "new-project" && !project) {
-		return redirect("/projects");
+		return redirect("/content-projects");
 	}
 
 	return (

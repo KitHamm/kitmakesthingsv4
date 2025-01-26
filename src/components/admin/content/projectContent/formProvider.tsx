@@ -95,7 +95,7 @@ const FormProvider = ({
 				project?.slug ?? ""
 			);
 			if (res.success) {
-				window.location.href = "/dashboard/content/projects";
+				window.location.href = "/dashboard/content-projects";
 			} else {
 				console.log("Error:", res.error);
 			}
