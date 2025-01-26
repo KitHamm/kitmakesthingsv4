@@ -58,13 +58,13 @@ const LandingFormProvider = ({
 		}
 	}, [landingContent, reset]);
 
-	const handleReset = () => {
+	const handleReset = useCallback(() => {
 		if (landingContent) {
 			reset(landingContent);
 		} else {
 			reset();
 		}
-	};
+	}, [landingContent, reset]);
 
 	const onSubmit = async (data: LandingContentForm) => {
 		try {
@@ -94,6 +94,7 @@ const LandingFormProvider = ({
 			handleSubmit,
 			control,
 			handleReset,
+			watch,
 			setValue,
 			errors,
 			isDirty,

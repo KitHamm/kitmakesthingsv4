@@ -58,13 +58,13 @@ const AboutFormProvider = ({
 		}
 	}, [aboutContent, reset]);
 
-	const handleReset = () => {
+	const handleReset = useCallback(() => {
 		if (aboutContent) {
 			reset(aboutContent);
 		} else {
 			reset();
 		}
-	};
+	}, [aboutContent, reset]);
 
 	const onSubmit = async (data: AboutContentForm) => {
 		try {
@@ -94,6 +94,7 @@ const AboutFormProvider = ({
 			handleSubmit,
 			control,
 			handleReset,
+			watch,
 			setValue,
 			errors,
 			isDirty,
