@@ -9,15 +9,21 @@ import { createMessage } from "@/server/messageActions/createMessage";
 // Types
 import { ContactForm, MessageState } from "@/lib/types";
 
-export default function LandingContact() {
+const sendingStateToTitle = ["Contact Me", "Sending...", "Success!", "Oops!"];
+
+const LandingContact = () => {
 	const [sendingState, setSendingState] = useState<MessageState>(
 		MessageState.NONE
 	);
-	const contactForm = useForm<ContactForm>();
-	const { handleSubmit, register, formState, reset } = contactForm;
-	const { errors } = formState;
 
-	const OnSubmit = async (data: ContactForm) => {
+	const {
+		handleSubmit,
+		register,
+		formState: { errors },
+		reset,
+	} = useForm<ContactForm>();
+
+	const onSubmit = async (data: ContactForm) => {
 		try {
 			const res = await createMessage(data);
 			if (res.success) {
@@ -40,13 +46,6 @@ export default function LandingContact() {
 		}, 2000);
 	};
 
-	const sendingStateToTitle = [
-		"Contact Me",
-		"Sending...",
-		"Success!",
-		"Oops!",
-	];
-
 	return (
 		<div
 			id="contact"
@@ -59,7 +58,7 @@ export default function LandingContact() {
 				{sendingState === MessageState.NONE && (
 					<form
 						className="mb-auto flex flex-col gap-2"
-						onSubmit={handleSubmit(OnSubmit)}
+						onSubmit={handleSubmit(onSubmit)}
 					>
 						<div className="flex flex-col lg:flex-row lg:gap-5">
 							<div className="lg:w-1/2">
@@ -105,7 +104,6 @@ export default function LandingContact() {
 								/>
 							</div>
 						</div>
-
 						<textarea
 							{...register("message", {
 								required: {
@@ -145,22 +143,19 @@ export default function LandingContact() {
 						/>
 					</div>
 				)}
-				{sendingState === MessageState.SUCCESS && (
+				{(sendingState === MessageState.SUCCESS ||
+					sendingState === MessageState.ERROR) && (
 					<div className="fade-in text-center justify-center my-20">
 						<div className="font-bold text-2xl">
-							Thank you for your message.
-						</div>
-					</div>
-				)}
-				{sendingState === MessageState.ERROR && (
-					<div className="fade-in text-center justify-center my-20">
-						<div className="font-bold text-2xl">
-							Something appears to have gone wrong. Please try
-							again later.
+							{sendingState === MessageState.SUCCESS
+								? "Thank you for your message."
+								: "Something appears to have gone wrong. Please try again later."}
 						</div>
 					</div>
 				)}
 			</div>
 		</div>
 	);
-}
+};
+
+export default LandingContact;

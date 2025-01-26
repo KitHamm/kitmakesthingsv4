@@ -6,13 +6,13 @@ import { useInView } from "react-intersection-observer";
 // Constants
 import { highlightAnimations } from "@/lib/constants";
 
-export default function InViewAnimation({
+const InViewAnimation = ({
 	children,
 	animation,
 }: Readonly<{
 	children: React.ReactNode;
 	animation: number;
-}>) {
+}>) => {
 	const { ref, inView } = useInView({ threshold: 0.5 });
 
 	const el = useRef<HTMLDivElement | null>(null);
@@ -27,6 +27,7 @@ export default function InViewAnimation({
 			}
 		}
 	}, [inView, animation]);
+
 	return (
 		<div
 			ref={el}
@@ -51,4 +52,6 @@ export default function InViewAnimation({
 			</div>
 		</div>
 	);
-}
+};
+
+export default InViewAnimation;
