@@ -27,9 +27,11 @@ const ProjectStateChange = ({
 			const projectState =
 				ProjectState[e.anchorKey as keyof typeof ProjectState];
 			const res = await updateProjectState(id, projectState);
-			if (res.status === 400) console.log(res.message);
+			if (!res.success) {
+				console.log("Error:", res.error);
+			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unexpected error:", error);
 		}
 	};
 

@@ -77,14 +77,14 @@ const NewInvoiceModal = ({
 	const onSubmit = async (data: InvoiceForm) => {
 		try {
 			const res = await createInvoice(data);
-			if (res.status === 200) {
+			if (res.success) {
 				onClose();
 				handleReset();
 			} else {
-				console.log(res.message);
+				console.log("Error:", res.error);
 			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unexpected error:", error);
 		}
 	};
 

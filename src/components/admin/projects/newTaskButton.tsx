@@ -43,16 +43,16 @@ const NewTask = (props: Readonly<{ projectId: string }>) => {
 		}
 		try {
 			const res = await addNewTask(data);
-			if (res.status === 200) {
+			if (res.success) {
 				reset();
 				onOpenChange();
 				setFormError(null);
 			} else {
-				console.log(res.message);
-				setFormError("Something went wrong.");
+				console.log("Error:", res.error);
+				setFormError(res.error);
 			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unexpected error:", error);
 		}
 	};
 

@@ -51,14 +51,14 @@ const MediaMain = ({ images }: Readonly<{ images: Images[] }>) => {
 	const onDelete = async (file: string) => {
 		try {
 			const res = await deleteMedia(file);
-			if (res.status === 200) {
+			if (res.success) {
 				onClose();
 				setSelectedImage("");
 			} else {
-				console.log(res.message);
+				console.log("Error:", res.error);
 			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unexpected error:", error);
 		}
 	};
 

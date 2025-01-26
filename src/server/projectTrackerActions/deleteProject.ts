@@ -1,8 +1,8 @@
 "use server";
 
-import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
 
 export async function deleteProject(id: string) {
 	try {
@@ -17,9 +17,10 @@ export async function deleteProject(id: string) {
 				id: id,
 			},
 		});
-		revalidatePath("/dashboard/projects");
-		return actionResponse(200, "deleted");
-	} catch (error: any) {
-		return actionResponse(400, error);
+
+		revalidatePath("/dashboard");
+		return createResponse(true, "deleted");
+	} catch (error) {
+		return createResponse(false, null, error);
 	}
 }

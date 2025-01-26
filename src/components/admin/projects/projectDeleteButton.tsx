@@ -18,13 +18,13 @@ const ProjectDeleteButton = ({ id }: Readonly<{ id: string }>) => {
 	const onDelete = async () => {
 		try {
 			const res = await deleteProject(id);
-			if (res.status === 200) {
+			if (res.success) {
 				window.location.href = "/dashboard/projects";
 			} else {
-				console.log(res.message);
+				console.log("Error:", res.error);
 			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unexpected error:", error);
 		}
 	};
 

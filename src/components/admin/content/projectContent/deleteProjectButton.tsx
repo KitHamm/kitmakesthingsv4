@@ -18,13 +18,13 @@ const DeleteProjectButton = ({ id }: Readonly<{ id: string }>) => {
 	const onDelete = async () => {
 		try {
 			const res = await deleteProject(id);
-			if (res.status === 200) {
+			if (res.success) {
 				onOpenChange();
 			} else {
-				console.log(res.message);
+				console.log("Error:", res.error);
 			}
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log("Unexpected error:", error);
 		}
 	};
 

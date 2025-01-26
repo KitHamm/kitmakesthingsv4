@@ -17,15 +17,16 @@ const SidePanel = () => {
 	useEffect(() => {
 		const fetchUnreadMessages = async () => {
 			try {
-				const response = await getUnreadMessages();
-				if (response.status === 200) {
-					setNewMessages(response.message.messageCount);
+				const res = await getUnreadMessages();
+				if (res.success) {
+					setNewMessages(res.data ?? 0);
 				} else {
 					setNewMessages(0);
+					console.log("Error:", res.error);
 				}
 			} catch (error) {
 				setNewMessages(0);
-				console.log(error);
+				console.log("Unexpected error:", error);
 			}
 		};
 		fetchUnreadMessages();

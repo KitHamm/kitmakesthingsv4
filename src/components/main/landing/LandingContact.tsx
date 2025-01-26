@@ -17,22 +17,21 @@ export default function LandingContact() {
 	const { handleSubmit, register, formState, reset } = contactForm;
 	const { errors } = formState;
 
-	function OnSubmit(data: ContactForm) {
-		setSendingState(MessageState.SENDING);
-		createMessage(data)
-			.then((res) => {
-				if (res.status === 200) {
-					setSendingState(MessageState.SUCCESS);
-					resetStateWithDelay();
-				} else {
-					setSendingState(MessageState.ERROR);
-				}
-			})
-			.catch((err) => {
-				console.error(err);
+	const OnSubmit = async (data: ContactForm) => {
+		try {
+			const res = await createMessage(data);
+			if (res.success) {
+				setSendingState(MessageState.SUCCESS);
+				resetStateWithDelay();
+			} else {
 				setSendingState(MessageState.ERROR);
-			});
-	}
+				console.log("Error:", res.error);
+			}
+		} catch (error) {
+			console.error("Unexpected error:", error);
+			setSendingState(MessageState.ERROR);
+		}
+	};
 
 	const resetStateWithDelay = () => {
 		setTimeout(() => {

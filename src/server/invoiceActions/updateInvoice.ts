@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
 import { InvoiceForm } from "@/lib/types";
 
 export async function updateInvoice(data: InvoiceForm) {
@@ -14,7 +14,7 @@ export async function updateInvoice(data: InvoiceForm) {
 			},
 		});
 
-		await prisma.invoice.update({
+		const updated = await prisma.invoice.update({
 			where: {
 				reference: data.reference,
 			},
@@ -38,10 +38,10 @@ export async function updateInvoice(data: InvoiceForm) {
 				},
 			});
 		}
-		revalidatePath("/dashboard/invoices");
-		revalidatePath("dashboard");
-		return actionResponse(200, "updated");
-	} catch (error: any) {
-		return actionResponse(400, error);
+
+		revalidatePath("/dashboard");
+		return createResponse(true, updated);
+	} catch (error) {
+		return createResponse(false, null, error);
 	}
 }

@@ -15,16 +15,16 @@ export default function MessagesPage() {
 	useEffect(() => {
 		const fetchMessages = async () => {
 			try {
-				const response = await getMessages();
-				if (response.status === 200) {
-					setMessages(response.message.data);
+				const res = await getMessages();
+				if (res.success) {
+					setMessages(res.data as Messages[]);
 				} else {
-					console.log(response.message);
 					setMessages([]);
+					console.log("Error:", res.error);
 				}
 			} catch (error) {
 				setMessages([]);
-				console.log(error);
+				console.log("Unexpected error:", error);
 			}
 		};
 		fetchMessages();

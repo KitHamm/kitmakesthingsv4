@@ -39,15 +39,15 @@ const NewProject = ({ clients }: Readonly<{ clients: Client[] }>) => {
 		}
 		try {
 			const res = await addNewProject(data);
-			if (res.status === 200) {
+			if (res.success) {
 				setFormError(null);
 				reset();
 				onOpenChange();
 			} else {
-				console.log(res.message);
+				console.log("Error:", res.error);
 			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unexpected error:", error);
 		}
 	};
 

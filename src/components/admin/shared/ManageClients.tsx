@@ -44,27 +44,27 @@ const ManageClientsModal = ({ clients }: Readonly<{ clients: Client[] }>) => {
 	const onSubmit = async (data: ClientForm) => {
 		try {
 			const res = await createClient(data);
-			if (res.status === 200) {
+			if (res.success) {
 				onCloseNewClient();
 				reset();
 			} else {
-				console.log(res.message);
+				console.log("Error:", res.error);
 			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unexpected error:", error);
 		}
 	};
 
 	const onDelete = async (id: string) => {
 		try {
 			const res = await deleteClient(id);
-			if (res.status === 200) {
+			if (res.success) {
 				onCloseManageClients();
 			} else {
-				console.log(res.message);
+				console.log("Error:", res.error);
 			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unknown error:", error);
 		}
 	};
 

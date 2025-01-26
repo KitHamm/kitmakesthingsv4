@@ -13,11 +13,11 @@ const MessageCard = ({
 	const onMarkUnread = async () => {
 		try {
 			const res = await updateMessageRead(id, true);
-			if (res.status === 400) {
-				console.log(res.message);
+			if (!res.success) {
+				console.log("Error:", res.error);
 			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unexpected error:", error);
 		}
 	};
 

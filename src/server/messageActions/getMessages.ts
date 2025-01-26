@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
 
 export async function getMessages() {
 	try {
@@ -9,14 +10,9 @@ export async function getMessages() {
 				createdAt: "desc",
 			},
 		});
-		return {
-			status: 200,
-			message: {
-				data: messages,
-			},
-		};
+
+		return createResponse(true, messages);
 	} catch (error) {
-		console.log(error);
-		return { status: 400, message: { data: [] } };
+		return createResponse(false, null, error);
 	}
 }

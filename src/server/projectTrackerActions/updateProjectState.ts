@@ -1,13 +1,13 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { ProjectState } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { ProjectState } from "@prisma/client";
 
 export async function updateProjectState(id: string, state: ProjectState) {
 	try {
-		await prisma.workingProject.update({
+		const updated = await prisma.workingProject.update({
 			where: {
 				id: id,
 			},
@@ -15,10 +15,10 @@ export async function updateProjectState(id: string, state: ProjectState) {
 				state: state,
 			},
 		});
-		revalidatePath("/dashboard/projects/" + id);
-		revalidatePath("/dashboard/projects");
-		return actionResponse(200, "updated");
-	} catch (error: any) {
-		return actionResponse(400, error);
+
+		revalidatePath("/dashboard");
+		return createResponse(true, updated);
+	} catch (error) {
+		return createResponse(false, null, error);
 	}
 }

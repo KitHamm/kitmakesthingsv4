@@ -2,6 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 
-export const forceRevalidate = async (path: string) => {
+export async function forceRevalidate(path: string) {
 	revalidatePath(path);
-};
+}

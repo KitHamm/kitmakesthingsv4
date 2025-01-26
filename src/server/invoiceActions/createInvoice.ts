@@ -1,12 +1,11 @@
 "use server";
 
-import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
 import prisma from "@/lib/prisma";
-import { InvoiceForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { InvoiceForm } from "@/lib/types";
 
 export async function createInvoice(data: InvoiceForm) {
-	// Create Invoice
 	try {
 		const date = new Date(data.date);
 		const invoice = await prisma.invoice.create({
@@ -30,10 +29,10 @@ export async function createInvoice(data: InvoiceForm) {
 				},
 			});
 		}
-		revalidatePath("/dashboard/invoices");
-		revalidatePath("dashboard");
-		return actionResponse(200, "created");
-	} catch (error: any) {
-		return actionResponse(400, error);
+
+		revalidatePath("/dashboard");
+		return createResponse(true, invoice);
+	} catch (error) {
+		return createResponse(false, null, error);
 	}
 }

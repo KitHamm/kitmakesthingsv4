@@ -1,18 +1,18 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
 
 export default async function getUnreadMessages() {
 	try {
-		const messages = await prisma.messages.count({
+		const messageCount = await prisma.messages.count({
 			where: {
 				read: false,
 			},
 		});
 
-		return { status: 200, message: { messageCount: messages } };
+		return createResponse(true, messageCount);
 	} catch (error) {
-		console.log(error);
-		return { status: 400, message: { messageCount: 0 } };
+		return createResponse(false, 0, error);
 	}
 }

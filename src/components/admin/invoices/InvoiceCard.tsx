@@ -30,13 +30,13 @@ const InvoiceCard = ({
 	const onDelete = async () => {
 		try {
 			const res = await deleteInvoice(invoice.reference);
-			if (res.status === 200) {
+			if (res.success) {
 				onOpenChange();
 			} else {
-				console.log(res.message);
+				console.log("Error:", res.error);
 			}
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log("Unexpected error:", error);
 		}
 	};
 
@@ -46,13 +46,13 @@ const InvoiceCard = ({
 				invoice.reference,
 				!invoice.paid
 			);
-			if (res.status === 200) {
+			if (res.success) {
 				onOpenChange();
 			} else {
-				console.log(res.message);
+				console.log("Error:", res.error);
 			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unexpected error:", error);
 		}
 	};
 

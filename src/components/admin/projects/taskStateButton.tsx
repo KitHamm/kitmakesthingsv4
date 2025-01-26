@@ -16,9 +16,11 @@ const TaskStateButton = ({
 	const updateTask = async (state: TaskState) => {
 		try {
 			const res = await updateTaskState(id, state);
-			if (res.status === 400) console.log(res.message);
+			if (!res.success) {
+				console.log("Error:", res.error);
+			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unexpected error:", error);
 		}
 	};
 

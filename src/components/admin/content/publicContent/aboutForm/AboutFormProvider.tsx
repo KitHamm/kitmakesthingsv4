@@ -69,11 +69,11 @@ const AboutFormProvider = ({
 	const onSubmit = async (data: AboutContentForm) => {
 		try {
 			const res = await updateAbout(data);
-			if (res.status !== 200) {
-				console.log(res.message);
+			if (!res.success) {
+				console.log("Error:", res.error);
 			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unexpected error:", error);
 		}
 	};
 

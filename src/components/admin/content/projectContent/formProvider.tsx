@@ -94,13 +94,13 @@ const FormProvider = ({
 				data,
 				project?.slug ?? ""
 			);
-			if (res.status === 200) {
+			if (res.success) {
 				window.location.href = "/dashboard/content/projects";
 			} else {
-				console.log(res.message);
+				console.log("Error:", res.error);
 			}
 		} catch (error) {
-			console.log(error);
+			console.log("Unexpected error:", error);
 		}
 	};
 
