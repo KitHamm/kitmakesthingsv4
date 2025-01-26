@@ -8,7 +8,6 @@ import {
 	Tech,
 	WorkingProject,
 } from "@prisma/client";
-import { ReactNode } from "react";
 
 // Extended Prisma Types
 
