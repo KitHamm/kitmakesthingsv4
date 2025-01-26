@@ -57,7 +57,7 @@ export default async function ContentProjectsPage() {
 							<div className="flex justify-center items-center grow-0">
 								<Link
 									className="hover:bg-green-400 w-full text-center lg:w-auto bg-green-500 transition-colors px-4 py-2 rounded text-md text-white"
-									href={"projects/" + project.slug}
+									href={"content-projects/" + project.slug}
 								>
 									View Project
 								</Link>
