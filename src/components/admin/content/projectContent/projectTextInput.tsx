@@ -1,12 +1,17 @@
 "use client";
-import { ContentTextInputProps } from "@/lib/types";
+import { ContentProjectForm, ContentTextInputProps } from "@/lib/types";
 import { useFormContext } from "./formProvider";
 
-export default function ProjectTextInput(
-	props: Readonly<ContentTextInputProps>
-) {
+const ProjectTextInput = ({
+	target,
+	label,
+	required,
+}: Readonly<{
+	target: keyof ContentProjectForm;
+	label: string;
+	required: boolean;
+}>) => {
 	const { register, errors } = useFormContext();
-	const { target, label, required, message, placeholder } = props;
 	return (
 		<div className="w-full">
 			<label htmlFor="name" className="font-bold px-2">
@@ -18,14 +23,14 @@ export default function ProjectTextInput(
 				{...register(target, {
 					required: {
 						value: required,
-						message: message,
+						message: `${label} is required.`,
 					},
 				})}
-				placeholder={
-					errors[target] ? errors[target].message : placeholder
-				}
+				placeholder={errors[target] ? errors[target].message : label}
 				className={errors[target] ? "placeholder:text-red-400" : ""}
 			/>
 		</div>
 	);
-}
+};
+
+export default ProjectTextInput;

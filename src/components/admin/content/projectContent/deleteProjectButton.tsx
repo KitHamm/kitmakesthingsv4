@@ -1,6 +1,5 @@
 "use client";
-
-import { deleteProject } from "@/server/contentActions/deleteContentProject";
+// packages
 import {
 	Button,
 	Modal,
@@ -10,21 +9,24 @@ import {
 	ModalHeader,
 	useDisclosure,
 } from "@nextui-org/react";
+// functions
+import { deleteProject } from "@/server/contentActions/deleteContentProject";
 
-export default function DeleteProjectButton(props: Readonly<{ id: string }>) {
+const DeleteProjectButton = ({ id }: Readonly<{ id: string }>) => {
 	const { isOpen, onOpenChange } = useDisclosure();
 
-	function onDelete() {
-		deleteProject(props.id)
-			.then((res) => {
-				if (res.status === 200) {
-					onOpenChange();
-				} else {
-					console.log(res.message);
-				}
-			})
-			.catch((err) => console.log(err));
-	}
+	const onDelete = async () => {
+		try {
+			const res = await deleteProject(id);
+			if (res.success) {
+				onOpenChange();
+			} else {
+				console.log("Error:", res.error);
+			}
+		} catch (error) {
+			console.log("Unexpected error:", error);
+		}
+	};
 
 	return (
 		<>
@@ -71,4 +73,6 @@ export default function DeleteProjectButton(props: Readonly<{ id: string }>) {
 			</Modal>
 		</>
 	);
-}
+};
+
+export default DeleteProjectButton;

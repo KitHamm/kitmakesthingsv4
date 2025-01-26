@@ -1,13 +1,13 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { TaskPriority } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { TaskPriority } from "@prisma/client";
 
 export async function updateTaskPriority(id: string, priority: TaskPriority) {
 	try {
-		await prisma.projectTask.update({
+		const updated = await prisma.projectTask.update({
 			where: {
 				id: id,
 			},
@@ -15,9 +15,10 @@ export async function updateTaskPriority(id: string, priority: TaskPriority) {
 				priority: priority,
 			},
 		});
-		revalidatePath("/dashboard/projects");
-		return actionResponse(200, "updated");
-	} catch (error: any) {
-		return actionResponse(400, error);
+
+		revalidatePath("/dashboard");
+		return createResponse(true, updated);
+	} catch (error) {
+		return createResponse(false, null, error);
 	}
 }

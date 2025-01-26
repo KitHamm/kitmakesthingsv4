@@ -1,21 +1,18 @@
 "use client";
 
 // Packages
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, ReactNode } from "react";
 import Image from "next/image";
 // Functions
-import { mapNumRange } from "@/lib/utils/mathUtils/mapNumberRange";
-// Types
-import { LayoutProps } from "@/lib/types";
+import { onScroll } from "@/lib/utils/pageUtils/onScroll";
 
-export default function ParallaxSection({
+const ParallaxSection = ({
 	children,
-	...props
-}: Readonly<LayoutProps>) {
-	// Parallax element ref
+	imageUrl,
+	shift,
+}: Readonly<{ children?: ReactNode; imageUrl: string; shift: boolean }>) => {
 	const headerImageContainer = useRef<HTMLDivElement | null>(null);
 	const headerImage = useRef<HTMLImageElement | null>(null);
-	//  Parallax States
 	const [parallaxValue, setParallaxValue] = useState(-100);
 	const [containerHeight, setContainerHeight] = useState(500);
 
@@ -23,7 +20,7 @@ export default function ParallaxSection({
 		const image = headerImage.current;
 		if (!image) return;
 		const handleImageLoad = () => {
-			onScroll();
+			handleScroll();
 		};
 		if (image.complete) {
 			handleImageLoad();
@@ -36,34 +33,18 @@ export default function ParallaxSection({
 	}, []);
 
 	useEffect(() => {
-		onScroll();
-		window.addEventListener("scroll", onScroll);
+		handleScroll();
+		window.addEventListener("scroll", handleScroll);
 	}, []);
 
-	function onScroll() {
+	function handleScroll() {
 		if (headerImageContainer.current && headerImage.current) {
-			headerImage.current.classList.replace("opacity-0", "fade-in");
-			const containerHeight = headerImageContainer.current.offsetHeight;
-			const imageHeight = headerImage.current.offsetHeight;
-			setContainerHeight((imageHeight / 8) * 6);
-			if (
-				headerImageContainer.current.getBoundingClientRect().top <
-					window.innerHeight &&
-				headerImageContainer.current.getBoundingClientRect().top >
-					0 - containerHeight
-			) {
-				setParallaxValue(
-					0 -
-						mapNumRange(
-							headerImageContainer.current.getBoundingClientRect()
-								.top,
-							window.innerHeight,
-							0,
-							imageHeight - containerHeight,
-							0
-						)
-				);
-			}
+			const { newContainerHeight, newParallaxValue } = onScroll(
+				headerImageContainer.current,
+				headerImage.current
+			);
+			setContainerHeight(newContainerHeight);
+			setParallaxValue(newParallaxValue);
 		}
 	}
 
@@ -79,12 +60,14 @@ export default function ParallaxSection({
 				width={2560}
 				height={1196}
 				className={`${
-					props.shift ? "right-[-100%] lg:right-auto" : ""
+					shift ? "right-[-100%] lg:right-auto" : ""
 				} opacity-0 absolute w-[400%] lg:w-full h-auto`}
 				alt="image"
-				src={props.imageUrl}
+				src={imageUrl}
 			/>
 			<div className="relative z-20 flex w-full h-full">{children}</div>
 		</div>
 	);
-}
+};
+
+export default ParallaxSection;

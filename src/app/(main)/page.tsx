@@ -1,39 +1,45 @@
 // Prisma
 import prisma from "@/lib/prisma";
+// Packages
+import Markdown from "react-markdown";
+import Link from "next/link";
 // Components
+import AnonVisitLogger from "@/components/main/shared/AnonVisitLogger";
+import ParticlesComponent from "@/components/main/landing/Particles";
 import ParallaxSection from "@/components/main/landing/ParallaxSection";
 import InViewAnimation from "@/components/main/landing/inViewAnimation";
 import TechStackIcons from "@/components/main/landing/TechStackIcons";
 import LandingContact from "@/components/main/landing/LandingContact";
 import HighlightCard from "@/components/main/landing/HighlightCard";
 import DataError from "@/components/main/shared/DataError";
-// Packages
-import Markdown from "react-markdown";
-import Link from "next/link";
-// Functions
-import AnonVisitLogger from "@/components/main/shared/AnonVisitLogger";
-import ParticlesComponent from "@/components/main/landing/Particles";
+// types
+import { Landing } from "@prisma/client";
 
 export default async function Home() {
-	const content = await prisma.landing.findFirst();
+	let content: Landing | null = null;
+	try {
+		content = await prisma.landing.findFirst();
+	} catch (error) {
+		return <DataError />;
+	}
 
 	if (!content) {
 		return <DataError />;
 	}
 
-	function getHighlighImageUrl(image: string) {
+	const getHighlighImageUrl = (image: string) => {
 		if (!image) {
 			return "https://placehold.co/500x500.png";
 		}
 		return process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image;
-	}
+	};
 
-	function getParallaxImageUrl(image: string) {
+	const getParallaxImageUrl = (image: string) => {
 		if (!image) {
 			return "https://placehold.co/1000x500.png";
 		}
 		return process.env.NEXT_PUBLIC_BASE_IMAGE_URL + image;
-	}
+	};
 
 	return (
 		<main className="w-full bg-neutral-300 min-h-screen flex flex-col">

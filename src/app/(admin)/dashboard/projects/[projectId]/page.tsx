@@ -1,27 +1,39 @@
+// prisma
+import prisma from "@/lib/prisma";
+// packages
+import { redirect } from "next/navigation";
+// functions
+import { sortTasks } from "@/lib/utils/projectTrackerUtils/sortTasks";
+import { getProjectStateClass } from "@/lib/utils/projectTrackerUtils/getClassByState";
+// components
 import DueDateChange from "@/components/admin/projects/dueDateChange";
 import NewTask from "@/components/admin/projects/newTaskButton";
 import ProjectDeleteButton from "@/components/admin/projects/projectDeleteButton";
 import ProjectStateChange from "@/components/admin/projects/projectStateChange";
 import TaskCard from "@/components/admin/projects/taskCard";
-import prisma from "@/lib/prisma";
-import { sortTasks } from "@/lib/utils/projectTrackerUtils/sortTasks";
-import { ProjectState, ProjectTask } from "@prisma/client";
-import { redirect } from "next/navigation";
+// types
+import { WorkingProjectWithTasksAndClient } from "@/lib/types";
+import { ProjectTask } from "@prisma/client";
 
-type Params = Promise<{ projectId: string }>;
+export default async function ProjectPage({
+	params,
+}: Readonly<{ params: Promise<{ projectId: string }> }>) {
+	const { projectId } = await params;
 
-export default async function ProjectPage(props: Readonly<{ params: Params }>) {
-	const params = await props.params;
-
-	const project = await prisma.workingProject.findUnique({
-		where: {
-			id: params.projectId,
-		},
-		include: {
-			tasks: {},
-			client: {},
-		},
-	});
+	let project: WorkingProjectWithTasksAndClient | null = null;
+	try {
+		project = await prisma.workingProject.findUnique({
+			where: {
+				id: projectId,
+			},
+			include: {
+				tasks: {},
+				client: {},
+			},
+		});
+	} catch (error) {
+		redirect("/dashboard/projects");
+	}
 
 	if (!project) {
 		redirect("/dashboard/projects");
@@ -31,16 +43,6 @@ export default async function ProjectPage(props: Readonly<{ params: Params }>) {
 		project.tasks
 	);
 
-	let stateClass = "";
-
-	if (project.state === ProjectState.PROPOSED) {
-		stateClass = "text-neutral-500";
-	} else if (project.state === ProjectState.STARTED) {
-		stateClass = "text-orange-400";
-	} else {
-		stateClass = "text-green-500";
-	}
-
 	return (
 		<div className="lg:py-10 lg:px-10 py-4 px-4">
 			<div className="mb-6 pb-4 border-b-2">
@@ -49,7 +51,9 @@ export default async function ProjectPage(props: Readonly<{ params: Params }>) {
 						{project.name}
 					</div>
 					<div
-						className={`${stateClass} font-bold text-4xl my-auto text-center`}
+						className={`${getProjectStateClass(
+							project.state
+						)} font-bold text-4xl my-auto text-center`}
 					>
 						{project.state}
 					</div>

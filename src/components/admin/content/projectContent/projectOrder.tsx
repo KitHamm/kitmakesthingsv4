@@ -2,8 +2,9 @@
 
 import { useFormContext } from "./formProvider";
 
-export default function ProjectOrder() {
+const ProjectOrder = () => {
 	const { register } = useFormContext();
+
 	return (
 		<div className="w-1/2">
 			<label htmlFor="order" className="font-bold px-2">
@@ -17,4 +18,6 @@ export default function ProjectOrder() {
 			/>
 		</div>
 	);
-}
+};
+
+export default ProjectOrder;

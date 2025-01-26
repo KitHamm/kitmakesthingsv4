@@ -1,7 +1,5 @@
 "use client";
-
-import { deleteMedia } from "@/server/mediaActions/deleteMedia";
-import { itemOrder } from "@/lib/utils/contentUtils/sortUtils";
+// packages
 import {
 	Modal,
 	ModalContent,
@@ -12,15 +10,19 @@ import {
 	useDisclosure,
 	Pagination,
 } from "@nextui-org/react";
-import { Images } from "@prisma/client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import ImagePerPageSelect from "../shared/ImagePerPageSelect";
+// functions
+import { deleteMedia } from "@/server/mediaActions/deleteMedia";
+import { itemOrder } from "@/lib/utils/contentUtils/sortUtils";
+// components
 import ImageSortBySelect from "../shared/ImageSortBySelect";
 import ImageOrderBySelect from "../shared/ImageOrderBySelect";
+import ImagesPerPageSelect from "../shared/ImagesPerPageSelect";
+// types
+import { Images } from "@prisma/client";
 
-export default function MediaMain(props: Readonly<{ images: Images[] }>) {
-	const { images } = props;
+const MediaMain = ({ images }: Readonly<{ images: Images[] }>) => {
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 	const [selectedImage, setSelectedImage] = useState("");
 
@@ -46,23 +48,24 @@ export default function MediaMain(props: Readonly<{ images: Images[] }>) {
 		}
 	}, [onOpenChange, isOpen]);
 
-	function deleteFile(file: string) {
-		deleteMedia(file)
-			.then((res) => {
-				if (res.status === 200) {
-					onClose();
-					setSelectedImage("");
-				} else {
-					console.log(res.message);
-				}
-			})
-			.catch((err) => console.log(err));
-	}
+	const onDelete = async (file: string) => {
+		try {
+			const res = await deleteMedia(file);
+			if (res.success) {
+				onClose();
+				setSelectedImage("");
+			} else {
+				console.log("Error:", res.error);
+			}
+		} catch (error) {
+			console.log("Unexpected error:", error);
+		}
+	};
 
 	return (
 		<>
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-6">
-				<ImagePerPageSelect
+				<ImagesPerPageSelect
 					imagesPerPage={imagesPerPage}
 					setImagesPerPage={setImagesPerPage}
 				/>
@@ -148,19 +151,14 @@ export default function MediaMain(props: Readonly<{ images: Images[] }>) {
 									color="danger"
 									variant="light"
 									onPress={() => {
-										deleteFile(selectedImage);
-										onClose();
-										setSelectedImage("");
+										onDelete(selectedImage);
 									}}
 								>
 									Delete
 								</Button>
 								<Button
 									className="bg-green-500"
-									onPress={() => {
-										onClose();
-										setSelectedImage("");
-									}}
+									onPress={onClose}
 								>
 									Close
 								</Button>
@@ -171,4 +169,6 @@ export default function MediaMain(props: Readonly<{ images: Images[] }>) {
 			</Modal>
 		</>
 	);
-}
+};
+
+export default MediaMain;

@@ -24,9 +24,8 @@ type PropType = {
 	options?: EmblaOptionsType;
 };
 
-const EmblaCarousel: React.FC<PropType> = (props) => {
+const EmblaCarousel: React.FC<PropType> = ({ slides, options }) => {
 	const { isOpen, onOpenChange } = useDisclosure();
-	const { slides, options } = props;
 	const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
 
 	const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {

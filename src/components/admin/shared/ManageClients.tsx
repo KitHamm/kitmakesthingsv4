@@ -1,5 +1,5 @@
 "use client";
-
+// packages
 import {
 	Button,
 	Modal,
@@ -9,15 +9,15 @@ import {
 	ModalHeader,
 	useDisclosure,
 } from "@nextui-org/react";
-import { Client } from "@prisma/client";
+import { useForm } from "react-hook-form";
+// functions
 import { deleteClient } from "@/server/clientActions/deleteClient";
 import { createClient } from "@/server/clientActions/createClient";
-import { useForm } from "react-hook-form";
+// types
+import { Client } from "@prisma/client";
 import { ClientForm } from "@/lib/types";
 
-export default function ManageClientsButton(
-	props: Readonly<{ clients: Client[] }>
-) {
+const ManageClientsModal = ({ clients }: Readonly<{ clients: Client[] }>) => {
 	const {
 		isOpen: isOpenManageClients,
 		onOpenChange: onOpenChangeManageClients,
@@ -28,55 +28,56 @@ export default function ManageClientsButton(
 		onOpenChange: onOpenChangeNewClient,
 		onClose: onCloseNewClient,
 	} = useDisclosure();
-	const clientForm = useForm<ClientForm>({
+
+	const {
+		register,
+		reset,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<ClientForm>({
 		defaultValues: {
 			name: "",
 			address: "",
 		},
 	});
 
-	const {
-		register: registerClient,
-		reset: resetClient,
-		handleSubmit: handleSubmitClient,
-		formState: formStateClient,
-	} = clientForm;
-	const { errors: errorsClient } = formStateClient;
+	const onSubmit = async (data: ClientForm) => {
+		try {
+			const res = await createClient(data);
+			if (res.success) {
+				onCloseNewClient();
+				reset();
+			} else {
+				console.log("Error:", res.error);
+			}
+		} catch (error) {
+			console.log("Unexpected error:", error);
+		}
+	};
 
-	function submitClient(data: ClientForm) {
-		createClient(data)
-			.then((res) => {
-				if (res.status === 200) {
-					onCloseNewClient();
-					resetClient();
-				} else {
-					console.log(res.message);
-				}
-			})
-			.catch((err) => console.log(err));
-	}
-
-	function handleDeleteClient(id: string) {
-		deleteClient(id).then((res) => {
-			if (res.status === 200) {
+	const onDelete = async (id: string) => {
+		try {
+			const res = await deleteClient(id);
+			if (res.success) {
 				onCloseManageClients();
 			} else {
-				console.log(res.message);
+				console.log("Error:", res.error);
 			}
-		});
-	}
+		} catch (error) {
+			console.log("Unknown error:", error);
+		}
+	};
 
 	return (
 		<>
 			<Button
-				onPress={() => {
-					onOpenChangeManageClients();
-				}}
-				className="bg-green-500 w-full lg:w-auto text-white text-md"
+				onPress={onOpenChangeManageClients}
+				className="bg-green-500 rounded-lg w-full lg:w-auto text-white text-md"
 			>
 				Manage Clients
 			</Button>
 			<Modal
+				backdrop="blur"
 				isDismissable={false}
 				isOpen={isOpenManageClients}
 				onOpenChange={onOpenChangeManageClients}
@@ -87,11 +88,11 @@ export default function ManageClientsButton(
 							<ModalHeader className="flex flex-col gap-1">
 								Manage Clients
 							</ModalHeader>
-							<div className="px-4">
-								{props.clients.map((client: Client) => {
+							<div className="px-4 flex flex-col gap-2">
+								{clients.map((client: Client) => {
 									return (
 										<div
-											className="border-b-2 py-2 flex justify-between"
+											className="bg-neutral-100 rounded-lg shadow py-2 px-4 flex justify-between"
 											key={client.id}
 										>
 											<div className="font-bold my-auto">
@@ -99,9 +100,7 @@ export default function ManageClientsButton(
 											</div>
 											<Button
 												onPress={() => {
-													handleDeleteClient(
-														client.id
-													);
+													onDelete(client.id);
 												}}
 												color="danger"
 												variant="light"
@@ -118,18 +117,17 @@ export default function ManageClientsButton(
 									type="button"
 									color="danger"
 									variant="light"
+									className="text-md rounded-lg"
 									onPress={() => {
 										onClose();
-										resetClient();
+										reset();
 									}}
 								>
 									Close
 								</Button>
 								<Button
-									className="bg-green-500"
-									onPress={() => {
-										onOpenChangeNewClient();
-									}}
+									className="bg-green-500 text-md text-white rounded-lg"
+									onPress={onOpenChangeNewClient}
 								>
 									New Client
 								</Button>
@@ -139,6 +137,7 @@ export default function ManageClientsButton(
 				</ModalContent>
 			</Modal>
 			<Modal
+				backdrop="blur"
 				isDismissable={false}
 				isOpen={isOpenNewClient}
 				onOpenChange={onOpenChangeNewClient}
@@ -149,7 +148,7 @@ export default function ManageClientsButton(
 							<ModalHeader className="flex flex-col gap-1">
 								New Client
 							</ModalHeader>
-							<form onSubmit={handleSubmitClient(submitClient)}>
+							<form onSubmit={handleSubmit(onSubmit)}>
 								<ModalBody>
 									<div>
 										<label
@@ -160,7 +159,7 @@ export default function ManageClientsButton(
 										</label>
 										<input
 											type="text"
-											{...registerClient("name", {
+											{...register("name", {
 												required: {
 													value: true,
 													message:
@@ -168,12 +167,12 @@ export default function ManageClientsButton(
 												},
 											})}
 											placeholder={
-												errorsClient.name
-													? errorsClient.name.message
+												errors.name
+													? errors.name.message
 													: "Client Name"
 											}
 											className={
-												errorsClient.name
+												errors.name
 													? "placeholder:text-red-500"
 													: ""
 											}
@@ -187,7 +186,7 @@ export default function ManageClientsButton(
 											Client Address:
 										</label>
 										<textarea
-											{...registerClient("address", {
+											{...register("address", {
 												required: {
 													value: true,
 													message:
@@ -195,13 +194,12 @@ export default function ManageClientsButton(
 												},
 											})}
 											placeholder={
-												errorsClient.address
-													? errorsClient.address
-															.message
+												errors.address
+													? errors.address.message
 													: "Client address"
 											}
 											className={
-												errorsClient.address
+												errors.address
 													? "placeholder:text-red-500"
 													: ""
 											}
@@ -213,15 +211,16 @@ export default function ManageClientsButton(
 										type="button"
 										color="danger"
 										variant="light"
+										className="text-md rounded-lg"
 										onPress={() => {
 											onClose();
-											resetClient();
+											reset();
 										}}
 									>
 										Close
 									</Button>
 									<Button
-										className="bg-green-500"
+										className="bg-green-500 text-md text-white rounded-lg"
 										type="submit"
 									>
 										Submit
@@ -234,4 +233,6 @@ export default function ManageClientsButton(
 			</Modal>
 		</>
 	);
-}
+};
+
+export default ManageClientsModal;

@@ -5,7 +5,7 @@ import { useFormContext } from "./formProvider";
 import { useFieldArray } from "react-hook-form";
 import { useState } from "react";
 
-export default function ProjectTechStackInput() {
+const ProjectTechStackInput = () => {
 	const { control } = useFormContext();
 	const { fields, append, remove } = useFieldArray({
 		control,
@@ -14,7 +14,7 @@ export default function ProjectTechStackInput() {
 	const [newStack, setNewStack] = useState("");
 
 	return (
-		<div>
+		<>
 			<div className="font-bold px-2 mb-2">
 				Tech Stack{" "}
 				<em className="font-normal text-sm">(click to remove)</em>
@@ -61,6 +61,8 @@ export default function ProjectTechStackInput() {
 					</Button>
 				</div>
 			</div>
-		</div>
+		</>
 	);
-}
+};
+
+export default ProjectTechStackInput;

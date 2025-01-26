@@ -1,6 +1,5 @@
 "use client";
-
-import { addNewProject } from "@/server/projectTrackerActions/addNewProject";
+// packages
 import {
 	Modal,
 	ModalContent,
@@ -12,41 +11,57 @@ import {
 	Select,
 	SelectItem,
 } from "@nextui-org/react";
-import { Client } from "@prisma/client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+// functions
+import { addNewProject } from "@/server/projectTrackerActions/addNewProject";
+// types
+import { Client } from "@prisma/client";
 import { ProjectForm } from "@/lib/types";
 
-export default function NewProject(props: Readonly<{ clients: Client[] }>) {
-	const { isOpen, onOpen, onOpenChange } = useDisclosure();
-	const [formError, setFormError] = useState("");
-	const projectForm = useForm<ProjectForm>();
-	const { register, reset, formState, handleSubmit, setValue, watch } =
-		projectForm;
-	const { errors } = formState;
+const NewProject = ({ clients }: Readonly<{ clients: Client[] }>) => {
+	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+	const [formError, setFormError] = useState<string | null>(null);
+	const {
+		register,
+		reset,
+		formState: { errors },
+		handleSubmit,
+		setValue,
+		watch,
+	} = useForm<ProjectForm>();
+
 	const date = watch("dateDue");
-	function onProjectSubmit(data: ProjectForm) {
+	const onSubmit = async (data: ProjectForm) => {
 		if (data.clientId === undefined || data.dateDue === undefined) {
 			setFormError("Please fill out all fields.");
-		} else {
-			addNewProject(data)
-				.then((res) => {
-					if (res.status === 200) {
-						setFormError("");
-						reset();
-						onOpenChange();
-					} else {
-						console.log(res.message);
-					}
-				})
-				.catch((err) => console.log(err));
+			return;
 		}
-	}
+		try {
+			const res = await addNewProject(data);
+			if (res.success) {
+				setFormError(null);
+				reset();
+				onOpenChange();
+			} else {
+				console.log("Error:", res.error);
+			}
+		} catch (error) {
+			console.log("Unexpected error:", error);
+		}
+	};
+
+	const handleClose = () => {
+		reset();
+		setFormError(null);
+		onClose();
+	};
+
 	return (
 		<>
 			<Button
 				onPress={onOpen}
-				className="bg-green-500 text-white text-md"
+				className="bg-green-500 text-white text-md rounded-lg"
 			>
 				New Project
 			</Button>
@@ -57,7 +72,7 @@ export default function NewProject(props: Readonly<{ clients: Client[] }>) {
 							<ModalHeader className="flex flex-col gap-1">
 								New Project
 							</ModalHeader>
-							<form onSubmit={handleSubmit(onProjectSubmit)}>
+							<form onSubmit={handleSubmit(onSubmit)}>
 								<ModalBody>
 									<input
 										type="text"
@@ -88,7 +103,7 @@ export default function NewProject(props: Readonly<{ clients: Client[] }>) {
 										label="Select a client"
 										className="w-full mb-4"
 									>
-										{props.clients.map((client: Client) => (
+										{clients.map((client: Client) => (
 											<SelectItem key={client.id}>
 												{client.name}
 											</SelectItem>
@@ -111,7 +126,7 @@ export default function NewProject(props: Readonly<{ clients: Client[] }>) {
 												);
 										}}
 									/>
-									{formError !== "" && (
+									{formError && (
 										<p className="text-red-400">
 											{formError}
 										</p>
@@ -122,13 +137,14 @@ export default function NewProject(props: Readonly<{ clients: Client[] }>) {
 										type="button"
 										color="danger"
 										variant="light"
-										onPress={onClose}
+										className="text-md rounded-lg"
+										onPress={handleClose}
 									>
 										Close
 									</Button>
 									<Button
 										type="submit"
-										className="bg-green-500"
+										className="bg-green-500 text-white text-md rounded-lg"
 									>
 										Submit
 									</Button>
@@ -140,4 +156,6 @@ export default function NewProject(props: Readonly<{ clients: Client[] }>) {
 			</Modal>
 		</>
 	);
-}
+};
+
+export default NewProject;

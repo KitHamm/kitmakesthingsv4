@@ -2,21 +2,22 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
 import { AboutContentForm } from "@/lib/types";
 
 export async function updateAbout(data: AboutContentForm) {
 	try {
-		await prisma.about.update({
+		const updated = await prisma.about.update({
 			where: {
 				page: "about",
 			},
 			data,
 		});
-		revalidatePath("/about");
-		revalidatePath("/dashboard/content");
-		return actionResponse(200, "updated");
-	} catch (error: any) {
-		return actionResponse(400, error);
+
+		revalidatePath("/");
+		revalidatePath("/dashboard");
+		return createResponse(true, updated);
+	} catch (error) {
+		return createResponse(false, null, error);
 	}
 }

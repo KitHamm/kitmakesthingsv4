@@ -1,44 +1,57 @@
 "use client";
+// packages
 import { Button } from "@nextui-org/react";
-import { parseAbsoluteToLocal } from "@internationalized/date";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+// functions
 import { updateDueDate } from "@/server/projectTrackerActions/updateDueDate";
-export default function DueDateChange(
-	props: Readonly<{ dueDate: Date; id: string }>
-) {
-	const [dateValue, setDateValue] = useState<Date>(props.dueDate);
-	function handleUpdateDueDate() {
-		if (dateValue) {
-			const date = dateValue;
+
+const DueDateChange = ({
+	dueDate,
+	id,
+}: Readonly<{ dueDate: Date; id: string }>) => {
+	const [dateValue, setDateValue] = useState<Date>(dueDate);
+
+	useEffect(() => {
+		setDateValue(dueDate);
+	}, [dueDate]);
+
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		if (e.target.valueAsDate) {
+			const date = e.target.valueAsDate;
 			date.setUTCHours(0, 0, 0, 0);
-			updateDueDate(props.id, date)
-				.then((res) => {
-					if (res.status === 400) console.log(res.message);
-				})
-				.catch((err) => console.log(err));
+			setDateValue(e.target.valueAsDate);
 		}
-	}
+	};
+	const onSubmit = async () => {
+		if (!dateValue) {
+			return;
+		}
+		try {
+			const res = await updateDueDate(id, dateValue);
+			if (!res.success) {
+				console.log("Error:", res.error);
+			}
+		} catch (error) {
+			console.log("Unexpected error:", error);
+		}
+	};
+
 	return (
 		<div className="h-full flex gap-2">
 			<input
 				type="date"
 				value={dateValue ? dateValue.toISOString().split("T")[0] : ""}
-				onChange={(e) => {
-					if (e.target.valueAsDate)
-						setDateValue(e.target.valueAsDate);
-				}}
+				onChange={(e) => handleChange(e)}
 			/>
-			{JSON.stringify(dateValue) !==
-				JSON.stringify(
-					parseAbsoluteToLocal(props.dueDate.toISOString())
-				) && (
-				<Button
-					onPress={handleUpdateDueDate}
-					className="bg-green-500 px-8 my-auto text-white text-md"
-				>
-					Save Date
-				</Button>
-			)}
+			<Button
+				isDisabled={dueDate === dateValue}
+				onPress={onSubmit}
+				className="bg-green-500 px-8 my-auto text-white text-md"
+			>
+				Save Date
+			</Button>
 		</div>
 	);
-}
+};
+
+export default DueDateChange;

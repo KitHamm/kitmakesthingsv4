@@ -137,14 +137,6 @@ export type ContentTextInputProps = {
 	placeholder: string;
 };
 
-export type ContentTextAreaProps = {
-	target: "short" | "description";
-	label: string;
-	required: boolean;
-	message: string;
-	placeholder: string;
-};
-
 export type ContactForm = {
 	name: string;
 	email: string;
@@ -165,17 +157,19 @@ export enum MessageState {
 	ERROR,
 }
 
+export enum UploadState {
+	NONE,
+	READY,
+	UPLOADING,
+	SUCCESS,
+	ERROR,
+}
+
 // Functions
 
 export type Views = {
 	date: string;
 	pages: { page: string; count: number }[];
-};
-
-export type LayoutProps = {
-	children?: ReactNode;
-	imageUrl: string;
-	shift: boolean;
 };
 
 export type LogoList = {

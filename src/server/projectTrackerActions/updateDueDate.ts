@@ -1,12 +1,12 @@
 "use server";
 
-import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
 
 export async function updateDueDate(id: string, dueDate: Date) {
 	try {
-		await prisma.workingProject.update({
+		const updated = await prisma.workingProject.update({
 			where: {
 				id: id,
 			},
@@ -14,9 +14,10 @@ export async function updateDueDate(id: string, dueDate: Date) {
 				dateDue: dueDate,
 			},
 		});
-		revalidatePath("/dashboard/projects");
-		return actionResponse(200, "updated");
-	} catch (error: any) {
-		return actionResponse(400, error);
+
+		revalidatePath("/dashboard");
+		return createResponse(true, updated);
+	} catch (error) {
+		return createResponse(false, null, error);
 	}
 }

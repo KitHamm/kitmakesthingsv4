@@ -1,22 +1,23 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { ContactForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { ContactForm } from "@/lib/types";
 
 export async function createMessage(data: ContactForm) {
 	try {
-		await prisma.messages.create({
+		const message = await prisma.messages.create({
 			data: {
 				name: data.name,
 				email: data.email,
 				message: data.message,
 			},
 		});
-		revalidatePath("/dashboard/messages");
-		return actionResponse(200, "created");
-	} catch (error: any) {
-		return actionResponse(400, error);
+
+		revalidatePath("/dashboard");
+		return createResponse(true, message);
+	} catch (error) {
+		return createResponse(false, null, error);
 	}
 }

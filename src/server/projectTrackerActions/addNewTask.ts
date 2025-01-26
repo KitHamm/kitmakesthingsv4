@@ -1,13 +1,13 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { TaskForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { TaskForm } from "@/lib/types";
 
 export async function addNewTask(data: TaskForm) {
 	try {
-		await prisma.projectTask.create({
+		const task = await prisma.projectTask.create({
 			data: {
 				description: data.description,
 				priority: data.priority,
@@ -18,9 +18,10 @@ export async function addNewTask(data: TaskForm) {
 				},
 			},
 		});
-		revalidatePath("/dashboard/projects");
-		return actionResponse(200, "created");
-	} catch (error: any) {
-		return actionResponse(400, error);
+
+		revalidatePath("/dashboard");
+		return createResponse(true, task);
+	} catch (error) {
+		return createResponse(false, null, error);
 	}
 }

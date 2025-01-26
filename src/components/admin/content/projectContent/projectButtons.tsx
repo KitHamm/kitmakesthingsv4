@@ -3,12 +3,12 @@
 import { Button } from "@nextui-org/react";
 import { useFormContext } from "./formProvider";
 
-export default function ProjectButtons() {
+const ProjectButtons = () => {
 	const { handleReset, isDirty } = useFormContext();
 	return (
 		<div className="flex justify-end items-center gap-4">
 			<Button
-				onPress={() => handleReset()}
+				onPress={handleReset}
 				type="button"
 				color="warning"
 				variant="light"
@@ -25,4 +25,6 @@ export default function ProjectButtons() {
 			</Button>
 		</div>
 	);
-}
+};
+
+export default ProjectButtons;

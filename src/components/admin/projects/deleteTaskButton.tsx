@@ -1,18 +1,24 @@
 "use client";
-
-import { deleteTask } from "@/server/projectTrackerActions/deleteTask";
+// packages
 import { Button } from "@nextui-org/react";
+// functions
+import { deleteTask } from "@/server/projectTrackerActions/deleteTask";
 
-export default function DeleteTaskButton(props: Readonly<{ id: string }>) {
+const DeleteTaskButton = ({ id }: Readonly<{ id: string }>) => {
+	const onDelete = async () => {
+		try {
+			const res = await deleteTask(id);
+			if (!res.success) {
+				console.log("Error:", res.error);
+			}
+		} catch (error) {
+			console.log("Unexpected error:", error);
+		}
+	};
+
 	return (
 		<Button
-			onPress={() =>
-				deleteTask(props.id)
-					.then((res) => {
-						if (res.status === 400) console.log(res.message);
-					})
-					.catch((err) => console.log(err))
-			}
+			onPress={onDelete}
 			className="w-full text-md"
 			variant="light"
 			color="danger"
@@ -20,4 +26,6 @@ export default function DeleteTaskButton(props: Readonly<{ id: string }>) {
 			Delete Task
 		</Button>
 	);
-}
+};
+
+export default DeleteTaskButton;

@@ -9,30 +9,35 @@ import { createMessage } from "@/server/messageActions/createMessage";
 // Types
 import { ContactForm, MessageState } from "@/lib/types";
 
-export default function LandingContact() {
+const sendingStateToTitle = ["Contact Me", "Sending...", "Success!", "Oops!"];
+
+const LandingContact = () => {
 	const [sendingState, setSendingState] = useState<MessageState>(
 		MessageState.NONE
 	);
-	const contactForm = useForm<ContactForm>();
-	const { handleSubmit, register, formState, reset } = contactForm;
-	const { errors } = formState;
 
-	function OnSubmit(data: ContactForm) {
-		setSendingState(MessageState.SENDING);
-		createMessage(data)
-			.then((res) => {
-				if (res.status === 200) {
-					setSendingState(MessageState.SUCCESS);
-					resetStateWithDelay();
-				} else {
-					setSendingState(MessageState.ERROR);
-				}
-			})
-			.catch((err) => {
-				console.error(err);
+	const {
+		handleSubmit,
+		register,
+		formState: { errors },
+		reset,
+	} = useForm<ContactForm>();
+
+	const onSubmit = async (data: ContactForm) => {
+		try {
+			const res = await createMessage(data);
+			if (res.success) {
+				setSendingState(MessageState.SUCCESS);
+				resetStateWithDelay();
+			} else {
 				setSendingState(MessageState.ERROR);
-			});
-	}
+				console.log("Error:", res.error);
+			}
+		} catch (error) {
+			console.error("Unexpected error:", error);
+			setSendingState(MessageState.ERROR);
+		}
+	};
 
 	const resetStateWithDelay = () => {
 		setTimeout(() => {
@@ -40,13 +45,6 @@ export default function LandingContact() {
 			setSendingState(MessageState.NONE);
 		}, 2000);
 	};
-
-	const sendingStateToTitle = [
-		"Contact Me",
-		"Sending...",
-		"Success!",
-		"Oops!",
-	];
 
 	return (
 		<div
@@ -60,7 +58,7 @@ export default function LandingContact() {
 				{sendingState === MessageState.NONE && (
 					<form
 						className="mb-auto flex flex-col gap-2"
-						onSubmit={handleSubmit(OnSubmit)}
+						onSubmit={handleSubmit(onSubmit)}
 					>
 						<div className="flex flex-col lg:flex-row lg:gap-5">
 							<div className="lg:w-1/2">
@@ -106,7 +104,6 @@ export default function LandingContact() {
 								/>
 							</div>
 						</div>
-
 						<textarea
 							{...register("message", {
 								required: {
@@ -146,22 +143,19 @@ export default function LandingContact() {
 						/>
 					</div>
 				)}
-				{sendingState === MessageState.SUCCESS && (
+				{(sendingState === MessageState.SUCCESS ||
+					sendingState === MessageState.ERROR) && (
 					<div className="fade-in text-center justify-center my-20">
 						<div className="font-bold text-2xl">
-							Thank you for your message.
-						</div>
-					</div>
-				)}
-				{sendingState === MessageState.ERROR && (
-					<div className="fade-in text-center justify-center my-20">
-						<div className="font-bold text-2xl">
-							Something appears to have gone wrong. Please try
-							again later.
+							{sendingState === MessageState.SUCCESS
+								? "Thank you for your message."
+								: "Something appears to have gone wrong. Please try again later."}
 						</div>
 					</div>
 				)}
 			</div>
 		</div>
 	);
-}
+};
+
+export default LandingContact;

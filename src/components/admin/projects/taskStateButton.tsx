@@ -1,24 +1,30 @@
 "use client";
-
-import { updateTaskState } from "@/server/projectTrackerActions/updateTaskState";
+// packages
 import { Button } from "@nextui-org/react";
+// functions
+import { updateTaskState } from "@/server/projectTrackerActions/updateTaskState";
+// types
 import { TaskState } from "@prisma/client";
 
-export default function TaskStateButton(
-	props: Readonly<{
-		id: string;
-		currentState: TaskState;
-	}>
-) {
-	function updateTask(state: TaskState) {
-		updateTaskState(props.id, state)
-			.then((res) => {
-				if (res.status === 400) console.log(res.message);
-			})
-			.catch((err) => console.log(err));
-	}
+const TaskStateButton = ({
+	id,
+	currentState,
+}: Readonly<{
+	id: string;
+	currentState: TaskState;
+}>) => {
+	const updateTask = async (state: TaskState) => {
+		try {
+			const res = await updateTaskState(id, state);
+			if (!res.success) {
+				console.log("Error:", res.error);
+			}
+		} catch (error) {
+			console.log("Unexpected error:", error);
+		}
+	};
 
-	switch (props.currentState) {
+	switch (currentState) {
 		case TaskState.NONE:
 			return (
 				<Button
@@ -72,4 +78,6 @@ export default function TaskStateButton(
 				</Button>
 			);
 	}
-}
+};
+
+export default TaskStateButton;

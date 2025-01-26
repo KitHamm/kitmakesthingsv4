@@ -5,7 +5,7 @@ import { useDisclosure } from "@nextui-org/react";
 // Components
 import ContactModal from "../shared/ContactModal";
 
-export default function PrivacyModalLink() {
+const PrivacyModalLink = () => {
 	const { onClose, isOpen, onOpenChange } = useDisclosure();
 	return (
 		<>
@@ -24,4 +24,6 @@ export default function PrivacyModalLink() {
 			/>
 		</>
 	);
-}
+};
+
+export default PrivacyModalLink;

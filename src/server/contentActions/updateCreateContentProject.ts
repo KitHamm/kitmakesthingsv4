@@ -1,9 +1,9 @@
 "use server";
 
-import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
 import prisma from "@/lib/prisma";
-import { ContentProjectForm } from "@/lib/types";
 import { revalidatePath } from "next/cache";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { ContentProjectForm } from "@/lib/types";
 
 export async function updateCreateContentProject(
 	data: ContentProjectForm,
@@ -16,8 +16,8 @@ export async function updateCreateContentProject(
 			},
 		});
 
-		const stack = data.stack.map((stack) => stack.name);
-		const images = data.images.map((image) => image.url);
+		const stack = data.stack?.map((stack) => stack.name) || [];
+		const images = data.images?.map((image) => image.url) || [];
 
 		const action = project
 			? prisma.contentProject.update({
@@ -57,12 +57,12 @@ export async function updateCreateContentProject(
 						order: parseInt(data.order.toString()),
 					},
 			  });
-		await action;
-		revalidatePath("/projects");
-		revalidatePath("/projects/" + data.slug);
-		revalidatePath("/dashboard/content/projects");
-		return actionResponse(200, "updated");
-	} catch (error: any) {
-		return actionResponse(400, error);
+		const updated = await action;
+
+		revalidatePath("/");
+		revalidatePath("/dashboard");
+		return createResponse(true, updated);
+	} catch (error) {
+		return createResponse(false, null, error);
 	}
 }

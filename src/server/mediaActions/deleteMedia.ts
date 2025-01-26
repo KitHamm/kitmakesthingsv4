@@ -1,10 +1,10 @@
 "use server";
 
-import fs from "fs";
 import prisma from "@/lib/prisma";
-import { Landing, About, ContentProject } from "@prisma/client";
+import fs from "fs";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { Landing, About, ContentProject } from "@prisma/client";
 
 export async function deleteMedia(fileName: string) {
 	const landingContent: Landing[] = await prisma.landing.findMany({
@@ -38,13 +38,13 @@ export async function deleteMedia(fileName: string) {
 		},
 	});
 	if (landingContent.length > 0) {
-		return { status: 400, message: "Landing Content" };
+		return createResponse(false, null, "Landing Content");
 	}
 	if (aboutContent.length > 0) {
-		return { status: 400, message: "About Content" };
+		return createResponse(false, null, "About Content");
 	}
 	if (projects.length > 0) {
-		return { status: 400, message: projects[0].name };
+		return createResponse(false, null, projects[0].name);
 	}
 
 	try {
@@ -62,12 +62,10 @@ export async function deleteMedia(fileName: string) {
 		} catch (fsError) {
 			console.log(fsError);
 		}
-		revalidatePath("/dashboard/media");
-		revalidatePath("/dashboard/content");
-		revalidatePath("/dashboard/content");
-		revalidatePath("/dashboard/content/projects");
-		return actionResponse(200, "deleted");
-	} catch {
-		return actionResponse(400, "error");
+
+		revalidatePath("/dashboard");
+		return createResponse(true, "deleted");
+	} catch (error) {
+		return createResponse(false, null, error);
 	}
 }

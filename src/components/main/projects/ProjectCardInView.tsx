@@ -4,7 +4,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function ProjectCardInView({
+const ProjectCardInView = ({
 	children,
 	image,
 	projectName,
@@ -14,7 +14,7 @@ export default function ProjectCardInView({
 	image: string;
 	projectName: string;
 	index: number;
-}>) {
+}>) => {
 	const [fadeClassLeft, setFadeClassLeft] = useState<
 		"opacity-0" | "slide-in-right"
 	>("opacity-0");
@@ -48,4 +48,6 @@ export default function ProjectCardInView({
 			<hr />
 		</>
 	);
-}
+};
+
+export default ProjectCardInView;

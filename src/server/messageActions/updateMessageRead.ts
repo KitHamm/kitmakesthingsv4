@@ -2,11 +2,11 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { actionResponse } from "@/lib/utils/miscUtils/actionResponse";
+import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
 
 export async function updateMessageRead(messageId: string, read: boolean) {
 	try {
-		await prisma.messages.update({
+		const updated = await prisma.messages.update({
 			where: {
 				id: messageId,
 			},
@@ -14,9 +14,10 @@ export async function updateMessageRead(messageId: string, read: boolean) {
 				read: read,
 			},
 		});
-		revalidatePath("/dashboard/messages");
-		return actionResponse(200, "updated");
-	} catch (error: any) {
-		return actionResponse(400, error);
+
+		revalidatePath("/dashboard");
+		return createResponse(true, updated);
+	} catch (error) {
+		return createResponse(false, null, error);
 	}
 }

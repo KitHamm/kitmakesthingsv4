@@ -1,15 +1,14 @@
 "use client";
-
-// Packages
+// packages
 import { useEffect, useRef } from "react";
 
-export default function ProjectFadeIn({
+const ProjectFadeIn = ({
 	children,
 	index,
 }: Readonly<{
 	children: React.ReactNode;
 	index: number;
-}>) {
+}>) => {
 	const el = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
@@ -25,4 +24,6 @@ export default function ProjectFadeIn({
 			{children}
 		</div>
 	);
-}
+};
+
+export default ProjectFadeIn;
