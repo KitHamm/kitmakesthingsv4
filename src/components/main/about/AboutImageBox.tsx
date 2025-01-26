@@ -1,18 +1,18 @@
 "use client";
 
-// Libraries
+// packages
 import Image from "next/image";
-// Functions
 import { useEffect, useRef } from "react";
 
-export default function AboutImageBox(
-	props: Readonly<{
-		image: string;
-		title: string;
-		index: number;
-	}>
-) {
-	const { image, title, index } = props;
+const AboutImageBox = ({
+	image,
+	title,
+	index,
+}: Readonly<{
+	image: string;
+	title: string;
+	index: number;
+}>) => {
 	const boxRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
@@ -39,4 +39,6 @@ export default function AboutImageBox(
 			</div>
 		</div>
 	);
-}
+};
+
+export default AboutImageBox;

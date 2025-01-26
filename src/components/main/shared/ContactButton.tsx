@@ -1,12 +1,10 @@
 "use client";
-
-// Components
-import ContactModal from "./ContactModal";
 // Packages
 import { Button, useDisclosure } from "@nextui-org/react";
+// Components
+import ContactModal from "./ContactModal";
 
-export default function ContactButton(props: Readonly<{ about: boolean }>) {
-	const { about } = props;
+const ContactButton = ({ about }: Readonly<{ about: boolean }>) => {
 	const { onOpenChange, isOpen, onClose } = useDisclosure();
 
 	return (
@@ -26,4 +24,6 @@ export default function ContactButton(props: Readonly<{ about: boolean }>) {
 			/>
 		</>
 	);
-}
+};
+
+export default ContactButton;

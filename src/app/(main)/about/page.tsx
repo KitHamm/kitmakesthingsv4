@@ -9,9 +9,16 @@ import Link from "next/link";
 // Functions
 import AnonVisitLogger from "@/components/main/shared/AnonVisitLogger";
 import AboutImageBox from "@/components/main/about/AboutImageBox";
+// types
+import { About } from "@prisma/client";
 
 export default async function AboutPage() {
-	const content = await prisma.about.findFirst();
+	let content: About | null = null;
+	try {
+		content = await prisma.about.findFirst();
+	} catch (error) {
+		return <DataError />;
+	}
 
 	if (!content) {
 		return <DataError />;
