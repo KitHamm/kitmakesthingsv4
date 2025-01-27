@@ -15,7 +15,8 @@ export async function updateDueDate(id: string, dueDate: Date) {
 			},
 		});
 
-		revalidatePath("/dashboard");
+		revalidatePath("/dashboard/projects");
+		revalidatePath("/dashboard/projects/" + id);
 		return createResponse(true, updated);
 	} catch (error) {
 		return createResponse(false, null, error);

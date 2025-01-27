@@ -18,7 +18,7 @@ export async function deleteProject(id: string) {
 			},
 		});
 
-		revalidatePath("/dashboard");
+		revalidatePath("/dashboard/projects");
 		return createResponse(true, "deleted");
 	} catch (error) {
 		return createResponse(false, null, error);

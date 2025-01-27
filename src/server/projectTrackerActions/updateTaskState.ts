@@ -16,7 +16,8 @@ export async function updateTaskState(id: string, state: TaskState) {
 			},
 		});
 
-		revalidatePath("/dashboard");
+		revalidatePath("/dashboard/projects");
+		revalidatePath("/dashboard/projects/" + updated.projectId);
 		return createResponse(true, updated);
 	} catch (error) {
 		return createResponse(false, null, error);

@@ -16,7 +16,8 @@ export async function updateTaskPriority(id: string, priority: TaskPriority) {
 			},
 		});
 
-		revalidatePath("/dashboard");
+		revalidatePath("/dashboard/projects");
+		revalidatePath("/dashboard/projects/" + updated.projectId);
 		return createResponse(true, updated);
 	} catch (error) {
 		return createResponse(false, null, error);

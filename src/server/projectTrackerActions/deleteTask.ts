@@ -6,13 +6,14 @@ import { createResponse } from "@/lib/utils/miscUtils/actionResponse";
 
 export async function deleteTask(id: string) {
 	try {
-		await prisma.projectTask.delete({
+		const data = await prisma.projectTask.delete({
 			where: {
 				id: id,
 			},
 		});
 
-		revalidatePath("/dashboard");
+		revalidatePath("/dashboard/projects");
+		revalidatePath("/dashboard/projects/" + data.projectId);
 		return createResponse(true, "deleted");
 	} catch (error) {
 		return createResponse(false, null, error);

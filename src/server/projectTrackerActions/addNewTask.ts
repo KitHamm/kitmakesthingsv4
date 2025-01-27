@@ -19,7 +19,8 @@ export async function addNewTask(data: TaskForm) {
 			},
 		});
 
-		revalidatePath("/dashboard");
+		revalidatePath("/dashboard/projects");
+		revalidatePath("/dashboard/projects/" + data.projectId);
 		return createResponse(true, task);
 	} catch (error) {
 		return createResponse(false, null, error);

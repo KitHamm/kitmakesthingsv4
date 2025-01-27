@@ -16,7 +16,8 @@ export async function updateProjectState(id: string, state: ProjectState) {
 			},
 		});
 
-		revalidatePath("/dashboard");
+		revalidatePath("/dashboard/projects");
+		revalidatePath("/dashboard/projects/" + id);
 		return createResponse(true, updated);
 	} catch (error) {
 		return createResponse(false, null, error);

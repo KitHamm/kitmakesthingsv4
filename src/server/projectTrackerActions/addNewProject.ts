@@ -19,7 +19,7 @@ export async function addNewProject(data: ProjectForm) {
 			},
 		});
 
-		revalidatePath("/dashboard");
+		revalidatePath("/dashboard/projects");
 		return createResponse(true, project);
 	} catch (error) {
 		return createResponse(false, null, error);
