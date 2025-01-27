@@ -1,4 +1,4 @@
-name: Deploy to DigitalOcean
+name: Green deployment on DigitalOcean
 
 on:
     workflow_dispatch:
@@ -37,26 +37,18 @@ jobs:
                   command_timeout: 20m
                   script: |
                       if [ "${{ env.prisma_changed }}" = "false" ]; then
-                        echo "No changes in prisma.schema, continuing with deployment..."
+                        echo "No changes in prisma.schema, continuing with green deployment..."
 
-                        echo "Making stable copy..."
-                        cd ../srv/www || { echo "Failed to change directory to /srv/www"; exit 1; }
-
-                        rm -rf kmt_stable/kitmakesthingsv4/* || { echo "Failed to clean stable copy"; exit 1; }
-
-                        rsync -ar --exclude 'images' --exclude 'node_modules' kitmakesthingsv4/ kmt_stable/kitmakesthingsv4 || { echo "Failed to create stable copy"; exit 1; }
+                        echo "Moving to stable directory..."
+                        cd ../srv/www/kmt_stable || { echo "Failed to change directory to /srv/www/kmt_stable"; exit 1; }
 
                         echo "Pulling latest changes..."
-                        cd kitmakesthingsv4 || { echo "Failed to change directory to kitmakesthingsv4"; exit 1; }
                         git pull || { echo "Git pull failed"; exit 1; }
 
                         echo "Installing dependencies..."
                         export NVM_DIR=~/.nvm
                         source ~/.nvm/nvm.sh || { echo "Failed to source NVM"; exit 1; }
                         npm install || { echo "NPM install failed"; exit 1; }
-
-                        echo "Stopping PM2 process..."
-                        pm2 stop kitmakesthingsv4 || { echo "Failed to stop PM2 process"; exit 1; }
 
                         echo "Building project..."
                         npm run build
@@ -65,8 +57,6 @@ jobs:
                           exit 1
                         fi
 
-                        echo "Starting PM2 process..."
-                        pm2 start kitmakesthingsv4 || { echo "Failed to start PM2 process"; exit 1; }
-
                         echo "Deployment completed successfully."
+                        echo "Ready for blue deployment."
                       fi
