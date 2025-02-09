@@ -31,6 +31,7 @@ export async function createInvoice(data: InvoiceForm) {
 		}
 
 		revalidatePath("/dashboard/invoices");
+		revalidatePath("/dashboard");
 		return createResponse(true, invoice);
 	} catch (error) {
 		return createResponse(false, null, error);

@@ -17,7 +17,8 @@ export async function deleteInvoice(reference: string) {
 			},
 		});
 
-		revalidatePath("dashboard/invoices");
+		revalidatePath("/dashboard/invoices");
+		revalidatePath("/dashboard");
 		return createResponse(true, "deleted");
 	} catch (error) {
 		return createResponse(false, null, error);
