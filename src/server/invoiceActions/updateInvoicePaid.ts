@@ -15,7 +15,7 @@ export async function updateInvoicePaid(reference: string, paid: boolean) {
 			},
 		});
 
-		revalidatePath("/dashboard");
+		revalidatePath("/dashboard/invoices");
 		return createResponse(true, updated);
 	} catch (error) {
 		return createResponse(false, null, error);

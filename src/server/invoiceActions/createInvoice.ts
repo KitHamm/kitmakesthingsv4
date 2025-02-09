@@ -30,7 +30,7 @@ export async function createInvoice(data: InvoiceForm) {
 			});
 		}
 
-		revalidatePath("/dashboard");
+		revalidatePath("/dashboard/invoices");
 		return createResponse(true, invoice);
 	} catch (error) {
 		return createResponse(false, null, error);
