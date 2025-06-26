@@ -85,13 +85,21 @@ export default function NewItemModal(
 								Invoice Item
 							</ModalHeader>
 							<ModalBody>
-								<FormInput
-									label="Description"
-									value={newItemDescription}
-									onChange={setNewItemDescription}
-									placeholder="Description..."
-									type="text"
-								/>
+								<div>
+									<label htmlFor="desc" className="font-bold">
+										Description
+									</label>
+									<textarea
+										id="desc"
+										rows={4}
+										onChange={(e) =>
+											setNewItemDescription(
+												e.target.value
+											)
+										}
+										placeholder="Description..."
+									/>
+								</div>
 								<FormInput
 									label="Quantity"
 									value={newItemQuantity}
