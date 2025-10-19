@@ -6,7 +6,8 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"staging": "next start -p 3023"
 	},
 	"dependencies": {
 		"@internationalized/date": "^3.5.5",
