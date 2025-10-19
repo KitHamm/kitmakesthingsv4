@@ -24,7 +24,7 @@ jobs:
                       echo "Moving to stable directory..."
                       cd ../srv/www/kmt_stable || { echo "Failed to change directory to /srv/www/kmt_stable"; exit 1; }
 
-                      export NVM_DIR=~/.nvm
+                      export NVM_DIR=~/.nvm || { echo "NVM_DIR not set"; exit 1; }
                       source ~/.nvm/nvm.sh || { echo "Failed to source NVM"; exit 1; }
 
                       if git diff --name-only HEAD origin/main | grep -q "prisma/schema.prisma"; then
