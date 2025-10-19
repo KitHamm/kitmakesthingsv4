@@ -30,10 +30,7 @@ jobs:
 
                       echo "Fetching main..."
 
-                      git fetch origin main:origin/main --update-head-ok || { echo "git fetch failed"; exit 1; }
-
-                      git rev-parse HEAD >/dev/null 2>&1 || { echo "No HEAD found"; exit 1; }
-                      git rev-parse origin/main >/dev/null 2>&1 || { echo "No origin/main found"; exit 1; }
+                      git fetch origin main || { echo "Git fetch failed"; exit 1; }
 
                       echo "Checking for changes in prisma.schema..."
                       git diff --name-only HEAD origin/main | grep -q "prisma/schema.prisma"
