@@ -22,13 +22,15 @@ jobs:
                   command_timeout: 20m
                   script: |
                       set -x
-                      echo "Moving to stable directory..."
 
+                      echo "Setting up NVM..."
                       export NVM_DIR=~/.nvm
                       source ~/.nvm/nvm.sh || { echo "Failed to source NVM"; exit 1; }
 
+                      echo "Moving to stable directory..."
                       cd ../srv/www/kmt_stable || { echo "Failed to change directory to /srv/www/kmt_stable"; exit 1; }
 
+                      echo "Checking for changes in prisma.schema..."
                       git diff --name-only HEAD origin/main | grep -q "prisma/schema.prisma"
                       SCHEMA_CHANGED=$?
 
