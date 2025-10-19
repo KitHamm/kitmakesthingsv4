@@ -21,8 +21,6 @@ jobs:
                   script_stop: true
                   command_timeout: 20m
                   script: |
-                      set -x
-
                       echo "Setting up NVM..."
                       export NVM_DIR=~/.nvm
                       source ~/.nvm/nvm.sh || { echo "Failed to source NVM"; exit 1; }
