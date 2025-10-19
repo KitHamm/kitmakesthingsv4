@@ -21,7 +21,6 @@ jobs:
                   script_stop: true
                   command_timeout: 20m
                   script: |
-                      set -e
                       set -x
                       echo "Moving to stable directory..."
                       cd ..
