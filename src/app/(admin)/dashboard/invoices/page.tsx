@@ -43,25 +43,16 @@ export default async function InvoicesPage() {
 					<div className="flex flex-col lg:flex-row gap-4">
 						<NewInvoiceModal
 							clients={clients}
-							referencePlaceholder={
-								invoices.length > 0
-									? getReferencePlaceholder(
-											invoices[0].reference
-									  )
-									: "Reference"
-							}
+							referencePlaceholder={invoices.length > 0 ? getReferencePlaceholder(invoices[0].reference) : "Reference"}
 						/>
 						<ManageClientsModal clients={clients} />
 					</div>
 				</div>
-				<InvoiceYearButtons taxYears={getAllTaxYears(invoices)} />
+				<InvoiceYearButtons taxYears={getAllTaxYears(invoices, [])} />
 				{invoices.length > 0 ? (
 					<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 						{invoices.map((invoice) => (
-							<InvoiceCard
-								key={invoice.reference}
-								invoice={invoice}
-							/>
+							<InvoiceCard key={invoice.reference} invoice={invoice} />
 						))}
 					</div>
 				) : (

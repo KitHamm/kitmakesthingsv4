@@ -3,10 +3,10 @@
 import { useContext } from "react";
 import { Button, Divider } from "@nextui-org/react";
 // context
-import { InvoiceStateContext } from "./InvoiceStateProvider";
+import { useExpensesContext } from "./ExpensesContextProvider";
 
-const InvoiceYearButtons = ({ taxYears }: Readonly<{ taxYears: string[] }>) => {
-	const { selectedTaxYear, setSelectedTaxYear } = useContext(InvoiceStateContext);
+const ExpensesTaxYearSelect = ({ taxYears }: Readonly<{ taxYears: string[] }>) => {
+	const { selectedTaxYear, setSelectedTaxYear } = useExpensesContext();
 
 	return (
 		<div className="bg-neutral-100 p-4 rounded-xl shadow gap-4 mb-6">
@@ -30,4 +30,4 @@ const InvoiceYearButtons = ({ taxYears }: Readonly<{ taxYears: string[] }>) => {
 	);
 };
 
-export default InvoiceYearButtons;
+export default ExpensesTaxYearSelect;

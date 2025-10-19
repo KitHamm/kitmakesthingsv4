@@ -195,3 +195,16 @@ model Images {
   url       String   @unique
   createdAt DateTime @default(now())
 }
+
+model TaxSettings {
+  id                String   @unique @default(cuid())
+  personalAllowance Float
+  incomeTaxRate     Float
+  class4NiRate      Float
+  class4NiThreshold Float
+  class2NiAmount    Float
+  class2NiThreshold Float
+  calculateClass2Ni Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
