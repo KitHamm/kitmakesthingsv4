@@ -27,8 +27,8 @@ jobs:
                       export NVM_DIR=~/.nvm
                       source ~/.nvm/nvm.sh || { echo "Failed to source NVM"; exit 1; }
 
-                      git fetch origin dev
-                      git checkout dev
+                      git fetch origin main
+                      git checkout main
 
                       if git diff --name-only HEAD origin/main | grep -q "prisma/schema.prisma"; then
                         echo "prisma.schema has changed"
@@ -43,7 +43,7 @@ jobs:
                       else
                         echo "no changes to schema"
                         echo "Pulling latest changes..."
-                        git checkout dev || { echo "Git pull failed"; exit 1; }
+                        git checkout main || { echo "Git pull failed"; exit 1; }
                         git pull || { echo "Git pull failed"; exit 1; }
                         echo "Installing dependencies..."
                         npm install || { echo "NPM install failed"; exit 1; }
