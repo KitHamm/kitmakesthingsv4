@@ -29,7 +29,10 @@ jobs:
                       export NVM_DIR=~/.nvm || { echo "NVM_DIR not set"; exit 1; }
                       source ~/.nvm/nvm.sh || { echo "Failed to source NVM"; exit 1; }
 
-                      if git diff --name-only HEAD origin/main | grep -q "prisma/schema.prisma"; then
+                      git diff --name-only HEAD origin/main | grep -q "prisma/schema.prisma"
+                      SCHEMA_CHANGED=$?
+
+                      if [ $SCHEMA_CHANGED -eq 0 ]; then
                         echo "prisma.schema has changed"
                         echo "Pulling latest changes..."
                         git pull || { echo "Git pull failed"; exit 1; }
