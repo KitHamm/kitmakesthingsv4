@@ -29,6 +29,9 @@ jobs:
                       cd ../srv/www/kmt_stable || { echo "Failed to change directory to /srv/www/kmt_stable"; exit 1; }
 
                       echo "Checking for changes in prisma.schema..."
+
+                      git fetch origin main || { echo "git fetch failed"; exit 1; }
+
                       git diff --name-only HEAD origin/main | grep -q "prisma/schema.prisma"
                       SCHEMA_CHANGED=$?
 
