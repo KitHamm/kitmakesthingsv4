@@ -23,11 +23,11 @@ jobs:
                   script: |
                       set -x
                       echo "Moving to stable directory..."
-                      cd ..
-                      cd srv/www/kmt_stable || { echo "Failed to change directory to /srv/www/kmt_stable"; exit 1; }
 
-                      export NVM_DIR=~/.nvm 
-                      source ~/.nvm/nvm.sh 
+                      export NVM_DIR=~/.nvm
+                      source ~/.nvm/nvm.sh || { echo "Failed to source NVM"; exit 1; }
+
+                      cd ../srv/www/kmt_stable || { echo "Failed to change directory to /srv/www/kmt_stable"; exit 1; }
 
                       git diff --name-only HEAD origin/main | grep -q "prisma/schema.prisma"
                       SCHEMA_CHANGED=$?
