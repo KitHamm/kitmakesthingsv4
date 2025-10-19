@@ -10,22 +10,7 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-
-            - name: Check for changes in prisma.schema
-              id: prisma_changes
-              run: |
-                  git fetch origin main
-                  if git diff --quiet HEAD origin/main -- prisma/schema.prisma; then
-                    echo "No changes in prisma.schema"
-                      echo "prisma_changed=false" >> $GITHUB_ENV
-                  else
-                    echo "prisma.schema has changed"
-                      echo "prisma_changed=true" >> $GITHUB_ENV
-                  fi
-
-            - name: Deploy to DigitalOcean
+            - name: Green Deploy to DigitalOcean staging
               uses: appleboy/ssh-action@v1.2.0
               with:
                   host: ${{ secrets.DIGITAL_OCEAN_IP }}
@@ -36,27 +21,40 @@ jobs:
                   script_stop: true
                   command_timeout: 20m
                   script: |
-                      if [ "${{ env.prisma_changed }}" = "false" ]; then
-                        echo "No changes in prisma.schema, continuing with green deployment..."
+                      echo "Moving to stable directory..."
+                      cd ../srv/www/kmt_stable || { echo "Failed to change directory to /srv/www/kmt_stable"; exit 1; }
 
-                        echo "Moving to stable directory..."
-                        cd ../srv/www/kmt_stable || { echo "Failed to change directory to /srv/www/kmt_stable"; exit 1; }
+                      export NVM_DIR=~/.nvm
+                      source ~/.nvm/nvm.sh || { echo "Failed to source NVM"; exit 1; }
 
+                      git fetch origin dev
+                      git checkout dev
+
+                      if git diff --name-only HEAD origin/main | grep -q "prisma/schema.prisma"; then
+                        echo "prisma.schema has changed"
                         echo "Pulling latest changes..."
                         git pull || { echo "Git pull failed"; exit 1; }
-
                         echo "Installing dependencies..."
-                        export NVM_DIR=~/.nvm
-                        source ~/.nvm/nvm.sh || { echo "Failed to source NVM"; exit 1; }
                         npm install || { echo "NPM install failed"; exit 1; }
-
-                        echo "Building project..."
-                        npm run build
-                        if [ $? -ne 0 ]; then
-                          echo "Build failed, exiting deployment."
-                          exit 1
-                        fi
-
-                        echo "Deployment completed successfully."
-                        echo "Ready for blue deployment."
+                        echo "Pushing changes to database..."
+                        npx prisma db push || { echo "Failed to push changes to database"; exit 1; }
+                        echo "Generating prisma client..."
+                        npx prisma generate || { echo "Failed to generate prisma client"; exit 1; }
+                      else
+                        echo "no changes to schema"
+                        echo "Pulling latest changes..."
+                        git checkout dev || { echo "Git pull failed"; exit 1; }
+                        git pull || { echo "Git pull failed"; exit 1; }
+                        echo "Installing dependencies..."
+                        npm install || { echo "NPM install failed"; exit 1; }
                       fi
+
+                      echo "Building project..."
+                      npm run build
+                      if [ $? -ne 0 ]; then
+                        echo "Build failed, exiting deployment."
+                        exit 1
+                      fi
+
+                      echo "Deployment completed successfully."
+                      echo "Ready for blue deployment."
